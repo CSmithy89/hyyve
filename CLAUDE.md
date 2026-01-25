@@ -4,14 +4,18 @@
 
 **ALWAYS reference these documents before implementing features:**
 
-| Document            | Path                                                         | When to Use                                    |
-| ------------------- | ------------------------------------------------------------ | ---------------------------------------------- |
-| **Project Context** | `_bmad-output/project-context.md`                            | Tech stack, coding patterns, 85 critical rules |
-| **PRD**             | `_bmad-output/planning-artifacts/prd.md`                     | Verifying feature requirements (248 FRs)       |
-| **Architecture**    | `_bmad-output/planning-artifacts/architecture.md`            | System design decisions (8 ADRs)               |
-| **Epics & Stories** | `_bmad-output/planning-artifacts/epics.md`                   | Implementation tasks (58 epics, 293 stories)   |
-| **UX Design**       | `_bmad-output/planning-artifacts/ux-design-specification.md` | UI component specs, 146 wireframes             |
-| **Sprint Status**   | `_bmad-output/implementation-artifacts/sprint-status.yaml`   | Current sprint tracking                        |
+| Document            | Path                                                              | When to Use                                    |
+| ------------------- | ----------------------------------------------------------------- | ---------------------------------------------- |
+| **Project Context** | `_bmad-output/project-context.md`                                 | Tech stack, coding patterns, 85 critical rules |
+| **PRD**             | `_bmad-output/planning-artifacts/prd.md`                          | Verifying feature requirements (248 FRs)       |
+| **Architecture**    | `_bmad-output/planning-artifacts/architecture.md`                 | System design decisions (8 ADRs)               |
+| **Epics & Stories** | `_bmad-output/planning-artifacts/epics.md`                        | Implementation tasks (58 epics, 293 stories)   |
+| **UX Design**       | `_bmad-output/planning-artifacts/ux-design-specification.md`      | UI component specs, 146 wireframes             |
+| **Sprint Status**   | `_bmad-output/implementation-artifacts/sprint-status.yaml`        | Current sprint tracking                        |
+| **API Endpoints**   | `_bmad-output/planning-artifacts/api-endpoints.md`                | All endpoints with FR mappings, payloads       |
+| **OpenAPI Spec**    | `_bmad-output/planning-artifacts/openapi.yaml`                    | Formal API spec for SDK/type generation        |
+| **Protocol Events** | `_bmad-output/planning-artifacts/protocol-events.yaml`            | AG-UI, A2A, A2UI, DCRL event definitions       |
+| **Protocol Stack**  | `_bmad-output/planning-artifacts/protocol-stack-specification.md` | Protocol integration details, validation       |
 
 ---
 
