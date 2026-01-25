@@ -41,3 +41,8 @@ yarn-error.log*
 
 # Misc
 *.log
+
+# AI Tool Configs (user-specific)
+.agent/
+.claude/
+.gemini/
