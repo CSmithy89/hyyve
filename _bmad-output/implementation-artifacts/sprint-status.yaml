@@ -1,0 +1,593 @@
+# generated: 2026-01-26
+# project: Hyyve
+# project_key: hyyve
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-01-26
+project: Hyyve
+project_key: hyyve
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # ===========================================
+  # PHASE 0: PROJECT INFRASTRUCTURE (1 Epic)
+  # ===========================================
+
+  epic-0-1: backlog
+  0-1-1-scaffold-turborepo-monorepo-with-nextjs-15: backlog
+  0-1-2-configure-typescript-with-strict-mode: backlog
+  0-1-3-install-core-frontend-dependencies: backlog
+  0-1-4-initialize-shadcn-ui-component-library: backlog
+  0-1-5-configure-supabase-database-client: backlog
+  0-1-6-configure-clerk-authentication: backlog
+  0-1-7-configure-trpc-api-layer: backlog
+  0-1-8-configure-redis-client: backlog
+  0-1-9-configure-langfuse-observability: backlog
+  0-1-10-configure-protocol-stack-copilotkit-ag-ui: backlog
+  0-1-11-configure-stripe-billing: backlog
+  0-1-12-configure-testing-infrastructure: backlog
+  0-1-13-configure-environment-variables-secrets: backlog
+  0-1-14-configure-eslint-prettier-and-git-hooks: backlog
+  0-1-15-configure-ci-cd-pipeline: backlog
+  0-1-16-create-initial-database-schema: backlog
+  0-1-17-configure-agno-agent-framework-python-backend: backlog
+  0-1-18-configure-temporal-workflow-orchestration: backlog
+  0-1-19-configure-anthropic-sdk-for-claude: backlog
+  0-1-20-configure-mcp-model-context-protocol-foundation: backlog
+  0-1-21-configure-resend-email-service: backlog
+  0-1-22-configure-opentelemetry-distributed-tracing: backlog
+  0-1-23-configure-docker-compose-for-local-development: backlog
+  epic-0-1-retrospective: optional
+
+  # ===========================================
+  # PHASE 1: FOUNDATION (17 Epics)
+  # ===========================================
+
+  # Epic E1.1: User Authentication & Identity
+  epic-1-1: backlog
+  1-1-1-user-registration-with-email-password: backlog
+  1-1-2-user-registration-with-social-providers: backlog
+  1-1-3-organization-onboarding-setup: backlog
+  1-1-4-user-login-with-email-password: backlog
+  1-1-5-password-reset-flow: backlog
+  1-1-6-user-login-with-social-providers: backlog
+  1-1-7-mfa-setup-method-selection: backlog
+  1-1-8-mfa-setup-totp-authenticator: backlog
+  1-1-9-mfa-backup-codes-generation: backlog
+  1-1-10-mfa-sms-verification: backlog
+  1-1-11-mfa-login-verification: backlog
+  1-1-12-enterprise-sso-saml-configuration: backlog
+  1-1-13-enterprise-sso-oidc-configuration: backlog
+  1-1-14-scim-user-provisioning: backlog
+  epic-1-1-retrospective: optional
+
+  # Epic E1.2: API Key Management
+  epic-1-2: backlog
+  1-2-1-api-key-creation-with-scopes: backlog
+  1-2-2-api-key-environment-configuration: backlog
+  1-2-3-api-key-rate-limiting: backlog
+  1-2-4-enterprise-ip-allowlisting: backlog
+  1-2-5-cors-origin-restrictions: backlog
+  1-2-6-api-key-listing-management: backlog
+  1-2-7-api-key-rotation: backlog
+  1-2-8-api-key-revocation: backlog
+  1-2-9-api-key-usage-analytics: backlog
+  1-2-10-api-key-expiration-management: backlog
+  epic-1-2-retrospective: optional
+
+  # Epic E1.3: Workspace & Project Management
+  epic-1-3: backlog
+  1-3-1-workspace-creation: backlog
+  1-3-2-project-creation-within-workspace: backlog
+  1-3-3-team-member-invitation-with-roles: backlog
+  1-3-4-workspace-switching: backlog
+  1-3-5-project-folder-organization: backlog
+  1-3-6-project-duplication-as-template: backlog
+  1-3-7-project-archive-and-restore: backlog
+  1-3-8-row-level-security-tenant-isolation: backlog
+  1-3-9-enterprise-dedicated-database-isolation: backlog
+  1-3-10-workspace-settings-management: backlog
+  1-3-11-workspace-security-policies: backlog
+  1-3-12-workspace-integrations: backlog
+  1-3-13-home-dashboard-with-quick-actions: backlog
+  epic-1-3-retrospective: optional
+
+  # Epic E1.4: Module Builder - Core Canvas
+  epic-1-4: backlog
+  1-4-1-visual-node-based-workflow-editor: backlog
+  1-4-2-node-connection-with-type-validation: backlog
+  1-4-3-undo-redo-history: backlog
+  1-4-4-workflow-save-and-load-as-json: backlog
+  1-4-5-canvas-navigation-zoom-pan-minimap: backlog
+  1-4-6-comment-annotations-on-nodes: backlog
+  1-4-7-workflow-validation-dag-check: backlog
+  1-4-8-node-library-and-search: backlog
+  1-4-9-node-configuration-panel: backlog
+  1-4-10-context-menu-operations: backlog
+  epic-1-4-retrospective: optional
+
+  # Epic E1.5: Module Builder - Node Types
+  epic-1-5: backlog
+  1-5-1-prompt-nodes-with-variable-interpolation: backlog
+  1-5-2-sub-agent-nodes: backlog
+  1-5-3-mcp-tool-nodes: backlog
+  1-5-4-skill-nodes: backlog
+  1-5-5-control-flow-nodes-if-else-switch-loop: backlog
+  1-5-6-askuserquestion-nodes-hitl: backlog
+  1-5-7-variable-pool-management: backlog
+  1-5-8-group-nodes-into-sub-workflows: backlog
+  epic-1-5-retrospective: optional
+
+  # Epic E1.6: Conversational Building
+  epic-1-6: backlog
+  1-6-1-natural-language-workflow-building: backlog
+  1-6-2-intent-parsing-and-node-generation: backlog
+  1-6-3-clarifying-questions-on-low-confidence: backlog
+  1-6-4-bmb-agent-guidance-bond-wendy-morgan: backlog
+  1-6-5-switch-between-conversational-and-visual-modes: backlog
+  1-6-6-preview-before-apply: backlog
+  1-6-7-learning-from-user-feedback: backlog
+  epic-1-6-retrospective: optional
+
+  # Epic E1.7: Chatbot Builder - Core Editor
+  epic-1-7: backlog
+  1-7-1-chatbot-visual-flow-editor: backlog
+  1-7-2-conversation-nodes-start-message-question: backlog
+  1-7-3-logic-nodes-condition-set-variable-switch: backlog
+  1-7-4-integration-nodes-api-call-module-trigger: backlog
+  1-7-5-action-nodes-send-email-create-ticket: backlog
+  1-7-6-nlu-nodes-intent-classification-entity-extraction: backlog
+  1-7-7-mcp-and-skill-nodes-in-chatbot: backlog
+  epic-1-7-retrospective: optional
+
+  # Epic E1.8: Chatbot Builder - NLU & Policies
+  epic-1-8: backlog
+  1-8-1-nlu-pipeline-configuration-tokenizer-featurizer-classifier: backlog
+  1-8-2-slot-based-form-filling-with-validation: backlog
+  1-8-3-dialogue-policies-for-state-management: backlog
+  1-8-4-event-sourced-conversation-tracker: backlog
+  1-8-5-fallback-handler-for-unrecognized-intents: backlog
+  1-8-6-max-retry-configuration-for-slot-filling: backlog
+  1-8-7-human-agent-escalation-with-context: backlog
+  epic-1-8-retrospective: optional
+
+  # Epic E1.9: Knowledge Base - Document Ingestion
+  epic-1-9: backlog
+  1-9-1-create-knowledge-base-scoped-to-project: backlog
+  1-9-2-document-upload-pdf-docx-txt-md-html: backlog
+  1-9-3-web-content-ingestion-via-url-crawling: backlog
+  epic-1-9-retrospective: optional
+
+  # Epic E1.10: Knowledge Base - Search & Retrieval
+  epic-1-10: backlog
+  1-10-1-intelligent-document-chunking: backlog
+  1-10-2-embedding-generation-via-configurable-providers: backlog
+  1-10-3-vector-search-via-pgvector-hnsw: backlog
+  1-10-4-hybrid-search-vector-bm25: backlog
+  1-10-5-reranking-cohere-cross-encoder: backlog
+  1-10-6-configurable-retrieval-parameters: backlog
+  epic-1-10-retrospective: optional
+
+  # Epic E1.11: Knowledge Base - Advanced Retrieval
+  epic-1-11: backlog
+  1-11-1-graph-based-retrieval-graphiti: backlog
+  1-11-2-temporal-memory-queries: backlog
+  1-11-3-source-citations-and-confidence-display: backlog
+  1-11-4-shared-rag-context-across-builders: backlog
+  1-11-5-cross-tenant-rag-poisoning-prevention: backlog
+  epic-1-11-retrospective: optional
+
+  # Epic E1.12: Agent Execution Runtime
+  epic-1-12: backlog
+  1-12-1-agno-runtime-execution-with-claude: backlog
+  1-12-2-variable-pool-with-namespace-isolation: backlog
+  1-12-3-ag-ui-streaming-25-event-types: backlog
+  1-12-4-synchronous-and-asynchronous-execution: backlog
+  1-12-5-pause-and-resume-workflows: backlog
+  1-12-6-execution-timeouts: backlog
+  1-12-7-infinite-loop-detection-and-prevention: backlog
+  epic-1-12-retrospective: optional
+
+  # Epic E1.13: Execution Triggers
+  epic-1-13: backlog
+  1-13-1-scheduled-cron-based-triggers: backlog
+  1-13-2-webhook-triggered-execution-hmac: backlog
+  1-13-3-event-fan-out-via-redis-pub-sub: backlog
+  1-13-4-postgresql-listen-notify-for-sync: backlog
+  epic-1-13-retrospective: optional
+
+  # Epic E1.14: Sandbox Execution
+  epic-1-14: backlog
+  1-14-1-sandboxed-firecracker-microvm-execution: backlog
+  1-14-2-dify-style-workflow-as-tool: backlog
+  epic-1-14-retrospective: optional
+
+  # Epic E1.15: Execution Traces & Observability
+  epic-1-15: backlog
+  1-15-1-detailed-execution-traces-langfuse: backlog
+  1-15-2-llm-token-usage-and-cost-tracking: backlog
+  1-15-3-aggregated-cost-analytics: backlog
+  1-15-4-export-execution-history: backlog
+  epic-1-15-retrospective: optional
+
+  # Epic E1.16: Budget Alerts & Cost Tracking
+  epic-1-16: backlog
+  1-16-1-budget-alerts-80-100: backlog
+  1-16-2-platform-credits-metering: backlog
+  1-16-3-dollar-amount-usage-display: backlog
+  1-16-4-real-time-usage-widget: backlog
+  epic-1-16-retrospective: optional
+
+  # Epic E1.17: Human-in-the-Loop (HITL)
+  epic-1-17: backlog
+  1-17-1-configure-approval-gates: backlog
+  1-17-2-hitl-queue-with-ag-ui-interrupt: backlog
+  1-17-3-view-pending-approvals: backlog
+  1-17-4-approve-reject-modify-hitl-requests: backlog
+  1-17-5-resume-workflow-upon-resolution: backlog
+  1-17-6-escalation-rules-and-timeouts: backlog
+  epic-1-17-retrospective: optional
+
+  # ===========================================
+  # PHASE 2: BUILDER SUITE (13 Epics)
+  # ===========================================
+
+  # Epic E2.1: Voice Agent - Core Editor
+  epic-2-1: backlog
+  2-1-1-voice-flow-visual-editor: backlog
+  2-1-2-voice-input-nodes-listen-dtmf-stt: backlog
+  2-1-3-voice-output-nodes-speak-audio-ssml: backlog
+  2-1-4-voice-control-nodes-transfer-hold-hang-up: backlog
+  2-1-5-voice-integration-nodes-module-mcp-skill: backlog
+  epic-2-1-retrospective: optional
+
+  # Epic E2.2: Voice Agent - Speech Processing
+  epic-2-2: backlog
+  2-2-1-stt-via-configurable-providers: backlog
+  2-2-2-tts-via-configurable-providers: backlog
+  2-2-3-voice-activity-detection-silero-vad: backlog
+  2-2-4-turn-detection-qwen2-5-0-5b: backlog
+  2-2-5-interruption-handling-4-state-machine: backlog
+  2-2-6-ssml-for-prosody-and-emphasis: backlog
+  2-2-7-voice-persona-configuration: backlog
+  2-2-8-real-time-audio-via-webrtc-grpc: backlog
+  epic-2-2-retrospective: optional
+
+  # Epic E2.3: Voice Agent - Telephony Integration
+  epic-2-3: backlog
+  2-3-1-inbound-outbound-calls-via-twilio-sip: backlog
+  2-3-2-voice-agents-access-project-rag: backlog
+  epic-2-3-retrospective: optional
+
+  # Epic E2.4: Canvas Builder - Core Editor
+  epic-2-4: backlog
+  2-4-1-canvas-ai-generation-workflow-editor: backlog
+  2-4-2-canvas-control-nodes-merge-split-switch-loop: backlog
+  2-4-3-canvas-io-nodes-upload-download-url: backlog
+  2-4-4-artie-agent-for-nl-canvas-building: backlog
+  2-4-5-dag-execution-with-topological-sort: backlog
+  2-4-6-partial-re-execution-changed-nodes-only: backlog
+  epic-2-4-retrospective: optional
+
+  # Epic E2.5: Canvas Builder - Generation & Enhancement Nodes
+  epic-2-5: backlog
+  2-5-1-generation-nodes-image-video-audio-3d: backlog
+  2-5-2-enhancement-nodes-upscale-denoise: backlog
+  2-5-3-mcp-and-skill-nodes-in-canvas: backlog
+  2-5-4-cache-intermediate-node-outputs: backlog
+  2-5-5-cost-estimation-before-execution: backlog
+  2-5-6-queue-batch-jobs: backlog
+  epic-2-5-retrospective: optional
+
+  # Epic E2.6: Canvas Builder - Brand RAG & Providers
+  epic-2-6: backlog
+  2-6-1-brand-rag-for-style-guidelines: backlog
+  2-6-2-canvas-triggered-by-chatbot-voice-events: backlog
+  2-6-3-configure-ai-providers-fal-ai: backlog
+  2-6-4-50-plus-node-types-comfyui-parity: backlog
+  epic-2-6-retrospective: optional
+
+  # Epic E2.7: Cross-Builder Integration
+  epic-2-7: backlog
+  2-7-1-module-callable-from-chatbots-500ms: backlog
+  2-7-2-voice-agents-call-modules-via-grpc-50ms: backlog
+  2-7-3-canvas-triggered-by-chatbot-voice: backlog
+  2-7-4-shared-rag-context-across-all-builders: backlog
+  2-7-5-state-propagation-via-postgresql-notify: backlog
+  2-7-6-event-fan-out-via-redis-pub-sub-200ms: backlog
+  epic-2-7-retrospective: optional
+
+  # Epic E2.8: MCP Server Installation
+  epic-2-8: backlog
+  2-8-1-browse-mcp-servers-from-official-registry: backlog
+  2-8-2-browse-mcp-servers-from-smithery-ai: backlog
+  2-8-3-semantic-search-for-mcp-servers: backlog
+  2-8-4-filter-by-category-verified-popularity: backlog
+  2-8-5-view-mcp-server-details: backlog
+  2-8-6-one-click-mcp-server-installation: backlog
+  2-8-7-configure-installed-mcp-server-settings: backlog
+  2-8-8-enable-disable-mcp-servers: backlog
+  2-8-9-auto-approval-rules-for-mcp-tools: backlog
+  epic-2-8-retrospective: optional
+
+  # Epic E2.9: MCP Registry Aggregation
+  epic-2-9: backlog
+  2-9-1-aggregate-from-multiple-registries: backlog
+  2-9-2-cache-registry-metadata: backlog
+  2-9-3-track-mcp-server-usage-and-success-rates: backlog
+  epic-2-9-retrospective: optional
+
+  # Epic E2.10: Skills Installation
+  epic-2-10: backlog
+  2-10-1-browse-skills-from-platform-marketplace: backlog
+  2-10-2-browse-skills-from-project-user-directories: backlog
+  2-10-3-semantic-search-for-skills: backlog
+  2-10-4-filter-skills-by-category-ratings-creator: backlog
+  2-10-5-view-skill-details: backlog
+  2-10-6-one-click-skill-installation: backlog
+  2-10-7-add-skill-nodes-to-workflows: backlog
+  2-10-8-validate-skill-frontmatter-skill-md-yaml: backlog
+  2-10-9-resolve-skill-paths-during-execution: backlog
+  epic-2-10-retrospective: optional
+
+  # Epic E2.11: Skills Creation & Publishing
+  epic-2-11: backlog
+  2-11-1-create-custom-skills-skill-md-format: backlog
+  2-11-2-publish-skills-to-marketplace: backlog
+  2-11-3-set-pricing-for-skills: backlog
+  2-11-4-ai-assisted-skill-discovery: backlog
+  epic-2-11-retrospective: optional
+
+  # Epic E2.12: UI Generation
+  epic-2-12: backlog
+  2-12-1-generate-uis-from-workflow-definitions: backlog
+  2-12-2-map-agent-inputs-to-form-components: backlog
+  2-12-3-generate-multi-step-wizards: backlog
+  2-12-4-customize-ui-themes-css-variables: backlog
+  2-12-5-embed-uis-via-iframe-or-web-component: backlog
+  2-12-6-embedded-chat-widgets-in-generated-uis: backlog
+  2-12-7-render-using-shadcn-ui-components: backlog
+  2-12-8-rest-graphql-api-endpoints-for-uis: backlog
+  epic-2-12-retrospective: optional
+
+  # Epic E2.13: Customer Interaction - Chat Deployment
+  epic-2-13: backlog
+  2-13-1-deploy-chatbots-to-chatwoot-inboxes: backlog
+  2-13-2-receive-messages-via-agent-bot-webhooks: backlog
+  2-13-3-query-project-rag-for-responses: backlog
+  2-13-4-configure-confidence-thresholds: backlog
+  2-13-5-context-transfer-during-human-handoff: backlog
+  2-13-6-multi-channel-support-configuration: backlog
+  2-13-7-display-rag-confidence-and-citations: backlog
+  2-13-8-embed-custom-react-chat-widgets: backlog
+  2-13-9-actioncable-websocket-for-real-time: backlog
+  2-13-10-proactive-outbound-messaging: backlog
+  epic-2-13-retrospective: optional
+
+  # ===========================================
+  # PHASE 3: MARKETPLACE (9 Epics)
+  # ===========================================
+
+  # Epic E3.1: Module Marketplace - Browse & Search
+  epic-3-1: backlog
+  3-1-1-browse-modules-with-search-and-filters: backlog
+  3-1-2-view-ratings-reviews-usage-statistics: backlog
+  epic-3-1-retrospective: optional
+
+  # Epic E3.2: Module Marketplace - Installation
+  epic-3-2: backlog
+  3-2-1-one-click-module-installation: backlog
+  3-2-2-resolve-module-dependencies: backlog
+  3-2-3-fork-and-remix-public-modules: backlog
+  epic-3-2-retrospective: optional
+
+  # Epic E3.3: Module Publishing
+  epic-3-3: backlog
+  3-3-1-publish-modules-with-versioning: backlog
+  3-3-2-review-and-sandbox-test-before-publishing: backlog
+  epic-3-3-retrospective: optional
+
+  # Epic E3.4: Module Pricing & Revenue
+  epic-3-4: backlog
+  3-4-1-set-module-pricing-free-one-time-subscription: backlog
+  3-4-2-creator-revenue-split-85: backlog
+  3-4-3-24-hour-auto-refund-for-crashes: backlog
+  3-4-4-7-day-payment-escrow: backlog
+  epic-3-4-retrospective: optional
+
+  # Epic E3.5: Creator Analytics
+  epic-3-5: backlog
+  3-5-1-view-earnings-and-analytics: backlog
+  3-5-2-create-module-bundles: backlog
+  epic-3-5-retrospective: optional
+
+  # Epic E3.6: MCP Server Publishing
+  epic-3-6: backlog
+  3-6-1-publish-custom-mcp-servers: backlog
+  3-6-2-set-pricing-for-mcp-servers: backlog
+  epic-3-6-retrospective: optional
+
+  # Epic E3.7: Billing - Subscription Plans
+  epic-3-7: backlog
+  3-7-1-tiered-subscription-plans: backlog
+  3-7-2-self-serve-billing-portal: backlog
+  3-7-3-usage-based-invoices: backlog
+  3-7-4-stripe-billing-meters-integration: backlog
+  epic-3-7-retrospective: optional
+
+  # Epic E3.8: Billing - Usage Management
+  epic-3-8: backlog
+  3-8-1-soft-warnings-and-hard-caps: backlog
+  3-8-2-configure-hard-cap-vs-overage: backlog
+  3-8-3-view-usage-forecasts: backlog
+  epic-3-8-retrospective: optional
+
+  # Epic E3.9: Platform Command Center
+  epic-3-9: backlog
+  3-9-1-command-center-dashboard: backlog
+  3-9-2-per-tenant-consumption-view: backlog
+  3-9-3-dynamic-rate-limiting: backlog
+  3-9-4-prometheus-compatible-metrics: backlog
+  3-9-5-immutable-audit-logs-pgaudit: backlog
+  epic-3-9-retrospective: optional
+
+  # ===========================================
+  # PHASE 4: ENTERPRISE (7 Epics)
+  # ===========================================
+
+  # Epic E4.1: Security Guardrails
+  epic-4-1: backlog
+  4-1-1-nemo-guardrails-for-prompt-injection: backlog
+  4-1-2-input-sanitization-and-output-filtering: backlog
+  4-1-3-content-moderation-no-nsfw: backlog
+  4-1-4-ai-hallucination-mitigation-via-rag: backlog
+  epic-4-1-retrospective: optional
+
+  # Epic E4.2: Enterprise Security Hardening
+  epic-4-2: backlog
+  4-2-1-firecracker-microvm-for-all-user-code: backlog
+  4-2-2-api-gateway-rate-limiting: backlog
+  4-2-3-ddos-protection-via-waf: backlog
+  4-2-4-voice-agent-action-restrictions: backlog
+  epic-4-2-retrospective: optional
+
+  # Epic E4.3: SOC 2 & Compliance
+  epic-4-3: backlog
+  4-3-1-soc-2-type-ii-documentation: backlog
+  4-3-2-gdpr-data-subject-requests: backlog
+  4-3-3-data-residency-requirements: backlog
+  epic-4-3-retrospective: optional
+
+  # Epic E4.4: White-Label - Sub-Accounts
+  epic-4-4: backlog
+  4-4-1-create-client-sub-accounts: backlog
+  4-4-2-per-client-usage-breakdown: backlog
+  4-4-3-configure-markup-margins: backlog
+  4-4-4-white-label-invoices: backlog
+  epic-4-4-retrospective: optional
+
+  # Epic E4.5: White-Label - Branding
+  epic-4-5: backlog
+  4-5-1-custom-domains: backlog
+  4-5-2-customize-branding-logo-colors-fonts: backlog
+  4-5-3-custom-email-domains: backlog
+  4-5-4-white-label-sso-support: backlog
+  epic-4-5-retrospective: optional
+
+  # Epic E4.6: Self-Hosted - Docker Deployment
+  epic-4-6: backlog
+  4-6-1-docker-compose-deployment: backlog
+  4-6-2-configure-external-postgresql: backlog
+  4-6-3-configure-external-redis: backlog
+  epic-4-6-retrospective: optional
+
+  # Epic E4.7: Self-Hosted - Kubernetes
+  epic-4-7: backlog
+  4-7-1-helm-chart-deployment: backlog
+  4-7-2-custom-llm-endpoints-byom: backlog
+  4-7-3-air-gapped-installation: backlog
+  4-7-4-internal-sso-providers: backlog
+  4-7-5-velero-for-backup-dr: backlog
+  epic-4-7-retrospective: optional
+
+  # ===========================================
+  # PHASE 5: COLLABORATION (6 Epics)
+  # ===========================================
+
+  # Epic E5.1: Real-Time Collaboration
+  epic-5-1: backlog
+  5-1-1-multi-user-simultaneous-editing-yjs-crdt: backlog
+  5-1-2-collaborator-cursors-and-presence: backlog
+  epic-5-1-retrospective: optional
+
+  # Epic E5.2: Comments & Discussion
+  epic-5-2: backlog
+  5-2-1-add-comments-for-discussion: backlog
+  epic-5-2-retrospective: optional
+
+  # Epic E5.3: Version History
+  epic-5-3: backlog
+  5-3-1-workflow-version-history: backlog
+  5-3-2-rollback-to-previous-version: backlog
+  epic-5-3-retrospective: optional
+
+  # Epic E5.4: Visual Diffs
+  epic-5-4: backlog
+  5-4-1-visual-diffs-between-versions: backlog
+  epic-5-4-retrospective: optional
+
+  # Epic E5.5: A/B Testing
+  epic-5-5: backlog
+  5-5-1-ab-testing-for-workflows-bayesian: backlog
+  epic-5-5-retrospective: optional
+
+  # Epic E5.6: Promotion Pipelines
+  epic-5-6: backlog
+  5-6-1-promotion-pipelines: backlog
+  5-6-2-feature-flags-launchdarkly: backlog
+  epic-5-6-retrospective: optional
+
+  # ===========================================
+  # PHASE 6: FUTURE (5 Epics)
+  # ===========================================
+
+  # Epic E6.1: SDK Export - Claude
+  epic-6-1: backlog
+  6-1-1-export-as-claude-agent-sdk-code: backlog
+  epic-6-1-retrospective: optional
+
+  # Epic E6.2: SDK Export - Agno
+  epic-6-2: backlog
+  6-2-1-export-as-agno-framework-code: backlog
+  epic-6-2-retrospective: optional
+
+  # Epic E6.3: SDK Export - LangGraph/CrewAI
+  epic-6-3: backlog
+  6-3-1-export-as-langgraph-adapter: backlog
+  6-3-2-export-as-crewai-adapter: backlog
+  epic-6-3-retrospective: optional
+
+  # Epic E6.4: API Endpoints
+  epic-6-4: backlog
+  6-4-1-rest-api-with-openapi-spec: backlog
+  6-4-2-graphql-api: backlog
+  6-4-3-sse-streaming-endpoints: backlog
+  6-4-4-rate-limit-headers: backlog
+  epic-6-4-retrospective: optional
+
+  # Epic E6.5: Mobile SDKs
+  epic-6-5: backlog
+  6-5-1-ios-android-js-python-sdks: backlog
+  6-5-2-configure-scoped-api-keys-in-sdks: backlog
+  epic-6-5-retrospective: optional

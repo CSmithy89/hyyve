@@ -1,0 +1,2660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyyve Platform - Design Direction Mockups</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Primary Palette - Intelligent Warmth */
+      --color-primary: #4F46E5;
+      --color-primary-dark: #3730A3;
+      --color-primary-light: #C7D2FE;
+      --color-secondary: #F97316;
+      --color-secondary-light: #FED7AA;
+
+      /* Semantic Colors */
+      --color-success: #10B981;
+      --color-warning: #F59E0B;
+      --color-error: #EF4444;
+      --color-info: #0EA5E9;
+
+      /* Agent Colors */
+      --color-bond: #3B82F6;
+      --color-wendy: #8B5CF6;
+      --color-morgan: #14B8A6;
+      --color-artie: #D946EF;
+
+      /* Dark Mode (Default) */
+      --color-bg: #0F172A;
+      --color-surface: #1E293B;
+      --color-surface-elevated: #334155;
+      --color-border: #475569;
+      --color-text: #F1F5F9;
+      --color-text-secondary: #94A3B8;
+      --color-text-muted: #64748B;
+
+      /* Typography */
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+
+      /* Radius */
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .nav-tab {
+      padding: var(--space-2) var(--space-4);
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      transition: all 0.2s;
+    }
+
+    .nav-tab:hover {
+      background: var(--color-surface-elevated);
+      color: var(--color-text);
+    }
+
+    .nav-tab.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: white;
+    }
+
+    /* Main Content */
+    .main {
+      margin-top: 72px;
+      min-height: calc(100vh - 72px);
+    }
+
+    /* Direction Panels */
+    .direction {
+      display: none;
+      min-height: calc(100vh - 72px);
+    }
+
+    .direction.active {
+      display: block;
+    }
+
+    /* Direction Header */
+    .direction-header {
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-6);
+    }
+
+    .direction-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: var(--space-2);
+    }
+
+    .direction-subtitle {
+      color: var(--color-text-secondary);
+      font-size: 16px;
+      margin-bottom: var(--space-4);
+    }
+
+    .direction-tags {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: var(--space-1) var(--space-3);
+      background: var(--color-surface-elevated);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    .tag.primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    /* Mockup Container */
+    .mockup-container {
+      padding: var(--space-6);
+    }
+
+    .mockup {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      min-height: 600px;
+    }
+
+    /* ============================================ */
+    /* DIRECTION 1: CONVERSATIONAL CORE            */
+    /* ============================================ */
+    .d1-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr 360px;
+      height: 600px;
+    }
+
+    .d1-sidebar {
+      background: var(--color-bg);
+      border-right: 1px solid var(--color-border);
+      padding: var(--space-4);
+    }
+
+    .d1-sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .d1-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      border-radius: var(--radius-md);
+    }
+
+    .d1-brand {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .d1-nav-section {
+      margin-bottom: var(--space-6);
+    }
+
+    .d1-nav-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .d1-nav-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d1-nav-item:hover {
+      background: var(--color-surface);
+      color: var(--color-text);
+    }
+
+    .d1-nav-item.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .d1-nav-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .d1-main {
+      display: flex;
+      flex-direction: column;
+      background: var(--color-bg);
+    }
+
+    .d1-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+      background: var(--color-surface);
+    }
+
+    .d1-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--color-text-secondary);
+      font-size: 14px;
+    }
+
+    .d1-content {
+      flex: 1;
+      padding: var(--space-6);
+      overflow-y: auto;
+    }
+
+    .d1-chat-panel {
+      background: var(--color-surface);
+      border-left: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .d1-chat-header {
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .d1-agent-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .d1-agent-avatar.bond {
+      background: var(--color-bond);
+      border: 2px solid var(--color-bond);
+    }
+
+    .d1-agent-info h3 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .d1-agent-info p {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    .d1-chat-messages {
+      flex: 1;
+      padding: var(--space-4);
+      overflow-y: auto;
+    }
+
+    .d1-message {
+      margin-bottom: var(--space-4);
+    }
+
+    .d1-message.agent {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    .d1-message-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--color-bond);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .d1-message-content {
+      background: var(--color-surface-elevated);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-lg);
+      border-top-left-radius: var(--radius-sm);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .d1-message.user .d1-message-content {
+      background: var(--color-primary);
+      margin-left: auto;
+      max-width: 85%;
+      border-radius: var(--radius-lg);
+      border-top-right-radius: var(--radius-sm);
+    }
+
+    .d1-chat-input {
+      padding: var(--space-4);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .d1-input-box {
+      display: flex;
+      align-items: center;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3);
+    }
+
+    .d1-input-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: 14px;
+    }
+
+    .d1-send-btn {
+      width: 32px;
+      height: 32px;
+      background: var(--color-primary);
+      border: none;
+      border-radius: var(--radius-md);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Workflow Canvas in Main Area */
+    .d1-canvas {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      min-height: 400px;
+      position: relative;
+    }
+
+    .d1-canvas-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .d1-node {
+      position: absolute;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3);
+      min-width: 160px;
+    }
+
+    .d1-node-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    .d1-node-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--color-primary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .d1-node-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .d1-node-meta {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    /* ============================================ */
+    /* DIRECTION 2: BUILDER STUDIO                 */
+    /* ============================================ */
+    .d2-layout {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      height: 600px;
+    }
+
+    .d2-toolbar {
+      background: var(--color-bg);
+      border-right: 1px solid var(--color-border);
+      padding: var(--space-3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .d2-tool-btn {
+      width: 44px;
+      height: 44px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      transition: all 0.2s;
+    }
+
+    .d2-tool-btn:hover {
+      background: var(--color-surface-elevated);
+      color: var(--color-text);
+    }
+
+    .d2-tool-btn.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: white;
+    }
+
+    .d2-main {
+      display: flex;
+      flex-direction: column;
+      background: var(--color-bg);
+    }
+
+    .d2-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .d2-project-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .d2-project-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--color-bond);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .d2-project-name {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .d2-project-status {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    .d2-actions {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .d2-btn {
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      transition: all 0.2s;
+    }
+
+    .d2-btn:hover {
+      background: var(--color-surface-elevated);
+    }
+
+    .d2-btn.primary {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: white;
+    }
+
+    .d2-workspace {
+      flex: 1;
+      display: flex;
+      position: relative;
+    }
+
+    .d2-canvas {
+      flex: 1;
+      background: radial-gradient(circle at center, var(--color-surface) 1px, transparent 1px);
+      background-size: 24px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .d2-canvas-controls {
+      position: absolute;
+      bottom: var(--space-4);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: var(--space-2);
+      background: var(--color-surface);
+      padding: var(--space-2);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+    }
+
+    .d2-canvas-btn {
+      width: 32px;
+      height: 32px;
+      background: var(--color-surface-elevated);
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .d2-chat-dock {
+      width: 320px;
+      background: var(--color-surface);
+      border-left: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .d2-dock-header {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .d2-dock-tabs {
+      display: flex;
+      gap: var(--space-1);
+    }
+
+    .d2-dock-tab {
+      padding: var(--space-2) var(--space-3);
+      font-size: 13px;
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+    }
+
+    .d2-dock-tab.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .d2-dock-content {
+      flex: 1;
+      padding: var(--space-4);
+      overflow-y: auto;
+    }
+
+    /* Workflow nodes for D2 */
+    .d2-node {
+      position: absolute;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      min-width: 180px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .d2-node.selected {
+      border-color: var(--color-primary);
+    }
+
+    .d2-node-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    .d2-node-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .d2-node-icon.trigger { background: var(--color-secondary); }
+    .d2-node-icon.process { background: var(--color-primary); }
+    .d2-node-icon.output { background: var(--color-success); }
+
+    /* ============================================ */
+    /* DIRECTION 3: MISSION CONTROL                */
+    /* ============================================ */
+    .d3-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      grid-template-rows: auto 1fr;
+      height: 600px;
+    }
+
+    .d3-header {
+      grid-column: 1 / -1;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-3) var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .d3-logo-section {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .d3-logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      border-radius: var(--radius-md);
+    }
+
+    .d3-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .d3-search {
+      flex: 1;
+      max-width: 400px;
+      margin: 0 var(--space-6);
+    }
+
+    .d3-search input {
+      width: 100%;
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      color: var(--color-text);
+      font-size: 14px;
+    }
+
+    .d3-user-section {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .d3-notification {
+      position: relative;
+    }
+
+    .d3-notification-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 16px;
+      height: 16px;
+      background: var(--color-error);
+      border-radius: 50%;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .d3-sidebar {
+      background: var(--color-bg);
+      border-right: 1px solid var(--color-border);
+      padding: var(--space-4);
+      overflow-y: auto;
+    }
+
+    .d3-nav-group {
+      margin-bottom: var(--space-6);
+    }
+
+    .d3-nav-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+      padding: 0 var(--space-2);
+    }
+
+    .d3-nav-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-2);
+      border-radius: var(--radius-md);
+      color: var(--color-text-secondary);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d3-nav-item:hover {
+      background: var(--color-surface);
+      color: var(--color-text);
+    }
+
+    .d3-nav-item.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .d3-main {
+      background: var(--color-bg);
+      padding: var(--space-4);
+      overflow-y: auto;
+    }
+
+    .d3-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .d3-panel {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+    }
+
+    .d3-panel.wide {
+      grid-column: span 2;
+    }
+
+    .d3-panel.tall {
+      grid-row: span 2;
+    }
+
+    .d3-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-3);
+    }
+
+    .d3-panel-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .d3-panel-action {
+      font-size: 12px;
+      color: var(--color-primary);
+      cursor: pointer;
+    }
+
+    .d3-stat {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+    }
+
+    .d3-stat-value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .d3-stat-label {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+    }
+
+    .d3-stat-change {
+      font-size: 12px;
+      color: var(--color-success);
+    }
+
+    .d3-stat-change.negative {
+      color: var(--color-error);
+    }
+
+    .d3-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .d3-list-item:last-child {
+      border-bottom: none;
+    }
+
+    .d3-chart-placeholder {
+      height: 120px;
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-muted);
+      font-size: 13px;
+    }
+
+    /* ============================================ */
+    /* DIRECTION 4: FOCUSED FLOW                   */
+    /* ============================================ */
+    .d4-layout {
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+      background: var(--color-bg);
+    }
+
+    .d4-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-6);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .d4-back {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+    }
+
+    .d4-progress {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .d4-progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-border);
+    }
+
+    .d4-progress-dot.active {
+      background: var(--color-primary);
+    }
+
+    .d4-progress-dot.complete {
+      background: var(--color-success);
+    }
+
+    .d4-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-8);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .d4-agent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: var(--space-8);
+    }
+
+    .d4-agent-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--color-wendy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin-bottom: var(--space-4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+      50% { box-shadow: 0 0 0 12px rgba(139, 92, 246, 0); }
+    }
+
+    .d4-agent-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: var(--space-1);
+    }
+
+    .d4-agent-status {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+
+    .d4-question {
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .d4-question h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+    }
+
+    .d4-question p {
+      color: var(--color-text-secondary);
+      font-size: 16px;
+    }
+
+    .d4-options {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      width: 100%;
+    }
+
+    .d4-option {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d4-option:hover {
+      border-color: var(--color-primary);
+      background: var(--color-surface-elevated);
+    }
+
+    .d4-option.selected {
+      border-color: var(--color-primary);
+      background: rgba(79, 70, 229, 0.1);
+    }
+
+    .d4-option-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--color-surface-elevated);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .d4-option-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: var(--space-1);
+    }
+
+    .d4-option-content p {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+
+    .d4-input-section {
+      width: 100%;
+      margin-top: var(--space-6);
+    }
+
+    .d4-input-box {
+      display: flex;
+      align-items: center;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-4);
+      transition: all 0.2s;
+    }
+
+    .d4-input-box:focus-within {
+      border-color: var(--color-primary);
+    }
+
+    .d4-input-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--color-text);
+      font-size: 16px;
+      font-family: var(--font-sans);
+    }
+
+    .d4-input-box button {
+      width: 44px;
+      height: 44px;
+      background: var(--color-primary);
+      border: none;
+      border-radius: var(--radius-lg);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    /* ============================================ */
+    /* DIRECTION 5: CREATIVE CANVAS                */
+    /* ============================================ */
+    .d5-layout {
+      position: relative;
+      height: 600px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      overflow: hidden;
+    }
+
+    .d5-canvas {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .d5-artwork {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(45deg, var(--color-artie) 0%, var(--color-secondary) 100%);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+      box-shadow: 0 20px 60px rgba(217, 70, 239, 0.3);
+    }
+
+    .d5-floating-panel {
+      position: absolute;
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-4);
+    }
+
+    .d5-toolbar {
+      top: var(--space-4);
+      left: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .d5-tool {
+      width: 48px;
+      height: 48px;
+      background: var(--color-surface-elevated);
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s;
+    }
+
+    .d5-tool:hover {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .d5-tool.active {
+      background: var(--color-artie);
+      color: white;
+    }
+
+    .d5-chat {
+      bottom: var(--space-4);
+      left: var(--space-4);
+      right: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .d5-agent-mini {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--color-artie);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .d5-chat-input {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .d5-chat-input input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--color-text);
+      font-size: 15px;
+    }
+
+    .d5-properties {
+      top: var(--space-4);
+      right: var(--space-4);
+      width: 280px;
+    }
+
+    .d5-prop-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+    }
+
+    .d5-prop-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .d5-prop-section {
+      margin-bottom: var(--space-4);
+    }
+
+    .d5-prop-label {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-2);
+    }
+
+    .d5-slider {
+      width: 100%;
+      height: 4px;
+      background: var(--color-border);
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .d5-slider-fill {
+      height: 100%;
+      background: var(--color-artie);
+      border-radius: 2px;
+      width: 60%;
+    }
+
+    .d5-slider-thumb {
+      position: absolute;
+      top: 50%;
+      left: 60%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .d5-color-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--space-2);
+    }
+
+    .d5-color-swatch {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .d5-color-swatch.selected {
+      border-color: white;
+    }
+
+    /* ============================================ */
+    /* DIRECTION 6: HYBRID ADAPTIVE                */
+    /* ============================================ */
+    .d6-layout {
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+    }
+
+    .d6-header {
+      display: flex;
+      align-items: center;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .d6-logo-section {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding-right: var(--space-6);
+      border-right: 1px solid var(--color-border);
+    }
+
+    .d6-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      border-radius: var(--radius-md);
+    }
+
+    .d6-brand {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .d6-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: 0 var(--space-4);
+      flex: 1;
+    }
+
+    .d6-nav-item {
+      padding: var(--space-2) var(--space-3);
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      border-radius: var(--radius-md);
+      transition: all 0.2s;
+    }
+
+    .d6-nav-item:hover {
+      background: var(--color-surface-elevated);
+      color: var(--color-text);
+    }
+
+    .d6-nav-item.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .d6-user-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .d6-main {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .d6-sidebar {
+      width: 280px;
+      background: var(--color-bg);
+      border-right: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .d6-sidebar-header {
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .d6-project-select {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3);
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+    }
+
+    .d6-project-select-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .d6-project-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--color-bond);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .d6-project-name {
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .d6-sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-4);
+    }
+
+    .d6-section {
+      margin-bottom: var(--space-6);
+    }
+
+    .d6-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-2);
+    }
+
+    .d6-section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+    }
+
+    .d6-section-action {
+      font-size: 12px;
+      color: var(--color-primary);
+      cursor: pointer;
+    }
+
+    .d6-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d6-item:hover {
+      background: var(--color-surface);
+    }
+
+    .d6-item.active {
+      background: var(--color-surface);
+      border-left: 2px solid var(--color-primary);
+    }
+
+    .d6-item-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+    }
+
+    .d6-item-content {
+      flex: 1;
+    }
+
+    .d6-item-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .d6-item-meta {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .d6-workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .d6-workspace-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      background: var(--color-surface);
+    }
+
+    .d6-workspace-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .d6-workspace-tabs {
+      display: flex;
+      gap: var(--space-1);
+    }
+
+    .d6-workspace-tab {
+      padding: var(--space-2) var(--space-3);
+      font-size: 13px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      border-radius: var(--radius-md);
+    }
+
+    .d6-workspace-tab.active {
+      background: var(--color-bg);
+      border-color: var(--color-border);
+      color: var(--color-text);
+    }
+
+    .d6-workspace-content {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .d6-canvas-area {
+      flex: 1;
+      background: var(--color-bg);
+      position: relative;
+    }
+
+    .d6-chat-panel {
+      width: 360px;
+      background: var(--color-surface);
+      border-left: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .d6-chat-header {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .d6-agent-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--color-bond);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .d6-agent-info {
+      flex: 1;
+    }
+
+    .d6-agent-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .d6-agent-status {
+      font-size: 12px;
+      color: var(--color-success);
+    }
+
+    .d6-chat-messages {
+      flex: 1;
+      padding: var(--space-4);
+      overflow-y: auto;
+    }
+
+    .d6-message {
+      margin-bottom: var(--space-4);
+    }
+
+    .d6-message.agent {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .d6-message-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--color-bond);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .d6-message-bubble {
+      background: var(--color-surface-elevated);
+      padding: var(--space-3);
+      border-radius: var(--radius-lg);
+      border-top-left-radius: var(--radius-sm);
+      font-size: 14px;
+      max-width: 85%;
+    }
+
+    .d6-message.user {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .d6-message.user .d6-message-bubble {
+      background: var(--color-primary);
+      border-radius: var(--radius-lg);
+      border-top-right-radius: var(--radius-sm);
+    }
+
+    .d6-chat-input {
+      padding: var(--space-3);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .d6-input-container {
+      display: flex;
+      align-items: center;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .d6-input-container input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--color-text);
+      font-size: 14px;
+    }
+
+    .d6-send-btn {
+      width: 28px;
+      height: 28px;
+      background: var(--color-primary);
+      border: none;
+      border-radius: var(--radius-md);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Description Panel */
+    .direction-description {
+      padding: var(--space-6);
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .description-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    .description-section h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: var(--space-3);
+      color: var(--color-text);
+    }
+
+    .description-section ul {
+      list-style: none;
+    }
+
+    .description-section li {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      padding: var(--space-1) 0;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .description-section li::before {
+      content: "•";
+      color: var(--color-primary);
+    }
+
+    .best-for {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-top: var(--space-2);
+    }
+
+    .best-for-tag {
+      padding: var(--space-1) var(--space-2);
+      background: var(--color-surface-elevated);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-title">Hyyve Platform - Design Directions</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-direction="1">1. Conversational</button>
+      <button class="nav-tab" data-direction="2">2. Builder Studio</button>
+      <button class="nav-tab" data-direction="3">3. Mission Control</button>
+      <button class="nav-tab" data-direction="4">4. Focused Flow</button>
+      <button class="nav-tab" data-direction="5">5. Creative Canvas</button>
+      <button class="nav-tab" data-direction="6">6. Hybrid Adaptive</button>
+    </div>
+  </nav>
+
+  <main class="main">
+    <!-- DIRECTION 1: CONVERSATIONAL CORE -->
+    <section class="direction active" id="direction-1">
+      <div class="direction-header">
+        <h1 class="direction-title">Direction 1: Conversational Core</h1>
+        <p class="direction-subtitle">Chat-first with contextual canvas - perfect for users who prefer natural language interaction</p>
+        <div class="direction-tags">
+          <span class="tag primary">Recommended for Beginners</span>
+          <span class="tag">Business Users</span>
+          <span class="tag">Natural Language First</span>
+        </div>
+      </div>
+
+      <div class="mockup-container">
+        <div class="mockup">
+          <div class="d1-layout">
+            <!-- Sidebar -->
+            <aside class="d1-sidebar">
+              <div class="d1-sidebar-header">
+                <div class="d1-logo"></div>
+                <span class="d1-brand">Hyyve</span>
+              </div>
+
+              <div class="d1-nav-section">
+                <div class="d1-nav-label">Builders</div>
+                <div class="d1-nav-item active">
+                  <span class="d1-nav-icon">🧩</span>
+                  Module Builder
+                </div>
+                <div class="d1-nav-item">
+                  <span class="d1-nav-icon">💬</span>
+                  Chatbot Builder
+                </div>
+                <div class="d1-nav-item">
+                  <span class="d1-nav-icon">🎙️</span>
+                  Voice Builder
+                </div>
+                <div class="d1-nav-item">
+                  <span class="d1-nav-icon">🎨</span>
+                  Canvas Builder
+                </div>
+              </div>
+
+              <div class="d1-nav-section">
+                <div class="d1-nav-label">Resources</div>
+                <div class="d1-nav-item">
+                  <span class="d1-nav-icon">📚</span>
+                  Knowledge Base
+                </div>
+                <div class="d1-nav-item">
+                  <span class="d1-nav-icon">🛒</span>
+                  Marketplace
+                </div>
+              </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="d1-main">
+              <div class="d1-topbar">
+                <div class="d1-breadcrumb">
+                  <span>Projects</span>
+                  <span>/</span>
+                  <span>Customer Support Bot</span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <button style="padding: 6px 12px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text); cursor: pointer;">Preview</button>
+                  <button style="padding: 6px 12px; background: var(--color-primary); border: none; border-radius: 6px; color: white; cursor: pointer;">Deploy</button>
+                </div>
+              </div>
+
+              <div class="d1-content">
+                <div class="d1-canvas">
+                  <div class="d1-canvas-title">
+                    <span>📊</span>
+                    Workflow Canvas
+                  </div>
+                  <div class="d1-node" style="left: 40px; top: 60px;">
+                    <div class="d1-node-header">
+                      <div class="d1-node-icon">⚡</div>
+                      <span class="d1-node-title">Trigger</span>
+                    </div>
+                    <div class="d1-node-meta">Chat Message</div>
+                  </div>
+                  <div class="d1-node" style="left: 240px; top: 60px;">
+                    <div class="d1-node-header">
+                      <div class="d1-node-icon" style="background: var(--color-info);">🔍</div>
+                      <span class="d1-node-title">RAG Search</span>
+                    </div>
+                    <div class="d1-node-meta">Knowledge Base</div>
+                  </div>
+                  <div class="d1-node" style="left: 440px; top: 60px;">
+                    <div class="d1-node-header">
+                      <div class="d1-node-icon" style="background: var(--color-success);">🤖</div>
+                      <span class="d1-node-title">LLM Response</span>
+                    </div>
+                    <div class="d1-node-meta">Claude 3.5 Sonnet</div>
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            <!-- Chat Panel -->
+            <aside class="d1-chat-panel">
+              <div class="d1-chat-header">
+                <div class="d1-agent-avatar bond">🔧</div>
+                <div class="d1-agent-info">
+                  <h3>Bond</h3>
+                  <p>Module Builder Agent</p>
+                </div>
+              </div>
+
+              <div class="d1-chat-messages">
+                <div class="d1-message agent">
+                  <div class="d1-message-avatar">🔧</div>
+                  <div class="d1-message-content">
+                    I've added the RAG Search node. It will search your Knowledge Base for relevant context before generating responses. Should I connect it to the LLM?
+                  </div>
+                </div>
+                <div class="d1-message user">
+                  <div class="d1-message-content">
+                    Yes, and also add error handling
+                  </div>
+                </div>
+                <div class="d1-message agent">
+                  <div class="d1-message-avatar">🔧</div>
+                  <div class="d1-message-content">
+                    Perfect! I'll add an error handler that provides a friendly fallback message if the search fails. Adding that now...
+                  </div>
+                </div>
+              </div>
+
+              <div class="d1-chat-input">
+                <div class="d1-input-box">
+                  <input type="text" placeholder="Describe what you want to build...">
+                  <button class="d1-send-btn">→</button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+
+      <div class="direction-description">
+        <div class="description-grid">
+          <div class="description-section">
+            <h4>Layout Philosophy</h4>
+            <ul>
+              <li>Chat panel always visible on the right</li>
+              <li>Canvas updates as you describe changes</li>
+              <li>Sidebar provides quick navigation</li>
+              <li>Conversation drives the workflow</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Key Interactions</h4>
+            <ul>
+              <li>Natural language commands</li>
+              <li>Agent suggests next steps</li>
+              <li>Click nodes for details</li>
+              <li>Drag to reposition manually</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Best For</h4>
+            <div class="best-for">
+              <span class="best-for-tag">Business Users</span>
+              <span class="best-for-tag">Beginners</span>
+              <span class="best-for-tag">Quick Prototypes</span>
+              <span class="best-for-tag">Guided Building</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECTION 2: BUILDER STUDIO -->
+    <section class="direction" id="direction-2">
+      <div class="direction-header">
+        <h1 class="direction-title">Direction 2: Builder Studio</h1>
+        <p class="direction-subtitle">Canvas-dominant with docked chat - ideal for developers who want full visual control</p>
+        <div class="direction-tags">
+          <span class="tag primary">Recommended for Developers</span>
+          <span class="tag">Power Users</span>
+          <span class="tag">Visual First</span>
+        </div>
+      </div>
+
+      <div class="mockup-container">
+        <div class="mockup">
+          <div class="d2-layout">
+            <!-- Vertical Toolbar -->
+            <aside class="d2-toolbar">
+              <div class="d2-tool-btn active" title="Select">↖</div>
+              <div class="d2-tool-btn" title="Add Node">+</div>
+              <div class="d2-tool-btn" title="Connect">⤴</div>
+              <div class="d2-tool-btn" title="Comment">💬</div>
+              <div style="flex: 1;"></div>
+              <div class="d2-tool-btn" title="Settings">⚙</div>
+            </aside>
+
+            <!-- Main Workspace -->
+            <main class="d2-main">
+              <div class="d2-header">
+                <div class="d2-project-info">
+                  <div class="d2-project-icon">🧩</div>
+                  <div>
+                    <div class="d2-project-name">RAG Pipeline v2</div>
+                    <div class="d2-project-status">Auto-saved 2 min ago</div>
+                  </div>
+                </div>
+                <div class="d2-actions">
+                  <button class="d2-btn">Test</button>
+                  <button class="d2-btn">Export</button>
+                  <button class="d2-btn primary">Deploy</button>
+                </div>
+              </div>
+
+              <div class="d2-workspace">
+                <div class="d2-canvas">
+                  <!-- Workflow nodes -->
+                  <div class="d2-node selected" style="left: 80px; top: 100px;">
+                    <div class="d2-node-header">
+                      <div class="d2-node-icon trigger">⚡</div>
+                      <span style="font-weight: 500;">HTTP Trigger</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--color-text-secondary);">POST /api/query</div>
+                  </div>
+
+                  <div class="d2-node" style="left: 300px; top: 60px;">
+                    <div class="d2-node-header">
+                      <div class="d2-node-icon process">🔍</div>
+                      <span style="font-weight: 500;">Vector Search</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--color-text-secondary);">Pinecone Index</div>
+                  </div>
+
+                  <div class="d2-node" style="left: 300px; top: 180px;">
+                    <div class="d2-node-header">
+                      <div class="d2-node-icon process">📊</div>
+                      <span style="font-weight: 500;">Reranker</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--color-text-secondary);">Cohere Rerank</div>
+                  </div>
+
+                  <div class="d2-node" style="left: 520px; top: 120px;">
+                    <div class="d2-node-header">
+                      <div class="d2-node-icon output">🤖</div>
+                      <span style="font-weight: 500;">Claude Response</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--color-text-secondary);">claude-3-5-sonnet</div>
+                  </div>
+
+                  <!-- Canvas Controls -->
+                  <div class="d2-canvas-controls">
+                    <button class="d2-canvas-btn">−</button>
+                    <span style="font-size: 12px; padding: 0 8px;">100%</span>
+                    <button class="d2-canvas-btn">+</button>
+                    <button class="d2-canvas-btn">⊡</button>
+                  </div>
+                </div>
+
+                <!-- Docked Chat -->
+                <aside class="d2-chat-dock">
+                  <div class="d2-dock-header">
+                    <div class="d2-dock-tabs">
+                      <button class="d2-dock-tab active">Chat</button>
+                      <button class="d2-dock-tab">Properties</button>
+                      <button class="d2-dock-tab">Logs</button>
+                    </div>
+                    <button style="background: none; border: none; color: var(--color-text-secondary); cursor: pointer;">×</button>
+                  </div>
+                  <div class="d2-dock-content">
+                    <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                      <div style="width: 28px; height: 28px; background: var(--color-bond); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px;">🔧</div>
+                      <div style="flex: 1; background: var(--color-surface-elevated); padding: 12px; border-radius: 8px; font-size: 14px;">
+                        The selected node uses Cohere's reranker. Want me to optimize the parameters for your use case?
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+
+      <div class="direction-description">
+        <div class="description-grid">
+          <div class="description-section">
+            <h4>Layout Philosophy</h4>
+            <ul>
+              <li>Canvas takes center stage</li>
+              <li>Minimal toolbar for essential actions</li>
+              <li>Collapsible chat dock</li>
+              <li>IDE-like experience</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Key Interactions</h4>
+            <ul>
+              <li>Drag-and-drop node placement</li>
+              <li>Keyboard shortcuts for speed</li>
+              <li>Right-click context menus</li>
+              <li>Code view toggle</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Best For</h4>
+            <div class="best-for">
+              <span class="best-for-tag">Developers</span>
+              <span class="best-for-tag">Power Users</span>
+              <span class="best-for-tag">Complex Workflows</span>
+              <span class="best-for-tag">Precision Control</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECTION 3: MISSION CONTROL -->
+    <section class="direction" id="direction-3">
+      <div class="direction-header">
+        <h1 class="direction-title">Direction 3: Mission Control</h1>
+        <p class="direction-subtitle">Dense dashboard with panels - optimized for operations and monitoring</p>
+        <div class="direction-tags">
+          <span class="tag primary">Recommended for Admins</span>
+          <span class="tag">Agencies</span>
+          <span class="tag">Multi-Project Management</span>
+        </div>
+      </div>
+
+      <div class="mockup-container">
+        <div class="mockup">
+          <div class="d3-layout">
+            <!-- Header -->
+            <header class="d3-header">
+              <div class="d3-logo-section">
+                <div class="d3-logo"></div>
+                <span class="d3-title">Hyyve</span>
+              </div>
+              <div class="d3-search">
+                <input type="text" placeholder="Search projects, workflows, users...">
+              </div>
+              <div class="d3-user-actions">
+                <div class="d3-notification">
+                  <span>🔔</span>
+                  <div class="d3-notification-badge">3</div>
+                </div>
+                <div style="width: 32px; height: 32px; background: var(--color-primary); border-radius: 50%;"></div>
+              </div>
+            </header>
+
+            <!-- Sidebar -->
+            <aside class="d3-sidebar">
+              <div class="d3-nav-group">
+                <div class="d3-nav-title">Overview</div>
+                <div class="d3-nav-item active">📊 Dashboard</div>
+                <div class="d3-nav-item">📈 Analytics</div>
+                <div class="d3-nav-item">⚡ Activity</div>
+              </div>
+
+              <div class="d3-nav-group">
+                <div class="d3-nav-title">Management</div>
+                <div class="d3-nav-item">📁 Projects</div>
+                <div class="d3-nav-item">👥 Team</div>
+                <div class="d3-nav-item">🔑 API Keys</div>
+              </div>
+
+              <div class="d3-nav-group">
+                <div class="d3-nav-title">Settings</div>
+                <div class="d3-nav-item">⚙️ Workspace</div>
+                <div class="d3-nav-item">💳 Billing</div>
+              </div>
+            </aside>
+
+            <!-- Main Dashboard -->
+            <main class="d3-main">
+              <div class="d3-grid">
+                <div class="d3-panel">
+                  <div class="d3-panel-header">
+                    <span class="d3-panel-title">Active Workflows</span>
+                    <span class="d3-panel-action">View all</span>
+                  </div>
+                  <div class="d3-stat">
+                    <span class="d3-stat-value">24</span>
+                    <span class="d3-stat-change">+3 this week</span>
+                  </div>
+                </div>
+
+                <div class="d3-panel">
+                  <div class="d3-panel-header">
+                    <span class="d3-panel-title">API Calls Today</span>
+                  </div>
+                  <div class="d3-stat">
+                    <span class="d3-stat-value">12.4k</span>
+                    <span class="d3-stat-change negative">-8% vs yesterday</span>
+                  </div>
+                </div>
+
+                <div class="d3-panel">
+                  <div class="d3-panel-header">
+                    <span class="d3-panel-title">Cost This Month</span>
+                  </div>
+                  <div class="d3-stat">
+                    <span class="d3-stat-value">$847</span>
+                    <span class="d3-stat-label">of $1,200 budget</span>
+                  </div>
+                </div>
+
+                <div class="d3-panel wide">
+                  <div class="d3-panel-header">
+                    <span class="d3-panel-title">Usage Trend</span>
+                    <span class="d3-panel-action">Last 7 days</span>
+                  </div>
+                  <div class="d3-chart-placeholder">📈 Usage chart visualization</div>
+                </div>
+
+                <div class="d3-panel">
+                  <div class="d3-panel-header">
+                    <span class="d3-panel-title">Recent Activity</span>
+                  </div>
+                  <div class="d3-list-item">
+                    <span style="font-size: 13px;">RAG Pipeline deployed</span>
+                    <span style="font-size: 12px; color: var(--color-text-muted);">2m ago</span>
+                  </div>
+                  <div class="d3-list-item">
+                    <span style="font-size: 13px;">New team member added</span>
+                    <span style="font-size: 12px; color: var(--color-text-muted);">1h ago</span>
+                  </div>
+                  <div class="d3-list-item">
+                    <span style="font-size: 13px;">Chatbot updated</span>
+                    <span style="font-size: 12px; color: var(--color-text-muted);">3h ago</span>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+
+      <div class="direction-description">
+        <div class="description-grid">
+          <div class="description-section">
+            <h4>Layout Philosophy</h4>
+            <ul>
+              <li>Information density maximized</li>
+              <li>Multi-panel dashboard grid</li>
+              <li>At-a-glance status overview</li>
+              <li>Drill-down navigation</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Key Interactions</h4>
+            <ul>
+              <li>Customizable panel layouts</li>
+              <li>Real-time data updates</li>
+              <li>Quick action buttons</li>
+              <li>Filter and search everything</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Best For</h4>
+            <div class="best-for">
+              <span class="best-for-tag">Platform Admins</span>
+              <span class="best-for-tag">Agencies</span>
+              <span class="best-for-tag">Enterprise</span>
+              <span class="best-for-tag">Multi-Project</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECTION 4: FOCUSED FLOW -->
+    <section class="direction" id="direction-4">
+      <div class="direction-header">
+        <h1 class="direction-title">Direction 4: Focused Flow</h1>
+        <p class="direction-subtitle">Minimalist, one-task-at-a-time - reduces cognitive load and decision fatigue</p>
+        <div class="direction-tags">
+          <span class="tag primary">Accessibility Focused</span>
+          <span class="tag">Mobile Friendly</span>
+          <span class="tag">Guided Experience</span>
+        </div>
+      </div>
+
+      <div class="mockup-container">
+        <div class="mockup">
+          <div class="d4-layout">
+            <header class="d4-header">
+              <div class="d4-back">
+                <span>←</span>
+                <span>Back</span>
+              </div>
+              <div class="d4-progress">
+                <div class="d4-progress-dot complete"></div>
+                <div class="d4-progress-dot complete"></div>
+                <div class="d4-progress-dot active"></div>
+                <div class="d4-progress-dot"></div>
+                <div class="d4-progress-dot"></div>
+              </div>
+              <div style="width: 60px;"></div>
+            </header>
+
+            <main class="d4-main">
+              <div class="d4-agent">
+                <div class="d4-agent-avatar">💬</div>
+                <div class="d4-agent-name">Wendy</div>
+                <div class="d4-agent-status">Chatbot Builder Agent</div>
+              </div>
+
+              <div class="d4-question">
+                <h2>What kind of chatbot do you want to build?</h2>
+                <p>This helps me suggest the best templates and features</p>
+              </div>
+
+              <div class="d4-options">
+                <div class="d4-option selected">
+                  <div class="d4-option-icon">🎧</div>
+                  <div class="d4-option-content">
+                    <h3>Customer Support</h3>
+                    <p>Answer FAQs, handle tickets, escalate to humans</p>
+                  </div>
+                </div>
+                <div class="d4-option">
+                  <div class="d4-option-icon">🛒</div>
+                  <div class="d4-option-content">
+                    <h3>Sales & Lead Gen</h3>
+                    <p>Qualify leads, answer product questions, book demos</p>
+                  </div>
+                </div>
+                <div class="d4-option">
+                  <div class="d4-option-icon">📚</div>
+                  <div class="d4-option-content">
+                    <h3>Knowledge Assistant</h3>
+                    <p>Search docs, explain concepts, guide users</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d4-input-section">
+                <div class="d4-input-box">
+                  <input type="text" placeholder="Or describe something custom...">
+                  <button>→</button>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+
+      <div class="direction-description">
+        <div class="description-grid">
+          <div class="description-section">
+            <h4>Layout Philosophy</h4>
+            <ul>
+              <li>One question at a time</li>
+              <li>Maximum focus, minimal distraction</li>
+              <li>Clear progress indication</li>
+              <li>Large touch targets</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Key Interactions</h4>
+            <ul>
+              <li>Click to select options</li>
+              <li>Natural language alternative</li>
+              <li>Easy back navigation</li>
+              <li>Keyboard accessible</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Best For</h4>
+            <div class="best-for">
+              <span class="best-for-tag">Mobile Users</span>
+              <span class="best-for-tag">Accessibility</span>
+              <span class="best-for-tag">New Users</span>
+              <span class="best-for-tag">Quick Tasks</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECTION 5: CREATIVE CANVAS -->
+    <section class="direction" id="direction-5">
+      <div class="direction-header">
+        <h1 class="direction-title">Direction 5: Creative Canvas</h1>
+        <p class="direction-subtitle">Full-screen canvas with floating UI - maximizes creative workspace</p>
+        <div class="direction-tags">
+          <span class="tag primary">For Content Creators</span>
+          <span class="tag">Canvas Builder</span>
+          <span class="tag">Visual First</span>
+        </div>
+      </div>
+
+      <div class="mockup-container">
+        <div class="mockup">
+          <div class="d5-layout">
+            <div class="d5-canvas">
+              <div class="d5-artwork">🎨</div>
+            </div>
+
+            <!-- Floating Toolbar -->
+            <div class="d5-floating-panel d5-toolbar">
+              <button class="d5-tool active">↖</button>
+              <button class="d5-tool">✏️</button>
+              <button class="d5-tool">🔲</button>
+              <button class="d5-tool">📝</button>
+              <button class="d5-tool">🖼️</button>
+            </div>
+
+            <!-- Floating Properties -->
+            <div class="d5-floating-panel d5-properties">
+              <div class="d5-prop-header">
+                <span class="d5-prop-title">Generation Settings</span>
+                <span style="color: var(--color-text-muted);">×</span>
+              </div>
+
+              <div class="d5-prop-section">
+                <div class="d5-prop-label">Style Intensity</div>
+                <div class="d5-slider">
+                  <div class="d5-slider-fill"></div>
+                  <div class="d5-slider-thumb"></div>
+                </div>
+              </div>
+
+              <div class="d5-prop-section">
+                <div class="d5-prop-label">Color Palette</div>
+                <div class="d5-color-grid">
+                  <div class="d5-color-swatch selected" style="background: #D946EF;"></div>
+                  <div class="d5-color-swatch" style="background: #F97316;"></div>
+                  <div class="d5-color-swatch" style="background: #10B981;"></div>
+                  <div class="d5-color-swatch" style="background: #3B82F6;"></div>
+                  <div class="d5-color-swatch" style="background: #EF4444;"></div>
+                  <div class="d5-color-swatch" style="background: #F59E0B;"></div>
+                </div>
+              </div>
+
+              <button style="width: 100%; padding: 10px; background: var(--color-artie); border: none; border-radius: 6px; color: white; cursor: pointer; font-weight: 500;">Generate Variations</button>
+            </div>
+
+            <!-- Floating Chat Bar -->
+            <div class="d5-floating-panel d5-chat">
+              <div class="d5-agent-mini">🎨</div>
+              <div class="d5-chat-input">
+                <input type="text" placeholder="Describe your vision to Artie...">
+                <button style="background: var(--color-artie); border: none; border-radius: 6px; padding: 8px 16px; color: white; cursor: pointer;">Generate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="direction-description">
+        <div class="description-grid">
+          <div class="description-section">
+            <h4>Layout Philosophy</h4>
+            <ul>
+              <li>Canvas fills entire viewport</li>
+              <li>Floating panels minimize chrome</li>
+              <li>Creative work takes center stage</li>
+              <li>Panels can be hidden/moved</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Key Interactions</h4>
+            <ul>
+              <li>Pan and zoom canvas</li>
+              <li>Floating chat bar for Artie</li>
+              <li>Drag panels anywhere</li>
+              <li>Keyboard shortcuts for tools</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Best For</h4>
+            <div class="best-for">
+              <span class="best-for-tag">Content Creators</span>
+              <span class="best-for-tag">Designers</span>
+              <span class="best-for-tag">Canvas Builder</span>
+              <span class="best-for-tag">Image Generation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECTION 6: HYBRID ADAPTIVE -->
+    <section class="direction" id="direction-6">
+      <div class="direction-header">
+        <h1 class="direction-title">Direction 6: Hybrid Adaptive</h1>
+        <p class="direction-subtitle">Switches layout based on task - the best of all worlds</p>
+        <div class="direction-tags">
+          <span class="tag primary">Recommended Overall</span>
+          <span class="tag">All Personas</span>
+          <span class="tag">Adaptive Experience</span>
+        </div>
+      </div>
+
+      <div class="mockup-container">
+        <div class="mockup">
+          <div class="d6-layout">
+            <!-- Header -->
+            <header class="d6-header">
+              <div class="d6-logo-section">
+                <div class="d6-logo"></div>
+                <span class="d6-brand">Hyyve</span>
+              </div>
+
+              <nav class="d6-nav">
+                <div class="d6-nav-item active">🧩 Module</div>
+                <div class="d6-nav-item">💬 Chatbot</div>
+                <div class="d6-nav-item">🎙️ Voice</div>
+                <div class="d6-nav-item">🎨 Canvas</div>
+                <div class="d6-nav-item">📚 Knowledge</div>
+                <div class="d6-nav-item">🛒 Marketplace</div>
+              </nav>
+
+              <div class="d6-user-actions">
+                <span style="color: var(--color-text-secondary);">🔔</span>
+                <span style="color: var(--color-text-secondary);">⚙️</span>
+                <div style="width: 32px; height: 32px; background: var(--color-primary); border-radius: 50%;"></div>
+              </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="d6-main">
+              <!-- Sidebar -->
+              <aside class="d6-sidebar">
+                <div class="d6-sidebar-header">
+                  <div class="d6-project-select">
+                    <div class="d6-project-select-info">
+                      <div class="d6-project-icon">🧩</div>
+                      <span class="d6-project-name">Support Bot v2</span>
+                    </div>
+                    <span>▾</span>
+                  </div>
+                </div>
+
+                <div class="d6-sidebar-content">
+                  <div class="d6-section">
+                    <div class="d6-section-header">
+                      <span class="d6-section-title">Workflows</span>
+                      <span class="d6-section-action">+ New</span>
+                    </div>
+                    <div class="d6-item active">
+                      <div class="d6-item-icon">⚡</div>
+                      <div class="d6-item-content">
+                        <div class="d6-item-title">Main Pipeline</div>
+                        <div class="d6-item-meta">Modified 2h ago</div>
+                      </div>
+                    </div>
+                    <div class="d6-item">
+                      <div class="d6-item-icon">🔄</div>
+                      <div class="d6-item-content">
+                        <div class="d6-item-title">Escalation Flow</div>
+                        <div class="d6-item-meta">Modified yesterday</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d6-section">
+                    <div class="d6-section-header">
+                      <span class="d6-section-title">Knowledge Base</span>
+                    </div>
+                    <div class="d6-item">
+                      <div class="d6-item-icon">📄</div>
+                      <div class="d6-item-content">
+                        <div class="d6-item-title">Product Docs</div>
+                        <div class="d6-item-meta">142 documents</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+
+              <!-- Workspace -->
+              <div class="d6-workspace">
+                <div class="d6-workspace-header">
+                  <span class="d6-workspace-title">Main Pipeline</span>
+                  <div class="d6-workspace-tabs">
+                    <button class="d6-workspace-tab active">Canvas</button>
+                    <button class="d6-workspace-tab">Code</button>
+                    <button class="d6-workspace-tab">Test</button>
+                  </div>
+                </div>
+
+                <div class="d6-workspace-content">
+                  <div class="d6-canvas-area">
+                    <div style="position: absolute; left: 60px; top: 60px; background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 8px; padding: 12px; min-width: 150px;">
+                      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                        <div style="width: 24px; height: 24px; background: var(--color-secondary); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px;">⚡</div>
+                        <span style="font-size: 13px; font-weight: 500;">Trigger</span>
+                      </div>
+                      <div style="font-size: 11px; color: var(--color-text-muted);">Chat Message</div>
+                    </div>
+
+                    <div style="position: absolute; left: 280px; top: 60px; background: var(--color-surface); border: 2px solid var(--color-primary); border-radius: 8px; padding: 12px; min-width: 150px;">
+                      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                        <div style="width: 24px; height: 24px; background: var(--color-info); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px;">🔍</div>
+                        <span style="font-size: 13px; font-weight: 500;">RAG Search</span>
+                      </div>
+                      <div style="font-size: 11px; color: var(--color-text-muted);">Product Docs</div>
+                    </div>
+                  </div>
+
+                  <!-- Chat Panel -->
+                  <aside class="d6-chat-panel">
+                    <div class="d6-chat-header">
+                      <div class="d6-agent-avatar">🔧</div>
+                      <div class="d6-agent-info">
+                        <div class="d6-agent-name">Bond</div>
+                        <div class="d6-agent-status">● Active</div>
+                      </div>
+                    </div>
+
+                    <div class="d6-chat-messages">
+                      <div class="d6-message agent">
+                        <div class="d6-message-avatar">🔧</div>
+                        <div class="d6-message-bubble">
+                          I see you've selected the RAG Search node. Would you like me to optimize the retrieval parameters for support queries?
+                        </div>
+                      </div>
+                      <div class="d6-message user">
+                        <div class="d6-message-bubble">
+                          Yes, and add caching
+                        </div>
+                      </div>
+                      <div class="d6-message agent">
+                        <div class="d6-message-avatar">🔧</div>
+                        <div class="d6-message-bubble">
+                          Done! I've added semantic caching with a 5-minute TTL. This should reduce latency by ~40% for repeat queries.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d6-chat-input">
+                      <div class="d6-input-container">
+                        <input type="text" placeholder="Ask Bond...">
+                        <button class="d6-send-btn">→</button>
+                      </div>
+                    </div>
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="direction-description">
+        <div class="description-grid">
+          <div class="description-section">
+            <h4>Layout Philosophy</h4>
+            <ul>
+              <li>Adapts to current builder/task</li>
+              <li>Consistent header navigation</li>
+              <li>Context-aware sidebars</li>
+              <li>Resizable panels</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Key Interactions</h4>
+            <ul>
+              <li>Builder-specific layouts auto-load</li>
+              <li>Drag to resize panels</li>
+              <li>Collapse/expand sections</li>
+              <li>Persistent preferences</li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <h4>Best For</h4>
+            <div class="best-for">
+              <span class="best-for-tag">All Users</span>
+              <span class="best-for-tag">Multi-Builder</span>
+              <span class="best-for-tag">Flexible Workflows</span>
+              <span class="best-for-tag">Growing Teams</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Navigation functionality
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Update active tab
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Show corresponding direction
+        const directionId = tab.getAttribute('data-direction');
+        document.querySelectorAll('.direction').forEach(d => d.classList.remove('active'));
+        document.getElementById('direction-' + directionId).classList.add('active');
+      });
+    });
+
+    // D4 option selection
+    document.querySelectorAll('.d4-option').forEach(option => {
+      option.addEventListener('click', () => {
+        document.querySelectorAll('.d4-option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+      });
+    });
+
+    // D5 color swatch selection
+    document.querySelectorAll('.d5-color-swatch').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        document.querySelectorAll('.d5-color-swatch').forEach(s => s.classList.remove('selected'));
+        swatch.classList.add('selected');
+      });
+    });
+
+    // D5 tool selection
+    document.querySelectorAll('.d5-tool').forEach(tool => {
+      tool.addEventListener('click', () => {
+        document.querySelectorAll('.d5-tool').forEach(t => t.classList.remove('active'));
+        tool.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

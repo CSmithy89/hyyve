@@ -1,0 +1,361 @@
+# Workflow Status - BMM Enterprise Method
+# This tracks progress through BMM methodology Analysis, Planning, and Solutioning phases.
+# Implementation phase is tracked separately in sprint-status.yaml
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met (e.g., if_has_ui)
+#
+# Completion Status:
+#   - {file-path}: File created/found (e.g., "docs/product-brief.md")
+#   - skipped: Optional/conditional workflow that was skipped
+
+generated: "2026-01-19"
+last_updated: "2026-01-23"
+project: "Hyyve Platform"
+project_type: "hyyve-system"
+selected_track: "enterprise"
+field_type: "greenfield"
+workflow_path: "enterprise-greenfield"
+
+# Current Phase Progress
+current_phase: "phase_2_planning"
+next_action: "PRD Workflow"
+blocking_items: []
+
+# Document Summary
+document_summary:
+  total_documents: 41
+  research_documents: 34
+  planning_artifacts: 7
+  research_by_tier:
+    tier_0_foundation: 2
+    tier_1_platform_foundation: 3
+    tier_2_integration: 3
+    tier_3_polish: 2
+    tier_4_advanced_features: 9
+    tier_5_scale_enterprise: 4
+    tier_6_voice_chatbot: 5
+    tier_7_canvas_builder: 1
+    tier_8_ai_providers: 2
+    validation_reports: 3
+
+workflow_status:
+  # Phase 1: Analysis - COMPLETE
+  phase_1_analysis:
+    status: "complete"
+    completed_date: "2026-01-23"
+
+    brainstorm:
+      status: "skipped"
+      agent: "analyst"
+      command: "/bmad:core:workflows:brainstorming"
+      note: "User opted to skip"
+
+    research:
+      status: "complete"
+      agent: "analyst"
+      command: "/bmad:bmm:workflows:research"
+      note: "34 research documents completed across Tiers 0-8"
+      documents:
+        # Tier 0: Foundation
+        - path: "_bmad-output/planning-artifacts/research/technical-agentic-rag-sdk-research-v2-2026-01-19.md"
+          tier: 0
+          focus: "Agno, pgvector, Graphiti, Crawl4ai, Docling, RAG pipeline"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-agentic-protocols-research-2026-01-19.md"
+          tier: 0
+          focus: "CopilotKit, AG-UI, A2UI, A2A, MCP protocols"
+          status: "verified"
+
+        # Tier 1: Platform Foundation
+        - path: "_bmad-output/planning-artifacts/research/technical-claude-agent-sdk-research-2026-01-20.md"
+          tier: 1
+          focus: "Claude SDK architecture, subagents, tools, MCP"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-visual-workflow-builders-research-2026-01-20.md"
+          tier: 1
+          focus: "Dify, n8n, Flowise, ReactFlow patterns"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-multi-tenant-saas-research-2026-01-20.md"
+          tier: 1
+          focus: "Multi-tenancy, Supabase, Neon, Clerk, RLS"
+          status: "verified"
+
+        # Tier 2: Integration
+        - path: "_bmad-output/planning-artifacts/research/technical-conversational-builder-research-2026-01-20.md"
+          tier: 2
+          focus: "Intent parsing, CC-WF-Studio patterns, BMB integration"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-framework-abstraction-research-2026-01-20.md"
+          tier: 2
+          focus: "Common agent patterns across Claude SDK, Agno, LangGraph"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/business-marketplace-economics-research-2026-01-20.md"
+          tier: 2
+          focus: "Revenue models, Stripe Connect, marketplace patterns"
+          status: "verified"
+
+        # Tier 3: Polish
+        - path: "_bmad-output/planning-artifacts/research/technical-billing-metering-research-2026-01-20.md"
+          tier: 3
+          focus: "Usage tracking, Stripe Billing, Orb"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-ui-generation-research-2026-01-20.md"
+          tier: 3
+          focus: "v0.dev, shadcn, UI generation strategies"
+          status: "verified"
+
+        # Tier 4: Advanced Features
+        - path: "_bmad-output/planning-artifacts/research/technical-chatwoot-integration-research-2026-01-20.md"
+          tier: 4
+          focus: "Chatwoot APIs, webhooks, RAG bots"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-embedded-chat-ui-research-2026-01-21.md"
+          tier: 4
+          focus: "Custom React chat UI, ActionCable"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-command-center-research-2026-01-20.md"
+          tier: 4
+          focus: "A2UI dashboard, HITL UX"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-agent-observability-research-2026-01-20.md"
+          tier: 4
+          focus: "Langfuse, tracing, cost tracking"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/business-competitive-analysis-research-2026-01-20.md"
+          tier: 4
+          focus: "Market gaps, positioning"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-agent-versioning-research-2026-01-21.md"
+          tier: 4
+          focus: "Git-like versioning, A/B testing"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-security-sandboxing-research-2026-01-21.md"
+          tier: 4
+          focus: "Firecracker MicroVMs, NeMo Guardrails"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-collaborative-editing-research-2026-01-21.md"
+          tier: 4
+          focus: "CRDT, Yjs, Y-Sweet"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-mcp-skills-marketplace-research-2026-01-21.md"
+          tier: 4
+          focus: "MCP/Skills marketplace, registry"
+          status: "verified"
+
+        # Tier 5: Scale & Enterprise
+        - path: "_bmad-output/planning-artifacts/research/technical-self-hosted-deployment-research-2026-01-21.md"
+          tier: 5
+          focus: "Docker, Kubernetes, Helm, air-gapped"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-white-label-research-2026-01-21.md"
+          tier: 5
+          focus: "Theming, custom domains, branding"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-sso-enterprise-auth-research-2026-01-21.md"
+          tier: 5
+          focus: "SAML, SCIM, directory sync, WorkOS"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/business-pricing-strategy-research-2026-01-21.md"
+          tier: 5
+          focus: "Freemium, usage tiers, enterprise"
+          status: "verified"
+
+        # Tier 6: Voice & Chatbot
+        - path: "_bmad-output/planning-artifacts/research/technical-voice-stack-research-2026-01-22.md"
+          tier: 6
+          focus: "Pipecat, LiveKit, custom voice pipeline"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-livekit-architecture-study-2026-01-22.md"
+          tier: 6
+          focus: "LiveKit Agents, turn detection, SIP"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-chatbot-builder-research-2026-01-22.md"
+          tier: 6
+          focus: "Botpress, Rasa, Typebot, 60+ node types"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-rasa-architecture-study-2026-01-22.md"
+          tier: 6
+          focus: "Rasa NLU, DIETClassifier, dialogue policies"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-integration-layer-research-2026-01-22.md"
+          tier: 6
+          focus: "A2A, MCP, webhooks, hybrid integration"
+          status: "verified"
+
+        # Tier 7: Canvas Builder
+        - path: "_bmad-output/planning-artifacts/research/technical-canvas-builder-research-2026-01-22.md"
+          tier: 7
+          focus: "TapNow, ComfyUI, infinite canvas, DAG execution"
+          status: "verified"
+
+        # Tier 8: AI Providers
+        - path: "_bmad-output/planning-artifacts/research/technical-ai-generation-providers-research-2026-01-22.md"
+          tier: 8
+          focus: "Flux, Kling, fal.ai, ElevenLabs, Meshy"
+          status: "verified"
+        - path: "_bmad-output/planning-artifacts/research/technical-ui-gaps-research-2026-01-23.md"
+          tier: 8
+          focus: "Multi-tenant UI, Clerk Organizations, RLS"
+          status: "verified"
+
+        # Validation Reports (in /research)
+        - path: "_bmad-output/planning-artifacts/research/technical-security-sandboxing-research-VALIDATION-REPORT-2026-01-21.md"
+          type: "validation"
+          status: "complete"
+        - path: "_bmad-output/planning-artifacts/research/technical-self-hosted-deployment-research-VALIDATION-REPORT-2026-01-21.md"
+          type: "validation"
+          status: "complete"
+        - path: "_bmad-output/planning-artifacts/research/technical-sso-enterprise-auth-research-VALIDATION-REPORT-2026-01-21.md"
+          type: "validation"
+          status: "complete"
+
+    product_brief:
+      status: "required"
+      agent: "analyst"
+      command: "/bmad:bmm:workflows:create-product-brief"
+      note: "Pending - comprehensive research complete, ready to create"
+
+  # Phase 2: Planning - IN PROGRESS
+  phase_2_planning:
+    status: "in_progress"
+
+    prd:
+      status: "required"
+      agent: "pm"
+      command: "/bmad:bmm:workflows:prd"
+      output: "Product Requirements Document with FRs and NFRs"
+      note: "NEXT ACTION - research complete, architecture synthesized"
+
+    ux_design:
+      status: "conditional"
+      condition: "if_has_ui"
+      agent: "ux-designer"
+      command: "/bmad:bmm:workflows:create-ux-design"
+      note: "Required - platform has extensive UI (4 builders, dashboard, marketplace)"
+
+  # Phase 3: Solutioning - PARTIALLY COMPLETE
+  phase_3_solutioning:
+    status: "partially_complete"
+    note: "Architecture synthesis complete, pending formal architecture workflow"
+
+    architecture:
+      status: "complete"
+      agent: "architect"
+      command: "/bmad:bmm:workflows:create-architecture"
+      output: "_bmad-output/planning-artifacts/architecture-synthesis-2026-01-23.md"
+      version: "v1.5"
+      note: "Comprehensive synthesis with 19 Mermaid diagrams, validated"
+      validation_documents:
+        - "_bmad-output/planning-artifacts/architecture-gaps-research-2026-01-23.md"
+        - "_bmad-output/planning-artifacts/redundancy-validation-report-2026-01-23.md"
+        - "_bmad-output/planning-artifacts/unified-cost-service-architecture-2026-01-23.md"
+        - "_bmad-output/planning-artifacts/architecture-conflicts-validation-2026-01-23.md"
+        - "_bmad-output/planning-artifacts/comprehensive-validation-report-2026-01-23.md"
+
+    epics_and_stories:
+      status: "required"
+      agent: "pm"
+      command: "/bmad:bmm:workflows:create-epics-and-stories"
+      note: "Pending PRD completion"
+
+    test_design:
+      status: "optional"
+      agent: "tea"
+      command: "/bmad:bmm:workflows:testarch-test-design"
+      output: "System-level testability review"
+
+    implementation_readiness:
+      status: "required"
+      agent: "architect"
+      command: "/bmad:bmm:workflows:check-implementation-readiness"
+      note: "Gate check after PRD + Architecture + Epics"
+
+  # Phase 4: Implementation - NOT STARTED
+  phase_4_implementation:
+    status: "not_started"
+
+    sprint_planning:
+      status: "required"
+      agent: "sm"
+      command: "/bmad:bmm:workflows:sprint-planning"
+      note: "Creates sprint plan - subsequent work tracked in sprint-status.yaml"
+
+# Key Architectural Decisions (from research)
+architectural_decisions:
+  four_build_types:
+    - module: "Backend intelligence (BMB methodology)"
+    - chatbot: "Customer-facing text (Chatwoot-connected)"
+    - voice_agent: "Customer-facing voice (Twilio-connected)"
+    - canvas: "Visual content generation (images, videos)"
+
+  technology_stack:
+    frontend:
+      visual_builders: "ReactFlow + Zustand"
+      ui_components: "shadcn/ui + Radix"
+      realtime_collab: "Yjs + Y-Sweet"
+      chat_interface: "CopilotKit (A2UI)"
+    backend:
+      api_framework: "FastAPI (Python) / Next.js (Node)"
+      agent_framework: "Claude Agent SDK + Agno"
+      workflow_engine: "Custom DAG executor"
+      task_orchestration: "Temporal"
+    data:
+      primary_database: "Supabase (PostgreSQL + RLS)"
+      enterprise_isolation: "Neon (per-tenant)"
+      vector_database: "pgvector"
+      graph_database: "Graphiti"
+      cache: "Redis"
+    external:
+      auth_consumer: "Clerk"
+      auth_enterprise: "WorkOS"
+      payments: "Stripe + Connect"
+      observability: "Langfuse (self-hosted)"
+      telephony: "Twilio"
+      ai_gateway: "fal.ai"
+
+  hybrid_integration:
+    internal_workflow_calls: "Dify-style Workflow as Tool"
+    state_synchronization: "PostgreSQL LISTEN/NOTIFY"
+    event_fanout: "Redis Pub/Sub"
+    voice_realtime: "gRPC Bidirectional Streams"
+    llm_function_calling: "MCP (external only)"
+    external_webhooks: "REST API"
+
+# Session History
+session_log:
+  - session: 1
+    date: "2026-01-20"
+    work: "Initial research and party mode discussion"
+  - session: 2-6
+    date: "2026-01-21"
+    work: "Tier 2-5 research completion and validation"
+  - session: 7-10
+    date: "2026-01-22"
+    work: "Voice, Chatbot, Integration Layer research"
+  - session: 11-13
+    date: "2026-01-22"
+    work: "Canvas Builder and AI Providers research"
+  - session: 14
+    date: "2026-01-23"
+    work: "Architecture Synthesis creation (12+ diagrams)"
+  - session: 15
+    date: "2026-01-23"
+    work: "Hybrid Integration Architecture (Dify/n8n patterns)"
+  - session: 16
+    date: "2026-01-23"
+    work: "UI Gaps Research (multi-tenant, Clerk, RLS)"
+  - session: 17
+    date: "2026-01-23"
+    work: "Architecture Gaps Research (8 gaps resolved)"
+  - session: 18
+    date: "2026-01-23"
+    work: "Architecture Conflicts Validation"
+  - session: 19
+    date: "2026-01-23"
+    work: "Comprehensive Validation - READY FOR PRD"
