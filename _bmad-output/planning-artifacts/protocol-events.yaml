@@ -1,0 +1,439 @@
+# Hyyve Protocol Events Specification
+# AG-UI (Agent-to-User Interface) and A2A (Agent-to-Agent) Events
+
+version: "1.0.0"
+description: |
+  Event definitions for the Hyyve protocol stack.
+  - AG-UI: 25 event types for agent-to-UI communication via SSE
+  - A2A: Agent-to-Agent protocol events
+  - A2UI: Generative UI events
+
+# =============================================================================
+# AG-UI Protocol Events (Server-Sent Events)
+# =============================================================================
+agui:
+  transport: "SSE"
+  content_type: "text/event-stream"
+  
+  # Lifecycle Events
+  lifecycle:
+    RUN_STARTED:
+      description: "Agent run begins"
+      payload:
+        runId: { type: string, required: true }
+        agentId: { type: string, required: true }
+        timestamp: { type: string, format: date-time }
+      example:
+        type: "RUN_STARTED"
+        runId: "run_456"
+        agentId: "bond"
+        timestamp: "2026-01-26T12:00:00Z"
+    
+    RUN_FINISHED:
+      description: "Run completed successfully"
+      payload:
+        runId: { type: string, required: true }
+        timestamp: { type: string, format: date-time }
+        duration_ms: { type: integer }
+    
+    RUN_ERROR:
+      description: "Error during run"
+      payload:
+        runId: { type: string, required: true }
+        error:
+          code: { type: string }
+          message: { type: string }
+          details: { type: object }
+        timestamp: { type: string, format: date-time }
+    
+    STEP_STARTED:
+      description: "Step within run begins"
+      payload:
+        runId: { type: string, required: true }
+        stepId: { type: string, required: true }
+        stepName: { type: string }
+    
+    STEP_FINISHED:
+      description: "Step completed"
+      payload:
+        runId: { type: string, required: true }
+        stepId: { type: string, required: true }
+        result: { type: object }
+
+  # Text Message Events
+  text_message:
+    TEXT_MESSAGE_START:
+      description: "Start of streamed message"
+      payload:
+        messageId: { type: string, required: true }
+        role: { type: string, enum: [assistant, system] }
+      example:
+        type: "TEXT_MESSAGE_START"
+        messageId: "msg_789"
+        role: "assistant"
+    
+    TEXT_MESSAGE_CONTENT:
+      description: "Incremental content chunk"
+      payload:
+        messageId: { type: string, required: true }
+        delta: { type: string, required: true }
+      example:
+        type: "TEXT_MESSAGE_CONTENT"
+        messageId: "msg_789"
+        delta: "Hello from Bond!"
+    
+    TEXT_MESSAGE_END:
+      description: "End of message"
+      payload:
+        messageId: { type: string, required: true }
+    
+    TEXT_MESSAGE_CHUNK:
+      description: "Auto-converted to start/content/end sequence"
+      payload:
+        messageId: { type: string, required: true }
+        content: { type: string, required: true }
+
+  # Tool Call Events
+  tool_call:
+    TOOL_CALL_START:
+      description: "Tool call initiated"
+      payload:
+        toolCallId: { type: string, required: true }
+        toolName: { type: string, required: true }
+        messageId: { type: string }
+    
+    TOOL_CALL_ARGS:
+      description: "Tool arguments (may stream)"
+      payload:
+        toolCallId: { type: string, required: true }
+        args: { type: object }
+        argsDelta: { type: string }
+    
+    TOOL_CALL_END:
+      description: "Tool call completed"
+      payload:
+        toolCallId: { type: string, required: true }
+    
+    TOOL_CALL_RESULT:
+      description: "Tool execution result"
+      payload:
+        toolCallId: { type: string, required: true }
+        result: { type: any }
+        error: { type: string }
+
+  # State Management Events
+  state:
+    STATE_SNAPSHOT:
+      description: "Complete agent state"
+      payload:
+        state: { type: object, required: true }
+      example:
+        type: "STATE_SNAPSHOT"
+        state:
+          workflow:
+            nodes: []
+            edges: []
+          confidence: 0.87
+    
+    STATE_DELTA:
+      description: "Incremental state change (JSON Patch)"
+      payload:
+        delta:
+          type: array
+          items:
+            op: { type: string, enum: [add, remove, replace] }
+            path: { type: string }
+            value: { type: any }
+    
+    MESSAGES_SNAPSHOT:
+      description: "Full conversation history"
+      payload:
+        messages:
+          type: array
+          items:
+            role: { type: string }
+            content: { type: string }
+            timestamp: { type: string, format: date-time }
+
+  # Activity Events
+  activity:
+    ACTIVITY_SNAPSHOT:
+      description: "Activity state snapshot"
+      payload:
+        activities:
+          type: array
+          items:
+            id: { type: string }
+            type: { type: string }
+            status: { type: string, enum: [pending, running, completed, failed] }
+            progress: { type: number, minimum: 0, maximum: 100 }
+    
+    ACTIVITY_DELTA:
+      description: "Activity change"
+      payload:
+        activityId: { type: string, required: true }
+        status: { type: string }
+        progress: { type: number }
+
+  # Special Events
+  special:
+    RAW_EVENT:
+      description: "Raw payload passthrough"
+      payload:
+        data: { type: any }
+    
+    CUSTOM_EVENT:
+      description: "Application-specific events"
+      payload:
+        eventType: { type: string, required: true }
+        data: { type: object }
+
+  # Complete event type enum
+  event_types:
+    - RUN_STARTED
+    - RUN_FINISHED
+    - RUN_ERROR
+    - STEP_STARTED
+    - STEP_FINISHED
+    - TEXT_MESSAGE_START
+    - TEXT_MESSAGE_CONTENT
+    - TEXT_MESSAGE_END
+    - TEXT_MESSAGE_CHUNK
+    - TOOL_CALL_START
+    - TOOL_CALL_ARGS
+    - TOOL_CALL_END
+    - TOOL_CALL_RESULT
+    - STATE_SNAPSHOT
+    - STATE_DELTA
+    - MESSAGES_SNAPSHOT
+    - ACTIVITY_SNAPSHOT
+    - ACTIVITY_DELTA
+    - RAW_EVENT
+    - CUSTOM_EVENT
+
+# =============================================================================
+# A2A Protocol (Agent-to-Agent)
+# =============================================================================
+a2a:
+  protocol_version: "0.3.0"
+  transport: "HTTP/JSON-RPC"
+  
+  discovery:
+    endpoint: "/.well-known/agent-card.json"
+    agent_card:
+      protocolVersion: { type: string, required: true }
+      name: { type: string, required: true }
+      description: { type: string }
+      capabilities:
+        streaming: { type: boolean }
+        tools: { type: boolean }
+        memory: { type: boolean }
+      skills:
+        type: array
+        items:
+          id: { type: string }
+          name: { type: string }
+          description: { type: string }
+      endpoints:
+        send: { type: string }
+        stream: { type: string }
+    
+    example:
+      protocolVersion: "0.3.0"
+      name: "Bond"
+      description: "Module Builder specialist"
+      capabilities:
+        streaming: true
+        tools: true
+        memory: true
+      skills:
+        - id: "createWorkflow"
+          name: "Create Workflow"
+        - id: "addNode"
+          name: "Add Node"
+        - id: "validateDAG"
+          name: "Validate DAG"
+      endpoints:
+        send: "/a2a/agents/bond/v1/message:send"
+        stream: "/a2a/agents/bond/v1/message:stream"
+
+  messages:
+    send:
+      endpoint: "/a2a/agents/{agent_id}/v1/message:send"
+      method: "POST"
+      request:
+        from: { type: string, required: true }
+        to: { type: string, required: true }
+        message: { type: string, required: true }
+        context: { type: object }
+        metadata: { type: object }
+      response:
+        messageId: { type: string }
+        response: { type: string }
+        artifacts: { type: object }
+    
+    stream:
+      endpoint: "/a2a/agents/{agent_id}/v1/message:stream"
+      method: "POST"
+      request:
+        from: { type: string, required: true }
+        to: { type: string, required: true }
+        message: { type: string, required: true }
+        context: { type: object }
+      response:
+        description: "Returns AG-UI SSE event stream"
+        content_type: "text/event-stream"
+
+  teams:
+    discovery:
+      endpoint: "/a2a/teams/{team_id}/.well-known/agent-card.json"
+    send:
+      endpoint: "/a2a/teams/{team_id}/v1/message:send"
+    stream:
+      endpoint: "/a2a/teams/{team_id}/v1/message:stream"
+
+# =============================================================================
+# A2UI Protocol (Generative UI)
+# =============================================================================
+a2ui:
+  description: "Google's declarative, LLM-friendly specification for generative UI"
+  transport: "JSONL"
+  content_type: "application/x-ndjson"
+  
+  message_types:
+    BEGIN_RENDERING:
+      description: "Initiate rendering for surface with root component"
+      payload:
+        type: { const: "beginRendering" }
+        surface: { type: string, required: true }
+        root:
+          component: { type: string }
+          props: { type: object }
+      example:
+        type: "beginRendering"
+        surface: "main"
+        root:
+          component: "Card"
+          props:
+            title: "Results"
+    
+    SURFACE_UPDATE:
+      description: "Update components on surface"
+      payload:
+        type: { const: "surfaceUpdate" }
+        surface: { type: string, required: true }
+        components:
+          type: array
+          items:
+            id: { type: string }
+            component: { type: string }
+            props: { type: object }
+      example:
+        type: "surfaceUpdate"
+        surface: "main"
+        components:
+          - id: "btn1"
+            component: "Button"
+            props:
+              label: "Continue"
+    
+    DATA_MODEL_UPDATE:
+      description: "Update data model for dynamic content"
+      payload:
+        type: { const: "dataModelUpdate" }
+        surface: { type: string, required: true }
+        data: { type: object }
+
+  user_events:
+    A2UI_ACTION:
+      description: "User interacted with A2UI component"
+      payload:
+        surface: { type: string }
+        componentId: { type: string }
+        action: { type: string }
+        value: { type: any }
+
+  components:
+    builtin:
+      - Card
+      - Button
+      - Form
+      - Input
+      - Select
+      - Table
+      - List
+      - Image
+      - Text
+      - Container
+      - Tabs
+      - Modal
+      - Alert
+      - Progress
+      - Spinner
+
+# =============================================================================
+# DCRL Events (Detect-Clarify-Resolve-Learn)
+# =============================================================================
+dcrl:
+  description: "Confidence-based routing events for conversational building"
+  
+  states:
+    - DETECT
+    - CLARIFY
+    - RESOLVE
+    - LEARN
+  
+  confidence_thresholds:
+    high:
+      min: 0.85
+      action: "Execute immediately"
+    medium:
+      min: 0.60
+      max: 0.85
+      action: "Execute with confirmation"
+    low:
+      max: 0.60
+      action: "Request clarification"
+  
+  events:
+    INTENT_DETECTED:
+      description: "User intent analyzed"
+      payload:
+        sessionId: { type: string }
+        intent: { type: string }
+        confidence: { type: number }
+        alternatives:
+          type: array
+          items:
+            intent: { type: string }
+            confidence: { type: number }
+    
+    CLARIFICATION_NEEDED:
+      description: "Confidence below threshold, need user input"
+      payload:
+        sessionId: { type: string }
+        question: { type: string }
+        options: { type: array, items: { type: string } }
+        originalIntent: { type: string }
+        confidence: { type: number }
+    
+    CLARIFICATION_RECEIVED:
+      description: "User provided clarification"
+      payload:
+        sessionId: { type: string }
+        selectedOption: { type: string }
+        freeformInput: { type: string }
+    
+    ACTION_RESOLVED:
+      description: "Action executed successfully"
+      payload:
+        sessionId: { type: string }
+        action: { type: string }
+        result: { type: object }
+    
+    LEARNING_RECORDED:
+      description: "Feedback recorded for model improvement"
+      payload:
+        sessionId: { type: string }
+        feedback: { type: string, enum: [positive, negative, neutral] }
+        correction: { type: object }

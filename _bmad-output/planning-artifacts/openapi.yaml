@@ -1,0 +1,1950 @@
+openapi: 3.1.0
+info:
+  title: Hyyve Platform API
+  version: 2.0.0
+  description: |
+    Hyyve Platform API combining AgentOS runtime endpoints and Hyyve custom routes.
+    
+    ## Architecture
+    - **AgentOS** (Agno): Core agent runtime with 50+ endpoints
+    - **Hyyve Custom**: Platform-specific routes under `/api/v1`
+    
+    ## Authentication
+    - Bearer token (JWT) for most endpoints
+    - API keys for programmatic access
+    - SSO (SAML/OIDC) for enterprise
+  contact:
+    name: Hyyve Platform
+    url: https://hyyve.io
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://api.hyyve.io
+    description: Production
+  - url: https://staging-api.hyyve.io
+    description: Staging
+  - url: http://localhost:8000
+    description: Local Development
+
+tags:
+  - name: AgentOS - Core
+    description: AgentOS runtime core endpoints
+  - name: AgentOS - Agents
+    description: Agent execution and management
+  - name: AgentOS - Sessions
+    description: Session management
+  - name: AgentOS - Memory
+    description: User/agent memory system
+  - name: AgentOS - Knowledge
+    description: Knowledge base / RAG
+  - name: AgentOS - A2A
+    description: Agent-to-Agent protocol
+  - name: AgentOS - AG-UI
+    description: Agent-to-UI protocol
+  - name: Hyyve - Auth
+    description: Authentication and identity
+  - name: Hyyve - Workspaces
+    description: Workspace and project management
+  - name: Hyyve - Module Builder
+    description: Workflow building endpoints
+  - name: Hyyve - Chatbot Builder
+    description: Chatbot building endpoints
+  - name: Hyyve - Voice Builder
+    description: Voice agent endpoints
+  - name: Hyyve - Canvas Builder
+    description: Media generation canvas
+  - name: Hyyve - Knowledge Base
+    description: RAG configuration
+  - name: Hyyve - MCP Marketplace
+    description: MCP server marketplace
+  - name: Hyyve - Skills Marketplace
+    description: Skills marketplace
+  - name: Hyyve - DCRL
+    description: Detect-Clarify-Resolve-Learn pattern
+  - name: Hyyve - Checkpoints
+    description: Undo/redo service
+  - name: Hyyve - Billing
+    description: Billing and usage
+  - name: Hyyve - Collaboration
+    description: Real-time collaboration
+  - name: Hyyve - Enterprise
+    description: Enterprise admin features
+
+paths:
+  # ============= AgentOS Core =============
+  /health:
+    get:
+      tags: [AgentOS - Core]
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /config:
+    get:
+      tags: [AgentOS - Core]
+      summary: Get AgentOS configuration
+      operationId: getConfig
+      responses:
+        '200':
+          description: Configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentOSConfig'
+
+  /models:
+    get:
+      tags: [AgentOS - Core]
+      summary: List available LLM models
+      operationId: getModels
+      responses:
+        '200':
+          description: List of models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModelInfo'
+
+  # ============= AgentOS Agents =============
+  /agents:
+    get:
+      tags: [AgentOS - Agents]
+      summary: List all agents
+      operationId: listAgents
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agent'
+
+  /agents/{agent_id}:
+    get:
+      tags: [AgentOS - Agents]
+      summary: Get agent configuration
+      operationId: getAgent
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [bond, wendy, morgan, artie]
+      responses:
+        '200':
+          description: Agent details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+
+  /agents/{agent_id}/runs:
+    post:
+      tags: [AgentOS - Agents]
+      summary: Execute agent (SSE streaming)
+      operationId: executeAgent
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRunRequest'
+      responses:
+        '200':
+          description: SSE stream of AG-UI events
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/AGUIEventStream'
+
+  /agents/{agent_id}/runs/{run_id}/cancel:
+    post:
+      tags: [AgentOS - Agents]
+      summary: Cancel running agent
+      operationId: cancelAgentRun
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: run_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Run cancelled
+
+  # ============= AgentOS Sessions =============
+  /sessions:
+    get:
+      tags: [AgentOS - Sessions]
+      summary: List sessions
+      operationId: listSessions
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Paginated sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSessions'
+    post:
+      tags: [AgentOS - Sessions]
+      summary: Create session
+      operationId: createSession
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+      responses:
+        '201':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+
+  /sessions/{session_id}:
+    get:
+      tags: [AgentOS - Sessions]
+      summary: Get session
+      operationId: getSession
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+    patch:
+      tags: [AgentOS - Sessions]
+      summary: Update session
+      operationId: updateSession
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSessionRequest'
+      responses:
+        '200':
+          description: Session updated
+    delete:
+      tags: [AgentOS - Sessions]
+      summary: Delete session
+      operationId: deleteSession
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Session deleted
+
+  # ============= AgentOS Memory =============
+  /memories:
+    get:
+      tags: [AgentOS - Memory]
+      summary: List memories
+      operationId: listMemories
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+        - name: agent_id
+          in: query
+          schema:
+            type: string
+        - name: topics
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: List of memories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserMemory'
+    post:
+      tags: [AgentOS - Memory]
+      summary: Create memory
+      operationId: createMemory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMemoryRequest'
+      responses:
+        '201':
+          description: Memory created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserMemory'
+
+  /memories/{memory_id}:
+    get:
+      tags: [AgentOS - Memory]
+      summary: Get memory
+      operationId: getMemory
+      parameters:
+        - name: memory_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Memory details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserMemory'
+    patch:
+      tags: [AgentOS - Memory]
+      summary: Update memory
+      operationId: updateMemory
+      parameters:
+        - name: memory_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMemoryRequest'
+      responses:
+        '200':
+          description: Memory updated
+    delete:
+      tags: [AgentOS - Memory]
+      summary: Delete memory
+      operationId: deleteMemory
+      parameters:
+        - name: memory_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Memory deleted
+
+  # ============= AgentOS A2A =============
+  /a2a/agents/{id}/.well-known/agent-card.json:
+    get:
+      tags: [AgentOS - A2A]
+      summary: Get agent discovery card
+      operationId: getAgentCard
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Agent card for A2A discovery
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentCard'
+
+  /a2a/agents/{id}/v1/message:send:
+    post:
+      tags: [AgentOS - A2A]
+      summary: Send message to agent (non-streaming)
+      operationId: sendA2AMessage
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/A2AMessageRequest'
+      responses:
+        '200':
+          description: Agent response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/A2AMessageResponse'
+
+  /a2a/agents/{id}/v1/message:stream:
+    post:
+      tags: [AgentOS - A2A]
+      summary: Stream message to agent
+      operationId: streamA2AMessage
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/A2AMessageRequest'
+      responses:
+        '200':
+          description: SSE stream of AG-UI events
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/AGUIEventStream'
+
+  # ============= AgentOS AG-UI =============
+  /agui:
+    post:
+      tags: [AgentOS - AG-UI]
+      summary: Execute via AG-UI interface
+      operationId: executeAGUI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AGUIRequest'
+      responses:
+        '200':
+          description: SSE stream
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/AGUIEventStream'
+
+  /agui/status:
+    get:
+      tags: [AgentOS - AG-UI]
+      summary: AG-UI interface status
+      operationId: getAGUIStatus
+      responses:
+        '200':
+          description: Status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  version:
+                    type: string
+
+  # ============= Hyyve Auth =============
+  /api/v1/auth/register:
+    post:
+      tags: [Hyyve - Auth]
+      summary: Register new account
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+  /api/v1/auth/login:
+    post:
+      tags: [Hyyve - Auth]
+      summary: Login
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+  /api/v1/auth/me:
+    get:
+      tags: [Hyyve - Auth]
+      summary: Get current user
+      operationId: getCurrentUser
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  # ============= Hyyve Workspaces =============
+  /api/v1/workspaces:
+    get:
+      tags: [Hyyve - Workspaces]
+      summary: List workspaces
+      operationId: listWorkspaces
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of workspaces
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workspace'
+    post:
+      tags: [Hyyve - Workspaces]
+      summary: Create workspace
+      operationId: createWorkspace
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkspaceRequest'
+      responses:
+        '201':
+          description: Workspace created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+
+  /api/v1/workspaces/{id}:
+    get:
+      tags: [Hyyve - Workspaces]
+      summary: Get workspace
+      operationId: getWorkspace
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workspace details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+    put:
+      tags: [Hyyve - Workspaces]
+      summary: Update workspace
+      operationId: updateWorkspace
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkspaceRequest'
+      responses:
+        '200':
+          description: Workspace updated
+    delete:
+      tags: [Hyyve - Workspaces]
+      summary: Delete workspace
+      operationId: deleteWorkspace
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Workspace deleted
+
+  # ============= Hyyve Projects =============
+  /api/v1/workspaces/{wsId}/projects:
+    get:
+      tags: [Hyyve - Workspaces]
+      summary: List projects in workspace
+      operationId: listProjects
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: wsId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+    post:
+      tags: [Hyyve - Workspaces]
+      summary: Create project
+      operationId: createProject
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: wsId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+
+  /api/v1/projects/{id}:
+    get:
+      tags: [Hyyve - Workspaces]
+      summary: Get project
+      operationId: getProject
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+
+  # ============= Hyyve Module Builder =============
+  /api/v1/projects/{id}/workflows:
+    get:
+      tags: [Hyyve - Module Builder]
+      summary: List workflows
+      operationId: listWorkflows
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of workflows
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workflow'
+    post:
+      tags: [Hyyve - Module Builder]
+      summary: Create workflow
+      operationId: createWorkflow
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkflowRequest'
+      responses:
+        '201':
+          description: Workflow created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+
+  /api/v1/workflows/{id}:
+    get:
+      tags: [Hyyve - Module Builder]
+      summary: Get workflow
+      operationId: getWorkflow
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workflow details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+    put:
+      tags: [Hyyve - Module Builder]
+      summary: Update workflow
+      operationId: updateWorkflow
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkflowRequest'
+      responses:
+        '200':
+          description: Workflow updated
+    delete:
+      tags: [Hyyve - Module Builder]
+      summary: Delete workflow
+      operationId: deleteWorkflow
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Workflow deleted
+
+  /api/v1/workflows/{id}/nodes:
+    get:
+      tags: [Hyyve - Module Builder]
+      summary: List workflow nodes
+      operationId: listNodes
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of nodes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkflowNode'
+    post:
+      tags: [Hyyve - Module Builder]
+      summary: Add node to workflow
+      operationId: addNode
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNodeRequest'
+      responses:
+        '201':
+          description: Node added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowNode'
+
+  /api/v1/workflows/{id}/execute:
+    post:
+      tags: [Hyyve - Module Builder]
+      summary: Execute workflow
+      operationId: executeWorkflow
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteWorkflowRequest'
+      responses:
+        '200':
+          description: Execution started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowExecution'
+
+  # ============= Hyyve DCRL =============
+  /api/v1/dcrl/state/{sessionId}:
+    get:
+      tags: [Hyyve - DCRL]
+      summary: Get DCRL state for session
+      operationId: getDCRLState
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: DCRL state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DCRLState'
+
+  /api/v1/dcrl/detect:
+    post:
+      tags: [Hyyve - DCRL]
+      summary: Analyze user intent
+      operationId: detectIntent
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DCRLDetectRequest'
+      responses:
+        '200':
+          description: Intent detection result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DCRLDetectResponse'
+
+  /api/v1/dcrl/clarify:
+    post:
+      tags: [Hyyve - DCRL]
+      summary: Submit clarification question
+      operationId: submitClarification
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DCRLClarifyRequest'
+      responses:
+        '200':
+          description: Clarification submitted
+
+  /api/v1/dcrl/resolve:
+    post:
+      tags: [Hyyve - DCRL]
+      summary: Execute resolved action
+      operationId: resolveAction
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DCRLResolveRequest'
+      responses:
+        '200':
+          description: Action executed
+
+  /api/v1/dcrl/learn:
+    post:
+      tags: [Hyyve - DCRL]
+      summary: Record learning feedback
+      operationId: recordLearning
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DCRLLearnRequest'
+      responses:
+        '200':
+          description: Feedback recorded
+
+  # ============= Hyyve Checkpoints =============
+  /api/v1/workflows/{id}/checkpoints:
+    get:
+      tags: [Hyyve - Checkpoints]
+      summary: List workflow checkpoints
+      operationId: listCheckpoints
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of checkpoints
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkflowCheckpoint'
+    post:
+      tags: [Hyyve - Checkpoints]
+      summary: Create checkpoint
+      operationId: createCheckpoint
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCheckpointRequest'
+      responses:
+        '201':
+          description: Checkpoint created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowCheckpoint'
+
+  /api/v1/checkpoints/{checkpointId}:
+    get:
+      tags: [Hyyve - Checkpoints]
+      summary: Get checkpoint
+      operationId: getCheckpoint
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: checkpointId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Checkpoint details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowCheckpoint'
+    delete:
+      tags: [Hyyve - Checkpoints]
+      summary: Delete checkpoint
+      operationId: deleteCheckpoint
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: checkpointId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Checkpoint deleted
+
+  /api/v1/checkpoints/{checkpointId}/rewind:
+    post:
+      tags: [Hyyve - Checkpoints]
+      summary: Rewind to checkpoint
+      operationId: rewindToCheckpoint
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: checkpointId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Rewind successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RewindResponse'
+
+  # ============= Hyyve MCP Registry =============
+  /api/v1/mcp/servers:
+    get:
+      tags: [Hyyve - MCP Marketplace]
+      summary: Browse MCP servers
+      operationId: browseMCPServers
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: List of MCP servers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMCPServers'
+
+  /api/v1/mcp/servers/{id}:
+    get:
+      tags: [Hyyve - MCP Marketplace]
+      summary: Get MCP server details
+      operationId: getMCPServer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: MCP server details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MCPServer'
+
+  /api/v1/mcp/registry/sync:
+    get:
+      tags: [Hyyve - MCP Marketplace]
+      summary: Trigger registry sync
+      operationId: syncMCPRegistry
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Sync started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncStatus'
+
+  /api/v1/mcp/registry/sources:
+    get:
+      tags: [Hyyve - MCP Marketplace]
+      summary: List registry sources
+      operationId: listRegistrySources
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of registry sources
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegistrySource'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    LimitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 20
+        maximum: 100
+
+  schemas:
+    # ============= Common =============
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        timestamp:
+          type: string
+          format: date-time
+
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        perPage:
+          type: integer
+        totalPages:
+          type: integer
+
+    # ============= AgentOS =============
+    AgentOSConfig:
+      type: object
+      properties:
+        version:
+          type: string
+        agents:
+          type: array
+          items:
+            type: string
+        teams:
+          type: array
+          items:
+            type: string
+
+    ModelInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        provider:
+          type: string
+
+    Agent:
+      type: object
+      properties:
+        agent_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        capabilities:
+          type: object
+          properties:
+            streaming:
+              type: boolean
+            tools:
+              type: boolean
+            memory:
+              type: boolean
+
+    AgentRunRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+        session_id:
+          type: string
+        context:
+          type: object
+
+    AGUIEventStream:
+      type: string
+      description: Server-Sent Events stream with AG-UI events
+
+    AGUIRequest:
+      type: object
+      properties:
+        threadId:
+          type: string
+        runId:
+          type: string
+        messages:
+          type: array
+          items:
+            type: object
+        state:
+          type: object
+        tools:
+          type: array
+          items:
+            type: object
+        context:
+          type: object
+
+    # ============= Sessions =============
+    Session:
+      type: object
+      properties:
+        session_id:
+          type: string
+        user_id:
+          type: string
+        agent_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CreateSessionRequest:
+      type: object
+      properties:
+        agent_id:
+          type: string
+        metadata:
+          type: object
+
+    UpdateSessionRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        metadata:
+          type: object
+
+    PaginatedSessions:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Session'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    # ============= Memory =============
+    UserMemory:
+      type: object
+      properties:
+        memory_id:
+          type: string
+        memory:
+          type: string
+        input:
+          type: string
+        user_id:
+          type: string
+        agent_id:
+          type: string
+        team_id:
+          type: string
+        topics:
+          type: array
+          items:
+            type: string
+        feedback:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CreateMemoryRequest:
+      type: object
+      required:
+        - memory
+      properties:
+        memory:
+          type: string
+        user_id:
+          type: string
+        agent_id:
+          type: string
+        topics:
+          type: array
+          items:
+            type: string
+
+    UpdateMemoryRequest:
+      type: object
+      properties:
+        memory:
+          type: string
+        topics:
+          type: array
+          items:
+            type: string
+        feedback:
+          type: string
+
+    # ============= A2A =============
+    AgentCard:
+      type: object
+      properties:
+        protocolVersion:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        capabilities:
+          type: object
+          properties:
+            streaming:
+              type: boolean
+            tools:
+              type: boolean
+            memory:
+              type: boolean
+        skills:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+        endpoints:
+          type: object
+          properties:
+            send:
+              type: string
+            stream:
+              type: string
+
+    A2AMessageRequest:
+      type: object
+      required:
+        - from
+        - to
+        - message
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        message:
+          type: string
+        context:
+          type: object
+
+    A2AMessageResponse:
+      type: object
+      properties:
+        messageId:
+          type: string
+        response:
+          type: string
+        artifacts:
+          type: object
+
+    # ============= Auth =============
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        name:
+          type: string
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        avatar:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    # ============= Workspaces =============
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        ownerId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateWorkspaceRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+
+    UpdateWorkspaceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        workspaceId:
+          type: string
+        folderId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateProjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        folderId:
+          type: string
+
+    # ============= Workflows =============
+    Workflow:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        projectId:
+          type: string
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowNode'
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowEdge'
+        variables:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateWorkflowRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+
+    UpdateWorkflowRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowNode'
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowEdge'
+
+    WorkflowNode:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [llm, rag, conditional, api, code, trigger, input, output]
+        position:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+        data:
+          type: object
+        config:
+          type: object
+
+    CreateNodeRequest:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        position:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+        data:
+          type: object
+
+    WorkflowEdge:
+      type: object
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+        target:
+          type: string
+        sourceHandle:
+          type: string
+        targetHandle:
+          type: string
+
+    ExecuteWorkflowRequest:
+      type: object
+      properties:
+        inputs:
+          type: object
+        options:
+          type: object
+          properties:
+            debug:
+              type: boolean
+
+    WorkflowExecution:
+      type: object
+      properties:
+        executionId:
+          type: string
+        workflowId:
+          type: string
+        status:
+          type: string
+          enum: [pending, running, paused, completed, failed, cancelled]
+        startedAt:
+          type: string
+          format: date-time
+
+    # ============= DCRL =============
+    DCRLState:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        state:
+          type: string
+          enum: [DETECT, CLARIFY, RESOLVE, LEARN]
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        intent:
+          type: object
+          properties:
+            detected:
+              type: string
+            alternatives:
+              type: array
+              items:
+                type: object
+                properties:
+                  intent:
+                    type: string
+                  confidence:
+                    type: number
+        clarification:
+          type: object
+          properties:
+            question:
+              type: string
+            options:
+              type: array
+              items:
+                type: string
+            required:
+              type: boolean
+        action:
+          type: object
+          properties:
+            type:
+              type: string
+            parameters:
+              type: object
+
+    DCRLDetectRequest:
+      type: object
+      required:
+        - sessionId
+        - message
+      properties:
+        sessionId:
+          type: string
+        message:
+          type: string
+        context:
+          type: object
+
+    DCRLDetectResponse:
+      type: object
+      properties:
+        intent:
+          type: string
+        confidence:
+          type: number
+        requiresClarification:
+          type: boolean
+        clarificationQuestion:
+          type: string
+
+    DCRLClarifyRequest:
+      type: object
+      required:
+        - sessionId
+        - question
+      properties:
+        sessionId:
+          type: string
+        question:
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+
+    DCRLResolveRequest:
+      type: object
+      required:
+        - sessionId
+        - action
+      properties:
+        sessionId:
+          type: string
+        action:
+          type: object
+          properties:
+            type:
+              type: string
+            parameters:
+              type: object
+
+    DCRLLearnRequest:
+      type: object
+      required:
+        - sessionId
+      properties:
+        sessionId:
+          type: string
+        feedback:
+          type: string
+          enum: [positive, negative, neutral]
+        correction:
+          type: object
+
+    # ============= Checkpoints =============
+    WorkflowCheckpoint:
+      type: object
+      properties:
+        id:
+          type: string
+        workflowId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        conversationTurnId:
+          type: string
+        graphState:
+          type: object
+          properties:
+            nodes:
+              type: array
+              items:
+                $ref: '#/components/schemas/WorkflowNode'
+            edges:
+              type: array
+              items:
+                $ref: '#/components/schemas/WorkflowEdge'
+            variables:
+              type: object
+        description:
+          type: string
+        metadata:
+          type: object
+          properties:
+            agentId:
+              type: string
+            action:
+              type: string
+            userMessage:
+              type: string
+
+    CreateCheckpointRequest:
+      type: object
+      properties:
+        description:
+          type: string
+        conversationTurnId:
+          type: string
+
+    RewindResponse:
+      type: object
+      properties:
+        graph:
+          type: object
+          properties:
+            nodes:
+              type: array
+              items:
+                $ref: '#/components/schemas/WorkflowNode'
+            edges:
+              type: array
+              items:
+                $ref: '#/components/schemas/WorkflowEdge'
+            variables:
+              type: object
+        trimmedHistory:
+          type: array
+          items:
+            type: string
+        restoredToTurn:
+          type: string
+
+    # ============= MCP =============
+    MCPServer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        source:
+          type: string
+          enum: [MCP_OFFICIAL, SMITHERY, HYYVE]
+        version:
+          type: string
+        description:
+          type: string
+        author:
+          type: string
+        license:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        tools:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+        installCount:
+          type: integer
+        rating:
+          type: number
+        pricing:
+          type: object
+          properties:
+            model:
+              type: string
+              enum: [free, paid, freemium]
+            price:
+              type: number
+
+    PaginatedMCPServers:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MCPServer'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    RegistrySource:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [MCP_OFFICIAL, SMITHERY, CUSTOM]
+        baseUrl:
+          type: string
+        apiVersion:
+          type: string
+        enabled:
+          type: boolean
+        syncInterval:
+          type: string
+        lastSync:
+          type: string
+          format: date-time
+        priority:
+          type: integer
+
+    SyncStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [idle, syncing, completed, failed]
+        lastSync:
+          type: string
+          format: date-time
+        nextSync:
+          type: string
+          format: date-time
+        serverCount:
+          type: integer
+
+security:
+  - bearerAuth: []
