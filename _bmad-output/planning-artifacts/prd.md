@@ -1428,344 +1428,344 @@ After each epic:
 | T9-REC | technical-conversation-recording-research-2026-01-25.md |
 
 ### 1. Account & Identity Management (7 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR1 | Users can create account via email/password or social providers | T5-SSO, T1-SAAS | 1.1.1, 1.1.2 |
-| FR2 | Users can enable multi-factor authentication | T5-SSO §4 | 1.1.5, 1.1.6, 1.1.7, 1.10.2 |
-| FR3 | Enterprise users can authenticate via SAML SSO or OIDC | T5-SSO §1-2 | 1.1.1, 4.4.1 |
-| FR4 | Enterprise admins can provision/deprovision users via SCIM | T5-SSO §3 | 4.4.2, 4.8.1 |
-| FR5 | Users can manage API keys with custom scopes and expiration | T8-UI §5 | 1.10.3, 6.1.1 |
-| FR6 | Users can rotate API keys without service interruption | T8-UI §5 | 1.10.3 |
-| FR7 | System can enforce IP allowlisting for enterprise | T5-SSO §9 | 1.10.3, 4.8.4 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR1 | Users can create account via email/password or social providers | T5-SSO, T1-SAAS | 1.1.1, 1.1.2 | `/auth/register`, `/auth/login`, `/auth/logout`, `/auth/refresh`, `/auth/me` | — |
+| FR2 | Users can enable multi-factor authentication | T5-SSO §4 | 1.1.5, 1.1.6, 1.1.7, 1.10.2 | `/auth/mfa/setup`, `/auth/mfa/verify`, `/auth/mfa/backup-codes` | — |
+| FR3 | Enterprise users can authenticate via SAML SSO or OIDC | T5-SSO §1-2 | 1.1.1, 4.4.1 | `/auth/sso/saml`, `/auth/sso/oidc` | — |
+| FR4 | Enterprise admins can provision/deprovision users via SCIM | T5-SSO §3 | 4.4.2, 4.8.1 | `/scim/v2/Users`, `/scim/v2/Groups` | — |
+| FR5 | Users can manage API keys with custom scopes and expiration | T8-UI §5 | 1.10.3, 6.1.1 | `/api-keys` (GET, POST, DELETE) | — |
+| FR6 | Users can rotate API keys without service interruption | T8-UI §5 | 1.10.3 | `/api-keys/{id}/rotate` | — |
+| FR7 | System can enforce IP allowlisting for enterprise | T5-SSO §9 | 1.10.3, 4.8.4 | `/admin/security/ip-allowlist` | — |
 
 ### 2. Workspace & Project Management (9 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR8 | Users can create workspaces to organize work | T1-SAAS §9 | 1.5.1, 1.10.4 |
-| FR9 | Users can create multiple projects within workspace | T1-SAAS §9 | 1.5.2 |
-| FR10 | Workspace owners can invite members with role-based permissions | T8-UI §1 | 1.10.4, 4.4.2, 5.1.2 |
-| FR11 | Users can switch between workspaces without logging out | T5-SSO §8 | 1.5.2, 2.13.1 |
-| FR12 | Projects can be organized into folders or categories | T8-GAPS §1 | 1.5.2 |
-| FR13 | Users can duplicate projects as templates | T1-VWB §8 | 1.5.2, 2.12.1 |
-| FR14 | Users can archive and restore projects | T4-VER §5 | 1.5.2 |
-| FR15 | System enforces tenant isolation via Row-Level Security | T1-SAAS §3-6 | 2.13.2, 4.7.1 |
-| FR16 | Enterprise tenants can have dedicated database isolation | T1-SAAS §4 | 2.13.2, 4.8.3 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR8 | Users can create workspaces to organize work | T1-SAAS §9 | 1.5.1, 1.10.4 | `/workspaces` (GET, POST, PUT, DELETE) | — |
+| FR9 | Users can create multiple projects within workspace | T1-SAAS §9 | 1.5.2 | `/workspaces/{wsId}/projects` | — |
+| FR10 | Workspace owners can invite members with role-based permissions | T8-UI §1 | 1.10.4, 4.4.2, 5.1.2 | `/workspaces/{id}/members` | — |
+| FR11 | Users can switch between workspaces without logging out | T5-SSO §8 | 1.5.2, 2.13.1 | `/workspaces` (frontend state) | — |
+| FR12 | Projects can be organized into folders or categories | T8-GAPS §1 | 1.5.2 | `/workspaces/{wsId}/folders` | — |
+| FR13 | Users can duplicate projects as templates | T1-VWB §8 | 1.5.2, 2.12.1 | `/projects/{id}/duplicate` | — |
+| FR14 | Users can archive and restore projects | T4-VER §5 | 1.5.2 | `/projects/{id}/archive`, `/projects/{id}/restore` | — |
+| FR15 | System enforces tenant isolation via Row-Level Security | T1-SAAS §3-6 | 2.13.2, 4.7.1 | (DB-level RLS) | — |
+| FR16 | Enterprise tenants can have dedicated database isolation | T1-SAAS §4 | 2.13.2, 4.8.3 | (Neon provisioning) | — |
 
 ### 3. Module Builder (15 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR17 | Users can create visual workflows using node-based editor | T1-VWB §2-5 | 1.2.1 |
-| FR18 | Users can add Prompt nodes with variable interpolation | T1-VWB §6 | 1.2.2, 1.2.2a |
-| FR19 | Users can add Sub-Agent nodes with system prompts, tools, model | T1-CLAUDE §2-4 | 1.2.2a |
-| FR20 | Users can add MCP Tool nodes to call installed MCP servers | T5-MCP | 2.1.4, 2.1.5, 2.1.6 |
-| FR21 | Users can add Skill nodes to execute installed Skills | T5-MCP §5 | 3.1.3, 3.1.4, 1.2.2 |
-| FR22 | Users can add Control Flow nodes (If/Else, Switch, Loop) | T1-VWB §6 | 1.2.2c |
-| FR23 | Users can add AskUserQuestion nodes for HITL | T1-CLAUDE §3 | 1.2.2, 2.4.1, 2.4.2 |
-| FR24 | Users can connect nodes with validated type-checking | T1-VWB §5 | 1.2.1 |
-| FR25 | Users can define variables in namespace-isolated Variable Pool | T1-VWB §7 | 1.2.2, 1.2.2d |
-| FR26 | System provides undo/redo history for workflow editing | T1-VWB §2 | 1.2.1 |
-| FR27 | Users can save and load workflow configurations as JSON | T1-VWB §8 | 1.2.4, 1.2.6 |
-| FR28 | Users can zoom, pan, and use minimap for navigation | T1-VWB §5 | 1.2.1 |
-| FR29 | Users can group nodes into reusable sub-workflows | T1-VWB §6 | 1.2.1, 2.12.1 |
-| FR30 | Users can add comment annotations to nodes | T1-VWB §8 | 1.2.1 |
-| FR31 | System validates workflows before execution (DAG check) | T7-CANVAS §8.1 | 1.2.1, 1.2.3, 1.2.5 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR17 | Users can create visual workflows using node-based editor | T1-VWB §2-5 | 1.2.1 | `/projects/{id}/workflows`, `/workflows/{id}` | AG-UI: `STATE_SNAPSHOT` |
+| FR18 | Users can add Prompt nodes with variable interpolation | T1-VWB §6 | 1.2.2, 1.2.2a | `/workflows/{id}/nodes` (POST) | AG-UI: `STATE_DELTA` |
+| FR19 | Users can add Sub-Agent nodes with system prompts, tools, model | T1-CLAUDE §2-4 | 1.2.2a | `/workflows/{id}/nodes` (POST) | AG-UI: `STATE_DELTA` |
+| FR20 | Users can add MCP Tool nodes to call installed MCP servers | T5-MCP | 2.1.4, 2.1.5, 2.1.6 | `/workflows/{id}/nodes` (POST) | AG-UI: `TOOL_CALL_*` |
+| FR21 | Users can add Skill nodes to execute installed Skills | T5-MCP §5 | 3.1.3, 3.1.4, 1.2.2 | `/workflows/{id}/nodes` (POST) | AG-UI: `TOOL_CALL_*` |
+| FR22 | Users can add Control Flow nodes (If/Else, Switch, Loop) | T1-VWB §6 | 1.2.2c | `/workflows/{id}/nodes` (POST) | AG-UI: `STATE_DELTA` |
+| FR23 | Users can add AskUserQuestion nodes for HITL | T1-CLAUDE §3 | 1.2.2, 2.4.1, 2.4.2 | `/workflows/{id}/nodes` (POST), `/hitl/*` | AG-UI: `CUSTOM_EVENT` (HITL) |
+| FR24 | Users can connect nodes with validated type-checking | T1-VWB §5 | 1.2.1 | `/workflows/{id}/connections` | AG-UI: `STATE_DELTA` |
+| FR25 | Users can define variables in namespace-isolated Variable Pool | T1-VWB §7 | 1.2.2, 1.2.2d | `/workflows/{id}/variables` | AG-UI: `STATE_DELTA` |
+| FR26 | System provides undo/redo history for workflow editing | T1-VWB §2 | 1.2.1 | `/workflows/{id}/checkpoints`, `/checkpoints/{id}/rewind` | (Yjs UndoManager) |
+| FR27 | Users can save and load workflow configurations as JSON | T1-VWB §8 | 1.2.4, 1.2.6 | `/workflows/{id}/export`, `/workflows/import` | — |
+| FR28 | Users can zoom, pan, and use minimap for navigation | T1-VWB §5 | 1.2.1 | (frontend ReactFlow) | — |
+| FR29 | Users can group nodes into reusable sub-workflows | T1-VWB §6 | 1.2.1, 2.12.1 | `/workflows/{id}/nodes` | AG-UI: `STATE_DELTA` |
+| FR30 | Users can add comment annotations to nodes | T1-VWB §8 | 1.2.1 | (frontend annotation) | — |
+| FR31 | System validates workflows before execution (DAG check) | T7-CANVAS §8.1 | 1.2.1, 1.2.3, 1.2.5 | `/workflows/{id}/validate` | — |
 
 ### 4. Conversational Building (7 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR32 | Users can build workflows by describing requirements in NL | T2-CONV §1-3 | 1.2.1 (Chat panel) |
-| FR33 | System parses natural language intent and generates nodes | T2-CONV §3 | 1.2.1 (DCRL §2.1.1) |
-| FR34 | System asks clarifying questions when confidence < 60% | T2-CONV §3 | DCRL §2.1.1 |
-| FR35 | BMB agents (Bond, Wendy, Morgan) guide structured creation | T2-CONV §5 | 1.2.1, 1.3.1, 2.2.1, 2.1.1 |
-| FR36 | Users can switch between conversational and visual modes | T2-CONV §7 | 1.2.1 (split pane) |
-| FR37 | System provides preview-before-apply for changes | T2-CONV §1 | DCRL §2.1.1 |
-| FR38 | System learns from user feedback to improve parsing | T2-CONV §4 | DCRL §2.1.1 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR32 | Users can build workflows by describing requirements in NL | T2-CONV §1-3 | 1.2.1 (Chat panel) | `/dcrl/state/{sessionId}`, `/dcrl/detect` | DCRL: `INTENT_DETECTED` |
+| FR33 | System parses natural language intent and generates nodes | T2-CONV §3 | 1.2.1 (DCRL §2.1.1) | `/dcrl/detect` | DCRL: `INTENT_DETECTED`, AG-UI: `STATE_DELTA` |
+| FR34 | System asks clarifying questions when confidence < 60% | T2-CONV §3 | DCRL §2.1.1 | `/dcrl/clarify`, `/dcrl/clarify/{sessionId}/response` | DCRL: `CLARIFICATION_NEEDED`, `CLARIFICATION_RECEIVED` |
+| FR35 | BMB agents (Bond, Wendy, Morgan) guide structured creation | T2-CONV §5 | 1.2.1, 1.3.1, 2.2.1, 2.1.1 | `/dcrl/resolve` | DCRL: `ACTION_RESOLVED`, AG-UI: `TEXT_MESSAGE_*` |
+| FR36 | Users can switch between conversational and visual modes | T2-CONV §7 | 1.2.1 (split pane) | (frontend state) | — |
+| FR37 | System provides preview-before-apply for changes | T2-CONV §1 | DCRL §2.1.1 | `/dcrl/history/{sessionId}` | AG-UI: `STATE_SNAPSHOT` |
+| FR38 | System learns from user feedback to improve parsing | T2-CONV §4 | DCRL §2.1.1 | `/dcrl/learn` | DCRL: `LEARNING_RECORDED` |
 
 ### 5. Chatbot Builder (15 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR39 | Users can create conversational flows using visual editor | T6-CHATBOT §1-3 | 1.3.1, 1.3.4 |
-| FR40 | Users can add Conversation nodes (Start, Message, Question) | T6-CHATBOT §3 | 1.3.4 |
-| FR41 | Users can add Logic nodes (Condition, Set Variable, Switch) | T6-CHATBOT §3 | 1.3.4, 1.3.1 |
-| FR42 | Users can add Integration nodes (API Call, Module Trigger) | T6-INTEG | 1.3.4, 1.2.2d |
-| FR43 | Users can add Action nodes (Send Email, Create Ticket) | T6-CHATBOT §3 | 1.3.4 |
-| FR44 | Users can add NLU nodes (Intent Classification, Entity) | T6-RASA §1 | 1.3.2, 1.3.4 |
-| FR45 | Users can add MCP Tool nodes | T5-MCP | 2.1.4 |
-| FR46 | Users can add Skill nodes | T5-MCP §5 | 3.1.3, 3.1.4 |
-| FR47 | System provides tokenizer, featurizer, DIETClassifier | T6-RASA §1 | 1.3.2 |
-| FR48 | Users can define slots for form filling with validation | T6-RASA §3-4 | 1.3.4, 1.3.2 |
-| FR49 | Users can configure dialogue policies for state management | T6-RASA §5 | 1.3.1, 1.3.4 |
-| FR50 | System maintains event-sourced conversation tracker | T6-RASA §2 | 1.3.6, 1.3.7 |
-| FR51 | Users can define fallback handlers for unrecognized intents | T6-RASA §5 | 1.3.2, 1.3.5 |
-| FR52 | Users can configure max retry attempts for slot filling | T6-RASA §4 | 1.3.4 |
-| FR53 | Chatbots can escalate to human agents with context | T4-CHAT §5-6 | 1.3.4, 2.6.3, 2.4.1 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR39 | Users can create conversational flows using visual editor | T6-CHATBOT §1-3 | 1.3.1, 1.3.4 | `/projects/{id}/chatbots`, `/chatbots/{id}` | AG-UI: `STATE_SNAPSHOT` |
+| FR40 | Users can add Conversation nodes (Start, Message, Question) | T6-CHATBOT §3 | 1.3.4 | `/chatbots/{id}/flows` | AG-UI: `STATE_DELTA` |
+| FR41 | Users can add Logic nodes (Condition, Set Variable, Switch) | T6-CHATBOT §3 | 1.3.4, 1.3.1 | `/chatbots/{id}/flows` | AG-UI: `STATE_DELTA` |
+| FR42 | Users can add Integration nodes (API Call, Module Trigger) | T6-INTEG | 1.3.4, 1.2.2d | `/chatbots/{id}/flows` | AG-UI: `TOOL_CALL_*` |
+| FR43 | Users can add Action nodes (Send Email, Create Ticket) | T6-CHATBOT §3 | 1.3.4 | `/chatbots/{id}/flows` | AG-UI: `STATE_DELTA` |
+| FR44 | Users can add NLU nodes (Intent Classification, Entity) | T6-RASA §1 | 1.3.2, 1.3.4 | `/chatbots/{id}/intents` | — |
+| FR45 | Users can add MCP Tool nodes | T5-MCP | 2.1.4 | `/chatbots/{id}/flows` | AG-UI: `TOOL_CALL_*` |
+| FR46 | Users can add Skill nodes | T5-MCP §5 | 3.1.3, 3.1.4 | `/chatbots/{id}/flows` | AG-UI: `TOOL_CALL_*` |
+| FR47 | System provides tokenizer, featurizer, DIETClassifier | T6-RASA §1 | 1.3.2 | `/chatbots/{id}/train`, `/chatbots/{id}/training-status` | — |
+| FR48 | Users can define slots for form filling with validation | T6-RASA §3-4 | 1.3.4, 1.3.2 | `/chatbots/{id}/flows` (slots config) | — |
+| FR49 | Users can configure dialogue policies for state management | T6-RASA §5 | 1.3.1, 1.3.4 | `/chatbots/{id}/flows` (policies config) | — |
+| FR50 | System maintains event-sourced conversation tracker | T6-RASA §2 | 1.3.6, 1.3.7 | (internal event store) | AG-UI: `MESSAGES_SNAPSHOT` |
+| FR51 | Users can define fallback handlers for unrecognized intents | T6-RASA §5 | 1.3.2, 1.3.5 | `/chatbots/{id}/widget` | — |
+| FR52 | Users can configure max retry attempts for slot filling | T6-RASA §4 | 1.3.4 | `/chatbots/{id}/embed-code` | — |
+| FR53 | Chatbots can escalate to human agents with context | T4-CHAT §5-6 | 1.3.4, 2.6.3, 2.4.1 | `/deployments/chatwoot` | AG-UI: `CUSTOM_EVENT` (escalation) |
 
 ### 6. Voice Agent Builder (15 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR54 | Users can create voice flows using visual editor | T6-VOICE | 2.2.1 |
-| FR55 | Users can add Voice Input nodes (Listen, DTMF, STT) | T6-VOICE §1.1 | 2.2.1, 2.2.4 |
-| FR56 | Users can add Voice Output nodes (Speak, Audio, SSML) | T6-VOICE §1.1 | 2.2.1, 2.2.2, 2.2.4 |
-| FR57 | Users can add Voice Control nodes (Transfer, Hold, Hang Up) | T6-LIVEKIT §7 | 2.2.1, 2.2.3 |
-| FR58 | Users can add Voice Integration nodes (Module, MCP, Skill) | T6-INTEG | 2.2.1, 2.1.4 |
-| FR59 | System provides STT via configurable providers (Deepgram) | T6-VOICE §1.1 | 2.2.4 |
-| FR60 | System provides TTS via configurable providers (Cartesia) | T6-VOICE §1.1 | 2.2.4, 2.2.2 |
-| FR61 | System performs VAD with 98.8% TPR (Silero VAD) | T6-LIVEKIT §3 | 2.2.4 |
-| FR62 | System handles turn detection (Qwen2.5-0.5B) | T6-LIVEKIT §3 | 2.2.4 |
-| FR63 | System supports interruption handling (4-state machine) | T6-LIVEKIT §4 | 2.2.4 |
-| FR64 | Users can configure SSML for prosody, emphasis | T6-VOICE §1.1 | 2.2.2, 2.2.4 |
-| FR65 | System supports inbound/outbound calls via Twilio SIP | T6-LIVEKIT §7 | 2.2.1, 2.2.3 |
-| FR66 | Voice agents can access same project RAG context | T6-INTEG | 2.2.1, 1.4.1 |
-| FR67 | Users can configure voice personas | T8-AIGEN §4 | 2.2.2 |
-| FR68 | System performs real-time audio via WebRTC/gRPC | T6-VOICE | 2.2.3, 2.2.5, 2.2.6 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR54 | Users can create voice flows using visual editor | T6-VOICE | 2.2.1 | `/projects/{id}/voice-agents`, `/voice-agents/{id}` | AG-UI: `STATE_SNAPSHOT` |
+| FR55 | Users can add Voice Input nodes (Listen, DTMF, STT) | T6-VOICE §1.1 | 2.2.1, 2.2.4 | `/voice-agents/{id}/config` | AG-UI: `STATE_DELTA` |
+| FR56 | Users can add Voice Output nodes (Speak, Audio, SSML) | T6-VOICE §1.1 | 2.2.1, 2.2.2, 2.2.4 | `/voice-agents/{id}/config` | AG-UI: `STATE_DELTA` |
+| FR57 | Users can add Voice Control nodes (Transfer, Hold, Hang Up) | T6-LIVEKIT §7 | 2.2.1, 2.2.3 | `/voice-agents/{id}/config` | AG-UI: `STATE_DELTA` |
+| FR58 | Users can add Voice Integration nodes (Module, MCP, Skill) | T6-INTEG | 2.2.1, 2.1.4 | `/voice-agents/{id}/config` | AG-UI: `TOOL_CALL_*` |
+| FR59 | System provides STT via configurable providers (Deepgram) | T6-VOICE §1.1 | 2.2.4 | `/voice-providers` | — |
+| FR60 | System provides TTS via configurable providers (Cartesia) | T6-VOICE §1.1 | 2.2.4, 2.2.2 | `/voice-providers` | — |
+| FR61 | System performs VAD with 98.8% TPR (Silero VAD) | T6-LIVEKIT §3 | 2.2.4 | (Silero VAD processing) | — |
+| FR62 | System handles turn detection (Qwen2.5-0.5B) | T6-LIVEKIT §3 | 2.2.4 | (turn detection model) | — |
+| FR63 | System supports interruption handling (4-state machine) | T6-LIVEKIT §4 | 2.2.4 | (interruption state machine) | — |
+| FR64 | Users can configure SSML for prosody, emphasis | T6-VOICE §1.1 | 2.2.2, 2.2.4 | `/calls/{id}/transcript` | AG-UI: `TEXT_MESSAGE_*` |
+| FR65 | System supports inbound/outbound calls via Twilio SIP | T6-LIVEKIT §7 | 2.2.1, 2.2.3 | `/voice-agents/{id}/test-call` | — |
+| FR66 | Voice agents can access same project RAG context | T6-INTEG | 2.2.1, 1.4.1 | AgentOS: `/knowledge/*` | — |
+| FR67 | Users can configure voice personas | T8-AIGEN §4 | 2.2.2 | `/voice-agents/{id}/config` | — |
+| FR68 | System performs real-time audio via WebRTC/gRPC | T6-VOICE | 2.2.3, 2.2.5, 2.2.6 | WebSocket: `/ws/voice/{agentId}` | — |
 
 ### 7. Canvas Builder (17 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR69 | Users can create AI generation workflows using canvas | T7-CANVAS §1-2 | 2.1.1 |
-| FR70 | Users can add Generation nodes (Image, Video, Audio, 3D) | T7-CANVAS §5 | 2.1.3, 2.1.7 |
-| FR71 | Users can add Control nodes (Merge, Split, Switch, Loop) | T7-CANVAS §5 | 2.1.1 |
-| FR72 | Users can add Enhancement nodes (Upscale, Denoise) | T8-AIGEN §7 | 2.1.3, 2.1.7 |
-| FR73 | Users can add I/O nodes (Upload, Download, URL) | T7-CANVAS §5 | 2.1.7, 2.1.1 |
-| FR74 | Users can add MCP Tool nodes | T5-MCP | 2.1.4, 2.1.5, 2.1.6 |
-| FR75 | Users can add Skill nodes | T5-MCP §5 | 3.1.3, 3.1.4 |
-| FR76 | Users can converse with "Artie" agent for NL building | T7-CANVAS §6 | 2.1.1 (Artie chat) |
-| FR77 | System executes DAGs with topological sort | T7-CANVAS §8.1, §9 | 2.1.8, 1.2.3 |
-| FR78 | System supports partial re-execution (changed nodes only) | T7-CANVAS §9 | 2.1.1, 1.2.3 |
-| FR79 | System caches intermediate node outputs | T7-CANVAS §13 | 2.1.7, 2.1.8 |
-| FR80 | Users can configure Brand RAG for guidelines | T7-CANVAS §11 | 2.1.1, 2.1.3 |
-| FR81 | System provides cost estimation before execution | T8-AIGEN §10 | 2.1.9, 2.1.3 |
-| FR82 | Users can queue batch jobs | T7-CANVAS §9 | 2.1.8 |
-| FR83 | Canvas can be triggered by Chatbot/Voice events | T6-INTEG | 2.1.1, 1.3.4 |
-| FR84 | Users can configure AI providers (fal.ai) | T8-AIGEN §6 | 2.1.3, 1.10.4 |
-| FR85 | System supports 50+ node types (ComfyUI parity) | T7-CANVAS §5 | 2.1.1, 2.14.5 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR69 | Users can create AI generation workflows using canvas | T7-CANVAS §1-2 | 2.1.1 | `/projects/{id}/canvas`, `/canvas/{id}` | AG-UI: `STATE_SNAPSHOT` |
+| FR70 | Users can add Generation nodes (Image, Video, Audio, 3D) | T7-CANVAS §5 | 2.1.3, 2.1.7 | `/canvas/{id}/nodes` | AG-UI: `STATE_DELTA` |
+| FR71 | Users can add Control nodes (Merge, Split, Switch, Loop) | T7-CANVAS §5 | 2.1.1 | `/canvas/{id}/nodes` | AG-UI: `STATE_DELTA` |
+| FR72 | Users can add Enhancement nodes (Upscale, Denoise) | T8-AIGEN §7 | 2.1.3, 2.1.7 | `/canvas/{id}/nodes` | AG-UI: `STATE_DELTA` |
+| FR73 | Users can add I/O nodes (Upload, Download, URL) | T7-CANVAS §5 | 2.1.7, 2.1.1 | `/canvas/{id}/nodes` | AG-UI: `STATE_DELTA` |
+| FR74 | Users can add MCP Tool nodes | T5-MCP | 2.1.4, 2.1.5, 2.1.6 | `/canvas/{id}/nodes` | AG-UI: `TOOL_CALL_*` |
+| FR75 | Users can add Skill nodes | T5-MCP §5 | 3.1.3, 3.1.4 | `/canvas/{id}/nodes` | AG-UI: `TOOL_CALL_*` |
+| FR76 | Users can converse with "Artie" agent for NL building | T7-CANVAS §6 | 2.1.1 (Artie chat) | `/dcrl/*` (Artie), AgentOS `/agents/artie/runs` | DCRL: `*`, AG-UI: `TEXT_MESSAGE_*` |
+| FR77 | System executes DAGs with topological sort | T7-CANVAS §8.1, §9 | 2.1.8, 1.2.3 | `/canvas/{id}/execute` | AG-UI: `RUN_*`, `STEP_*` |
+| FR78 | System supports partial re-execution (changed nodes only) | T7-CANVAS §9 | 2.1.1, 1.2.3 | `/canvas/{id}/execute/stream` | AG-UI: `STEP_STARTED`, `STEP_FINISHED` |
+| FR79 | System caches intermediate node outputs | T7-CANVAS §13 | 2.1.7, 2.1.8 | `/canvas/{id}/preview` | AG-UI: `STATE_SNAPSHOT` |
+| FR80 | Users can configure Brand RAG for guidelines | T7-CANVAS §11 | 2.1.1, 2.1.3 | AgentOS: `/knowledge/*` | — |
+| FR81 | System provides cost estimation before execution | T8-AIGEN §10 | 2.1.9, 2.1.3 | `/canvas/{id}/cost-estimate` | — |
+| FR82 | Users can queue batch jobs | T7-CANVAS §9 | 2.1.8 | `/canvas/{id}/batch` | — |
+| FR83 | Canvas can be triggered by Chatbot/Voice events | T6-INTEG | 2.1.1, 1.3.4 | (trigger integration) | — |
+| FR84 | Users can configure AI providers (fal.ai) | T8-AIGEN §6 | 2.1.3, 1.10.4 | (provider config) | — |
+| FR85 | System supports 50+ node types (ComfyUI parity) | T7-CANVAS §5 | 2.1.1, 2.14.5 | `/canvas/{id}/nodes` | AG-UI: `STATE_DELTA` |
 
 ### 8. Knowledge Base / RAG (14 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR86 | Users can create knowledge bases scoped to projects | T0-RAG | 1.4.1 |
-| FR87 | Users can upload documents (PDF, DOCX, TXT, MD, HTML) | T0-RAG | 1.4.2 |
-| FR88 | Users can ingest web content via URL crawling | T0-RAG | 1.4.3 |
-| FR89 | System performs intelligent chunking (semantic, AST) | T0-RAG | 1.4.4 |
-| FR90 | System generates embeddings via configurable providers | T0-RAG | 1.4.5 |
-| FR91 | System supports vector search via pgvector HNSW | T0-RAG | 1.4.6 |
-| FR92 | System supports hybrid search (vector + BM25) | T0-RAG | 1.4.6 |
-| FR93 | System supports graph-based retrieval (Graphiti) | T0-RAG | 1.4.7 |
-| FR94 | System supports temporal memory queries | T0-RAG | 1.4.7 |
-| FR95 | System performs reranking (Cohere, cross-encoder) | T0-RAG | 1.4.5 |
-| FR96 | Users can view source citations and confidence | T4-EMBED | 1.4.8, 1.3.3 |
-| FR97 | RAG context shared across all builders in project | T6-INTEG | 1.4.1 |
-| FR98 | Users can configure retrieval parameters | T0-RAG | 1.4.5 |
-| FR99 | System prevents cross-tenant RAG poisoning | T4-SEC §5 | 1.10.3 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR86 | Users can create knowledge bases scoped to projects | T0-RAG | 1.4.1 | `/projects/{id}/knowledge-bases` | — |
+| FR87 | Users can upload documents (PDF, DOCX, TXT, MD, HTML) | T0-RAG | 1.4.2 | `/knowledge-bases/{id}/documents`, AgentOS: `/knowledge/content` | — |
+| FR88 | Users can ingest web content via URL crawling | T0-RAG | 1.4.3 | `/knowledge-bases/{id}/crawl` | — |
+| FR89 | System performs intelligent chunking (semantic, AST) | T0-RAG | 1.4.4 | AgentOS: `/knowledge/content/{id}/status` | — |
+| FR90 | System generates embeddings via configurable providers | T0-RAG | 1.4.5 | AgentOS: `/knowledge/config` | — |
+| FR91 | System supports vector search via pgvector HNSW | T0-RAG | 1.4.6 | `/knowledge-bases/{id}/query`, AgentOS: `/knowledge/search` | — |
+| FR92 | System supports hybrid search (vector + BM25) | T0-RAG | 1.4.6 | `/knowledge-bases/{id}/query` | — |
+| FR93 | System supports graph-based retrieval (Graphiti) | T0-RAG | 1.4.7 | `/knowledge-bases/{id}/query` (graph mode) | — |
+| FR94 | System supports temporal memory queries | T0-RAG | 1.4.7 | AgentOS: `/memories` | — |
+| FR95 | System performs reranking (Cohere, cross-encoder) | T0-RAG | 1.4.5 | `/knowledge-bases/{id}/config` | — |
+| FR96 | Users can view source citations and confidence | T4-EMBED | 1.4.8, 1.3.3 | (query response includes citations) | — |
+| FR97 | RAG context shared across all builders in project | T6-INTEG | 1.4.1 | AgentOS: `/knowledge/*` (project scoped) | — |
+| FR98 | Users can configure retrieval parameters | T0-RAG | 1.4.5 | `/knowledge-bases/{id}/config` | — |
+| FR99 | System prevents cross-tenant RAG poisoning | T4-SEC §5 | 1.10.3 | (DB-level RLS on knowledge_bases) | — |
 
 ### 9. MCP Server Marketplace (14 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR100 | Users can browse MCP servers from Official Registry | T5-MCP §1 | 3.2.1 |
-| FR101 | Users can browse MCP servers from Smithery.ai | T5-MCP §1.2 | 3.2.1 |
-| FR102 | Users can search with semantic search | T5-MCP §7.1 | 3.2.2 |
-| FR103 | Users can filter by category, verified, popularity | T5-MCP §7.1 | 3.2.2 |
-| FR104 | Users can view MCP server details | T5-MCP §1.1 | 3.2.3 |
-| FR105 | Users can install MCP servers with one-click | T5-MCP §2-3 | 3.2.4 |
-| FR106 | Users can configure installed MCP server settings | T5-MCP §6.1 | 3.2.5 |
-| FR107 | Users can enable/disable MCP servers | T5-MCP §2.2 | 3.2.5 |
-| FR108 | Users can set auto-approval rules for tools | T5-MCP §2.2 | 3.2.6 |
-| FR109 | System aggregates from multiple registries | T5-MCP §7.3 | 3.2.1 |
-| FR110 | System caches registry metadata | T5-MCP §7.3 | 3.2.1 |
-| FR111 | Creators can publish custom MCP servers | T5-MCP §7.1 | 3.3.1 |
-| FR112 | Creators can set pricing for MCP servers | B2-MARKET §8 | 3.3.2 |
-| FR113 | System tracks MCP server usage and success rates | T4-OBS §5 | 3.3.3 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR100 | Users can browse MCP servers from Official Registry | T5-MCP §1 | 3.2.1 | `/mcp/servers`, `/mcp/registry/sync` | — |
+| FR101 | Users can browse MCP servers from Smithery.ai | T5-MCP §1.2 | 3.2.1 | `/mcp/registry/sources` | — |
+| FR102 | Users can search with semantic search | T5-MCP §7.1 | 3.2.2 | `/mcp/servers/search` | — |
+| FR103 | Users can filter by category, verified, popularity | T5-MCP §7.1 | 3.2.2 | `/mcp/servers/search` (query params) | — |
+| FR104 | Users can view MCP server details | T5-MCP §1.1 | 3.2.3 | `/mcp/servers/{id}` | — |
+| FR105 | Users can install MCP servers with one-click | T5-MCP §2-3 | 3.2.4 | `/projects/{id}/mcp/install` | — |
+| FR106 | Users can configure installed MCP server settings | T5-MCP §6.1 | 3.2.5 | `/projects/{id}/mcp/{serverId}/config` | — |
+| FR107 | Users can enable/disable MCP servers | T5-MCP §2.2 | 3.2.5 | `/projects/{id}/mcp/{serverId}/toggle` | — |
+| FR108 | Users can set auto-approval rules for tools | T5-MCP §2.2 | 3.2.6 | `/projects/{id}/mcp/{serverId}/config` (auto-approval) | — |
+| FR109 | System aggregates from multiple registries | T5-MCP §7.3 | 3.2.1 | `/mcp/registry/sources` | — |
+| FR110 | System caches registry metadata | T5-MCP §7.3 | 3.2.1 | `/mcp/registry/status` | — |
+| FR111 | Creators can publish custom MCP servers | T5-MCP §7.1 | 3.3.1 | `/mcp/servers` (POST) | — |
+| FR112 | Creators can set pricing for MCP servers | B2-MARKET §8 | 3.3.2 | `/mcp/servers/{id}/pricing` | — |
+| FR113 | System tracks MCP server usage and success rates | T4-OBS §5 | 3.3.3 | `/observability/traces` (MCP tool traces) | — |
 
 ### 10. Skills Marketplace (13 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR114 | Users can browse Skills from platform marketplace | T5-MCP §7.1 | 3.4.1 |
-| FR115 | Users can browse Skills from project/user directories | T5-MCP §5.1 | 3.4.2 |
-| FR116 | Users can search Skills with semantic search | T5-MCP §7.1 | 3.4.1 |
-| FR117 | Users can filter Skills by category, ratings, creator | T5-MCP §7.1 | 3.4.1 |
-| FR118 | Users can view Skill details | T5-MCP §5.2 | 3.4.3 |
-| FR119 | Users can install Skills with one-click | T5-MCP §5.1 | 3.4.4 |
-| FR120 | Users can add Skill nodes to workflows | T5-MCP §5.3 | 1.3.1, 1.3.2 |
-| FR121 | System validates Skill frontmatter (SKILL.md YAML) | T5-MCP §6.2 | 3.4.5 |
-| FR122 | System resolves Skill paths during execution | T5-MCP §5.3 | 1.6.1 |
-| FR123 | Users can create custom Skills (SKILL.md format) | T5-MCP §5.2 | 3.4.6 |
-| FR124 | Creators can publish Skills to marketplace | B2-MARKET | 3.4.7 |
-| FR125 | Creators can set pricing for Skills | B2-MARKET §8 | 3.4.8 |
-| FR126 | System provides AI-assisted skill discovery | T5-MCP §5.4 | 3.4.9 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR114 | Users can browse Skills from platform marketplace | T5-MCP §7.1 | 3.4.1 | `/skills` | — |
+| FR115 | Users can browse Skills from project/user directories | T5-MCP §5.1 | 3.4.2 | `/skills` (filter by scope) | — |
+| FR116 | Users can search Skills with semantic search | T5-MCP §7.1 | 3.4.1 | `/skills/search` | — |
+| FR117 | Users can filter Skills by category, ratings, creator | T5-MCP §7.1 | 3.4.1 | `/skills/search` (query params) | — |
+| FR118 | Users can view Skill details | T5-MCP §5.2 | 3.4.3 | `/skills/{id}` | — |
+| FR119 | Users can install Skills with one-click | T5-MCP §5.1 | 3.4.4 | `/projects/{id}/skills/install` | — |
+| FR120 | Users can add Skill nodes to workflows | T5-MCP §5.3 | 1.3.1, 1.3.2 | `/workflows/{id}/nodes` (Skill node type) | AG-UI: `STATE_DELTA` |
+| FR121 | System validates Skill frontmatter (SKILL.md YAML) | T5-MCP §6.2 | 3.4.5 | (validation at publish time) | — |
+| FR122 | System resolves Skill paths during execution | T5-MCP §5.3 | 1.6.1 | (runtime resolution) | AG-UI: `TOOL_CALL_*` |
+| FR123 | Users can create custom Skills (SKILL.md format) | T5-MCP §5.2 | 3.4.6 | `/skills` (POST) | — |
+| FR124 | Creators can publish Skills to marketplace | B2-MARKET | 3.4.7 | `/skills` (POST with publish flag) | — |
+| FR125 | Creators can set pricing for Skills | B2-MARKET §8 | 3.4.8 | `/skills/{id}/pricing` | — |
+| FR126 | System provides AI-assisted skill discovery | T5-MCP §5.4 | 3.4.9 | `/skills/search` (AI-powered) | — |
 
 ### 11. Agent Execution & Runtime (13 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR127 | System executes via Agno runtime with Claude | T0-RAG, T1-CLAUDE | 1.6.1 |
-| FR128 | System manages variable pools with namespace isolation | T1-VWB §7 | 1.6.2 |
-| FR129 | System supports streaming via AG-UI (25 events) | T0-PROT | 1.6.3 |
-| FR130 | System supports sync and async execution | T1-VWB §8 | 1.6.1 |
-| FR131 | Users can pause and resume workflows | T4-CMD §4 | 1.6.4 |
-| FR132 | System enforces execution timeouts | T4-SEC §1 | 1.6.5 |
-| FR133 | System detects and prevents infinite loops | T7-CANVAS §8.1 | 1.6.6 |
-| FR134 | System supports scheduled/cron-based triggers | T8-GAPS §2 | 1.6.7 |
-| FR135 | System supports webhook-triggered execution (HMAC) | T6-INTEG §4 | 1.6.8 |
-| FR136 | System provides event fan-out via Redis Pub/Sub | T6-INTEG §6 | 1.6.1 |
-| FR137 | System uses PostgreSQL LISTEN/NOTIFY for sync | T6-INTEG §6 | 1.6.1 |
-| FR138 | User code executes in sandboxed Firecracker MicroVMs | T4-SEC §1 | 1.6.9 |
-| FR139 | System supports Dify-style "Workflow as Tool" | T6-INTEG §12 | 1.3.5 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR127 | System executes via Agno runtime with Claude | T0-RAG, T1-CLAUDE | 1.6.1 | AgentOS: `/agents/{id}/runs`, `/workflows/{id}/execute` | AG-UI: `RUN_*`, `STEP_*`, `TOOL_CALL_*` |
+| FR128 | System manages variable pools with namespace isolation | T1-VWB §7 | 1.6.2 | `/workflows/{id}/variables` | AG-UI: `STATE_DELTA` |
+| FR129 | System supports streaming via AG-UI (25 events) | T0-PROT | 1.6.3 | AgentOS: `/agui`, SSE: `/sse/*` | AG-UI: all 25 event types |
+| FR130 | System supports sync and async execution | T1-VWB §8 | 1.6.1 | AgentOS: `/agents/{id}/runs` | AG-UI: `RUN_STARTED`, `RUN_FINISHED` |
+| FR131 | Users can pause and resume workflows | T4-CMD §4 | 1.6.4 | `/executions/{id}/pause`, `/executions/{id}/resume` | AG-UI: `RUN_*` |
+| FR132 | System enforces execution timeouts | T4-SEC §1 | 1.6.5 | (timeout config per workflow) | AG-UI: `RUN_ERROR` |
+| FR133 | System detects and prevents infinite loops | T7-CANVAS §8.1 | 1.6.6 | `/workflows/{id}/validate` | AG-UI: `RUN_ERROR` |
+| FR134 | System supports scheduled/cron-based triggers | T8-GAPS §2 | 1.6.7 | (trigger config) | — |
+| FR135 | System supports webhook-triggered execution (HMAC) | T6-INTEG §4 | 1.6.8 | (webhook endpoints) | — |
+| FR136 | System provides event fan-out via Redis Pub/Sub | T6-INTEG §6 | 1.6.1 | (internal Redis Pub/Sub) | — |
+| FR137 | System uses PostgreSQL LISTEN/NOTIFY for sync | T6-INTEG §6 | 1.6.1 | (internal PostgreSQL NOTIFY) | — |
+| FR138 | User code executes in sandboxed Firecracker MicroVMs | T4-SEC §1 | 1.6.9 | (Firecracker isolation) | — |
+| FR139 | System supports Dify-style "Workflow as Tool" | T6-INTEG §12 | 1.3.5 | (workflow-as-tool integration) | AG-UI: `TOOL_CALL_*` |
 
 ### 12. Observability & Monitoring (10 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR140 | Users can view detailed execution traces (Langfuse) | T4-OBS §2.3 | 1.7.1 |
-| FR141 | Users can view LLM token usage and costs | T4-OBS §4 | 1.7.2 |
-| FR142 | Users can view aggregated cost analytics | T4-OBS §4 | 1.7.3 |
-| FR143 | Users can configure budget alerts (80%, 100%) | T3-BILL §6 | 1.7.4 |
-| FR144 | Platform admins can view Command Center dashboard | T4-CMD §1-2 | 4.1.1 |
-| FR145 | Platform admins can view per-tenant consumption | T4-OBS §9 | 4.1.2 |
-| FR146 | Platform admins can apply dynamic rate limiting | T4-SEC §3 | 4.1.3 |
-| FR147 | System generates Prometheus-compatible metrics | T4-OBS §6 | 4.1.4 |
-| FR148 | System maintains immutable audit logs (pgaudit) | T4-SEC §8 | 4.1.5 |
-| FR149 | Users can export execution history | T4-OBS §8 | 1.7.5 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR140 | Users can view detailed execution traces (Langfuse) | T4-OBS §2.3 | 1.7.1 | `/observability/traces`, `/observability/traces/{id}` | — |
+| FR141 | Users can view LLM token usage and costs | T4-OBS §4 | 1.7.2 | `/usage/summary` | — |
+| FR142 | Users can view aggregated cost analytics | T4-OBS §4 | 1.7.3 | `/usage/breakdown` | — |
+| FR143 | Users can configure budget alerts (80%, 100%) | T3-BILL §6 | 1.7.4 | `/alerts` (CRUD) | — |
+| FR144 | Platform admins can view Command Center dashboard | T4-CMD §1-2 | 4.1.1 | (Command Center UI) | — |
+| FR145 | Platform admins can view per-tenant consumption | T4-OBS §9 | 4.1.2 | `/usage/summary` (admin view) | — |
+| FR146 | Platform admins can apply dynamic rate limiting | T4-SEC §3 | 4.1.3 | (rate limiting config) | — |
+| FR147 | System generates Prometheus-compatible metrics | T4-OBS §6 | 4.1.4 | `/metrics` (Prometheus scrape) | — |
+| FR148 | System maintains immutable audit logs (pgaudit) | T4-SEC §8 | 4.1.5 | `/admin/security/audit-logs` | — |
+| FR149 | Users can export execution history | T4-OBS §8 | 1.7.5 | `/observability/traces/export` | — |
 
 ### 13. Human-in-the-Loop (6 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR150 | Users can configure approval gates | T4-CMD §3 | 1.8.1 |
-| FR151 | System queues HITL with AG-UI INTERRUPT events | T4-CMD §4 | 1.8.2 |
-| FR152 | Users can view pending approvals | T4-CMD §3 | 1.8.3 |
-| FR153 | Users can approve/reject/modify HITL requests | T4-CMD §3 | 1.8.4 |
-| FR154 | System resumes workflow upon resolution | T4-CMD §4 | 1.8.2 |
-| FR155 | Users can configure escalation rules and timeouts | T4-CMD §3 | 1.8.5 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR150 | Users can configure approval gates | T4-CMD §3 | 1.8.1 | `/workflows/{id}/hitl-config` | — |
+| FR151 | System queues HITL with AG-UI INTERRUPT events | T4-CMD §4 | 1.8.2 | `/hitl/pending` | AG-UI: `CUSTOM_EVENT` (HITL interrupt) |
+| FR152 | Users can view pending approvals | T4-CMD §3 | 1.8.3 | `/hitl/pending`, `/hitl/{id}` | — |
+| FR153 | Users can approve/reject/modify HITL requests | T4-CMD §3 | 1.8.4 | `/hitl/{id}/approve`, `/hitl/{id}/reject`, `/hitl/{id}/modify` | AG-UI: `CUSTOM_EVENT` (HITL response) |
+| FR154 | System resumes workflow upon resolution | T4-CMD §4 | 1.8.2 | (automatic resume after HITL) | AG-UI: `RUN_STARTED` |
+| FR155 | Users can configure escalation rules and timeouts | T4-CMD §3 | 1.8.5 | `/workflows/{id}/escalation` | — |
 
 ### 14. Customer Interaction (10 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR156 | Users can deploy chatbots to Chatwoot inboxes | T4-CHAT §6 | 1.9.1 |
-| FR157 | System receives messages via Agent Bot webhooks | T4-CHAT §4 | 1.9.2 |
-| FR158 | System queries project RAG for responses | T4-CHAT §11 | 1.9.3 |
-| FR159 | Users can configure confidence thresholds | T4-CHAT §6 | 1.9.4 |
-| FR160 | System transfers context during human handoff | T4-CHAT §6 | 1.9.5 |
-| FR161 | Users can configure multi-channel support | T4-CHAT §2 | 1.9.6 |
-| FR162 | System displays RAG confidence and citations | T4-EMBED §1 | 1.9.3 |
-| FR163 | Users can embed custom React chat widgets | T4-EMBED §1-3 | 1.9.7 |
-| FR164 | System uses ActionCable WebSocket for real-time | T4-CHAT §2 | 1.9.2 |
-| FR165 | Users can configure proactive outbound messaging | T6-INTEG §6 | 1.9.8 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR156 | Users can deploy chatbots to Chatwoot inboxes | T4-CHAT §6 | 1.9.1 | `/deployments/chatwoot` (CRUD) | — |
+| FR157 | System receives messages via Agent Bot webhooks | T4-CHAT §4 | 1.9.2 | (Chatwoot webhook receiver) | — |
+| FR158 | System queries project RAG for responses | T4-CHAT §11 | 1.9.3 | AgentOS: `/knowledge/search` | — |
+| FR159 | Users can configure confidence thresholds | T4-CHAT §6 | 1.9.4 | `/deployments/chatwoot/{id}` (config) | — |
+| FR160 | System transfers context during human handoff | T4-CHAT §6 | 1.9.5 | (Chatwoot handoff integration) | — |
+| FR161 | Users can configure multi-channel support | T4-CHAT §2 | 1.9.6 | `/deployments/chatwoot/{id}` (channels) | — |
+| FR162 | System displays RAG confidence and citations | T4-EMBED §1 | 1.9.3 | (query response includes citations) | — |
+| FR163 | Users can embed custom React chat widgets | T4-EMBED §1-3 | 1.9.7 | `/embeds`, `/embeds/{id}/code` | — |
+| FR164 | System uses ActionCable WebSocket for real-time | T4-CHAT §2 | 1.9.2 | WebSocket: `/ws/chat/{sessionId}` | — |
+| FR165 | Users can configure proactive outbound messaging | T6-INTEG §6 | 1.9.8 | (outbound messaging config) | — |
 
 ### 15. Module/Workflow Marketplace (13 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR166 | Users can publish modules with versioning | B2-MARKET §8 | 3.1.1 |
-| FR167 | Users can set pricing (free, one-time, subscription) | B2-MARKET §3 | 3.1.2 |
-| FR168 | System reviews and sandbox-tests before publishing | B2-MARKET §6 | 3.1.3 |
-| FR169 | Users can browse with search, categories, filters | B2-MARKET §7 | 3.1.4 |
-| FR170 | Users can view ratings, reviews, usage statistics | B2-MARKET §6 | 3.1.5 |
-| FR171 | Users can install modules with one-click | B2-MARKET §7 | 3.1.6 |
-| FR172 | System resolves module dependencies | B2-MARKET §8 | 3.1.7 |
-| FR173 | Creators receive 85% revenue (15% platform fee) | B2-MARKET §2 | 3.1.8 |
-| FR174 | Creators can view earnings and analytics | B2-MARKET §6 | 3.1.9 |
-| FR175 | System provides 24-hour auto-refund for crashes | B2-MARKET §6 | 3.1.10 |
-| FR176 | System holds payments in 7-day escrow | B2-MARKET §4 | 3.1.8 |
-| FR177 | Users can fork and remix public modules | T7-CANVAS §10 | 3.1.11 |
-| FR178 | Users can create module bundles | B2-MARKET §8 | 3.1.12 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR166 | Users can publish modules with versioning | B2-MARKET §8 | 3.1.1 | `/marketplace/modules` (POST), `/marketplace/modules/{id}/version` | — |
+| FR167 | Users can set pricing (free, one-time, subscription) | B2-MARKET §3 | 3.1.2 | `/marketplace/modules/{id}/pricing` | — |
+| FR168 | System reviews and sandbox-tests before publishing | B2-MARKET §6 | 3.1.3 | (sandbox testing pipeline) | — |
+| FR169 | Users can browse with search, categories, filters | B2-MARKET §7 | 3.1.4 | `/marketplace/modules`, `/marketplace/modules/search` | — |
+| FR170 | Users can view ratings, reviews, usage statistics | B2-MARKET §6 | 3.1.5 | `/marketplace/modules/{id}`, `/marketplace/modules/{id}/reviews` | — |
+| FR171 | Users can install modules with one-click | B2-MARKET §7 | 3.1.6 | `/projects/{id}/marketplace/install` | — |
+| FR172 | System resolves module dependencies | B2-MARKET §8 | 3.1.7 | (dependency resolution at install) | — |
+| FR173 | Creators receive 85% revenue (15% platform fee) | B2-MARKET §2 | 3.1.8 | (Stripe Connect payout) | — |
+| FR174 | Creators can view earnings and analytics | B2-MARKET §6 | 3.1.9 | (creator dashboard) | — |
+| FR175 | System provides 24-hour auto-refund for crashes | B2-MARKET §6 | 3.1.10 | (auto-refund trigger) | — |
+| FR176 | System holds payments in 7-day escrow | B2-MARKET §4 | 3.1.8 | (Stripe Connect escrow) | — |
+| FR177 | Users can fork and remix public modules | T7-CANVAS §10 | 3.1.11 | `/workflows/{id}/fork` | — |
+| FR178 | Users can create module bundles | B2-MARKET §8 | 3.1.12 | (bundle management) | — |
 
 ### 16. UI Generation (8 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR179 | System generates UIs from workflow definitions | T3-UIGEN §6-7 | 2.2.1 |
-| FR180 | System maps agent inputs to form components | T3-UIGEN §6 | 2.2.2 |
-| FR181 | System generates multi-step wizards | T3-UIGEN §7 | 2.2.3 |
-| FR182 | Users can customize UI themes (CSS variables) | T5-WHITE §1 | 2.2.4 |
-| FR183 | Users can embed UIs via iframe or Web Component | T3-UIGEN §10 | 2.2.5 |
-| FR184 | Generated UIs include embedded chat widgets | T4-EMBED | 2.2.6 |
-| FR185 | Generated UIs render using shadcn/ui | T3-UIGEN §4 | 2.2.1 |
-| FR186 | System provides REST/GraphQL API endpoints | T3-UIGEN §12 | 2.2.7 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR179 | System generates UIs from workflow definitions | T3-UIGEN §6-7 | 2.2.1 | (UI generation engine) | A2UI: `BEGIN_RENDERING` |
+| FR180 | System maps agent inputs to form components | T3-UIGEN §6 | 2.2.2 | (form mapping) | A2UI: `SURFACE_UPDATE` |
+| FR181 | System generates multi-step wizards | T3-UIGEN §7 | 2.2.3 | (wizard generation) | A2UI: `SURFACE_UPDATE` |
+| FR182 | Users can customize UI themes (CSS variables) | T5-WHITE §1 | 2.2.4 | (theme config) | — |
+| FR183 | Users can embed UIs via iframe or Web Component | T3-UIGEN §10 | 2.2.5 | `/embeds/{id}/code` | — |
+| FR184 | Generated UIs include embedded chat widgets | T4-EMBED | 2.2.6 | (chat widget injection) | A2UI: `SURFACE_UPDATE` |
+| FR185 | Generated UIs render using shadcn/ui | T3-UIGEN §4 | 2.2.1 | (component rendering) | A2UI: `BEGIN_RENDERING`, `SURFACE_UPDATE` |
+| FR186 | System provides REST/GraphQL API endpoints | T3-UIGEN §12 | 2.2.7 | `/api/*` (REST), `/graphql` (GraphQL) | — |
 
 ### 17. Billing & Usage (10 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR187 | System meters all AI usage to platform credits | T3-BILL §5 | 1.10.1 |
-| FR188 | Users can view usage in dollar amounts | B3-PRICE §3 | 1.10.2 |
-| FR189 | Users can view real-time usage widget | T4-CMD | 1.10.3 |
-| FR190 | System supports tiered subscription plans | B3-PRICE §4 | 1.10.4 |
-| FR191 | System enforces soft warnings (80%) and hard caps (150%) | T3-BILL §6 | 1.10.5 |
-| FR192 | Users can configure hard cap vs. overage | T3-BILL §6 | 1.10.5 |
-| FR193 | Users can view usage forecasts | T3-BILL §10 | 1.10.6 |
-| FR194 | Users can access self-serve billing portal | T3-BILL §1 | 1.10.7 |
-| FR195 | System generates usage-based invoices | T3-BILL §1 | 1.10.8 |
-| FR196 | System supports Stripe Billing Meters | T3-BILL §1.4 | 1.10.1 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR187 | System meters all AI usage to platform credits | T3-BILL §5 | 1.10.1 | `/billing/usage` | — |
+| FR188 | Users can view usage in dollar amounts | B3-PRICE §3 | 1.10.2 | `/billing/usage` | — |
+| FR189 | Users can view real-time usage widget | T4-CMD | 1.10.3 | `/billing/usage` (real-time) | — |
+| FR190 | System supports tiered subscription plans | B3-PRICE §4 | 1.10.4 | `/billing/subscription` (CRUD) | — |
+| FR191 | System enforces soft warnings (80%) and hard caps (150%) | T3-BILL §6 | 1.10.5 | (usage limit enforcement) | — |
+| FR192 | Users can configure hard cap vs. overage | T3-BILL §6 | 1.10.5 | `/billing/subscription` (config) | — |
+| FR193 | Users can view usage forecasts | T3-BILL §10 | 1.10.6 | `/usage/forecast` | — |
+| FR194 | Users can access self-serve billing portal | T3-BILL §1 | 1.10.7 | `/billing/portal` | — |
+| FR195 | System generates usage-based invoices | T3-BILL §1 | 1.10.8 | `/billing/invoices` | — |
+| FR196 | System supports Stripe Billing Meters | T3-BILL §1.4 | 1.10.1 | (Stripe Billing Meters API) | — |
 
 ### 18. Collaboration & Versioning (9 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR197 | Multiple users can edit simultaneously (Yjs CRDT) | T4-COLLAB §2 | 5.1.1 |
-| FR198 | Users can see collaborator cursors and presence | T4-COLLAB §5 | 5.1.2 |
-| FR199 | System maintains workflow version history | T4-VER §2 | 5.2.1 |
-| FR200 | Users can view visual diffs (jsondiffpatch) | T4-VER §3 | 5.2.2 |
-| FR201 | Users can rollback to any previous version | T4-VER §2 | 5.2.3 |
-| FR202 | Users can add comments for discussion | T4-COLLAB §4 | 5.1.3 |
-| FR203 | Users can configure A/B testing (Bayesian) | T4-VER §4 | 5.2.4 |
-| FR204 | Users can set up promotion pipelines | T4-VER §6 | 5.2.5 |
-| FR205 | Users can configure feature flags (LaunchDarkly) | T4-VER §6 | 5.2.6 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR197 | Multiple users can edit simultaneously (Yjs CRDT) | T4-COLLAB §2 | 5.1.1 | WebSocket: `/workflows/{id}/collaborate` | (Yjs protocol) |
+| FR198 | Users can see collaborator cursors and presence | T4-COLLAB §5 | 5.1.2 | `/workflows/{id}/presence` | (Yjs awareness) |
+| FR199 | System maintains workflow version history | T4-VER §2 | 5.2.1 | `/workflows/{id}/versions`, `/workflows/{id}/checkpoints` | — |
+| FR200 | Users can view visual diffs (jsondiffpatch) | T4-VER §3 | 5.2.2 | `/workflows/{id}/versions/diff`, `/workflows/{id}/checkpoint-diff` | — |
+| FR201 | Users can rollback to any previous version | T4-VER §2 | 5.2.3 | `/workflows/{id}/versions/{versionId}/rollback`, `/checkpoints/{id}/rewind` | — |
+| FR202 | Users can add comments for discussion | T4-COLLAB §4 | 5.1.3 | `/workflows/{id}/comments` (CRUD) | — |
+| FR203 | Users can configure A/B testing (Bayesian) | T4-VER §4 | 5.2.4 | (A/B testing config) | — |
+| FR204 | Users can set up promotion pipelines | T4-VER §6 | 5.2.5 | (promotion pipeline config) | — |
+| FR205 | Users can configure feature flags (LaunchDarkly) | T4-VER §6 | 5.2.6 | (LaunchDarkly integration) | — |
 
 ### 19. White-Label & Agency (8 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR206 | Agencies can create sub-accounts for clients | T8-UI §1 | 4.2.1 |
-| FR207 | Agencies can view per-client usage breakdown | T5-WHITE §5 | 4.2.2 |
-| FR208 | Agencies can configure markup margins | T3-BILL §7 | 4.2.3 |
-| FR209 | Agencies can white-label invoices | T5-WHITE §4 | 4.2.4 |
-| FR210 | Users can configure custom domains | T5-WHITE §3 | 4.2.5 |
-| FR211 | Users can customize branding (logo, colors, fonts) | T5-WHITE §2 | 4.2.6 |
-| FR212 | Users can configure custom email domains | T5-WHITE §4 | 4.2.7 |
-| FR213 | White-label supports custom SSO | T5-SSO | 4.2.8 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR206 | Agencies can create sub-accounts for clients | T8-UI §1 | 4.2.1 | `/agency/clients` (CRUD) | — |
+| FR207 | Agencies can view per-client usage breakdown | T5-WHITE §5 | 4.2.2 | `/agency/clients/{id}/usage` | — |
+| FR208 | Agencies can configure markup margins | T3-BILL §7 | 4.2.3 | (agency billing config) | — |
+| FR209 | Agencies can white-label invoices | T5-WHITE §4 | 4.2.4 | (white-label invoice config) | — |
+| FR210 | Users can configure custom domains | T5-WHITE §3 | 4.2.5 | `/agency/branding/domain` | — |
+| FR211 | Users can customize branding (logo, colors, fonts) | T5-WHITE §2 | 4.2.6 | `/agency/branding` | — |
+| FR212 | Users can configure custom email domains | T5-WHITE §4 | 4.2.7 | `/agency/branding/email` | — |
+| FR213 | White-label supports custom SSO | T5-SSO | 4.2.8 | `/admin/sso/*` (white-label SSO) | — |
 
 ### 20. Enterprise & Security (11 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR214 | System provides SOC 2 Type II documentation | T4-SEC §8 | 4.3.1 |
-| FR215 | System supports GDPR data subject requests | T4-SEC §8 | 4.3.2 |
-| FR216 | System supports data residency requirements | T4-SEC §8 | 4.3.3 |
-| FR217 | System applies NeMo Guardrails for prompt injection | T4-SEC §2 | 4.3.4 |
-| FR218 | System sanitizes inputs and filters outputs | T4-SEC §2 | 4.3.4 |
-| FR219 | System enforces content moderation (no NSFW) | T4-SEC §2 | 4.3.5 |
-| FR220 | System provides AI hallucination mitigation via RAG | T0-RAG | 1.4.8 |
-| FR221 | All user code executes in Firecracker MicroVMs | T4-SEC §1 | 4.3.6 |
-| FR222 | System enforces rate limiting at API gateway | T4-SEC §3 | 4.3.7 |
-| FR223 | System provides DDoS protection via WAF | T4-SEC §3 | 4.3.7 |
-| FR224 | Voice agents limited to pre-approved actions | T4-SEC §6 | 1.5.7 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR214 | System provides SOC 2 Type II documentation | T4-SEC §8 | 4.3.1 | (compliance documentation) | — |
+| FR215 | System supports GDPR data subject requests | T4-SEC §8 | 4.3.2 | (GDPR data export/deletion) | — |
+| FR216 | System supports data residency requirements | T4-SEC §8 | 4.3.3 | (region-specific deployment) | — |
+| FR217 | System applies NeMo Guardrails for prompt injection | T4-SEC §2 | 4.3.4 | (guardrails processing) | — |
+| FR218 | System sanitizes inputs and filters outputs | T4-SEC §2 | 4.3.4 | (input/output filtering) | — |
+| FR219 | System enforces content moderation (no NSFW) | T4-SEC §2 | 4.3.5 | (content moderation) | — |
+| FR220 | System provides AI hallucination mitigation via RAG | T0-RAG | 1.4.8 | AgentOS: `/knowledge/search` | — |
+| FR221 | All user code executes in Firecracker MicroVMs | T4-SEC §1 | 4.3.6 | (Firecracker isolation) | — |
+| FR222 | System enforces rate limiting at API gateway | T4-SEC §3 | 4.3.7 | (API gateway rate limiting) | — |
+| FR223 | System provides DDoS protection via WAF | T4-SEC §3 | 4.3.7 | (WAF integration) | — |
+| FR224 | Voice agents limited to pre-approved actions | T4-SEC §6 | 1.5.7 | (voice action allowlist) | — |
 
 ### 21. Self-Hosted Deployment (8 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR225 | Users can deploy via Docker Compose | T5-DEPLOY §1 | 4.4.1 |
-| FR226 | Users can deploy via Helm charts for K8s | T5-DEPLOY §2 | 4.4.2 |
-| FR227 | Users can configure external PostgreSQL | T5-DEPLOY §1-2 | 4.4.3 |
-| FR228 | Users can configure external Redis | T5-DEPLOY §1-2 | 4.4.3 |
-| FR229 | Users can configure custom LLM endpoints (BYOM) | T5-DEPLOY §8 | 4.4.4 |
-| FR230 | Self-hosted supports air-gapped installation | T5-DEPLOY §3 | 4.4.5 |
-| FR231 | Self-hosted supports internal SSO providers | T5-SSO | 4.4.6 |
-| FR232 | Users can configure Velero for backup/DR | T5-DEPLOY §8 | 4.4.7 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR225 | Users can deploy via Docker Compose | T5-DEPLOY §1 | 4.4.1 | (deployment docs) | — |
+| FR226 | Users can deploy via Helm charts for K8s | T5-DEPLOY §2 | 4.4.2 | (deployment docs) | — |
+| FR227 | Users can configure external PostgreSQL | T5-DEPLOY §1-2 | 4.4.3 | (deployment config) | — |
+| FR228 | Users can configure external Redis | T5-DEPLOY §1-2 | 4.4.3 | (deployment config) | — |
+| FR229 | Users can configure custom LLM endpoints (BYOM) | T5-DEPLOY §8 | 4.4.4 | (BYOM config) | — |
+| FR230 | Self-hosted supports air-gapped installation | T5-DEPLOY §3 | 4.4.5 | (Harbor registry) | — |
+| FR231 | Self-hosted supports internal SSO providers | T5-SSO | 4.4.6 | (internal SSO config) | — |
+| FR232 | Users can configure Velero for backup/DR | T5-DEPLOY §8 | 4.4.7 | (backup config) | — |
 
 ### 22. API & SDK Export (10 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR233 | Users can export as Claude Agent SDK code | T1-FRAME §5-6 | 2.3.1 |
-| FR234 | Users can export as Agno framework code | T1-FRAME §5-6 | 2.3.2 |
-| FR235 | Users can export as LangGraph adapter code | T1-FRAME §5-6 | 2.3.3 |
-| FR236 | Users can export as CrewAI adapter code | T1-FRAME §5-6 | 2.3.4 |
-| FR237 | System provides REST API with OpenAPI spec | T3-UIGEN §12 | 2.3.5 |
-| FR238 | System provides GraphQL API | T3-UIGEN §12 | 2.3.5 |
-| FR239 | System provides SSE streaming endpoints | T0-PROT | 2.3.6 |
-| FR240 | System provides iOS, Android, JS, Python SDKs | T8-GAPS §3 | 2.3.7 |
-| FR241 | API responses include rate limit headers | T4-SEC §3 | 2.3.5 |
-| FR242 | Users can configure scoped API keys | T8-UI §5 | 1.10.9 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR233 | Users can export as Claude Agent SDK code | T1-FRAME §5-6 | 2.3.1 | `/workflows/{id}/export?format=claude-sdk` | — |
+| FR234 | Users can export as Agno framework code | T1-FRAME §5-6 | 2.3.2 | `/workflows/{id}/export?format=agno` | — |
+| FR235 | Users can export as LangGraph adapter code | T1-FRAME §5-6 | 2.3.3 | `/workflows/{id}/export?format=langgraph` | — |
+| FR236 | Users can export as CrewAI adapter code | T1-FRAME §5-6 | 2.3.4 | `/workflows/{id}/export?format=crewai` | — |
+| FR237 | System provides REST API with OpenAPI spec | T3-UIGEN §12 | 2.3.5 | `/api/*` (OpenAPI at `/openapi.yaml`) | — |
+| FR238 | System provides GraphQL API | T3-UIGEN §12 | 2.3.5 | `/graphql` | — |
+| FR239 | System provides SSE streaming endpoints | T0-PROT | 2.3.6 | `/sse/*`, AgentOS: `/agui` | AG-UI: all 25 event types |
+| FR240 | System provides iOS, Android, JS, Python SDKs | T8-GAPS §3 | 2.3.7 | (SDK documentation) | — |
+| FR241 | API responses include rate limit headers | T4-SEC §3 | 2.3.5 | (X-RateLimit-* headers) | — |
+| FR242 | Users can configure scoped API keys | T8-UI §5 | 1.10.9 | `/api-keys` | — |
 
 ### 23. Cross-Builder Integration (6 FRs)
-| FR# | Requirement | Source | UX Screen |
-|-----|-------------|--------|-----------|
-| FR243 | Module workflows callable from Chatbots (<500ms) | T6-INTEG §11-12 | 1.3.5 |
-| FR244 | Voice agents can call Modules via gRPC (<50ms) | T6-INTEG §6 | 1.5.5 |
-| FR245 | Canvas can be triggered by Chatbot/Voice events | T6-INTEG, T7-CANVAS §7 | 2.1.1 |
-| FR246 | All builders share same project RAG context | T0-RAG | 1.4.1 |
-| FR247 | State changes propagate via PostgreSQL NOTIFY (<10ms) | T6-INTEG §6 | 1.6.1 |
-| FR248 | Events fan out via Redis Pub/Sub (<200ms) | T6-INTEG §6 | 1.6.1 |
+| FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
+|-----|-------------|--------|-----------|--------------|----------------|
+| FR243 | Module workflows callable from Chatbots (<500ms) | T6-INTEG §11-12 | 1.3.5 | AgentOS: `/a2a/agents/{id}/v1/message:send` | A2A: agent discovery, messaging |
+| FR244 | Voice agents can call Modules via gRPC (<50ms) | T6-INTEG §6 | 1.5.5 | (gRPC bidirectional stream) | A2A: agent messaging |
+| FR245 | Canvas can be triggered by Chatbot/Voice events | T6-INTEG, T7-CANVAS §7 | 2.1.1 | (event trigger integration) | A2A: agent messaging |
+| FR246 | All builders share same project RAG context | T0-RAG | 1.4.1 | AgentOS: `/knowledge/*` (project scoped) | — |
+| FR247 | State changes propagate via PostgreSQL NOTIFY (<10ms) | T6-INTEG §6 | 1.6.1 | (PostgreSQL LISTEN/NOTIFY) | — |
+| FR248 | Events fan out via Redis Pub/Sub (<200ms) | T6-INTEG §6 | 1.6.1 | (Redis Pub/Sub) | — |
 
 ### Functional Requirements Summary
 
@@ -1808,132 +1808,132 @@ After each epic:
 
 ### NFR-PERF: Performance Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-PERF-01 | Voice agent end-to-end latency (STT → LLM → TTS) | < 500ms | T6-VOICE, ARCH |
-| NFR-PERF-02 | API response time for synchronous requests | < 100ms p95 | ARCH, T6-INTEG |
-| NFR-PERF-03 | PostgreSQL LISTEN/NOTIFY propagation | < 10ms | ARCH |
-| NFR-PERF-04 | Redis Pub/Sub event delivery | < 200ms | ARCH |
-| NFR-PERF-05 | gRPC bidirectional stream latency (Voice ↔ Module) | < 50ms | ARCH, T6-INTEG |
-| NFR-PERF-06 | Module workflow internal call latency | < 500ms | ARCH |
-| NFR-PERF-07 | Firecracker MicroVM cold start | < 125ms | T4-SEC |
-| NFR-PERF-08 | ReactFlow canvas interaction responsiveness | < 50ms input lag | T1-VWB |
-| NFR-PERF-09 | Knowledge base vector search (pgvector) | < 100ms for 1M vectors | T0-RAG |
-| NFR-PERF-10 | Chatbot webhook processing | < 2 seconds round-trip | T6-INTEG |
-| NFR-PERF-11 | Canvas DAG execution overhead per node | < 50ms | T7-CANVAS |
-| NFR-PERF-12 | Real-time collaboration sync (Yjs) | < 100ms for cursor updates | T4-COLLAB |
-| NFR-PERF-13 | VAD (Silero) processing latency | < 1ms per audio chunk | T6-VOICE |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-PERF-01 | Voice agent end-to-end latency (STT → LLM → TTS) | < 500ms | T6-VOICE, ARCH | (gRPC bidirectional stream) | AG-UI: `TEXT_MESSAGE_*` |
+| NFR-PERF-02 | API response time for synchronous requests | < 100ms p95 | ARCH, T6-INTEG | All `/api/v1/*` endpoints | — |
+| NFR-PERF-03 | PostgreSQL LISTEN/NOTIFY propagation | < 10ms | ARCH | (internal backend) | — |
+| NFR-PERF-04 | Redis Pub/Sub event delivery | < 200ms | ARCH | (internal backend) | — |
+| NFR-PERF-05 | gRPC bidirectional stream latency (Voice ↔ Module) | < 50ms | ARCH, T6-INTEG | AgentOS: `/a2a/agents/{id}/v1/message:stream` | A2A: agent messaging |
+| NFR-PERF-06 | Module workflow internal call latency | < 500ms | ARCH | AgentOS: `/a2a/agents/{id}/v1/message:send` | A2A: agent messaging |
+| NFR-PERF-07 | Firecracker MicroVM cold start | < 125ms | T4-SEC | (internal execution engine) | — |
+| NFR-PERF-08 | ReactFlow canvas interaction responsiveness | < 50ms input lag | T1-VWB | (frontend state) | — |
+| NFR-PERF-09 | Knowledge base vector search (pgvector) | < 100ms for 1M vectors | T0-RAG | AgentOS: `/knowledge/search` | — |
+| NFR-PERF-10 | Chatbot webhook processing | < 2 seconds round-trip | T6-INTEG | `/api/v1/integrations/webhooks/{channelId}` | AG-UI: `RUN_STARTED`, `RUN_FINISHED` |
+| NFR-PERF-11 | Canvas DAG execution overhead per node | < 50ms | T7-CANVAS | AgentOS: `/agents/{id}/runs` | AG-UI: `STEP_STARTED`, `STEP_FINISHED` |
+| NFR-PERF-12 | Real-time collaboration sync (Yjs) | < 100ms for cursor updates | T4-COLLAB | `/api/v1/collab/sessions/{id}` (WebSocket) | (Yjs awareness protocol) |
+| NFR-PERF-13 | VAD (Silero) processing latency | < 1ms per audio chunk | T6-VOICE | (internal audio processing) | — |
 
 ### NFR-SEC: Security Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-SEC-01 | Code execution isolation for untrusted code | Firecracker MicroVMs with hardware-level KVM isolation | T4-SEC |
-| NFR-SEC-02 | Multi-tenant data isolation | Row-Level Security (RLS) with JWT org_id claims | T1-SAAS, ARCH |
-| NFR-SEC-03 | Enterprise database isolation | Neon per-tenant databases for Enterprise tier | T1-SAAS |
-| NFR-SEC-04 | AI safety guardrails | NeMo Guardrails for prompt injection prevention | T4-SEC |
-| NFR-SEC-05 | Encryption at rest | AES-256 for all stored data | T4-SEC |
-| NFR-SEC-06 | Encryption in transit | TLS 1.3 minimum | T4-SEC |
-| NFR-SEC-07 | Secrets management | Infisical or HashiCorp Vault integration | T5-DEPLOY |
-| NFR-SEC-08 | MCP tool allowlisting | Human-in-the-loop approval for sensitive tools | T4-SEC, T5-MCP |
-| NFR-SEC-09 | API key scoping | Per-project, per-capability scoped API keys | T8-UI |
-| NFR-SEC-10 | Container security | gVisor (runsc) for medium-risk code, Docker hardening for low-risk | T4-SEC |
-| NFR-SEC-11 | Supply chain security | SBOM generation, Sigstore image signing | T5-DEPLOY |
-| NFR-SEC-12 | Audit logging | Immutable audit trail for all sensitive operations | T4-SEC |
-| NFR-SEC-13 | Vector database security | OWASP LLM08 controls for embedding protection | T4-SEC |
-| NFR-SEC-14 | Cross-agent security | Trust boundary enforcement between agents | T4-SEC |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-SEC-01 | Code execution isolation for untrusted code | Firecracker MicroVMs with hardware-level KVM isolation | T4-SEC | (internal execution engine) | — |
+| NFR-SEC-02 | Multi-tenant data isolation | Row-Level Security (RLS) with JWT org_id claims | T1-SAAS, ARCH | (all endpoints via JWT claims) | — |
+| NFR-SEC-03 | Enterprise database isolation | Neon per-tenant databases for Enterprise tier | T1-SAAS | (internal DB routing) | — |
+| NFR-SEC-04 | AI safety guardrails | NeMo Guardrails for prompt injection prevention | T4-SEC | AgentOS: `/agents/{id}/config` | — |
+| NFR-SEC-05 | Encryption at rest | AES-256 for all stored data | T4-SEC | (infrastructure) | — |
+| NFR-SEC-06 | Encryption in transit | TLS 1.3 minimum | T4-SEC | (infrastructure) | — |
+| NFR-SEC-07 | Secrets management | Infisical or HashiCorp Vault integration | T5-DEPLOY | `/api/v1/settings/secrets` | — |
+| NFR-SEC-08 | MCP tool allowlisting | Human-in-the-loop approval for sensitive tools | T4-SEC, T5-MCP | `/api/v1/mcp/registry/tools/{id}/consent` | AG-UI: `TOOL_CALL_START`, `TOOL_CALL_RESULT` |
+| NFR-SEC-09 | API key scoping | Per-project, per-capability scoped API keys | T8-UI | `/api/v1/settings/api-keys` | — |
+| NFR-SEC-10 | Container security | gVisor (runsc) for medium-risk code, Docker hardening for low-risk | T4-SEC | (internal execution engine) | — |
+| NFR-SEC-11 | Supply chain security | SBOM generation, Sigstore image signing | T5-DEPLOY | (CI/CD pipeline) | — |
+| NFR-SEC-12 | Audit logging | Immutable audit trail for all sensitive operations | T4-SEC | `/api/v1/audit/logs` | — |
+| NFR-SEC-13 | Vector database security | OWASP LLM08 controls for embedding protection | T4-SEC | AgentOS: `/knowledge/*` | — |
+| NFR-SEC-14 | Cross-agent security | Trust boundary enforcement between agents | T4-SEC | AgentOS: `/a2a/agents/{id}/v1/message:send` | A2A: agent messaging with trust claims |
 
 ### NFR-SCALE: Scalability Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-SCALE-01 | Tenant capacity Year 1 | 10,000 active tenants | MP |
-| NFR-SCALE-02 | Tenant capacity Year 3 | 100,000 active tenants | MP |
-| NFR-SCALE-03 | Horizontal pod autoscaling | 10x traffic spikes within 2 minutes | T5-DEPLOY |
-| NFR-SCALE-04 | Database connection pooling | 1,000 concurrent connections via PgBouncer | T1-SAAS |
-| NFR-SCALE-05 | Message queue throughput | 100,000 events/second (Redis Streams → NATS at scale) | ARCH |
-| NFR-SCALE-06 | Vector database scaling | HNSW indexes for billion-scale embeddings | T0-RAG |
-| NFR-SCALE-07 | CDN edge caching | 95% cache hit rate for static assets | T8-GAPS |
-| NFR-SCALE-08 | API rate limiting | Tiered limits (Free: 60/min, Pro: 600/min, Enterprise: custom) | T8-GAPS |
-| NFR-SCALE-09 | Workflow concurrent executions | 1,000 per tenant for Enterprise tier | ARCH |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-SCALE-01 | Tenant capacity Year 1 | 10,000 active tenants | MP | (infrastructure capacity) | — |
+| NFR-SCALE-02 | Tenant capacity Year 3 | 100,000 active tenants | MP | (infrastructure capacity) | — |
+| NFR-SCALE-03 | Horizontal pod autoscaling | 10x traffic spikes within 2 minutes | T5-DEPLOY | (Kubernetes HPA) | — |
+| NFR-SCALE-04 | Database connection pooling | 1,000 concurrent connections via PgBouncer | T1-SAAS | (infrastructure) | — |
+| NFR-SCALE-05 | Message queue throughput | 100,000 events/second (Redis Streams → NATS at scale) | ARCH | (internal event bus) | AG-UI: all event types |
+| NFR-SCALE-06 | Vector database scaling | HNSW indexes for billion-scale embeddings | T0-RAG | AgentOS: `/knowledge/search` | — |
+| NFR-SCALE-07 | CDN edge caching | 95% cache hit rate for static assets | T8-GAPS | (CDN infrastructure) | — |
+| NFR-SCALE-08 | API rate limiting | Tiered limits (Free: 60/min, Pro: 600/min, Enterprise: custom) | T8-GAPS | All `/api/v1/*` endpoints | — |
+| NFR-SCALE-09 | Workflow concurrent executions | 1,000 per tenant for Enterprise tier | ARCH | AgentOS: `/agents/{id}/runs` | AG-UI: `RUN_STARTED`, `RUN_FINISHED` |
 
 ### NFR-REL: Reliability Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-REL-01 | Platform uptime SLA | 99.9% (Free/Pro), 99.95% (Enterprise) | B3-PRICE |
-| NFR-REL-02 | Recovery Time Objective (RTO) | 4 hours (standard), 1 hour (Enterprise) | T5-DEPLOY |
-| NFR-REL-03 | Recovery Point Objective (RPO) | 1 hour (standard), 15 minutes (Enterprise) | T5-DEPLOY |
-| NFR-REL-04 | Database backup frequency | Continuous WAL streaming + daily snapshots | T5-DEPLOY |
-| NFR-REL-05 | Multi-region failover | Active-passive with 15-minute failover | T5-DEPLOY |
-| NFR-REL-06 | Circuit breaker patterns | Resilience4j for external service calls | T6-INTEG |
-| NFR-REL-07 | Graceful degradation | Core functionality during partial outages | ARCH |
-| NFR-REL-08 | Data durability | 99.999999999% (11 nines) for S3-stored assets | T5-DEPLOY |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-REL-01 | Platform uptime SLA | 99.9% (Free/Pro), 99.95% (Enterprise) | B3-PRICE | All endpoints | — |
+| NFR-REL-02 | Recovery Time Objective (RTO) | 4 hours (standard), 1 hour (Enterprise) | T5-DEPLOY | (infrastructure/DR) | — |
+| NFR-REL-03 | Recovery Point Objective (RPO) | 1 hour (standard), 15 minutes (Enterprise) | T5-DEPLOY | (infrastructure/DR) | — |
+| NFR-REL-04 | Database backup frequency | Continuous WAL streaming + daily snapshots | T5-DEPLOY | (infrastructure) | — |
+| NFR-REL-05 | Multi-region failover | Active-passive with 15-minute failover | T5-DEPLOY | (infrastructure/DR) | — |
+| NFR-REL-06 | Circuit breaker patterns | Resilience4j for external service calls | T6-INTEG | All external API calls | AG-UI: `RUN_ERROR` |
+| NFR-REL-07 | Graceful degradation | Core functionality during partial outages | ARCH | All endpoints (fallback mode) | AG-UI: `RUN_ERROR` |
+| NFR-REL-08 | Data durability | 99.999999999% (11 nines) for S3-stored assets | T5-DEPLOY | `/api/v1/assets/*` | — |
 
 ### NFR-ACC: Accessibility Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-ACC-01 | WCAG compliance | Level AA for all platform UI | T8-UI |
-| NFR-ACC-02 | Color contrast validation | Automated WCAG contrast checks in theme system | T5-WHITE |
-| NFR-ACC-03 | Keyboard navigation | Full keyboard accessibility for visual builders | T1-VWB |
-| NFR-ACC-04 | Screen reader support | ARIA labels for ReactFlow nodes and controls | T1-VWB |
-| NFR-ACC-05 | Voice agent accessibility | Visual feedback for voice status and transcripts | T6-VOICE |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-ACC-01 | WCAG compliance | Level AA for all platform UI | T8-UI | (frontend implementation) | — |
+| NFR-ACC-02 | Color contrast validation | Automated WCAG contrast checks in theme system | T5-WHITE | `/api/v1/white-label/themes` | — |
+| NFR-ACC-03 | Keyboard navigation | Full keyboard accessibility for visual builders | T1-VWB | (frontend implementation) | — |
+| NFR-ACC-04 | Screen reader support | ARIA labels for ReactFlow nodes and controls | T1-VWB | (frontend implementation) | — |
+| NFR-ACC-05 | Voice agent accessibility | Visual feedback for voice status and transcripts | T6-VOICE | (frontend) | AG-UI: `TEXT_MESSAGE_*`, `ACTIVITY_*` |
 
 ### NFR-INT: Integration Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-INT-01 | A2UI protocol compliance | v0.8 full implementation | T0-PROT |
-| NFR-INT-02 | AG-UI protocol compliance | 25 event types, SSE + HTTP POST | T0-PROT |
-| NFR-INT-03 | MCP protocol compliance | 2025-11-25 spec with Tasks primitive | T5-MCP |
-| NFR-INT-04 | A2A protocol compliance | v0.3.0 schema for multi-agent | T6-INTEG |
-| NFR-INT-05 | OAuth 2.1 compliance | For all external integrations | T5-SSO |
-| NFR-INT-06 | OpenAPI specification | 3.1.0 for all REST endpoints | ARCH |
-| NFR-INT-07 | Webhook signature verification | HMAC-SHA256 for all webhooks | T6-INTEG |
-| NFR-INT-08 | SAML 2.0 support | For Enterprise SSO via WorkOS | T5-SSO |
-| NFR-INT-09 | SCIM 2.0 support | For directory sync via WorkOS | T5-SSO |
-| NFR-INT-10 | Chatwoot API compatibility | v1 API with Agent Bots | T4-CHAT |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-INT-01 | A2UI protocol compliance | v0.8 full implementation | T0-PROT | AgentOS: `/agui` (SSE) | A2UI: `BEGIN_RENDERING`, `SURFACE_UPDATE`, `DATA_MODEL_UPDATE` |
+| NFR-INT-02 | AG-UI protocol compliance | 25 event types, SSE + HTTP POST | T0-PROT | AgentOS: `/agui` (SSE) | AG-UI: all 25 event types |
+| NFR-INT-03 | MCP protocol compliance | 2025-11-25 spec with Tasks primitive | T5-MCP | `/api/v1/mcp/registry/*`, AgentOS: `/mcp/*` | AG-UI: `TOOL_CALL_*` |
+| NFR-INT-04 | A2A protocol compliance | v0.3.0 schema for multi-agent | T6-INTEG | AgentOS: `/a2a/agents/{id}/.well-known/agent-card.json`, `/a2a/agents/{id}/v1/message:*` | A2A: discovery + messaging |
+| NFR-INT-05 | OAuth 2.1 compliance | For all external integrations | T5-SSO | `/api/v1/integrations/oauth/authorize`, `/callback`, `/token` | — |
+| NFR-INT-06 | OpenAPI specification | 3.1.0 for all REST endpoints | ARCH | `/api/docs` (Swagger UI) | — |
+| NFR-INT-07 | Webhook signature verification | HMAC-SHA256 for all webhooks | T6-INTEG | `/api/v1/integrations/webhooks/{channelId}` | — |
+| NFR-INT-08 | SAML 2.0 support | For Enterprise SSO via WorkOS | T5-SSO | `/api/v1/auth/saml/*` (via WorkOS) | — |
+| NFR-INT-09 | SCIM 2.0 support | For directory sync via WorkOS | T5-SSO | `/api/v1/auth/scim/*` (via WorkOS) | — |
+| NFR-INT-10 | Chatwoot API compatibility | v1 API with Agent Bots | T4-CHAT | `/api/v1/integrations/chatwoot/*` | AG-UI: `TEXT_MESSAGE_*` |
 
 ### NFR-OBS: Observability Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-OBS-01 | Distributed tracing | OpenTelemetry + Langfuse (self-hosted) | T4-OBS |
-| NFR-OBS-02 | Trace retention | 14 days (standard), 400 days (Enterprise) | T4-OBS |
-| NFR-OBS-03 | Cost attribution | Per-tenant, per-workflow token tracking | T4-OBS, T3-BILL |
-| NFR-OBS-04 | Metrics collection | Prometheus with Grafana dashboards | T4-OBS |
-| NFR-OBS-05 | Log aggregation | Loki or ELK stack with tenant isolation | T4-OBS |
-| NFR-OBS-06 | Alerting | PagerDuty/Slack integration for critical alerts | T4-OBS |
-| NFR-OBS-07 | LLM-specific monitoring | Latency, token usage, error rates per model | T4-OBS |
-| NFR-OBS-08 | Agent replay capability | Full execution replay for debugging | T4-OBS |
-| NFR-OBS-09 | Real-time cost tracking | Dashboard with usage alerts at 80%/100% thresholds | T3-BILL |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-OBS-01 | Distributed tracing | OpenTelemetry + Langfuse (self-hosted) | T4-OBS | `/api/v1/observability/traces` | AG-UI: `RUN_*`, `STEP_*` (trace IDs) |
+| NFR-OBS-02 | Trace retention | 14 days (standard), 400 days (Enterprise) | T4-OBS | `/api/v1/observability/traces` | — |
+| NFR-OBS-03 | Cost attribution | Per-tenant, per-workflow token tracking | T4-OBS, T3-BILL | `/api/v1/billing/usage`, `/api/v1/observability/costs` | — |
+| NFR-OBS-04 | Metrics collection | Prometheus with Grafana dashboards | T4-OBS | `/metrics` (Prometheus format) | — |
+| NFR-OBS-05 | Log aggregation | Loki or ELK stack with tenant isolation | T4-OBS | `/api/v1/observability/logs` | — |
+| NFR-OBS-06 | Alerting | PagerDuty/Slack integration for critical alerts | T4-OBS | `/api/v1/observability/alerts` | — |
+| NFR-OBS-07 | LLM-specific monitoring | Latency, token usage, error rates per model | T4-OBS | `/api/v1/observability/llm-metrics` | AG-UI: `TOOL_CALL_*` (LLM calls) |
+| NFR-OBS-08 | Agent replay capability | Full execution replay for debugging | T4-OBS | AgentOS: `/agents/{id}/runs/{runId}/replay` | AG-UI: all events (stored for replay) |
+| NFR-OBS-09 | Real-time cost tracking | Dashboard with usage alerts at 80%/100% thresholds | T3-BILL | `/api/v1/billing/usage/realtime` | — |
 
 ### NFR-MAINT: Maintainability Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-MAINT-01 | CI/CD pipeline | GitHub Actions with matrix builds for multi-arch | T8-GAPS |
-| NFR-MAINT-02 | Test coverage | 80% unit test coverage, E2E for critical paths | T8-GAPS |
-| NFR-MAINT-03 | E2E testing framework | Playwright for cross-browser testing | T8-GAPS |
-| NFR-MAINT-04 | GitOps deployment | ArgoCD or Flux for Kubernetes deployments | T5-DEPLOY |
-| NFR-MAINT-05 | Infrastructure as Code | Terraform modules for AWS/GCP/Azure | T5-DEPLOY |
-| NFR-MAINT-06 | Container image updates | Automated security patching via Renovate | T5-DEPLOY |
-| NFR-MAINT-07 | API versioning | Semantic versioning with 12-month deprecation notice | ARCH |
-| NFR-MAINT-08 | Feature flags | LaunchDarkly for per-tenant feature control | T8-UI |
-| NFR-MAINT-09 | Documentation | OpenAPI docs, architecture decision records | ARCH |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-MAINT-01 | CI/CD pipeline | GitHub Actions with matrix builds for multi-arch | T8-GAPS | (CI/CD infrastructure) | — |
+| NFR-MAINT-02 | Test coverage | 80% unit test coverage, E2E for critical paths | T8-GAPS | (testing infrastructure) | — |
+| NFR-MAINT-03 | E2E testing framework | Playwright for cross-browser testing | T8-GAPS | (testing infrastructure) | — |
+| NFR-MAINT-04 | GitOps deployment | ArgoCD or Flux for Kubernetes deployments | T5-DEPLOY | (deployment infrastructure) | — |
+| NFR-MAINT-05 | Infrastructure as Code | Terraform modules for AWS/GCP/Azure | T5-DEPLOY | (IaC infrastructure) | — |
+| NFR-MAINT-06 | Container image updates | Automated security patching via Renovate | T5-DEPLOY | (CI/CD infrastructure) | — |
+| NFR-MAINT-07 | API versioning | Semantic versioning with 12-month deprecation notice | ARCH | All `/api/v1/*` endpoints | — |
+| NFR-MAINT-08 | Feature flags | LaunchDarkly for per-tenant feature control | T8-UI | `/api/v1/settings/feature-flags` | — |
+| NFR-MAINT-09 | Documentation | OpenAPI docs, architecture decision records | ARCH | `/api/docs` (Swagger), `openapi.yaml` | — |
 
 ### NFR-COMP: Compliance Requirements
 
-| ID | Requirement | Target | Source |
-|----|-------------|--------|--------|
-| NFR-COMP-01 | SOC 2 Type II | Full compliance by Year 2 | T4-SEC |
-| NFR-COMP-02 | GDPR | Data residency, right to deletion, DPA | T4-SEC |
-| NFR-COMP-03 | EU AI Act | Compliance by August 2026 enforcement | T4-SEC |
-| NFR-COMP-04 | HIPAA | BAA available for healthcare customers | T4-SEC |
-| NFR-COMP-05 | Air-gapped deployment | Harbor registry for isolated environments | T5-DEPLOY |
-| NFR-COMP-06 | Data sovereignty | Region-specific deployment options | T5-DEPLOY |
-| NFR-COMP-07 | Audit trail retention | 7 years for compliance logs | T4-SEC |
+| ID | Requirement | Target | Source | API Endpoint | Protocol Event |
+|----|-------------|--------|--------|--------------|----------------|
+| NFR-COMP-01 | SOC 2 Type II | Full compliance by Year 2 | T4-SEC | `/api/v1/audit/logs` | — |
+| NFR-COMP-02 | GDPR | Data residency, right to deletion, DPA | T4-SEC | `/api/v1/users/me/data-export`, `/api/v1/users/me/delete` | — |
+| NFR-COMP-03 | EU AI Act | Compliance by August 2026 enforcement | T4-SEC | (AI transparency documentation) | — |
+| NFR-COMP-04 | HIPAA | BAA available for healthcare customers | T4-SEC | (BAA contract process) | — |
+| NFR-COMP-05 | Air-gapped deployment | Harbor registry for isolated environments | T5-DEPLOY | (self-hosted installation) | — |
+| NFR-COMP-06 | Data sovereignty | Region-specific deployment options | T5-DEPLOY | `/api/v1/settings/data-residency` | — |
+| NFR-COMP-07 | Audit trail retention | 7 years for compliance logs | T4-SEC | `/api/v1/audit/logs` | — |
 
 ### Non-Functional Requirements Summary
 
