@@ -1,0 +1,14 @@
+# Test artifacts
+results/
+reports/
+.auth/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Coverage
+coverage/
+
+# Snapshots (optional - remove if you want to track)
+# snapshots/
