@@ -1164,3 +1164,50 @@ _Story completed: 2026-01-26_
 ---
 
 _Story completed: 2026-01-26_
+
+### [Story 0.1.22] Configure OpenTelemetry Distributed Tracing
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **OpenTelemetry Packages**
+  - `@opentelemetry/api@^1.9.0` - Core tracing API
+  - `@opentelemetry/sdk-node@^0.211.0` - Node.js SDK
+  - `@opentelemetry/auto-instrumentations-node@^0.69.0` - Auto-instrumentation
+  - `@opentelemetry/exporter-trace-otlp-http@^0.211.0` - OTLP exporter
+
+- **Instrumentation** (`apps/web/instrumentation.ts`)
+  - Next.js instrumentation entry point
+  - Dynamic imports for Node.js runtime only
+  - OTLP export to Langfuse
+  - Auto-instrumentation for common libraries
+
+- **Tracing Utilities** (`lib/observability/tracing.ts`)
+  - `withSpan()` - Generic span wrapper
+  - `traceApiRoute()` - API route tracing
+  - `traceDatabaseQuery()` - Database query tracing
+  - `traceLLMCall()` - LLM completion tracing
+  - `traceExternalService()` - External HTTP tracing
+  - Context propagation helpers
+
+- **Environment Variables** (`.env.example`)
+  - `OTEL_EXPORTER_OTLP_ENDPOINT` - OTLP endpoint URL
+  - `OTEL_SERVICE_NAME` - Service identifier
+
+#### Technical
+
+- **Trace Context:**
+  - `extractTraceContext()` - Extract from headers
+  - `injectTraceContext()` - Inject into headers
+  - `getCurrentTraceId()` / `getCurrentSpanId()`
+
+- **Span Attributes:**
+  - API routes: `http.route`, `http.method`
+  - Database: `db.operation`, `db.table`
+  - LLM: `llm.model`, `ai.model.provider`
+  - External: `http.url`, `service.name`
+
+---
+
+_Story completed: 2026-01-26_
