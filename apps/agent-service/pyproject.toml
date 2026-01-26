@@ -32,6 +32,9 @@ dependencies = [
     # Cache & Sessions
     "redis>=5.0.0",
 
+    # Workflow Orchestration
+    "temporalio>=1.7.0",
+
     # LLM Provider
     "anthropic>=0.40.0",
 
