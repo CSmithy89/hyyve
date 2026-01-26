@@ -1211,3 +1211,71 @@ _Story completed: 2026-01-26_
 ---
 
 _Story completed: 2026-01-26_
+
+### [Story 0.1.23] Configure Docker Compose for Local Development
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Docker Compose Configuration** (`docker-compose.yml`)
+  - `web` - Next.js frontend service
+  - `agent-service` - Agno Python backend (FastAPI)
+  - `temporal-worker` - Temporal workflow worker
+  - `postgres` - PostgreSQL database (Supabase local)
+  - `redis` - Redis for caching/pubsub
+  - `temporal` - Temporal server
+  - `langfuse` - LLM observability (self-hosted)
+  - Health checks for all services
+  - Network isolation with `hyyve-network`
+  - Persistent volumes for postgres and redis
+
+- **Development Overrides** (`docker-compose.override.yml`)
+  - Volume mounts for hot reload
+  - Development-specific environment variables
+  - `temporal-ui` - Temporal Web UI (port 8080)
+  - `supabase-studio` - Database management UI (port 3002)
+
+- **Docker Environment** (`.env.docker`)
+  - PostgreSQL/Supabase configuration
+  - Redis configuration
+  - Temporal configuration
+  - Langfuse configuration
+  - OpenTelemetry configuration
+  - Service port reference
+
+- **Startup Script** (`scripts/docker-up.sh`)
+  - `--build` - Force rebuild containers
+  - `--detach` - Run in background
+  - `--fresh` - Remove volumes and start fresh
+  - `--services` - Start specific services
+  - Color-coded output with service URLs
+
+- **Package Scripts** (`package.json`)
+  - `docker:up` - Start all services in background
+  - `docker:down` - Stop all services
+  - `docker:logs` - View service logs
+  - `docker:build` - Rebuild and start
+  - `docker:fresh` - Fresh start with clean volumes
+
+#### Technical
+
+- **Service Ports:**
+  - Web (Next.js): 3000
+  - Agent Service: 8000
+  - PostgreSQL: 5432
+  - Redis: 6379
+  - Temporal: 7233
+  - Temporal UI: 8080
+  - Langfuse: 3001
+  - Supabase Studio: 3002
+
+- **Health Checks:**
+  - postgres: `pg_isready`
+  - redis: `redis-cli ping`
+  - temporal: `tctl cluster health`
+  - All services use condition-based depends_on
+
+---
+
+_Story completed: 2026-01-26_

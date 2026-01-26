@@ -20,7 +20,12 @@
     "test:e2e:infra": "playwright test --config=tests/e2e/infrastructure/playwright.infrastructure.config.ts",
     "test:unit:infra": "vitest run tests/unit/infrastructure",
     "test:infra": "pnpm test:unit:infra && pnpm test:e2e:infra",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docker:up": "./scripts/docker-up.sh --detach",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:build": "./scripts/docker-up.sh --build --detach",
+    "docker:fresh": "./scripts/docker-up.sh --fresh --detach"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
