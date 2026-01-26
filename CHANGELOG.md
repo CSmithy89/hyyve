@@ -766,3 +766,49 @@ _Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 1 LOW, 1 INFO obse
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 issues found)_
+
+### [Story 0.1.15] Configure CI/CD Pipeline
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Verified
+
+- **CI Workflow** (`.github/workflows/ci.yml`)
+  - Triggers on push/PR to main and develop branches
+  - `lint` job: ESLint and TypeScript typecheck
+  - `unit-tests` job: Vitest with coverage, Codecov integration
+  - `build` job: Depends on lint and unit-tests, uploads artifacts
+  - `e2e-tests` job: Playwright tests with report upload
+  - pnpm caching enabled on all jobs
+  - Node 20.x runtime
+
+- **E2E Test Workflow** (`.github/workflows/e2e-tests.yml`)
+  - Dedicated workflow for comprehensive E2E testing
+  - Manual dispatch with browser selection
+  - Matrix browser support (chromium by default)
+  - Smoke test job for PRs
+  - Artifact upload on test failure
+
+#### Added
+
+- **ATDD Tests** (`tests/unit/infrastructure/ci-cd-pipeline.test.ts`)
+  - 29 tests validating CI/CD configuration
+  - YAML parsing with `yaml` package
+
+#### Technical
+
+- **CI Job Dependencies:**
+  - `lint` and `unit-tests` run in parallel
+  - `build` depends on lint and unit-tests
+  - `e2e-tests` depends on build
+
+- **Secrets Required:**
+  - `CODECOV_TOKEN` - Coverage upload
+  - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - Build time
+  - `TEST_USER_EMAIL`, `TEST_USER_PASSWORD` - E2E credentials
+  - `CLERK_SECRET_KEY` - Auth runtime
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 issues found)_
