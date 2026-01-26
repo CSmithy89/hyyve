@@ -2,11 +2,15 @@
 
 import { ClerkProvider } from '@clerk/nextjs';
 import { ReactNode } from 'react';
+import { TRPCProvider } from '@/lib/trpc/provider';
 
 /**
  * Client-side providers wrapper.
  *
- * This component wraps children with client-side providers like ClerkProvider.
+ * This component wraps children with client-side providers:
+ * - ClerkProvider for authentication
+ * - TRPCProvider for type-safe API calls
+ *
  * During build time without Clerk keys, it renders children without ClerkProvider.
  */
 export function Providers({ children }: { children: ReactNode }) {
@@ -15,9 +19,13 @@ export function Providers({ children }: { children: ReactNode }) {
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
   if (!publishableKey) {
-    // During build or when Clerk is not configured, render without auth
-    return <>{children}</>;
+    // During build or when Clerk is not configured, render with tRPC only
+    return <TRPCProvider>{children}</TRPCProvider>;
   }
 
-  return <ClerkProvider publishableKey={publishableKey}>{children}</ClerkProvider>;
+  return (
+    <ClerkProvider publishableKey={publishableKey}>
+      <TRPCProvider>{children}</TRPCProvider>
+    </ClerkProvider>
+  );
 }
