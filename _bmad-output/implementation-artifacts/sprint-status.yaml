@@ -56,7 +56,7 @@ development_status:
   0-1-9-configure-langfuse-observability: done
   0-1-10-configure-protocol-stack-copilotkit-ag-ui: done
   0-1-11-configure-stripe-billing: done
-  0-1-12-configure-testing-infrastructure: backlog
+  0-1-12-configure-testing-infrastructure: done
   0-1-13-configure-environment-variables-secrets: backlog
   0-1-14-configure-eslint-prettier-and-git-hooks: backlog
   0-1-15-configure-ci-cd-pipeline: backlog
