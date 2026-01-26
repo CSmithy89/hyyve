@@ -80,3 +80,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer_
+
+### [Story 0.1.2] Configure TypeScript with Strict Mode
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Base TypeScript Configuration** (`packages/tsconfig/base.json`)
+  - Central strict mode configuration for all packages
+  - Target ES2022 with bundler module resolution
+
+- **Specialized Configurations**
+  - `packages/tsconfig/nextjs.json` - Next.js App Router settings with JSX support
+  - `packages/tsconfig/react-library.json` - Shared React component packages with declaration files
+
+#### Changed
+
+- **apps/web/tsconfig.json** - Updated to extend shared nextjs.json config
+- **Path Alias Resolution** - Changed from wildcard pattern to explicit per-package aliases for reliable sub-path imports
+
+#### Technical
+
+- **TypeScript Version:** 5.8.3 (exceeds 5.x requirement)
+- **Strict Mode Settings:**
+  - `strict: true` - Enables all strict type-checking options
+  - `noUncheckedIndexedAccess: true` - Adds undefined to index signature results
+  - `noImplicitReturns: true` - Requires explicit returns in all code paths
+  - `noUnusedLocals: true` - Reports errors on unused local variables
+  - `noUnusedParameters: true` - Reports errors on unused function parameters
+- **Module Settings:**
+  - `moduleResolution: "bundler"` - Modern bundler-compatible resolution
+  - `esModuleInterop: true` - CommonJS/ES module interoperability
+- **Path Aliases Configured:**
+  - `@/*` - Maps to app-local source directory
+  - `@platform/ui`, `@platform/ui/*` - UI components package
+  - `@platform/auth`, `@platform/auth/*` - Authentication helpers package
+  - `@platform/db`, `@platform/db/*` - Database client package
+- **Configuration Hierarchy:**
+  ```
+  packages/tsconfig/base.json         <- Strict mode foundation
+      ├── nextjs.json                 <- Apps extend this
+      └── react-library.json          <- Shared packages extend this
+  ```
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (2 review cycles)_

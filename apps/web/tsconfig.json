@@ -4,7 +4,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@platform/*": ["../../packages/@platform/*/src"]
+      "@platform/ui": ["../../packages/@platform/ui/src"],
+      "@platform/ui/*": ["../../packages/@platform/ui/src/*"],
+      "@platform/shared": ["../../packages/@platform/shared/src"],
+      "@platform/shared/*": ["../../packages/@platform/shared/src/*"],
+      "@platform/types": ["../../packages/@platform/types/src"],
+      "@platform/types/*": ["../../packages/@platform/types/src/*"]
     },
     "module": "ESNext",
     "jsx": "preserve"
