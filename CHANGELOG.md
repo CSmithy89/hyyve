@@ -868,3 +868,70 @@ _Reviewed and approved by Senior Developer (0 issues found)_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 issues found)_
+
+### [Story 0.1.17] Configure Agno Agent Framework (Python Backend)
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Python Agent Service** (`apps/agent-service/`)
+  - `src/agents/` - Agent definitions with Agno framework
+  - `src/tools/` - MCP tool implementations
+  - `src/memory/` - Memory service integration
+  - `src/workflows/` - Agno workflow definitions
+  - `src/routers/` - FastAPI API routers
+
+- **FastAPI Application** (`src/main.py`)
+  - CORS middleware configured
+  - Structured logging with structlog
+  - Lifespan management for startup/shutdown
+
+- **Health Check Endpoints** (`src/routers/health.py`)
+  - `/health` - Basic health check
+  - `/health/detailed` - Dependency status
+  - `/ready` - Kubernetes readiness probe
+  - `/live` - Kubernetes liveness probe
+
+- **Agent Execution Endpoints** (`src/routers/agents.py`)
+  - `GET /api/v1/agents` - List available agents
+  - `GET /api/v1/agents/{id}` - Get agent info
+  - `POST /api/v1/agents/{id}/execute` - Execute agent
+
+- **Base Agent Class** (`src/agents/base.py`)
+  - Agno framework integration
+  - `add_history_to_context=True`
+  - `add_memories_to_context=True`
+  - `enable_agentic_memory=True`
+  - PostgreSQL storage for persistent memory
+
+- **Configuration Management** (`src/config.py`)
+  - Pydantic Settings for environment variables
+  - DATABASE_URL, REDIS_URL, ANTHROPIC_API_KEY
+
+- **Containerization** (`Dockerfile`)
+  - Python 3.12-slim base image
+  - Multi-stage build with uv
+  - Non-root user for security
+  - Health check configured
+
+#### Technical
+
+- **Agent Personalities:**
+  - Bond - Concierge/orchestrator (polished, confident)
+  - Wendy - Workflow assistant (warm, helpful)
+  - Morgan - Data analyst (precise, methodical)
+  - Artie - Creative/design (enthusiastic, imaginative)
+
+- **Dependencies:**
+  - agno>=2.4.0 - Agent framework
+  - fastapi>=0.115.0 - HTTP API
+  - uvicorn>=0.32.0 - ASGI server
+  - psycopg>=3.2.0 - PostgreSQL
+  - redis>=5.0.0 - Session cache
+  - anthropic>=0.40.0 - Claude LLM
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 issues found)_
