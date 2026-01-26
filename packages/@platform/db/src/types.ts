@@ -2,22 +2,203 @@
  * Database Types
  *
  * This file contains the Supabase database type definitions.
- * These types will be generated from the Supabase schema.
+ * These types are manually defined to match the schema in supabase/migrations/00001_initial_schema.sql
+ *
+ * To regenerate from actual database:
+ * npx supabase gen types typescript --local > packages/@platform/db/src/types.ts
  */
 
-// Placeholder database types - will be generated from Supabase schema
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+export type OrganizationMemberRole = 'owner' | 'admin' | 'member';
+
+export type ProjectType = 'module' | 'chatbot' | 'voice' | 'canvas';
+
+// ============================================================================
+// TABLE TYPES
+// ============================================================================
+
+export interface Organization {
+  id: string;
+  name: string;
+  slug: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface OrganizationInsert {
+  id?: string;
+  name: string;
+  slug: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface OrganizationUpdate {
+  id?: string;
+  name?: string;
+  slug?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface OrganizationMember {
+  organization_id: string;
+  user_id: string;
+  role: OrganizationMemberRole;
+  created_at: string;
+}
+
+export interface OrganizationMemberInsert {
+  organization_id: string;
+  user_id: string;
+  role?: OrganizationMemberRole;
+  created_at?: string;
+}
+
+export interface OrganizationMemberUpdate {
+  organization_id?: string;
+  user_id?: string;
+  role?: OrganizationMemberRole;
+  created_at?: string;
+}
+
+export interface Workspace {
+  id: string;
+  organization_id: string;
+  name: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface WorkspaceInsert {
+  id?: string;
+  organization_id: string;
+  name: string;
+  description?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface WorkspaceUpdate {
+  id?: string;
+  organization_id?: string;
+  name?: string;
+  description?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface Project {
+  id: string;
+  workspace_id: string;
+  name: string;
+  type: ProjectType;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProjectInsert {
+  id?: string;
+  workspace_id: string;
+  name: string;
+  type: ProjectType;
+  description?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ProjectUpdate {
+  id?: string;
+  workspace_id?: string;
+  name?: string;
+  type?: ProjectType;
+  description?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+// ============================================================================
+// DATABASE TYPE (Supabase format)
+// ============================================================================
+
 export type Database = {
   public: {
-    Tables: Record<string, never>;
+    Tables: {
+      organizations: {
+        Row: Organization;
+        Insert: OrganizationInsert;
+        Update: OrganizationUpdate;
+        Relationships: [];
+      };
+      organization_members: {
+        Row: OrganizationMember;
+        Insert: OrganizationMemberInsert;
+        Update: OrganizationMemberUpdate;
+        Relationships: [
+          {
+            foreignKeyName: 'organization_members_organization_id_fkey';
+            columns: ['organization_id'];
+            isOneToOne: false;
+            referencedRelation: 'organizations';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      workspaces: {
+        Row: Workspace;
+        Insert: WorkspaceInsert;
+        Update: WorkspaceUpdate;
+        Relationships: [
+          {
+            foreignKeyName: 'workspaces_organization_id_fkey';
+            columns: ['organization_id'];
+            isOneToOne: false;
+            referencedRelation: 'organizations';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      projects: {
+        Row: Project;
+        Insert: ProjectInsert;
+        Update: ProjectUpdate;
+        Relationships: [
+          {
+            foreignKeyName: 'projects_workspace_id_fkey';
+            columns: ['workspace_id'];
+            isOneToOne: false;
+            referencedRelation: 'workspaces';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+    };
     Views: Record<string, never>;
     Functions: Record<string, never>;
-    Enums: Record<string, never>;
+    Enums: {
+      organization_member_role: OrganizationMemberRole;
+      project_type: ProjectType;
+    };
   };
 };
 
-// Utility types for extracting table types
+// ============================================================================
+// UTILITY TYPES
+// ============================================================================
+
 export type Tables<T extends keyof Database['public']['Tables']> =
-  Database['public']['Tables'][T];
+  Database['public']['Tables'][T]['Row'];
+
+export type TablesInsert<T extends keyof Database['public']['Tables']> =
+  Database['public']['Tables'][T]['Insert'];
+
+export type TablesUpdate<T extends keyof Database['public']['Tables']> =
+  Database['public']['Tables'][T]['Update'];
 
 export type Enums<T extends keyof Database['public']['Enums']> =
   Database['public']['Enums'][T];
