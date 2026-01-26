@@ -36,6 +36,9 @@ structlog.configure(
 
 logger = structlog.get_logger(__name__)
 
+# Validate production configuration
+settings.validate_production_config()
+
 # Log startup
 logger.info(
     "Initializing Hyyve Agent Service with AgentOS",

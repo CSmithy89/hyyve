@@ -20,8 +20,10 @@ RUN pip install uv
 # Copy dependency files
 COPY pyproject.toml ./
 
-# Install dependencies using uv
-RUN uv pip install --system --no-cache -r <(uv pip compile pyproject.toml)
+# Install dependencies using uv (compile to file first - process substitution not supported in sh)
+RUN uv pip compile pyproject.toml -o requirements.txt && \
+    uv pip install --system --no-cache -r requirements.txt && \
+    rm requirements.txt
 
 # ============================================================================
 # Runtime Stage
@@ -29,6 +31,9 @@ RUN uv pip install --system --no-cache -r <(uv pip compile pyproject.toml)
 FROM python:3.12-slim as runtime
 
 WORKDIR /app
+
+# Install curl for healthcheck
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
 RUN adduser --disabled-password --gecos '' appuser

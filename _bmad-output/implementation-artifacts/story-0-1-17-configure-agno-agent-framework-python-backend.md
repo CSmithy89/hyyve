@@ -2,7 +2,7 @@
 
 ## Status
 
-**in-progress**
+**done**
 
 ## Epic
 
@@ -138,20 +138,40 @@ app = agent_os.get_app()
 | A2A | `/a2a/agents/{id}/*` |
 | AG-UI | `/agui`, `/agui/status` |
 
-## Files to Create/Update
+## Files Changed (This Story)
+
+### Modified Files
+
+| File | Change |
+|------|--------|
+| `apps/agent-service/src/main.py` | Migrated to AgentOS pattern |
+| `apps/agent-service/src/agents/definitions.py` | Created agent definitions with memory config |
+| `apps/agent-service/src/agents/__init__.py` | Updated exports |
+| `apps/agent-service/Dockerfile` | Fixed build (process substitution) and healthcheck |
+| `apps/agent-service/src/config.py` | Added production validation |
+
+### Test Files
 
 | File | Purpose |
 |------|---------|
-| `apps/agent-service/pyproject.toml` | Python dependencies |
-| `apps/agent-service/Dockerfile` | Container configuration |
-| `apps/agent-service/src/__init__.py` | Package initialization |
-| `apps/agent-service/src/main.py` | AgentOS application |
-| `apps/agent-service/src/config.py` | Configuration management |
-| `apps/agent-service/src/agents/__init__.py` | Agents package |
-| `apps/agent-service/src/agents/definitions.py` | Agent definitions |
-| `apps/agent-service/src/tools/__init__.py` | Tools package |
-| `apps/agent-service/src/memory/__init__.py` | Memory package |
-| `apps/agent-service/src/workflows/__init__.py` | Workflows package |
+| `tests/unit/infrastructure/agno-agent-service.test.ts` | 48 ATDD tests for this story |
+
+### Documentation Updates
+
+| File | Change |
+|------|--------|
+| `_bmad-output/planning-artifacts/epics.md` | Updated story description for AgentOS |
+| `_bmad-output/planning-artifacts/architecture.md` | Added ADR-009: AgentOS Runtime Pattern |
+
+### Pre-existing Files (Not Changed)
+
+| File | Status |
+|------|--------|
+| `apps/agent-service/pyproject.toml` | Already correct |
+| `apps/agent-service/src/__init__.py` | Already exists |
+| `apps/agent-service/src/tools/__init__.py` | Already exists |
+| `apps/agent-service/src/memory/__init__.py` | Already exists |
+| `apps/agent-service/src/workflows/__init__.py` | Already exists |
 
 ## Files to Remove (Redundant)
 
@@ -166,8 +186,10 @@ app = agent_os.get_app()
 
 ### Story Dependencies
 
-- **Story 0.1.5** (Supabase) - Database connection required
-- **Story 0.1.8** (Redis) - Session memory required
+- **Story 0.1.5** (Supabase) - Database connection required for PostgresStorage
+- **Story 0.1.8** (Redis) - Reserved for future use (caching, rate limiting, pub/sub)
+  - Note: Agent sessions use PostgresStorage, not Redis
+  - REDIS_URL is configured but not actively used in this story
 
 ## Test Strategy
 
@@ -196,13 +218,13 @@ app = agent_os.get_app()
 
 ## Definition of Done
 
-- [ ] `apps/agent-service/` directory structure created
-- [ ] `pyproject.toml` with all dependencies
-- [ ] `Dockerfile` for containerization
-- [ ] AgentOS application with 4 agents (Bond, Wendy, Morgan, Artie)
-- [ ] Team configuration for agent coordination
-- [ ] Redundant routers removed
-- [ ] All ATDD tests pass
+- [x] `apps/agent-service/` directory structure created
+- [x] `pyproject.toml` with all dependencies
+- [x] `Dockerfile` for containerization
+- [x] AgentOS application with 4 agents (Bond, Wendy, Morgan, Artie)
+- [x] Team configuration for agent coordination
+- [x] Redundant routers removed
+- [x] All ATDD tests pass
 
 ---
 

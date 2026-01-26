@@ -34,11 +34,18 @@ class Settings(BaseSettings):
     # Database (PostgreSQL)
     DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/hyyve"
 
-    # Cache (Redis)
+    # Cache (Redis) - Reserved for future use:
+    # - Rate limiting, caching, pub/sub for real-time features
+    # - Agent sessions currently use PostgresStorage (see definitions.py)
     REDIS_URL: str = "redis://localhost:6379/0"
 
-    # LLM Provider
+    # LLM Provider (required in production)
     ANTHROPIC_API_KEY: str = ""
+
+    def validate_production_config(self) -> None:
+        """Validate required config for production. Call during startup."""
+        if self.is_production and not self.ANTHROPIC_API_KEY:
+            raise ValueError("ANTHROPIC_API_KEY is required in production")
 
     # Agno Configuration
     agno_model: str = "claude-sonnet-4-20250514"
