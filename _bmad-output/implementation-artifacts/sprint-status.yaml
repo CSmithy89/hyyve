@@ -32,6 +32,16 @@
 # - Stories can be worked in parallel if team capacity allows
 # - SM typically creates next story after previous one is 'done' to incorporate learnings
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+#
+# UI IMPLEMENTATION WORKFLOW (MANDATORY):
+# =======================================
+# For ALL screen/UI work, developers MUST use:
+# 1. Wireframe Map: _bmad-output/planning-artifacts/wireframe-implementation-map.md
+#    - Maps 146 wireframes → routes → stories → visual checklist
+# 2. HTML Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
+#    - Contains exact Tailwind CSS, design tokens, and layout structures
+# 3. Routing Spec: _bmad-output/planning-artifacts/routing-specification.md
+#    - URL paths, route guards, navigation flows
 
 generated: 2026-01-26
 project: Hyyve
@@ -76,6 +86,11 @@ development_status:
   # Purpose: Parallel track to build UI components, layouts, and pages
   # from Stitch wireframes while backend infrastructure completes.
   # Can be developed independently using mock data and AG-UI event mocks.
+  #
+  # WIREFRAME REFERENCE (MANDATORY):
+  # - Mapping: _bmad-output/planning-artifacts/wireframe-implementation-map.md
+  # - Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
+  # - All 146 wireframes mapped to routes, stories, and visual fidelity checklist
   epic-0-2: backlog
   0-2-1-extract-design-system-from-wireframes: backlog
   0-2-2-create-shadcn-component-overrides: backlog

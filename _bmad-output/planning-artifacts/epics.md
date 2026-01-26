@@ -716,6 +716,13 @@ This document provides the complete epic and story breakdown for Hyyve, decompos
 #### Epic E0.2: Frontend Foundation & Design System
 **User Outcome:** Complete UI layer built from 146 Stitch wireframes, enabling parallel frontend development while backend infrastructure completes
 
+**CRITICAL - Wireframe Implementation Reference:**
+> **Before implementing ANY screen in this epic, developers MUST:**
+> 1. Consult `_bmad-output/planning-artifacts/wireframe-implementation-map.md` for the complete wireframe→route→story mapping
+> 2. Open the HTML source from `_bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html`
+> 3. Follow the Visual Fidelity Checklist in wireframe-implementation-map.md
+> 4. Match design tokens exactly: primary (#5048e5), bg-dark (#131221), panel-dark (#1c1a2e)
+
 **Why This Epic:**
 - Enables parallel frontend development while backend infrastructure (0-1-17 through 0-1-23) completes
 - 146 wireframes are ready with complete HTML/Tailwind CSS in `Stitch Hyyve/`
