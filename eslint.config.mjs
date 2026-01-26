@@ -26,6 +26,9 @@ export default [
       '*.config.mjs',
       '_bmad/**',
       '_bmad-output/**',
+      'apps/**/next-env.d.ts',
+      'apps/**/.next/**',
+      '.turbo/**',
     ],
   },
   {
