@@ -434,3 +434,62 @@ _Reviewed and approved by Senior Developer (2 HIGH, 2 LOW, 2 INFO observations -
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 HIGH, 1 LOW, 3 INFO observations - none blocking)_
+
+### [Story 0.1.8] Configure Redis Client
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Redis Client** in `packages/@platform/db/`
+  - `ioredis@^5.9.2` - Full-featured Redis client with TypeScript support
+  - Serverless-friendly singleton pattern with lazy connection
+
+- **Redis Client** (`packages/@platform/db/src/redis.ts`)
+  - `getRedisClient()` - Singleton Redis client for connection reuse
+  - `closeRedisConnection()` - Cleanup for tests and graceful shutdown
+
+- **Cache Utilities**
+  - `cacheGet<T>(key)` - Get cached value with JSON deserialization
+  - `cacheSet<T>(key, value, ttlSeconds)` - Set cache with TTL
+  - `cacheDelete(key)` - Delete single cache entry
+  - `cacheDeletePattern(pattern)` - Delete by glob pattern (e.g., "user:\*")
+
+- **Pub/Sub Utilities**
+  - `publish<T>(channel, message)` - Publish message to channel
+  - `subscribe<T>(channel, handler)` - Subscribe with typed handler
+  - `unsubscribe(channel)` - Unsubscribe from channel
+  - Separate subscriber client (Redis requirement)
+
+- **Rate Limiting Helpers**
+  - `checkRateLimit(key, limit, windowSeconds)` - Sliding window algorithm using sorted sets
+  - `checkRateLimitSimple(key, limit, windowSeconds)` - Fixed window using INCR
+  - Returns `{ allowed, remaining, resetInSeconds }`
+
+- **Environment Variables** (`.env.example`)
+  - `REDIS_URL` - Redis connection URL (redis:// or rediss:// for TLS)
+
+#### Changed
+
+- **Package Exports** (`packages/@platform/db/src/index.ts`)
+  - Added Redis exports: `getRedisClient`, `closeRedisConnection`
+  - Added cache exports: `cacheGet`, `cacheSet`, `cacheDelete`, `cacheDeletePattern`
+  - Added pub/sub exports: `publish`, `subscribe`, `unsubscribe`
+  - Added rate limit exports: `checkRateLimit`, `checkRateLimitSimple`, `RateLimitResult`
+
+- **Carryover from Story 0.1.6** (`apps/web/app/page.tsx`)
+  - Added `export const dynamic = 'force-dynamic'` for Clerk authentication compatibility
+
+#### Technical
+
+- **Singleton Pattern:** Connection reused across serverless invocations
+- **Lazy Connect:** `lazyConnect: true` defers connection until first command
+- **Keep Alive:** `keepAlive: 10000` for serverless environments
+- **Sliding Window:** Uses Redis sorted sets for accurate rate limiting across time windows
+- **Pub/Sub Pattern:** Dedicated subscriber client (Redis limitation)
+- **Error Handling:** Graceful connection error logging
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 HIGH, 1 MEDIUM, 3 LOW, 2 INFO observations - none blocking)_

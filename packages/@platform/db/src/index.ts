@@ -33,3 +33,19 @@ export * from './types';
 
 // Export middleware helpers
 export { updateSession, isProtectedRoute } from './middleware';
+
+// Export Redis utilities
+export {
+  getRedisClient,
+  closeRedisConnection,
+  cacheGet,
+  cacheSet,
+  cacheDelete,
+  cacheDeletePattern,
+  publish,
+  subscribe,
+  unsubscribe,
+  checkRateLimit,
+  checkRateLimitSimple,
+  type RateLimitResult,
+} from './redis';

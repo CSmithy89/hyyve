@@ -1,3 +1,7 @@
+// Force dynamic rendering to support Clerk authentication
+// This prevents build-time errors when CLERK_PUBLISHABLE_KEY is not set
+export const dynamic = 'force-dynamic';
+
 export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
