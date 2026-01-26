@@ -49,7 +49,7 @@ development_status:
   0-1-2-configure-typescript-with-strict-mode: done
   0-1-3-install-core-frontend-dependencies: done
   0-1-4-initialize-shadcn-ui-component-library: done
-  0-1-5-configure-supabase-database-client: review
+  0-1-5-configure-supabase-database-client: done
   0-1-6-configure-clerk-authentication: backlog
   0-1-7-configure-trpc-api-layer: backlog
   0-1-8-configure-redis-client: backlog
