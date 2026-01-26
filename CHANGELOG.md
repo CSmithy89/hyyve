@@ -317,3 +317,61 @@ _Reviewed and approved by Senior Developer (3 minor observations, none blocking)
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (2 HIGH, 3 LOW, 2 INFO observations - none blocking)_
+
+### [Story 0.1.6] Configure Clerk Authentication
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Clerk Authentication** in `packages/@platform/auth/`
+  - `@clerk/nextjs@6.36.10` - Clerk authentication for Next.js
+  - Server utilities (`auth`, `currentUser`, `clerkMiddleware`)
+  - Client hooks (`useUser`, `useAuth`, `ClerkProvider`)
+
+- **Server-Side Auth** (`packages/@platform/auth/src/server.ts`)
+  - `auth()` helper for Server Components
+  - `currentUser()` for getting authenticated user
+  - `clerkMiddleware()` and `createRouteMatcher()` for route protection
+
+- **Clerk-Supabase Integration** (`packages/@platform/auth/src/supabase.ts`)
+  - `createClerkSupabaseClient()` - Supabase client with Clerk JWT
+  - Uses `getToken({ template: 'supabase' })` for RLS authentication
+
+- **Auth Pages** in `apps/web/app/`
+  - `/sign-in/[[...sign-in]]/page.tsx` - Sign-in page with catch-all
+  - `/sign-up/[[...sign-up]]/page.tsx` - Sign-up page with catch-all
+
+- **Client Providers** (`apps/web/app/providers.tsx`)
+  - `Providers` component wrapping ClerkProvider
+  - Graceful fallback when Clerk keys are not configured
+
+#### Changed
+
+- **Middleware** (`apps/web/middleware.ts`)
+  - Combined `clerkMiddleware()` with Supabase session refresh
+  - Public routes: `/`, `/sign-in(.*)`, `/sign-up(.*)`, `/api/webhooks(.*)`
+  - Protected routes require authentication
+
+- **Root Layout** (`apps/web/app/layout.tsx`)
+  - Wrapped with `Providers` component for client-side auth
+
+- **Environment Variables** (`.env.example`)
+  - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - Clerk public key
+  - `CLERK_SECRET_KEY` - Clerk secret key
+  - `NEXT_PUBLIC_CLERK_SIGN_IN_URL` / `SIGN_UP_URL` - Auth page URLs
+  - `CLERK_WEBHOOK_SECRET` - For user sync webhooks
+
+#### Technical
+
+- **Package Exports:**
+  - `@platform/auth` - Client components and hooks
+  - `@platform/auth/server` - Server-side utilities
+  - `@platform/auth/supabase` - Clerk-Supabase integration
+- **Middleware Pattern:** Combined Clerk auth + Supabase session refresh
+- **Build Compatibility:** Conditional ClerkProvider for builds without keys
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (2 HIGH, 2 LOW, 2 INFO observations - none blocking)_
