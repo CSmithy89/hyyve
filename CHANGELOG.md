@@ -76,6 +76,91 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _Story completed: 2026-01-27_
 _Reviewed and approved by Senior Developer (2 review cycles, 9 issues resolved)_
 
+### [Story 0-2-2] Create shadcn Component Overrides
+
+**Epic 0.2:** Frontend Foundation & Design System
+
+#### Added
+
+- **Theme Utilities File** (`apps/web/components/ui/theme.ts`)
+  - Reusable Tailwind class utilities for Hyyve styling
+  - `primaryGlow` shadow effect for branded buttons
+  - Documented usage patterns for component composition
+
+- **Badge Semantic Variants**
+  - `success` variant using emerald (#10b981)
+  - `warning` variant using amber (#f59e0b)
+  - `info` variant using blue
+
+- **Card Elevated Variant**
+  - Added `elevated` variant with shadow effect
+  - Uses cva (class-variance-authority) for variant management
+
+- **Avatar Primary Variant**
+  - Added `primary` variant for fallback background
+  - Uses cva for variant support on AvatarFallback
+
+#### Changed
+
+- **Button Component** (`apps/web/components/ui/button.tsx`)
+  - Added primary glow shadow effect (`shadow-[0_0_15px_rgba(80,72,229,0.3)]`)
+  - Hover state uses `hover:bg-accent` (primary-dark #3e38b3)
+
+- **Card Component** (`apps/web/components/ui/card.tsx`)
+  - Added cva variant management with `default` and `elevated` variants
+  - Added explicit `border-border` styling for resilience
+
+- **Input Component** (`apps/web/components/ui/input.tsx`)
+  - Changed to dark background styling using `bg-input` CSS variable
+  - Focus state shows primary border color
+
+- **Tooltip Component** (`apps/web/components/ui/tooltip.tsx`)
+  - Fixed to use panel-dark background (`bg-popover`) instead of primary
+  - Updated text color to `text-popover-foreground`
+
+- **DropdownMenu Component** (`apps/web/components/ui/dropdown-menu.tsx`)
+  - Separator now uses `bg-border` color (border-dark)
+
+- **Tabs Component** (`apps/web/components/ui/tabs.tsx`)
+  - Active tab shows primary color indicator
+  - Added inset shadow for primary underline effect (`shadow-[inset_0_-2px_0_hsl(var(--primary))]`)
+
+- **Dialog Component** (`apps/web/components/ui/dialog.tsx`)
+  - Verified modal uses panel-dark background via `bg-popover`
+  - Overlay has proper backdrop opacity
+
+- **Sheet Component** (`apps/web/components/ui/sheet.tsx`)
+  - Verified slide-out panel uses panel-dark background
+  - Proper border on sliding edge
+
+#### Tests
+
+- **Component Override Tests** (`apps/web/__tests__/design-system/component-overrides.test.ts`)
+  - 78 unit tests verifying component override implementation
+  - Tests for AC1-AC12 acceptance criteria
+  - Coverage for Button, Card, Input, Dialog, Sheet, Badge, Tabs, Tooltip, DropdownMenu, Avatar
+  - Verification of theme.ts utilities
+
+#### Technical
+
+- **CSS Variable Usage:**
+  - All components consume CSS custom properties from `globals.css`
+  - Dark mode support via `.dark` class strategy
+  - No hardcoded light-mode colors in component files
+
+- **Design Token Integration:**
+  - Components use `bg-card`, `border-border`, `text-primary` variables
+  - Primary glow uses wireframe-extracted color `rgba(80,72,229,0.3)`
+
+- **Wireframe Compliance:**
+  - Styling matches patterns from `hyyve_module_builder/code.html`
+  - Panel-dark (#1c1a2e), border-dark (#272546), primary (#5048e5)
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (2 review cycles, 5 issues resolved)_
+
 ### [Story 0.1.1] Scaffold Turborepo Monorepo with Next.js 15
 
 **Epic 0.1:** Project Foundation & Infrastructure Setup
