@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Organization Switcher - Hyyve AI</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "card-dark": "#1c1b32",
+              "border-dark": "#2d2c4e",
+              "text-secondary": "#9795c6",
+              "accent-dark": "#272546"
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Custom scrollbar for the list */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(151, 149, 198, 0.2);
+            border-radius: 20px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(151, 149, 198, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen w-full flex flex-col relative overflow-hidden">
+<!-- Background Elements (Simulating the app behind the modal) -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+<div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/30 via-background-dark to-background-dark"></div>
+</div>
+<!-- Modal Layout Container -->
+<div class="relative z-10 flex h-full grow flex-col items-center justify-center p-4 backdrop-blur-sm bg-black/20 min-h-screen">
+<!-- Modal Card -->
+<div class="w-full max-w-[640px] flex flex-col bg-white dark:bg-card-dark rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-gray-200 dark:border-border-dark overflow-hidden transform transition-all">
+<!-- Header -->
+<div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-border-dark bg-white dark:bg-card-dark">
+<h3 class="text-gray-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Switch Organization</h3>
+<button aria-label="Close modal" class="flex items-center justify-center w-8 h-8 rounded-full text-gray-500 hover:bg-gray-100 dark:text-text-secondary dark:hover:bg-accent-dark dark:hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-2xl">close</span>
+</button>
+</div>
+<div class="flex flex-col p-6 gap-6">
+<!-- Current Organization Section -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-gray-500 dark:text-text-secondary uppercase tracking-wider">Active Workspace</span>
+</div>
+<div class="relative group">
+<!-- Active Indicator Border -->
+<div class="absolute -inset-[1px] bg-gradient-to-r from-primary to-purple-600 rounded-lg opacity-70 blur-[1px]"></div>
+<div class="relative flex items-stretch justify-between gap-4 rounded-lg bg-white dark:bg-[#131221] p-4 shadow-sm">
+<div class="flex items-center gap-4 flex-1">
+<!-- Org Logo -->
+<div class="w-14 h-14 bg-cover bg-center rounded-lg shadow-inner shrink-0" data-alt="Hyyve AI Core abstract geometric logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD8d_OU4I9YS_I9R4bGElH3iehNsbCHSmo4wvF9aQ3lpchT-uG1fZBwL1nkEuUrSMDndraB0aL9S9wmsS0U8TkcwffFINT60kZgiFEyi3JGo281VbQsmT8RCsfg92OcUounRgRW1npcE5lDqA1aq4dRokrny5aXmr_4ZZUI0wAt1SF6TB3I-2JXe2moTLylbG30e71W-GfrbZFumsCPckZ2vClkANAaHFBFZhasS5xV7RfqPuloW0f4iNQ1sFZ0GseaB4bUd-qd67w");'></div>
+<div class="flex flex-col justify-center gap-1">
+<div class="flex items-center gap-2">
+<p class="text-gray-900 dark:text-white text-base font-bold leading-tight">Hyyve AI Core</p>
+<span class="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">Admin</span>
+</div>
+<p class="text-gray-500 dark:text-text-secondary text-sm font-normal leading-normal">Current Workspace • Enterprise Plan</p>
+</div>
+</div>
+<div class="flex items-center">
+<span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
+<span class="material-symbols-outlined text-[18px] filled font-bold">check_circle</span>
+<span>Active</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px w-full bg-gray-100 dark:bg-border-dark"></div>
+<!-- Available Organizations Section -->
+<div class="flex flex-col gap-3 flex-1 min-h-0">
+<span class="text-xs font-bold text-gray-500 dark:text-text-secondary uppercase tracking-wider">Available Organizations</span>
+<div class="flex flex-col gap-2 max-h-[280px] overflow-y-auto custom-scrollbar pr-1 -mr-2">
+<!-- List Item 1 -->
+<label class="group relative flex cursor-pointer items-center justify-between gap-4 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-accent-dark/50 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-border-dark">
+<input class="peer sr-only" name="org_select" type="radio"/>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-cover bg-center rounded-lg shrink-0 grayscale group-hover:grayscale-0 transition-all opacity-80 group-hover:opacity-100" data-alt="Neural Net Research logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCz-h6auMjURXIXs8xbGJP1SQ2u6AkXnlt88bIijSS3EGbnKU85PuMPFJbQ1O5f1Cb_oxIdVRy5WtK0dMK3mS9Ttop8yH6bPVLWX0n7h82nsw3g2iw5B624m-9q8STKr3lD1_y5rxrz-iHv4W8NGGJNheum0fYs2CYDHi7Ke5M6DbzIcIw1TGLJrQjRVEMD2atFUhv2_Xbj_gD5ooK_WdAUusKwBd2hEYif__S5b---cDgleEAiPoDZiF_DalBXVtbEYCoeb2daQfI");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary transition-colors">Neural Net Research</p>
+<p class="text-gray-500 dark:text-text-secondary text-sm font-normal leading-normal">Member • 12 Projects • 4 Members</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center justify-center w-6 h-6 rounded-full border-2 border-gray-300 dark:border-[#383663] group-hover:border-primary peer-checked:border-primary peer-checked:bg-primary transition-all">
+<div class="w-2.5 h-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transform scale-0 peer-checked:scale-100 transition-all"></div>
+</div>
+</label>
+<!-- List Item 2 -->
+<label class="group relative flex cursor-pointer items-center justify-between gap-4 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-accent-dark/50 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-border-dark">
+<input class="peer sr-only" name="org_select" type="radio"/>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-cover bg-center rounded-lg shrink-0 grayscale group-hover:grayscale-0 transition-all opacity-80 group-hover:opacity-100" data-alt="Personal Workspace logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBTTmEtkzjSffEiKc3SiVBpR3nz5WqmD28FDvy_rXS-0sL8ak622a-4i0iqLZgi-nyXyg_zIL5MQBxM1_KfR0wOlUSXtE8NZ8lE6RD8DT8GV7kg2SF3nchDAVoP_wwqN9QrajReDEJkA-zYf7XHVqb5SbyB2tqb8dUssv9qSIz5rozq5J8l3PnKcOdN7qcYofAFL_clffEnSOAc4qf9o9I3L3J_pyASYRtHs7eXwZI1cEIDqnMNHNMj3Y8lXNuWCkehAGb2BT6Om8w");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary transition-colors">Personal Workspace</p>
+<p class="text-gray-500 dark:text-text-secondary text-sm font-normal leading-normal">Owner • 1 Project • 1 Member</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center justify-center w-6 h-6 rounded-full border-2 border-gray-300 dark:border-[#383663] group-hover:border-primary peer-checked:border-primary peer-checked:bg-primary transition-all">
+<div class="w-2.5 h-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transform scale-0 peer-checked:scale-100 transition-all"></div>
+</div>
+</label>
+<!-- List Item 3 (Demo data) -->
+<label class="group relative flex cursor-pointer items-center justify-between gap-4 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-accent-dark/50 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-border-dark">
+<input class="peer sr-only" name="org_select" type="radio"/>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg shrink-0 bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Gradient orange pink logo">
+<span class="material-symbols-outlined text-white text-xl">science</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary transition-colors">Beta Testing Lab</p>
+<p class="text-gray-500 dark:text-text-secondary text-sm font-normal leading-normal">Viewer • 8 Projects • 15 Members</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center justify-center w-6 h-6 rounded-full border-2 border-gray-300 dark:border-[#383663] group-hover:border-primary peer-checked:border-primary peer-checked:bg-primary transition-all">
+<div class="w-2.5 h-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transform scale-0 peer-checked:scale-100 transition-all"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="bg-gray-50 dark:bg-[#151426] p-5 flex items-center justify-between border-t border-gray-100 dark:border-border-dark">
+<button class="group flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-text-secondary hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-accent-dark transition-all border border-transparent hover:border-gray-200 dark:hover:border-border-dark">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">vpn_key</span>
+<span>Join with Code</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary/90 active:bg-primary/95 text-white text-sm font-semibold transition-all shadow-[0_2px_8px_rgba(80,72,229,0.25)] hover:shadow-[0_4px_12px_rgba(80,72,229,0.4)]">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Create Organization</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Component Inspector</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "panel-dark": "#131221",
+                        "input-dark": "#272546",
+                        "text-secondary": "#9795c6",
+                        "border-dark": "#383663"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for the panel */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #383663;
+            border-radius: 20px;
+        }
+        /* Range slider customization */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            margin-top: -6px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #383663;
+            border-radius: 2px;
+        }
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #5048e5;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display h-screen w-full overflow-hidden flex">
+<!-- Preview Area (Left side - Context) -->
+<div class="flex-1 hidden lg:flex flex-col relative bg-gray-100 dark:bg-[#0c0b15] overflow-hidden items-center justify-center p-8">
+<!-- Abstract grid pattern background -->
+<div class="absolute inset-0 z-0 opacity-[0.03] dark:opacity-[0.1]" style="background-image: linear-gradient(#9795c6 1px, transparent 1px), linear-gradient(90deg, #9795c6 1px, transparent 1px); background-size: 20px 20px;">
+</div>
+<!-- Live Preview Stage -->
+<div class="relative z-10 flex flex-col items-center gap-6">
+<div class="px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-xs font-medium text-primary mb-8 animate-pulse">
+                Live Preview
+            </div>
+<!-- The Hero Button being edited -->
+<button class="group relative px-8 py-4 bg-primary hover:bg-primary/90 text-white rounded-lg text-lg font-medium shadow-xl shadow-primary/20 transition-all duration-300 hover:scale-105 flex items-center gap-3">
+<span>Get Started</span>
+<span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<!-- Guidelines visual aid -->
+<div class="absolute -inset-4 border border-dashed border-primary/30 rounded-xl pointer-events-none flex justify-between">
+<div class="text-[10px] text-primary/50 p-1">H: 60px</div>
+<div class="self-end text-[10px] text-primary/50 p-1">W: Auto</div>
+</div>
+</div>
+</div>
+<!-- Inspector Panel (Right side) -->
+<div class="w-full lg:w-[400px] flex flex-col bg-white dark:bg-panel-dark border-l border-gray-200 dark:border-border-dark h-full shadow-2xl z-20">
+<!-- Header -->
+<div class="px-6 py-5 border-b border-gray-200 dark:border-border-dark flex-shrink-0">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-text-secondary text-xs font-medium uppercase tracking-wider">Properties</span>
+<span class="text-text-secondary text-xs font-medium">/</span>
+<span class="text-gray-900 dark:text-white text-xs font-medium uppercase tracking-wider">Hero Button</span>
+</div>
+<div class="flex justify-between items-center">
+<h1 class="text-xl font-semibold text-gray-900 dark:text-white">Inspector</h1>
+<button class="text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Controls -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+<!-- Section: Content -->
+<details class="group/accordion" open="">
+<summary class="flex items-center justify-between cursor-pointer list-none mb-4 select-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">edit_note</span>
+<span class="text-gray-900 dark:text-white text-sm font-semibold">Content</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary group-open/accordion:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="space-y-4 pl-1">
+<!-- Label Input -->
+<label class="block">
+<span class="text-xs font-medium text-text-secondary mb-1.5 block">Label Text</span>
+<input class="w-full bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-white placeholder-text-secondary focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm" type="text" value="Get Started"/>
+</label>
+<!-- Link Input -->
+<label class="block">
+<span class="text-xs font-medium text-text-secondary mb-1.5 block">Link Destination</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-text-secondary text-[18px]">link</span>
+<input class="w-full bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg pl-9 pr-3 py-2.5 text-sm text-gray-900 dark:text-white placeholder-text-secondary focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm" type="text" value="/signup"/>
+</div>
+</label>
+<!-- Icon Select -->
+<label class="block">
+<span class="text-xs font-medium text-text-secondary mb-1.5 block">Icon</span>
+<div class="relative">
+<select class="w-full appearance-none bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+<option value="arrow_right">Arrow Forward</option>
+<option value="download">Download</option>
+<option value="none">None</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+</label>
+</div>
+</details>
+<div class="h-px bg-gray-200 dark:bg-border-dark w-full"></div>
+<!-- Section: Style -->
+<details class="group/accordion" open="">
+<summary class="flex items-center justify-between cursor-pointer list-none mb-4 select-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">palette</span>
+<span class="text-gray-900 dark:text-white text-sm font-semibold">Style</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary group-open/accordion:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="space-y-5 pl-1">
+<!-- Row: Variant & Size -->
+<div class="grid grid-cols-2 gap-4">
+<label class="block">
+<span class="text-xs font-medium text-text-secondary mb-1.5 block">Variant</span>
+<div class="relative">
+<select class="w-full appearance-none bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary">
+<option>Solid</option>
+<option>Outline</option>
+<option>Ghost</option>
+</select>
+</div>
+</label>
+<label class="block">
+<span class="text-xs font-medium text-text-secondary mb-1.5 block">Size</span>
+<div class="relative">
+<select class="w-full appearance-none bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary">
+<option>Small</option>
+<option>Medium</option>
+<option selected="">Large</option>
+</select>
+</div>
+</label>
+</div>
+<!-- Row: Background Color -->
+<div>
+<span class="text-xs font-medium text-text-secondary mb-1.5 block">Background Color</span>
+<div class="flex gap-3">
+<div class="h-10 w-10 rounded-lg border-2 border-white dark:border-gray-600 shadow-sm cursor-pointer hover:scale-105 transition-transform" style="background-color: #5048e5;"></div>
+<div class="relative flex-1">
+<span class="absolute left-3 top-2.5 text-text-secondary text-sm">#</span>
+<input class="w-full bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg pl-7 pr-3 py-2 text-sm font-mono text-gray-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary uppercase" type="text" value="5048E5"/>
+</div>
+<button class="p-2 bg-gray-50 dark:bg-input-dark rounded-lg text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">colorize</span>
+</button>
+</div>
+</div>
+<!-- Row: Radius Slider -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-xs font-medium text-text-secondary">Border Radius</span>
+<span class="text-xs text-text-secondary">8px</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="flex-1 h-1.5 bg-gray-200 dark:bg-border-dark rounded-lg appearance-none cursor-pointer accent-primary" max="32" min="0" type="range" value="8"/>
+<input class="w-16 bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg px-2 py-1 text-sm text-center text-gray-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary" type="number" value="8"/>
+</div>
+</div>
+</div>
+</details>
+<div class="h-px bg-gray-200 dark:bg-border-dark w-full"></div>
+<!-- Section: Interactions -->
+<details class="group/accordion" open="">
+<summary class="flex items-center justify-between cursor-pointer list-none mb-4 select-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">touch_app</span>
+<span class="text-gray-900 dark:text-white text-sm font-semibold">Interactions</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary group-open/accordion:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="space-y-4 pl-1">
+<label class="block">
+<span class="text-xs font-medium text-text-secondary mb-1.5 block">On Hover</span>
+<div class="relative">
+<select class="w-full appearance-none bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+<option value="none">Scale 1.05</option>
+<option value="opacity">Opacity 80%</option>
+<option value="shadow">Add Shadow</option>
+<option value="none">None</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+</label>
+<label class="block">
+<span class="text-xs font-medium text-text-secondary mb-1.5 block">On Click</span>
+<div class="relative">
+<select class="w-full appearance-none bg-gray-50 dark:bg-input-dark border-gray-200 dark:border-transparent rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+<option value="navigate">Navigate to URL</option>
+<option value="submit">Submit Form</option>
+<option value="trigger">Trigger Animation</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+</label>
+</div>
+</details>
+<!-- Spacer for scrolling -->
+<div class="h-8"></div>
+</div>
+<!-- Footer Action -->
+<div class="p-6 border-t border-gray-200 dark:border-border-dark bg-gray-50 dark:bg-[#18172b] flex-shrink-0">
+<button class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-[#6366f1] hover:from-[#4338ca] hover:to-[#4f46e5] text-white py-3.5 px-4 rounded-lg font-medium shadow-lg shadow-primary/25 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined animate-pulse text-[20px]">auto_awesome</span>
+<span>Suggest Improvements</span>
+</button>
+<p class="text-center text-[11px] text-text-secondary mt-3">AI will analyze contrast &amp; accessibility</p>
+</div>
+</div>
+</body></html>

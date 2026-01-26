@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Registration - Step 2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "card-dark": "#1c1b32",
+              "input-dark": "#131221",
+              "border-dark": "#383663",
+              "text-secondary": "#9795c6"
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #383663; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased min-h-screen flex flex-col">
+<!-- Navbar / Header (Minimal for onboarding) -->
+<header class="w-full py-6 px-8 flex justify-between items-center z-10">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">H</div>
+<span class="text-xl font-bold tracking-tight dark:text-white">Hyyve</span>
+</div>
+<a class="text-sm font-medium text-text-secondary hover:text-primary transition-colors" href="#">Help</a>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-7xl mx-auto">
+<!-- Progress Stepper -->
+<div class="w-full max-w-[640px] mb-8">
+<div class="flex items-center justify-between relative">
+<!-- Line background -->
+<div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-border-dark -z-10 rounded-full"></div>
+<!-- Active Line Progress (approximate for Step 2) -->
+<div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-1/2 h-1 bg-primary -z-10 rounded-full transition-all duration-500"></div>
+<!-- Step 1: Account (Completed) -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center border-2 border-background-dark shadow-lg ring-4 ring-background-dark">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<span class="text-xs font-medium text-text-secondary hidden sm:block">Account</span>
+</div>
+<!-- Step 2: Organization (Current) -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center border-2 border-background-dark shadow-lg ring-4 ring-background-dark shadow-primary/20">
+<span class="text-sm font-bold">2</span>
+</div>
+<span class="text-xs font-medium text-white hidden sm:block">Organization</span>
+</div>
+<!-- Step 3: Usage (Pending) -->
+<div class="flex flex-col items-center gap-2 opacity-50">
+<div class="w-8 h-8 rounded-full bg-card-dark text-text-secondary flex items-center justify-center border-2 border-border-dark ring-4 ring-background-dark">
+<span class="text-sm font-bold">3</span>
+</div>
+<span class="text-xs font-medium text-text-secondary hidden sm:block">Usage</span>
+</div>
+</div>
+</div>
+<!-- Main Card -->
+<div class="w-full max-w-[640px] bg-white dark:bg-card-dark rounded-xl shadow-2xl border border-gray-200 dark:border-border-dark overflow-hidden flex flex-col">
+<!-- Card Header -->
+<div class="px-8 pt-8 pb-4">
+<h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">Tell us about your team</h1>
+<p class="text-slate-500 dark:text-text-secondary text-sm">This helps us customize your Hyyve workspace experience.</p>
+</div>
+<!-- Form Content -->
+<div class="px-8 py-4 flex flex-col gap-6">
+<!-- Organization Name Field -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-white" for="orgName">
+                        Organization Name
+                    </label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg bg-gray-50 dark:bg-input-dark border border-gray-300 dark:border-border-dark text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="orgName" placeholder="e.g. Acme AI Labs" type="text"/>
+<div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-text-secondary">
+<span class="material-symbols-outlined text-xl">business</span>
+</div>
+</div>
+</div>
+<!-- Organization Type Dropdown -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-white" for="orgType">
+                        Organization Type
+                    </label>
+<div class="relative">
+<select class="appearance-none w-full h-12 px-4 pr-10 rounded-lg bg-gray-50 dark:bg-input-dark border border-gray-300 dark:border-border-dark text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all cursor-pointer" id="orgType">
+<option disabled="" selected="" value="">Select organization type</option>
+<option value="startup">Startup</option>
+<option value="enterprise">Enterprise</option>
+<option value="agency">Agency / Dev Shop</option>
+<option value="research">Research Lab</option>
+<option value="freelance">Freelance / Personal</option>
+<option value="nonprofit">Non-profit / Education</option>
+</select>
+<div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-text-secondary">
+<span class="material-symbols-outlined text-xl">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Team Size Radio Group -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-medium text-slate-700 dark:text-white">
+                        Team Size
+                    </label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<!-- Option 1: Just me -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="teamSize" type="radio" value="1"/>
+<div class="flex flex-col items-center justify-center p-3 h-24 rounded-lg border border-gray-200 dark:border-border-dark bg-gray-50 dark:bg-input-dark peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:ring-1 peer-checked:ring-primary transition-all hover:bg-gray-100 dark:hover:bg-[#1f1e35] dark:hover:border-primary/50">
+<span class="material-symbols-outlined mb-2 text-text-secondary group-hover:text-primary peer-checked:text-primary">person</span>
+<span class="text-xs font-medium text-slate-700 dark:text-white text-center">Just me</span>
+</div>
+<div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 transition-opacity text-primary">
+<span class="material-symbols-outlined text-sm filled">check_circle</span>
+</div>
+</label>
+<!-- Option 2: 2-10 -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="teamSize" type="radio" value="2-10"/>
+<div class="flex flex-col items-center justify-center p-3 h-24 rounded-lg border border-gray-200 dark:border-border-dark bg-gray-50 dark:bg-input-dark peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:ring-1 peer-checked:ring-primary transition-all hover:bg-gray-100 dark:hover:bg-[#1f1e35] dark:hover:border-primary/50">
+<span class="material-symbols-outlined mb-2 text-text-secondary group-hover:text-primary peer-checked:text-primary">group</span>
+<span class="text-xs font-medium text-slate-700 dark:text-white text-center">2-10</span>
+</div>
+<div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 transition-opacity text-primary">
+<span class="material-symbols-outlined text-sm filled">check_circle</span>
+</div>
+</label>
+<!-- Option 3: 11-50 -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="teamSize" type="radio" value="11-50"/>
+<div class="flex flex-col items-center justify-center p-3 h-24 rounded-lg border border-gray-200 dark:border-border-dark bg-gray-50 dark:bg-input-dark peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:ring-1 peer-checked:ring-primary transition-all hover:bg-gray-100 dark:hover:bg-[#1f1e35] dark:hover:border-primary/50">
+<span class="material-symbols-outlined mb-2 text-text-secondary group-hover:text-primary peer-checked:text-primary">diversity_3</span>
+<span class="text-xs font-medium text-slate-700 dark:text-white text-center">11-50</span>
+</div>
+<div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 transition-opacity text-primary">
+<span class="material-symbols-outlined text-sm filled">check_circle</span>
+</div>
+</label>
+<!-- Option 4: 50+ -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="teamSize" type="radio" value="50+"/>
+<div class="flex flex-col items-center justify-center p-3 h-24 rounded-lg border border-gray-200 dark:border-border-dark bg-gray-50 dark:bg-input-dark peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:ring-1 peer-checked:ring-primary transition-all hover:bg-gray-100 dark:hover:bg-[#1f1e35] dark:hover:border-primary/50">
+<span class="material-symbols-outlined mb-2 text-text-secondary group-hover:text-primary peer-checked:text-primary">domain</span>
+<span class="text-xs font-medium text-slate-700 dark:text-white text-center">50+</span>
+</div>
+<div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 transition-opacity text-primary">
+<span class="material-symbols-outlined text-sm filled">check_circle</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="px-8 pb-8 pt-4 flex flex-col-reverse sm:flex-row items-center justify-between gap-4 border-t border-gray-100 dark:border-border-dark/50 mt-4">
+<button class="text-sm font-medium text-text-secondary hover:text-slate-900 dark:hover:text-white transition-colors py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 w-full sm:w-auto">
+                    Skip for now
+                </button>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none py-2.5 px-5 rounded-lg border border-gray-300 dark:border-border-dark text-slate-700 dark:text-white text-sm font-medium hover:bg-gray-50 dark:hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-slate-400 dark:focus:ring-offset-card-dark">
+                        Back
+                    </button>
+<button class="flex-1 sm:flex-none py-2.5 px-6 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/25 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-primary dark:focus:ring-offset-card-dark">
+                        Continue
+                    </button>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center">
+<p class="text-xs text-text-secondary">
+                Protected by reCAPTCHA and subject to the 
+                <a class="underline hover:text-primary" href="#">Privacy Policy</a> 
+                and 
+                <a class="underline hover:text-primary" href="#">Terms of Service</a>.
+            </p>
+</div>
+</main>
+<!-- Subtle Abstract Background Pattern -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none -z-20 overflow-hidden" data-alt="Abstract dark background gradient pattern">
+<div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[128px] mix-blend-screen opacity-20 dark:opacity-10"></div>
+<div class="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[96px] mix-blend-screen opacity-20 dark:opacity-10"></div>
+</div>
+</body></html>

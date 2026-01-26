@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Project Browser</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#5048e5",
+                "background-light": "#f6f6f8",
+                "background-dark": "#131221", // Matches provided component background
+                "surface-dark": "#1c1b32", // Matches select input bg
+                "border-dark": "#383663", // Matches border color
+                "text-secondary": "#9795c6", // Matches secondary text
+                },
+                fontFamily: {
+                "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark dark:border-[#272546] bg-white dark:bg-[#131221] px-6 py-3 shrink-0 z-20">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined !text-3xl">hive</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-[#272546] text-text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-[#272546] text-text-secondary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border-2 border-primary/20" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuATsnyj9CwZ8xcEzcZFPtd53wIvLXc1tousNTW_KeNHadaQKu8p9yCit_lwrUukrQuPJvz5pFyhQP2upRFIIdoYMge-_qtDbvizDtjLPMPoMDYi8-moSy7mRy_ZQefcfyqwTIowRwadCWvoA-gViwsezGXnPeHAe9h9KkCaIzOStFapCedpjc7Tfydh-gFBAIh5Mg9--hMqCyMvGfTMjZ4I6RBqIeIyjW_gZZaFE3-IFqCmzn-yl9ukVaqAWVJKecSrrB_Jcd-89NI");'></div>
+</div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-80 flex flex-col border-r border-border-dark bg-[#1c1b32] dark:bg-[#18172b] overflow-y-auto shrink-0">
+<!-- Workspace Selector -->
+<div class="p-4 pb-0">
+<label class="flex flex-col w-full">
+<span class="text-xs font-medium text-text-secondary uppercase mb-2 ml-1">Workspace</span>
+<div class="relative">
+<select class="appearance-none flex w-full resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-border-dark bg-white dark:bg-[#131221] h-12 pl-4 pr-10 text-sm font-medium leading-normal cursor-pointer transition-shadow">
+<option value="eng">Hyyve Engineering</option>
+<option value="mkt">Marketing Team</option>
+<option value="des">Product Design</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</label>
+</div>
+<!-- Search -->
+<div class="px-4 py-4">
+<div class="flex w-full items-center rounded-lg h-10 bg-white dark:bg-[#131221] border border-border-dark focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+<div class="text-text-secondary flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full bg-transparent border-none text-sm text-slate-900 dark:text-white placeholder:text-text-secondary focus:ring-0 px-2 h-full" placeholder="Search projects..."/>
+</div>
+</div>
+<!-- Action Toolbar (Sidebar) -->
+<div class="px-4 pb-2 flex gap-2">
+<button class="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white text-xs font-medium py-2 px-3 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">create_new_folder</span>
+                    New
+                </button>
+</div>
+<!-- File Tree -->
+<div class="flex-1 px-2 py-2 space-y-1">
+<div class="text-xs font-semibold text-text-secondary uppercase px-4 py-2 mt-2">Projects</div>
+<!-- Expanded Folder -->
+<details class="group" open="">
+<summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 hover:bg-primary/10 text-slate-700 dark:text-white transition-colors select-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary group-open:rotate-90 transition-transform text-[20px]">arrow_right</span>
+<span class="material-symbols-outlined text-primary text-[20px] group-open:hidden">folder</span>
+<span class="material-symbols-outlined text-primary text-[20px] hidden group-open:block">folder_open</span>
+<span class="text-sm font-medium">Customer Facing</span>
+</div>
+</summary>
+<div class="pl-4 mt-1 border-l border-border-dark ml-5 space-y-1">
+<div class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 bg-primary/20 text-primary">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+<div class="flex flex-col">
+<span class="text-sm font-medium">FAQ Bot</span>
+</div>
+</div>
+<span class="text-[10px] text-primary/70">2h ago</span>
+</div>
+<div class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 hover:bg-white/5 text-text-secondary hover:text-white transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+<div class="flex flex-col">
+<span class="text-sm font-medium">Ticket Workflow</span>
+</div>
+</div>
+<span class="text-[10px] opacity-60">1d ago</span>
+</div>
+</div>
+</details>
+<!-- Collapsed Folder -->
+<details class="group">
+<summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 hover:bg-primary/10 text-slate-700 dark:text-white transition-colors select-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary group-open:rotate-90 transition-transform text-[20px]">arrow_right</span>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">folder</span>
+<span class="text-sm font-medium">Support Tools</span>
+</div>
+</summary>
+</details>
+<!-- Collapsed Folder -->
+<details class="group">
+<summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 hover:bg-primary/10 text-slate-700 dark:text-white transition-colors select-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary group-open:rotate-90 transition-transform text-[20px]">arrow_right</span>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">folder</span>
+<span class="text-sm font-medium">Sales Intelligence</span>
+</div>
+</summary>
+</details>
+<!-- Collapsed Folder -->
+<details class="group">
+<summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 hover:bg-primary/10 text-slate-700 dark:text-white transition-colors select-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary group-open:rotate-90 transition-transform text-[20px]">arrow_right</span>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">folder</span>
+<span class="text-sm font-medium">Internal Research</span>
+</div>
+</summary>
+</details>
+</div>
+<!-- Bottom Actions -->
+<div class="p-4 border-t border-border-dark mt-auto">
+<button class="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-white/5 text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</button>
+<button class="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-white/5 text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">delete</span>
+<span class="text-sm font-medium">Trash</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col bg-background-light dark:bg-background-dark overflow-hidden relative">
+<!-- Breadcrumbs & Toolbar -->
+<div class="border-b border-border-dark bg-white dark:bg-[#131221] px-8 py-5 flex items-center justify-between shrink-0">
+<div class="flex flex-col gap-1">
+<nav class="flex items-center text-sm font-medium text-text-secondary mb-1">
+<a class="hover:text-primary transition-colors" href="#">Hyyve Engineering</a>
+<span class="mx-2 text-border-dark">/</span>
+<a class="hover:text-primary transition-colors" href="#">Customer Facing</a>
+<span class="mx-2 text-border-dark">/</span>
+<span class="text-slate-900 dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-primary">smart_toy</span>
+                            FAQ Bot
+                        </span>
+</nav>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">FAQ Bot Project</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-secondary bg-surface-dark/50 border border-border-dark rounded-lg hover:bg-surface-dark hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">drive_file_move</span>
+                        Move
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-400 bg-surface-dark/50 border border-border-dark rounded-lg hover:bg-surface-dark hover:text-red-300 transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+                        Delete
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                        Open Editor
+                    </button>
+</div>
+</div>
+<!-- Content Area (Project Files List) -->
+<div class="flex-1 overflow-y-auto p-8">
+<!-- Stats / Quick Info -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="p-4 rounded-xl border border-border-dark bg-[#1c1b32] flex flex-col">
+<span class="text-text-secondary text-xs font-medium uppercase mb-1">Status</span>
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-green-500"></span>
+<span class="text-white font-medium">Active</span>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-border-dark bg-[#1c1b32] flex flex-col">
+<span class="text-text-secondary text-xs font-medium uppercase mb-1">Last Edited</span>
+<span class="text-white font-medium">2 hours ago</span>
+</div>
+<div class="p-4 rounded-xl border border-border-dark bg-[#1c1b32] flex flex-col">
+<span class="text-text-secondary text-xs font-medium uppercase mb-1">Version</span>
+<span class="text-white font-medium">v2.4.0</span>
+</div>
+<div class="p-4 rounded-xl border border-border-dark bg-[#1c1b32] flex flex-col">
+<span class="text-text-secondary text-xs font-medium uppercase mb-1">Owner</span>
+<div class="flex items-center gap-2">
+<div class="size-5 bg-purple-500 rounded-full flex items-center justify-center text-[10px] text-white font-bold">SD</div>
+<span class="text-white font-medium">Sarah D.</span>
+</div>
+</div>
+</div>
+<!-- Files Table -->
+<div class="rounded-xl border border-border-dark bg-[#1c1b32] overflow-hidden">
+<div class="px-6 py-4 border-b border-border-dark flex items-center justify-between">
+<h3 class="text-white font-semibold">Project Files</h3>
+<div class="flex gap-2">
+<button class="p-1 text-text-secondary hover:text-white">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-1 text-text-secondary hover:text-white">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+</div>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#18172b] text-text-secondary text-xs font-medium uppercase border-b border-border-dark">
+<th class="px-6 py-3 font-medium w-1/2">Name</th>
+<th class="px-6 py-3 font-medium">Type</th>
+<th class="px-6 py-3 font-medium">Last Modified</th>
+<th class="px-6 py-3 font-medium text-right">Size</th>
+<th class="px-6 py-3 font-medium"></th>
+</tr>
+</thead>
+<tbody class="text-sm divide-y divide-border-dark">
+<!-- Row 1 -->
+<tr class="group hover:bg-[#272546] transition-colors">
+<td class="px-6 py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-blue-400">description</span>
+<span class="text-white font-medium">training_data.json</span>
+</div>
+</td>
+<td class="px-6 py-3 text-text-secondary">JSON Data</td>
+<td class="px-6 py-3 text-text-secondary">Just now</td>
+<td class="px-6 py-3 text-text-secondary text-right">2.4 MB</td>
+<td class="px-6 py-3 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-[#272546] transition-colors">
+<td class="px-6 py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-yellow-400">code</span>
+<span class="text-white font-medium">model_config.py</span>
+</div>
+</td>
+<td class="px-6 py-3 text-text-secondary">Python Script</td>
+<td class="px-6 py-3 text-text-secondary">2 hours ago</td>
+<td class="px-6 py-3 text-text-secondary text-right">14 KB</td>
+<td class="px-6 py-3 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-[#272546] transition-colors">
+<td class="px-6 py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-purple-400">psychology</span>
+<span class="text-white font-medium">intent_classification.h5</span>
+</div>
+</td>
+<td class="px-6 py-3 text-text-secondary">Model Weights</td>
+<td class="px-6 py-3 text-text-secondary">Yesterday</td>
+<td class="px-6 py-3 text-text-secondary text-right">156 MB</td>
+<td class="px-6 py-3 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-[#272546] transition-colors">
+<td class="px-6 py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary">folder</span>
+<span class="text-white font-medium">logs</span>
+</div>
+</td>
+<td class="px-6 py-3 text-text-secondary">Folder</td>
+<td class="px-6 py-3 text-text-secondary">3 days ago</td>
+<td class="px-6 py-3 text-text-secondary text-right">-</td>
+<td class="px-6 py-3 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Background Decoration (Subtle Pattern) -->
+<div class="absolute inset-0 pointer-events-none opacity-[0.02]" style="background-image: radial-gradient(#5048e5 1px, transparent 1px); background-size: 24px 24px;"></div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Code Node Config - Hyyve</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-hover": "#4338ca",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221",
+                        "surface-dark": "#1c1b2e",
+                        "surface-darker": "#0f0e1a",
+                        "border-dark": "#2d2b42",
+                        "code-bg": "#1e1e2e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for code editor feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d2b42; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a4863; 
+        }
+        
+        .code-line-numbers {
+            counter-reset: line;
+        }
+        .code-line::before {
+            counter-increment: line;
+            content: counter(line);
+            display: inline-block;
+            width: 30px;
+            color: #6366f1;
+            text-align: right;
+            margin-right: 16px;
+            opacity: 0.5;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white h-screen overflow-hidden flex flex-col">
+<!-- Top Navigation / Header -->
+<header class="border-b border-border-dark bg-surface-dark px-6 py-3 shrink-0">
+<div class="flex flex-col gap-2">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-sm text-slate-400">
+<a class="hover:text-primary transition-colors" href="#">Workflow</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Logic</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-white font-medium">Code Node</span>
+</div>
+<!-- Page Heading -->
+<div class="flex items-center justify-between">
+<div>
+<h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">code_blocks</span>
+                        Data Transformation v2
+                    </h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                        Cancel
+                    </button>
+<button class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                        Save Changes
+                    </button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex flex-1 overflow-hidden">
+<!-- Left Column: Code Editor -->
+<div class="flex flex-1 flex-col border-r border-border-dark min-w-0">
+<!-- Editor Toolbar -->
+<div class="flex items-center justify-between bg-surface-darker border-b border-border-dark px-4 py-2 shrink-0">
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded transition-colors" title="Format Document">
+<span class="material-symbols-outlined text-[20px]">format_align_left</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded transition-colors" title="Insert Snippet">
+<span class="material-symbols-outlined text-[20px]">data_object</span>
+</button>
+<div class="h-4 w-px bg-border-dark mx-2"></div>
+<span class="text-xs text-slate-500 font-mono">JavaScript (ES6)</span>
+</div>
+<button class="flex items-center gap-2 rounded-md bg-gradient-to-r from-primary to-purple-600 px-3 py-1.5 text-xs font-bold text-white hover:brightness-110 transition-all">
+<span class="material-symbols-outlined text-[16px] fill-1">auto_awesome</span>
+                    AI Assist
+                </button>
+</div>
+<!-- Code Editor Area -->
+<div class="relative flex-1 bg-code-bg font-mono text-sm overflow-hidden flex">
+<!-- Line Numbers (Static Mock) -->
+<div class="w-12 bg-surface-darker text-slate-600 flex flex-col items-end pr-2 py-4 select-none border-r border-border-dark leading-6 text-xs">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span>
+</div>
+<!-- Code Content -->
+<div class="flex-1 p-4 overflow-auto">
+<pre class="text-slate-300 leading-6 focus:outline-none" contenteditable="true" spellcheck="false"><span class="text-purple-400">import</span> { _ } <span class="text-purple-400">from</span> <span class="text-green-400">'lodash'</span>;
+
+<span class="text-slate-500">// Main execution function</span>
+<span class="text-purple-400">export default async function</span> <span class="text-yellow-300">run</span>({ inputs, secrets, logger }) {
+  <span class="text-slate-500">// Access input variables</span>
+  <span class="text-purple-400">const</span> customerData = inputs.customerData;
+  
+  <span class="text-blue-400">logger</span>.<span class="text-yellow-300">info</span>(<span class="text-green-400">`Processing customer: ${customerData.id}`</span>);
+
+  <span class="text-slate-500">// Your custom logic here</span>
+  <span class="text-purple-400">if</span> (!customerData.email) {
+    <span class="text-purple-400">throw new</span> <span class="text-yellow-300">Error</span>(<span class="text-green-400">"Missing email address"</span>);
+  }
+
+  <span class="text-purple-400">const</span> transformed = {
+    ...customerData,
+    <span class="text-blue-300">processedAt</span>: <span class="text-purple-400">new</span> <span class="text-yellow-300">Date</span>().<span class="text-yellow-300">toISOString</span>(),
+    <span class="text-blue-300">segment</span>: customerData.ltv &gt; 1000 ? <span class="text-green-400">'VIP'</span> : <span class="text-green-400">'Standard'</span>
+  };
+
+  <span class="text-purple-400">return</span> { 
+    <span class="text-blue-300">success</span>: <span class="text-orange-400">true</span>, 
+    <span class="text-blue-300">data</span>: transformed 
+  };
+}
+</pre>
+</div>
+</div>
+<!-- Bottom Panel: Execution/Logs -->
+<div class="h-64 border-t border-border-dark flex flex-col bg-surface-darker">
+<div class="flex items-center justify-between px-4 py-2 border-b border-border-dark bg-surface-dark">
+<div class="flex gap-4 text-sm font-medium">
+<button class="text-primary border-b-2 border-primary pb-2 -mb-2.5 px-1">Logs</button>
+<button class="text-slate-400 hover:text-white transition-colors pb-2 -mb-2.5 px-1">Output JSON</button>
+<button class="text-slate-400 hover:text-white transition-colors pb-2 -mb-2.5 px-1">Errors</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-500">Last run: 2 mins ago</span>
+<button class="text-slate-400 hover:text-white p-1 rounded">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<div class="flex-1 p-4 font-mono text-xs overflow-auto bg-[#0d0d14] text-slate-300">
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:01]</span>
+<span class="text-blue-400">INFO</span>
+<span>Initializing runtime environment...</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:02]</span>
+<span class="text-blue-400">INFO</span>
+<span>Processing customer: cust_883920</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:02]</span>
+<span class="text-green-400">SUCCESS</span>
+<span>Execution completed in 45ms</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Configuration & Inputs -->
+<div class="w-80 lg:w-96 bg-surface-dark border-l border-border-dark flex flex-col overflow-y-auto">
+<!-- Input Variables Section -->
+<div class="p-6 border-b border-border-dark">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-white font-semibold text-sm">Input Variables</h3>
+<button class="text-primary hover:text-primary-hover text-xs font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span> Add
+                    </button>
+</div>
+<div class="space-y-3">
+<!-- Variable Item 1 -->
+<div class="group bg-surface-darker border border-border-dark rounded-lg p-3 hover:border-slate-600 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<div class="flex flex-col">
+<span class="text-xs font-mono text-purple-400">customerData</span>
+<span class="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Object</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-white transition-opacity">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+<div class="text-xs text-slate-400 truncate font-mono bg-black/20 p-1.5 rounded border border-white/5">
+                            {"id": "cust_883920", "ltv": 1200...}
+                        </div>
+</div>
+<!-- Variable Item 2 -->
+<div class="group bg-surface-darker border border-border-dark rounded-lg p-3 hover:border-slate-600 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<div class="flex flex-col">
+<span class="text-xs font-mono text-yellow-400">api_key</span>
+<span class="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">Secret</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-white transition-opacity">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+<div class="text-xs text-slate-400 truncate font-mono bg-black/20 p-1.5 rounded border border-white/5">
+                            ************************
+                        </div>
+</div>
+</div>
+</div>
+<!-- Execution Settings -->
+<div class="p-6 border-b border-border-dark">
+<h3 class="text-white font-semibold text-sm mb-4">Execution Settings</h3>
+<div class="grid grid-cols-2 gap-4">
+<label class="flex flex-col gap-1.5">
+<span class="text-xs text-slate-400">Timeout (ms)</span>
+<input class="bg-surface-darker border border-border-dark rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" type="number" value="3000"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-xs text-slate-400">Memory (MB)</span>
+<input class="bg-surface-darker border border-border-dark rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" type="number" value="128"/>
+</label>
+</div>
+</div>
+<!-- Testing Panel -->
+<div class="p-6 bg-surface-darker flex-1">
+<div class="flex flex-col h-full">
+<h3 class="text-white font-semibold text-sm mb-2">Test Run</h3>
+<p class="text-xs text-slate-500 mb-4 leading-relaxed">
+                        Execute the code with the current inputs to verify logic and output format.
+                    </p>
+<button class="w-full flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-bold text-white hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all mb-4 group">
+<span class="material-symbols-outlined text-[20px] group-hover:rotate-180 transition-transform duration-500">play_circle</span>
+                        Run Test
+                    </button>
+<div class="bg-surface-dark rounded-lg border border-border-dark p-3 mt-auto">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-medium text-green-400">System Ready</span>
+</div>
+<div class="h-1 w-full bg-border-dark rounded-full overflow-hidden">
+<div class="h-full w-full bg-border-dark"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

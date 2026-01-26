@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Creator Payout Settings Modal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#5048e5",
+                "background-light": "#f6f6f8",
+                "background-dark": "#121121",
+              },
+              fontFamily: {
+                "display": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .radio-dot-custom {
+            --radio-dot-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(80,72,229)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3ccircle cx=%278%27 cy=%278%27 r=%273%27/%3e%3c/svg%3e');
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex items-center justify-center p-4">
+<!-- Modal Overlay Backdrop -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 overflow-y-auto py-10">
+<!-- Modal Container -->
+<div class="relative bg-background-light dark:bg-[#1b1a2d] w-full max-w-[720px] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden">
+<!-- PageHeading (Modified for Modal Header) -->
+<div class="flex flex-wrap justify-between items-center gap-3 p-6 border-b border-slate-200 dark:border-slate-800">
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white tracking-tight text-2xl font-bold leading-tight">Payout Settings</h1>
+<p class="text-slate-500 dark:text-[#9795c6] text-sm">Manage how and when you receive your Hyyve earnings.</p>
+</div>
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-[#322f5a] transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Content (Scrollable Area) -->
+<div class="flex-1 overflow-y-auto max-h-[70vh] p-6 space-y-8 radio-dot-custom">
+<!-- Section: Payout Method -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Payout Method</h2>
+<div class="flex items-center gap-1.5 px-2 py-1 rounded bg-slate-100 dark:bg-[#272546]">
+<span class="material-symbols-outlined text-[14px] text-primary">verified_user</span>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Powered by Stripe</span>
+</div>
+</div>
+<!-- RadioList -->
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-4 rounded-lg border border-solid border-slate-200 dark:border-[#383663] p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-[#252342] transition-colors group">
+<input checked="" class="h-5 w-5 border-2 border-slate-300 dark:border-[#383663] bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-primary" name="payout_method" type="radio"/>
+<div class="flex grow flex-col">
+<p class="text-slate-900 dark:text-white text-sm font-semibold leading-normal flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">account_balance</span>
+                                    Bank Account
+                                </p>
+<p class="text-slate-500 dark:text-[#9795c6] text-xs font-normal leading-normal">Direct deposit to your local bank (2-3 business days)</p>
+</div>
+<span class="text-xs font-medium text-slate-400 group-hover:text-primary">Default</span>
+</label>
+<label class="flex items-center gap-4 rounded-lg border border-solid border-slate-200 dark:border-[#383663] p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-[#252342] transition-colors">
+<input class="h-5 w-5 border-2 border-slate-300 dark:border-[#383663] bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-primary" name="payout_method" type="radio"/>
+<div class="flex grow flex-col">
+<p class="text-slate-900 dark:text-white text-sm font-semibold leading-normal flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">credit_card</span>
+                                    Debit Card
+                                </p>
+<p class="text-slate-500 dark:text-[#9795c6] text-xs font-normal leading-normal">Instant transfer to your debit card (Fee applies)</p>
+</div>
+</label>
+<label class="flex items-center gap-4 rounded-lg border border-solid border-slate-200 dark:border-[#383663] p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-[#252342] transition-colors">
+<input class="h-5 w-5 border-2 border-slate-300 dark:border-[#383663] bg-transparent text-transparent checked:border-primary checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-primary" name="payout_method" type="radio"/>
+<div class="flex grow flex-col">
+<p class="text-slate-900 dark:text-white text-sm font-semibold leading-normal flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">payments</span>
+                                    Stripe Express
+                                </p>
+<p class="text-slate-500 dark:text-[#9795c6] text-xs font-normal leading-normal">Manage earnings via Stripe Express dashboard</p>
+</div>
+</label>
+</div>
+<!-- SingleButton -->
+<div class="flex py-3 justify-start">
+<button class="flex items-center justify-center overflow-hidden rounded-lg h-10 px-0 bg-transparent text-primary hover:text-primary/80 gap-2 text-sm font-bold leading-normal transition-colors">
+<span class="material-symbols-outlined text-primary">add_circle</span>
+<span class="truncate">Connect new method</span>
+</button>
+</div>
+</section>
+<!-- Section: Payout Schedule -->
+<section>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight mb-1">Payout Schedule</h2>
+<p class="text-slate-500 dark:text-[#9795c6] text-sm mb-4">How often should we send your earnings?</p>
+<div class="grid grid-cols-3 gap-3">
+<label class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-slate-200 dark:border-[#383663] cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<input checked="" class="hidden" name="schedule" type="radio"/>
+<span class="text-sm font-bold text-slate-900 dark:text-white mb-1">Daily</span>
+<span class="text-[10px] text-slate-500 dark:text-[#9795c6] text-center">Min. balance $25</span>
+</label>
+<label class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-slate-200 dark:border-[#383663] cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<input class="hidden" name="schedule" type="radio"/>
+<span class="text-sm font-bold text-slate-900 dark:text-white mb-1">Weekly</span>
+<span class="text-[10px] text-slate-500 dark:text-[#9795c6] text-center">Every Friday</span>
+</label>
+<label class="flex flex-col items-center justify-center p-4 rounded-lg border-2 border-slate-200 dark:border-[#383663] cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<input class="hidden" name="schedule" type="radio"/>
+<span class="text-sm font-bold text-slate-900 dark:text-white mb-1">Bi-weekly</span>
+<span class="text-[10px] text-slate-500 dark:text-[#9795c6] text-center">1st &amp; 15th</span>
+</label>
+</div>
+</section>
+<!-- Section: Tax Information -->
+<section>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight mb-4">Tax Information</h2>
+<div class="bg-slate-50 dark:bg-[#131221] border border-slate-200 dark:border-[#383663] rounded-lg p-5">
+<div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-200 dark:border-[#383663]/50">
+<div>
+<p class="text-xs text-slate-500 dark:text-[#9795c6] uppercase font-bold tracking-widest mb-1">Legal Entity</p>
+<p class="text-slate-900 dark:text-white font-medium">Hyyve Creative Labs Inc.</p>
+</div>
+<div class="text-right">
+<p class="text-xs text-slate-500 dark:text-[#9795c6] uppercase font-bold tracking-widest mb-1">Tax ID (TIN)</p>
+<p class="text-slate-900 dark:text-white font-medium">***-**-5829</p>
+</div>
+</div>
+<div class="space-y-3">
+<p class="text-xs font-bold text-slate-500 dark:text-[#9795c6] uppercase tracking-widest">2024 Tax Documents</p>
+<div class="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#272546] border border-slate-100 dark:border-transparent">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">picture_as_pdf</span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-200">Form 1099-K (Jan - Dec 2024)</span>
+</div>
+<button class="text-primary hover:text-primary/80 transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#272546] border border-slate-100 dark:border-transparent">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">picture_as_pdf</span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-200">Tax Summary Report Q1-Q2</span>
+</div>
+<button class="text-primary hover:text-primary/80 transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Modal Footer (Action Buttons) -->
+<div class="p-6 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-3 bg-slate-50 dark:bg-[#1b1a2d]">
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-slate-200 dark:bg-[#272546] text-slate-700 dark:text-white text-sm font-bold transition-all hover:bg-slate-300 dark:hover:bg-[#322f5a]">
+                    Cancel
+                </button>
+<button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all hover:bg-primary/90">
+                    Save Changes
+                </button>
+</div>
+</div>
+</div>
+</body></html>

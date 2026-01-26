@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Chatwoot Configuration</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", // Matches the provided component bg
+                        "card-dark": "#1c1a36", // Slightly lighter for cards
+                        "border-dark": "#272546", // From header border
+                        "input-border": "#383663", // From checklist border
+                        "text-muted": "#9795c6", // From text styles
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for textarea if needed */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #1c1a36; 
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: #383663; 
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+        
+        /* Custom radio button styling wrapper */
+        .radio-card:has(input:checked) {
+            border-color: #5048e5;
+            background-color: rgba(80, 72, 229, 0.1);
+        }
+        .radio-card:has(input:checked) .radio-circle-inner {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Custom checkbox styling wrapper */
+        .checkbox-card:has(input:checked) {
+            border-color: #5048e5;
+            background-color: rgba(80, 72, 229, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary/30 selection:text-white overflow-x-hidden min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark px-6 py-3 lg:px-10 bg-[#131221] sticky top-0 z-50">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<svg fill="none" height="24" viewbox="0 0 48 48" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Deployments</a>
+<a class="text-text-muted text-sm font-medium leading-normal hover:text-white transition-colors" href="#">Settings</a>
+</div>
+<div class="flex gap-2">
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-border-dark text-white hover:bg-input-border transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-border-dark text-white hover:bg-input-border transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-border-dark text-white hover:bg-input-border transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center py-8 px-4 md:px-8">
+<div class="w-full max-w-[960px] flex flex-col gap-8">
+<!-- Progress Bar -->
+<div class="flex flex-col gap-3">
+<div class="flex gap-6 justify-between items-end">
+<p class="text-white text-base font-medium leading-normal">Step 2 of 4</p>
+<span class="text-text-muted text-sm font-normal">Configuration</span>
+</div>
+<div class="rounded-full bg-input-border h-2 w-full overflow-hidden">
+<div class="h-full rounded-full bg-primary transition-all duration-500 ease-out" style="width: 50%;"></div>
+</div>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-white tracking-tight text-[32px] font-bold leading-tight">Configure Chatwoot Channels</h1>
+<p class="text-text-muted text-base font-normal leading-normal max-w-2xl">
+                    Select the inboxes the AI agent should monitor and define its behavior for handling customer interactions.
+                </p>
+</div>
+<form class="flex flex-col gap-8" onsubmit="event.preventDefault();">
+<!-- Section 1: Active Inboxes -->
+<section>
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] mb-4">Active Inboxes</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Website Inbox Card -->
+<label class="checkbox-card relative flex flex-col gap-4 p-5 rounded-xl border-2 border-input-border bg-card-dark cursor-pointer transition-all hover:border-primary/50 group">
+<div class="flex justify-between items-start">
+<div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">chat</span>
+</div>
+<input checked="" class="h-5 w-5 rounded border-input-border border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none transition-colors cursor-pointer" type="checkbox"/>
+</div>
+<div>
+<p class="text-white font-semibold text-lg">Website Live Chat</p>
+<p class="text-text-muted text-sm mt-1">Monitor web widget chats</p>
+</div>
+</label>
+<!-- WhatsApp Inbox Card -->
+<label class="checkbox-card relative flex flex-col gap-4 p-5 rounded-xl border-2 border-input-border bg-card-dark cursor-pointer transition-all hover:border-primary/50 group">
+<div class="flex justify-between items-start">
+<div class="size-10 rounded-lg bg-[#25D366]/10 flex items-center justify-center text-[#25D366]">
+<span class="material-symbols-outlined text-[24px]">perm_phone_msg</span>
+</div>
+<input class="h-5 w-5 rounded border-input-border border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none transition-colors cursor-pointer" type="checkbox"/>
+</div>
+<div>
+<p class="text-white font-semibold text-lg">WhatsApp Business</p>
+<p class="text-text-muted text-sm mt-1">Connect via Twilio/360Dialog</p>
+</div>
+</label>
+<!-- Email Inbox Card -->
+<label class="checkbox-card relative flex flex-col gap-4 p-5 rounded-xl border-2 border-input-border bg-card-dark cursor-pointer transition-all hover:border-primary/50 group">
+<div class="flex justify-between items-start">
+<div class="size-10 rounded-lg bg-yellow-500/10 flex items-center justify-center text-yellow-500">
+<span class="material-symbols-outlined text-[24px]">mail</span>
+</div>
+<input class="h-5 w-5 rounded border-input-border border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none transition-colors cursor-pointer" type="checkbox"/>
+</div>
+<div>
+<p class="text-white font-semibold text-lg">Email Support</p>
+<p class="text-text-muted text-sm mt-1">Auto-draft email replies</p>
+</div>
+</label>
+</div>
+</section>
+<!-- Section 2: Agent Behavior -->
+<section class="flex flex-col gap-6">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Agent Behavior</h3>
+<div class="p-6 rounded-xl border border-input-border bg-card-dark flex flex-col gap-6">
+<!-- Initial Message -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-white" for="initial_message">Default Initial Message</label>
+<textarea class="w-full rounded-lg bg-[#131221] border border-input-border text-white placeholder:text-text-muted/50 p-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" id="initial_message" placeholder="Hi there! I'm the Hyyve assistant. How can I help you today?" rows="3"></textarea>
+<p class="text-xs text-text-muted">This message will be sent immediately when a new conversation starts.</p>
+</div>
+<div class="h-px w-full bg-input-border"></div>
+<!-- Response Strategy -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-medium text-white">Response Strategy</label>
+<div class="flex flex-col gap-3">
+<!-- Auto-respond Option -->
+<label class="radio-card relative flex items-start gap-4 p-4 rounded-lg border border-input-border bg-[#131221] cursor-pointer hover:border-primary/50 transition-all">
+<div class="relative flex items-center justify-center pt-1">
+<input checked="" class="peer h-5 w-5 appearance-none rounded-full border border-text-muted checked:border-primary cursor-pointer" name="strategy" type="radio" value="auto"/>
+<div class="radio-circle-inner absolute h-2.5 w-2.5 rounded-full bg-primary opacity-0 transition-all duration-200 transform scale-0 pointer-events-none top-[9px]"></div>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-medium text-sm">Auto-respond</span>
+<span class="text-text-muted text-xs mt-0.5">The AI replies directly to the user based on the knowledge base.</span>
+</div>
+</label>
+<!-- Suggest Option -->
+<label class="radio-card relative flex items-start gap-4 p-4 rounded-lg border border-input-border bg-[#131221] cursor-pointer hover:border-primary/50 transition-all">
+<div class="relative flex items-center justify-center pt-1">
+<input class="peer h-5 w-5 appearance-none rounded-full border border-text-muted checked:border-primary cursor-pointer" name="strategy" type="radio" value="suggest"/>
+<div class="radio-circle-inner absolute h-2.5 w-2.5 rounded-full bg-primary opacity-0 transition-all duration-200 transform scale-0 pointer-events-none top-[9px]"></div>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-medium text-sm">Suggest Mode</span>
+<span class="text-text-muted text-xs mt-0.5">AI drafts a reply as a private note for a human agent to approve.</span>
+</div>
+</label>
+<!-- Tag-only Option -->
+<label class="radio-card relative flex items-start gap-4 p-4 rounded-lg border border-input-border bg-[#131221] cursor-pointer hover:border-primary/50 transition-all">
+<div class="relative flex items-center justify-center pt-1">
+<input class="peer h-5 w-5 appearance-none rounded-full border border-text-muted checked:border-primary cursor-pointer" name="strategy" type="radio" value="tag"/>
+<div class="radio-circle-inner absolute h-2.5 w-2.5 rounded-full bg-primary opacity-0 transition-all duration-200 transform scale-0 pointer-events-none top-[9px]"></div>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-medium text-sm">Tag-only</span>
+<span class="text-text-muted text-xs mt-0.5">AI only analyzes and categorizes tickets without replying.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Actions -->
+<div class="flex items-center justify-end gap-4 mt-4 pb-12">
+<button class="px-6 py-2.5 rounded-lg border border-input-border text-white text-sm font-medium hover:bg-input-border/50 transition-colors" type="button">
+                        Back
+                    </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center gap-2" type="submit">
+                        Continue
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</main>
+</body></html>

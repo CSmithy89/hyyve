@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve | Agency Management Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0b0f19",
+                        "surface-dark": "#111827",
+                        "border-dark": "#1f2937",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="w-64 fixed h-full bg-white dark:bg-surface-dark border-r border-slate-200 dark:border-border-dark flex flex-col justify-between p-4 z-50">
+<div class="flex flex-col gap-8">
+<!-- Logo Section -->
+<div class="flex items-center gap-3 px-2">
+<div class="size-10 rounded-xl bg-gradient-to-tr from-primary to-indigo-400 flex items-center justify-center text-white">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-lg font-bold leading-tight">Hyyve</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Agency Services</p>
+</div>
+</div>
+<!-- Nav Links -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium leading-normal">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium leading-normal">Clients</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="text-sm font-medium leading-normal">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm font-medium leading-normal">Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium leading-normal">Settings</span>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-sm font-medium leading-normal">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-red-500 hover:bg-red-500/10 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium leading-normal">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-40 flex items-center justify-between h-16 px-8 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-6">
+<h2 class="text-lg font-bold">Overview</h2>
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="w-full h-10 pl-10 pr-4 rounded-lg bg-slate-100 dark:bg-surface-dark border-none focus:ring-2 focus:ring-primary text-sm placeholder:text-slate-500" placeholder="Search clients or projects..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-background-dark"></span>
+</button>
+<div class="h-8 w-px bg-slate-200 dark:border-border-dark mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer">
+<div class="size-8 rounded-full bg-cover bg-center ring-2 ring-primary/20" data-alt="User profile avatar of agency owner" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD66EqJTkgyq3ToCZI_C5KI-6U5_SRcD3_go7PcQCxWVxkY-Y-BaNEGI2g5nX92v2IUQjULZl-1GFXejyzI1ozYmAv1gg_xcT2osLyD4Ksgi4kalWEyKTyAGYmHe-Zevm_hFWU7qpGzl5TaGtcukP0qQhDZ8_oWBfzJ6o7t8Jy-AkwGEWeJrUu_bL4KQSmMKPeKT-Nk3BZUmDG6yfhohC4vrap6YIKH77Sb0y_6aRIbYNXacpd7CUshnSBbNDSMjSau0PPVbvGQH-A");'></div>
+<span class="text-sm font-medium hidden lg:block">Alex Sterling</span>
+</div>
+</div>
+</header>
+<div class="p-8 max-w-7xl mx-auto w-full">
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Clients</p>
+<span class="text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded text-xs font-bold">+12.5%</span>
+</div>
+<p class="text-3xl font-bold tracking-tight">128</p>
+<div class="mt-4 h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Monthly Revenue</p>
+<span class="text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded text-xs font-bold">+8.2%</span>
+</div>
+<p class="text-3xl font-bold tracking-tight">$42,500</p>
+<div class="mt-4 flex gap-1 items-end h-6">
+<div class="w-full h-2 bg-primary/20 rounded-sm"></div>
+<div class="w-full h-4 bg-primary/40 rounded-sm"></div>
+<div class="w-full h-3 bg-primary/30 rounded-sm"></div>
+<div class="w-full h-5 bg-primary/60 rounded-sm"></div>
+<div class="w-full h-6 bg-primary rounded-sm"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Retention Rate</p>
+<span class="text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded text-xs font-bold">-1.5%</span>
+</div>
+<p class="text-3xl font-bold tracking-tight">94%</p>
+<p class="text-xs text-slate-500 mt-4 leading-normal italic">Last 30 days performance</p>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Projects</p>
+<span class="text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded text-xs font-bold">+4%</span>
+</div>
+<p class="text-3xl font-bold tracking-tight">42</p>
+<div class="mt-4 flex -space-x-2">
+<div class="size-6 rounded-full border-2 border-white dark:border-surface-dark bg-slate-400" data-alt="Project member avatar 1" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDECC0jrtH7vheRfxnE1VsDiw2-4-_Jg-XP0KbHvK2bGklNjfeTyngFjZcS3MZ3GafRnvxemsoAJry1pzZ08bYDDFSSHOh-Qif5T9n7G-Ax6kuneaKld4WHVHMYJH37r4u27SxWDAvX5KtIc3lh5JBcPYfehbn60MWbZJUYfyfdMJOwi-D5sAEsEP2pqa_m-mOt61hZHqAwooyoi7XsbUYfpU5ecRuzdossWrslJc85aEUwUi4oeuin5H_guP7WFCokWxS-lH20y5g");'></div>
+<div class="size-6 rounded-full border-2 border-white dark:border-surface-dark bg-slate-500" data-alt="Project member avatar 2" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCOEDjwTQ5V5LHqkrKhgokL-Aecc4RydhxClPUvVAIE2D9mI76253YafeR2emMdlxhhV3X5-ISEI9BLPmmCUgZ_CSpjkWDNpizkT17dl0FcXh49iQJu2S5aoz7ZOm_pKnKeStxlsKx9M_LG_U1UxpJs2wPw91oug2cPRc97BmkZG_4HGxlp20_U--_5vV4_NKhtFjQlIpjL8VqJB6PaOFto58oA3SKmrMXLiryWhZfTVi-CIWp42HUSbVu6jb9WFyFX7vDAWtiorBA");'></div>
+<div class="size-6 rounded-full border-2 border-white dark:border-surface-dark bg-slate-600" data-alt="Project member avatar 3" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBIQnBGJvcLkgNbzzs3LgAZVuZnSAH_oLlRK0Kz-0gehBEZcvl7sxcaFuDxSb7OKUTSjGdA3oQfAl2pKFkcIsxbILr1z2rSIgclLWtI1X0ht3dEV_a4ADHlU8YxQ3sVgqGcZ43BH9hyKpHeBfl-LqJ21-O-cKCQBl8D1qZKg55jbpaCi3kH3ZTC_tEHoxKH_p2tCipxs9XPF0aGZHIptubRR3qADB57m3tTZYX8qZBKspCAb0ctEeR78OZ4j6X56ubwz_MhSi2660");'></div>
+<div class="size-6 rounded-full border-2 border-white dark:border-surface-dark bg-primary flex items-center justify-center text-[10px] text-white font-bold">+5</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Client Table Section -->
+<div class="xl:col-span-2 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold tracking-tight">Client Overview</h2>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                New Client
+                            </button>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-border-dark">
+<th class="px-6 py-4 text-xs font-semibold uppercase text-slate-500 tracking-wider">Client</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase text-slate-500 tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase text-slate-500 tracking-wider">Projects</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase text-slate-500 tracking-wider">Next Milestone</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase text-slate-500 tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-border-dark">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">A</div>
+<div>
+<p class="text-sm font-semibold">Acme AI Corp</p>
+<p class="text-xs text-slate-500">Enterprise</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-500">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                                    Active
+                                                </span>
+</td>
+<td class="px-6 py-4 text-sm font-medium">5</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Model Fine-tuning</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">arrow_forward_ios</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400 font-bold">G</div>
+<div>
+<p class="text-sm font-semibold">Globex Dev</p>
+<p class="text-xs text-slate-500">Startup</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+<span class="size-1.5 rounded-full bg-primary"></span>
+                                                    Trial
+                                                </span>
+</td>
+<td class="px-6 py-4 text-sm font-medium">2</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Initial Onboarding</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">arrow_forward_ios</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400 font-bold">S</div>
+<div>
+<p class="text-sm font-semibold">Soylent Systems</p>
+<p class="text-xs text-slate-500">Agency</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-500">
+<span class="size-1.5 rounded-full bg-amber-500"></span>
+                                                    Onboarding
+                                                </span>
+</td>
+<td class="px-6 py-4 text-sm font-medium">3</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">API Integration</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">arrow_forward_ios</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group border-b-0">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center text-rose-600 dark:text-rose-400 font-bold">V</div>
+<div>
+<p class="text-sm font-semibold">Vandelay Ind.</p>
+<p class="text-xs text-slate-500">Boutique</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-500">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                                    Active
+                                                </span>
+</td>
+<td class="px-6 py-4 text-sm font-medium">1</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Testing Suite</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">arrow_forward_ios</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-center">
+<button class="text-sm font-semibold text-primary hover:underline transition-all flex items-center gap-2">
+                                    View All Clients
+                                    <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Recent Activity Sidebar -->
+<div class="flex flex-col gap-4">
+<h2 class="text-xl font-bold tracking-tight">Recent Activity</h2>
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark p-6 shadow-sm flex-1">
+<div class="relative flex flex-col gap-8 before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-100 dark:before:bg-slate-800">
+<div class="relative flex gap-4">
+<div class="z-10 size-8 rounded-full bg-primary flex items-center justify-center text-white ring-4 ring-white dark:ring-surface-dark shadow-sm">
+<span class="material-symbols-outlined text-[16px]">deployed_code</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold">Model Deployed</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Llama-3 training completed for <span class="text-slate-900 dark:text-white font-medium">Acme AI</span></p>
+<span class="text-[10px] text-slate-400 uppercase tracking-wide">2 minutes ago</span>
+</div>
+</div>
+<div class="relative flex gap-4">
+<div class="z-10 size-8 rounded-full bg-amber-500 flex items-center justify-center text-white ring-4 ring-white dark:ring-surface-dark shadow-sm">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold">New Client Onboarding</p>
+<p class="text-xs text-slate-500 dark:text-slate-400"><span class="text-slate-900 dark:text-white font-medium">Soylent Systems</span> invited 3 members.</p>
+<span class="text-[10px] text-slate-400 uppercase tracking-wide">45 minutes ago</span>
+</div>
+</div>
+<div class="relative flex gap-4">
+<div class="z-10 size-8 rounded-full bg-indigo-500 flex items-center justify-center text-white ring-4 ring-white dark:ring-surface-dark shadow-sm">
+<span class="material-symbols-outlined text-[16px]">api</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold">API Key Generated</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">New production key for <span class="text-slate-900 dark:text-white font-medium">Globex Dev</span>.</p>
+<span class="text-[10px] text-slate-400 uppercase tracking-wide">3 hours ago</span>
+</div>
+</div>
+<div class="relative flex gap-4">
+<div class="z-10 size-8 rounded-full bg-emerald-500 flex items-center justify-center text-white ring-4 ring-white dark:ring-surface-dark shadow-sm">
+<span class="material-symbols-outlined text-[16px]">task_alt</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold">Milestone Reached</p>
+<p class="text-xs text-slate-500 dark:text-slate-400"><span class="text-slate-900 dark:text-white font-medium">Vandelay</span> reached beta release goal.</p>
+<span class="text-[10px] text-slate-400 uppercase tracking-wide">Yesterday</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 py-2 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors border border-dashed border-slate-200 dark:border-border-dark rounded-lg">
+                                View Activity Log
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer-like Bottom Info -->
+<footer class="mt-auto px-8 py-6 border-t border-slate-200 dark:border-border-dark flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+<p>© 2024 Hyyve AI. Agency Management Portal v2.4.0</p>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="hover:text-primary transition-colors" href="#">API Status</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Module Builder</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-dark": "#3e38b3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221",
+                        "panel-dark": "#1c1a2e",
+                        "canvas-dark": "#0f1115",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+
+        /* Dot Grid Pattern for Canvas */
+        .bg-dot-grid {
+            background-image: radial-gradient(#374151 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Connecting Lines SVG */
+        .connection-line {
+            fill: none;
+            stroke: #5048e5;
+            stroke-width: 2px;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 0;
+            animation: dash 5s linear infinite;
+            filter: drop-shadow(0 0 3px rgba(80, 72, 229, 0.4));
+        }
+        
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="h-16 flex-none flex items-center justify-between border-b border-border-dark bg-[#131221] px-6 z-20">
+<div class="flex items-center gap-6">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold tracking-tight">Hyyve</h2>
+</div>
+<!-- Separator -->
+<div class="h-6 w-px bg-border-dark"></div>
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-sm">
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Hyyve</a>
+<span class="text-text-secondary material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Project Alpha</a>
+<span class="text-text-secondary material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-white font-medium bg-[#272546] px-2 py-0.5 rounded text-xs">Workflow 1</span>
+</div>
+</div>
+<!-- Right Actions -->
+<div class="flex items-center gap-3">
+<button class="group flex items-center justify-center gap-2 rounded-lg h-9 px-4 bg-primary hover:bg-primary-dark text-white text-sm font-bold transition-all shadow-[0_0_15px_rgba(80,72,229,0.3)]">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+<span>Run</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-9 px-4 bg-[#272546] hover:bg-[#34315c] text-white text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Save</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-9 px-4 bg-[#272546] hover:bg-[#34315c] text-white text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+<span>Export</span>
+</button>
+<div class="w-px h-6 bg-border-dark mx-1"></div>
+<button class="flex items-center justify-center rounded-full size-9 bg-[#272546] hover:bg-[#34315c] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<div class="size-9 rounded-full bg-gradient-to-br from-pink-500 to-orange-400 p-[2px] cursor-pointer" data-alt="User Avatar Gradient">
+<div class="size-full rounded-full bg-black">
+<img alt="User Profile Avatar" class="rounded-full w-full h-full bg-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvhzZbFb0mrOAwLUxFyHAhr2wOXVvjfeFto_kBoTSEZ5KNQMdoZF3GyTBV9T-Cpy_1Ppo8elYT6Z4lHQpIIIiwQK_28rKOvZ-szOcbRYPOLEMF2frkoTnEravWa5QtqrCAlxkuQ0n5OmQrtnWN-5fm_s3ndXdvcXO8A6aOj_TMKcmv1X-bdDo6rekn6M6MiYlMmvKjOxK3bk1k0zwiLfNmuit1Ho6ixrvRlW7k6_KyGgp0pw14GX6OcfmflO113NDaQM6Feh2JxIM"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Left Panel: Knowledge Base -->
+<aside class="w-72 flex-none bg-[#131221] border-r border-border-dark flex flex-col z-10">
+<!-- Panel Header -->
+<div class="px-5 py-4 border-b border-border-dark">
+<h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-1">Knowledge Base</h3>
+<p class="text-text-secondary text-xs">Manage context sources</p>
+</div>
+<!-- Search -->
+<div class="px-4 py-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-[18px]">search</span>
+<input class="w-full bg-[#1c1a2e] border border-[#272546] rounded-md py-2 pl-9 pr-3 text-sm text-white focus:outline-none focus:border-primary placeholder-text-secondary/50 transition-colors" placeholder="Search files..." type="text"/>
+</div>
+</div>
+<!-- File List -->
+<div class="flex-1 overflow-y-auto px-2 py-2 flex flex-col gap-1">
+<!-- Section: Folders -->
+<div class="mb-4">
+<div class="flex items-center justify-between px-3 py-1 mb-1 group cursor-pointer">
+<span class="text-xs font-semibold text-text-secondary group-hover:text-white transition-colors">FOLDERS</span>
+<span class="material-symbols-outlined text-text-secondary text-[14px]">add</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#272546] cursor-pointer transition-colors group">
+<span class="material-symbols-outlined text-primary text-[20px]">folder</span>
+<span class="text-sm text-gray-300 group-hover:text-white">Financial Data</span>
+</div>
+</div>
+<!-- Section: Files -->
+<div>
+<div class="flex items-center justify-between px-3 py-1 mb-1 group cursor-pointer">
+<span class="text-xs font-semibold text-text-secondary group-hover:text-white transition-colors">FILES</span>
+<span class="material-symbols-outlined text-text-secondary text-[14px]">upload_file</span>
+</div>
+<!-- File Item 1 -->
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#272546] border border-primary/20 cursor-pointer group relative">
+<div class="flex items-center justify-center rounded bg-[#1c1a2e] p-1.5 text-blue-400">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-white text-sm font-medium truncate">Product_Manual.pdf</p>
+<p class="text-xs text-text-secondary">2.4 MB</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">more_vert</span>
+</div>
+<!-- File Item 2 -->
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#272546]/50 cursor-pointer group transition-colors">
+<div class="flex items-center justify-center rounded bg-[#1c1a2e] p-1.5 text-green-400">
+<span class="material-symbols-outlined text-[18px]">table_chart</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-gray-300 text-sm font-medium truncate">Q3_Financials.csv</p>
+<p class="text-xs text-text-secondary">156 KB</p>
+</div>
+</div>
+<!-- File Item 3 -->
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#272546]/50 cursor-pointer group transition-colors">
+<div class="flex items-center justify-center rounded bg-[#1c1a2e] p-1.5 text-orange-400">
+<span class="material-symbols-outlined text-[18px]">article</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-gray-300 text-sm font-medium truncate">Support_Logs.txt</p>
+<p class="text-xs text-text-secondary">89 KB</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel Footer -->
+<div class="p-4 border-t border-border-dark">
+<button class="w-full flex items-center justify-center gap-2 rounded-lg h-10 bg-[#272546] hover:bg-[#5048e5] text-white text-sm font-bold transition-colors group">
+<span class="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform duration-300">add</span>
+<span>Add Source</span>
+</button>
+</div>
+</aside>
+<!-- Center Panel: Infinite Canvas -->
+<main class="flex-1 relative bg-canvas-dark overflow-hidden cursor-grab active:cursor-grabbing">
+<!-- Background Grid -->
+<div class="absolute inset-0 bg-dot-grid opacity-30 pointer-events-none"></div>
+<!-- Floating Controls: Map & Zoom -->
+<div class="absolute bottom-6 left-6 z-30 flex flex-col gap-2">
+<div class="bg-[#131221] border border-border-dark rounded-lg p-1 shadow-xl flex flex-col">
+<button class="size-8 flex items-center justify-center text-white hover:bg-[#272546] rounded transition-colors" title="Zoom In">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="size-8 flex items-center justify-center text-white hover:bg-[#272546] rounded transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<div class="h-px bg-border-dark my-0.5"></div>
+<button class="size-8 flex items-center justify-center text-white hover:bg-[#272546] rounded transition-colors" title="Fit to Screen">
+<span class="material-symbols-outlined text-[20px]">center_focus_strong</span>
+</button>
+</div>
+<div class="bg-[#131221] border border-border-dark rounded-lg size-16 shadow-xl overflow-hidden relative" title="Minimap">
+<!-- Minimap representation -->
+<div class="absolute top-2 left-2 w-4 h-2 bg-primary/40 rounded-sm"></div>
+<div class="absolute top-2 left-8 w-4 h-3 bg-gray-600 rounded-sm"></div>
+<div class="absolute bottom-4 left-5 w-4 h-2 bg-gray-600 rounded-sm"></div>
+<div class="absolute inset-0 border-2 border-primary/30 pointer-events-none"></div>
+</div>
+</div>
+<!-- SVG Layer for Connections -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0">
+<!-- Connection: Trigger -> LLM -->
+<path class="connection-line" d="M280 140 C 350 140, 350 140, 420 140"></path>
+<!-- Connection: LLM -> Branch -->
+<path class="connection-line" d="M660 140 C 700 140, 700 140, 740 140"></path>
+<!-- Connection: Branch -> Slack (Success path) -->
+<path class="connection-line" d="M940 120 C 980 120, 960 280, 1000 280" style="stroke: #10b981;"></path> <!-- Green for success -->
+<!-- Connection: Branch -> Retry (Fail path - implied going down/back) -->
+<path class="connection-line" d="M940 160 C 960 160, 960 200, 940 220" style="stroke: #ef4444; stroke-dasharray: 4;"></path> <!-- Red dashed for fail -->
+</svg>
+<!-- Canvas Nodes Container (absolute positioning simulation) -->
+<div class="absolute inset-0 z-10">
+<!-- Node 1: Input Trigger -->
+<div class="absolute top-[100px] left-[80px] w-[200px] bg-[#1c1a2e] border border-border-dark rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)] flex flex-col group hover:border-primary transition-colors">
+<div class="h-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-t-xl"></div>
+<div class="p-3">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2 text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-purple-400 text-[18px]">bolt</span>
+                                Input Trigger
+                             </div>
+<span class="material-symbols-outlined text-text-secondary text-[16px]">more_horiz</span>
+</div>
+<div class="bg-[#131221] rounded p-2 mb-2">
+<p class="text-xs text-text-secondary font-mono">Webhook: /api/v1/trigger</p>
+</div>
+</div>
+<!-- Output Handle -->
+<div class="absolute top-10 -right-1.5 size-3 bg-white border-2 border-primary rounded-full cursor-crosshair"></div>
+</div>
+<!-- Node 2: LLM Processing -->
+<div class="absolute top-[80px] left-[420px] w-[240px] bg-[#1c1a2e] border border-primary shadow-[0_0_20px_rgba(80,72,229,0.15)] rounded-xl flex flex-col group">
+<div class="h-2 bg-primary rounded-t-xl"></div>
+<div class="p-3">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2 text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">psychology</span>
+                                LLM Processing
+                             </div>
+<div class="px-1.5 py-0.5 bg-primary/20 text-primary text-[10px] font-bold rounded uppercase">Active</div>
+</div>
+<!-- Settings Preview -->
+<div class="space-y-2 mb-2">
+<div class="flex items-center justify-between text-xs">
+<span class="text-text-secondary">Model</span>
+<span class="text-white font-mono bg-[#131221] px-1 rounded">GPT-4-Turbo</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-text-secondary">Temperature</span>
+<span class="text-white font-mono bg-[#131221] px-1 rounded">0.7</span>
+</div>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-border-dark">
+<p class="text-[10px] text-text-secondary uppercase font-bold mb-1">Context</p>
+<div class="flex gap-1 flex-wrap">
+<span class="text-[10px] bg-[#272546] text-white px-1.5 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">description</span> Manual.pdf
+                                </span>
+</div>
+</div>
+</div>
+<!-- Handles -->
+<div class="absolute top-16 -left-1.5 size-3 bg-white border-2 border-primary rounded-full cursor-crosshair"></div>
+<div class="absolute top-16 -right-1.5 size-3 bg-white border-2 border-primary rounded-full cursor-crosshair"></div>
+</div>
+<!-- Node 3: Branch Logic -->
+<div class="absolute top-[90px] left-[740px] w-[200px] bg-[#1c1a2e] border border-border-dark rounded-xl shadow-lg flex flex-col group hover:border-primary transition-colors">
+<div class="h-2 bg-gradient-to-r from-orange-400 to-red-400 rounded-t-xl"></div>
+<div class="p-3">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2 text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-orange-400 text-[18px]">alt_route</span>
+                                Branch Logic
+                             </div>
+</div>
+<div class="space-y-1">
+<div class="flex items-center justify-between p-1.5 bg-[#131221] rounded border border-green-500/30">
+<span class="text-xs text-green-400">Success</span>
+<span class="material-symbols-outlined text-green-400 text-[14px]">check_circle</span>
+</div>
+<div class="flex items-center justify-between p-1.5 bg-[#131221] rounded border border-red-500/30">
+<span class="text-xs text-red-400">Failure</span>
+<span class="material-symbols-outlined text-red-400 text-[14px]">cancel</span>
+</div>
+</div>
+</div>
+<!-- Handles -->
+<div class="absolute top-12 -left-1.5 size-3 bg-white border-2 border-primary rounded-full cursor-crosshair"></div>
+<div class="absolute top-[52px] -right-1.5 size-3 bg-green-500 border-2 border-[#1c1a2e] rounded-full cursor-crosshair hover:scale-125 transition-transform"></div>
+<div class="absolute top-[92px] -right-1.5 size-3 bg-red-500 border-2 border-[#1c1a2e] rounded-full cursor-crosshair hover:scale-125 transition-transform"></div>
+</div>
+<!-- Node 4: Slack Notification -->
+<div class="absolute top-[230px] left-[1000px] w-[200px] bg-[#1c1a2e] border border-border-dark rounded-xl shadow-lg flex flex-col group hover:border-primary transition-colors">
+<div class="h-2 bg-[#4A154B] rounded-t-xl"></div> <!-- Slack Color -->
+<div class="p-3">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2 text-white font-semibold text-sm">
+<div class="bg-white rounded p-0.5 flex">
+<img alt="Slack Logo" class="w-3 h-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwCAyaq0riB8YuK9wxapGq8pWvSqIvD0TwYUggG1IEfWFKZfk84Rjcpi1mzTIQhEPWvIce5o-zzexs5N9cKqRFbBlWyE8qi4DVIysZp6JkGtTJ1W87mKOtVNEz9jd5t3UKpAyKzpgMEkV43vifXHVQf6vQBCK05K38UpFBzPcU3DQPPwRLim1w-UbtKkHG7DXdhGlu_7U7X0X-_y0WNvHbelqZduKdkkL75FdY21eK0oCll-zDxjyjVjZZYneLD7_hgM4Bg7p9V9w"/>
+</div>
+                                Slack Notify
+                             </div>
+</div>
+<div class="bg-[#131221] rounded p-2">
+<p class="text-xs text-text-secondary">Channel: #alerts-ai</p>
+</div>
+</div>
+<!-- Input Handle -->
+<div class="absolute top-12 -left-1.5 size-3 bg-white border-2 border-primary rounded-full cursor-crosshair"></div>
+</div>
+</div>
+</main>
+<!-- Right Panel: Agent Bond -->
+<aside class="w-80 flex-none bg-[#131221] border-l border-border-dark flex flex-col z-10">
+<!-- Header -->
+<div class="px-5 py-4 border-b border-border-dark flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<h3 class="text-white font-semibold text-sm tracking-wide">Agent Bond</h3>
+</div>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-4 space-y-4 flex flex-col">
+<!-- Date divider -->
+<div class="flex justify-center">
+<span class="text-[10px] text-text-secondary uppercase tracking-widest">Today, 10:23 AM</span>
+</div>
+<!-- Message: Agent -->
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-primary flex items-center justify-center flex-none mt-1">
+<span class="material-symbols-outlined text-white text-[16px]">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1 max-w-[85%]">
+<div class="bg-[#272546] rounded-2xl rounded-tl-none p-3 text-sm text-gray-200 shadow-sm">
+<p>I've analyzed the <span class="font-mono bg-black/20 px-1 rounded text-primary-200">Product_Manual.pdf</span> you just uploaded.</p>
+</div>
+</div>
+</div>
+<!-- Message: Agent (Sequential) -->
+<div class="flex gap-3">
+<div class="w-8 flex-none"></div> <!-- Spacer -->
+<div class="flex flex-col gap-1 max-w-[85%]">
+<div class="bg-[#272546] rounded-2xl rounded-tl-none p-3 text-sm text-gray-200 shadow-sm">
+<p>Should I automatically connect it as a context source to the <span class="font-bold text-white">LLM Processing</span> node?</p>
+</div>
+<div class="flex gap-2 mt-1">
+<button class="bg-[#1c1a2e] hover:bg-[#5048e5]/20 border border-primary/30 text-primary text-xs px-3 py-1.5 rounded-full transition-colors">
+                                Yes, connect it
+                            </button>
+<button class="bg-[#1c1a2e] hover:bg-[#272546] border border-border-dark text-text-secondary text-xs px-3 py-1.5 rounded-full transition-colors">
+                                No, show summary
+                            </button>
+</div>
+</div>
+</div>
+<!-- Message: User -->
+<div class="flex gap-3 flex-row-reverse">
+<div class="size-8 rounded-full bg-gradient-to-br from-pink-500 to-orange-400 p-[1.5px] flex-none mt-1">
+<img alt="User" class="rounded-full bg-black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrL1gOzH3Ybx7nJhTvC6lxPu-tE29hEIKDRtkoTjliNF-M0dmkh11VbHV8pPpyjJKHWMTMBmF3V9811Z6nVqwZzAJz4AEPduoB8-5arO_9GObKgcwiodOfRQekj2FwYU_qO5JbrKXzDfzU9iFigj1Jw8MgOnQcioM7cs5FaXczGd8A6LAm49lwTjcb_H5Y0SQ0lAJK9qD7qGL6JYFkHbwPlzKDNP2zZe95bzzB6wU-Qxhemw4M5TrX-O4KGCOwTBJ_orzerEshjw4"/>
+</div>
+<div class="flex flex-col gap-1 max-w-[85%] items-end">
+<div class="bg-primary text-white rounded-2xl rounded-tr-none p-3 text-sm shadow-sm">
+<p>Yes, go ahead. Also increase the temperature to 0.8.</p>
+</div>
+<span class="text-[10px] text-text-secondary">Just now</span>
+</div>
+</div>
+<!-- Message: Agent Response (Typing) -->
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-primary flex items-center justify-center flex-none mt-1">
+<span class="material-symbols-outlined text-white text-[16px]">smart_toy</span>
+</div>
+<div class="bg-[#272546] rounded-2xl rounded-tl-none p-4 w-16 flex items-center gap-1">
+<div class="size-1.5 bg-gray-400 rounded-full animate-bounce"></div>
+<div class="size-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+<div class="size-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 border-t border-border-dark bg-[#131221]">
+<div class="relative flex items-end gap-2 bg-[#1c1a2e] border border-border-dark rounded-xl p-2 focus-within:border-primary transition-colors">
+<button class="p-2 text-text-secondary hover:text-white rounded-lg hover:bg-[#272546] transition-colors">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+</button>
+<textarea class="bg-transparent border-none text-white text-sm w-full focus:ring-0 p-2 max-h-24 resize-none placeholder-text-secondary/50" placeholder="Ask Bond to edit workflow..." rows="1"></textarea>
+<button class="p-2 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+<p class="text-[10px] text-text-secondary text-center mt-2">Bond can make mistakes. Verify important logic.</p>
+</div>
+</aside>
+</div>
+</body></html>

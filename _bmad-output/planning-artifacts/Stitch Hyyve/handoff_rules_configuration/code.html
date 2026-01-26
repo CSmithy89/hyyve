@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Handoff Rules Configuration</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-hover": "#4338ca",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221",
+                        "surface-dark": "#1f1d36",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark min-h-screen flex text-gray-900 dark:text-white overflow-hidden">
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col w-64 h-screen border-r border-gray-200 dark:border-border-dark bg-white dark:bg-background-dark flex-shrink-0">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-10 w-10 shrink-0" data-alt="Hyyve AI abstract logo with purple gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDl3umMq1Ak5C98dS5TGcli2dJCkCG0W70agXLKflNLWWMH1bdmCP2Kd_AHa4ZYkUl6GGcZwlie8iNd1EHFy5aeiV10CvX2eAdaktj_bYMz-Tn7H3O-U_6HZO34b_Yli4B4F8uCckEzA1gQ2sBeMdfBff0NJe7d-5ZsZajqB-KrnFZpbJKL4UhDvp6N-FHLpmMqbJUlqR0Vdvnr5DD_2NztOQi9Ah2P12sAvpctDjKq7_zAT0shMDQxmUALwQMiSdmWimIgAJptijw");'></div>
+<div class="flex flex-col">
+<h1 class="text-base font-bold leading-normal text-gray-900 dark:text-white">Hyyve</h1>
+<p class="text-gray-500 dark:text-text-secondary text-sm font-normal">AI Platform</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-4 py-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 dark:text-text-secondary hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-400 dark:text-text-secondary group-hover:text-primary transition-colors">dashboard</span>
+<span class="text-sm font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:text-white dark:bg-border-dark" href="#">
+<span class="material-symbols-outlined text-primary fill-current">rocket_launch</span>
+<span class="text-sm font-medium">Deployments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 dark:text-text-secondary hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-400 dark:text-text-secondary group-hover:text-primary transition-colors">inbox</span>
+<span class="text-sm font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Inbox</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 dark:text-text-secondary hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-400 dark:text-text-secondary group-hover:text-primary transition-colors">analytics</span>
+<span class="text-sm font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 dark:text-text-secondary hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-400 dark:text-text-secondary group-hover:text-primary transition-colors">settings</span>
+<span class="text-sm font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-gray-200 dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-8 w-8 shrink-0" data-alt="User profile picture of a woman smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA9zZ_HTBLdTk0bY3sV94DAIQHcbZ2o8nGCkoScuYrY-mOLwSnY6QFJp2wGMgqQF4ZZ4k-gRaoBcy1La8biPQXvLG4zUx6e4jSfxPJOV90VZKuBx8L25eiTkrFlQ49O98a6UQzFhxnw91VsrW_Np0k-5ENXHL_8ff98CqQIZpL8wUoz8URqxomTLqKZpmdeelFlOn8SqW8XFItSp3woIRTyGN285fCtWe0V1LA3n1YGK8jUioZvPfStXzh-IKzfPm7O_p-CDVvzDh8");'></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-gray-900 dark:text-white">Jane Doe</p>
+<p class="text-xs text-gray-500 dark:text-text-secondary">Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- Top Navbar -->
+<header class="h-16 flex items-center justify-between px-6 border-b border-gray-200 dark:border-border-dark bg-white dark:bg-background-dark shrink-0">
+<div class="flex items-center gap-4">
+<a class="text-gray-500 hover:text-gray-900 dark:text-text-secondary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div class="h-6 w-px bg-gray-200 dark:bg-border-dark"></div>
+<h2 class="text-lg font-bold text-gray-900 dark:text-white tracking-tight">Chatwoot Deployment Wizard</h2>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm text-gray-500 dark:text-text-secondary hidden sm:inline-block">Last saved 2 min ago</span>
+<button class="flex items-center justify-center h-9 px-4 rounded-lg border border-gray-300 dark:border-border-dark bg-transparent text-gray-700 dark:text-white text-sm font-medium hover:bg-gray-50 dark:hover:bg-surface-dark transition-colors">
+                    Save Draft
+                </button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto bg-gray-50 dark:bg-[#0b0a14] p-4 md:p-8 lg:px-12 flex justify-center">
+<div class="w-full max-w-4xl flex flex-col gap-8 pb-12">
+<!-- Progress Bar -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-end">
+<span class="text-primary text-sm font-semibold tracking-wide uppercase">Step 3 of 4</span>
+<span class="text-gray-500 dark:text-text-secondary text-sm">Next: Review</span>
+</div>
+<div class="h-2 w-full bg-gray-200 dark:bg-surface-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4 rounded-full"></div>
+</div>
+<div class="flex justify-between text-xs text-gray-400 dark:text-gray-600 font-medium mt-1">
+<span>Connection</span>
+<span>Training</span>
+<span class="text-gray-900 dark:text-white font-bold">Handoff Rules</span>
+<span>Review</span>
+</div>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight">Configure Human Handoff</h1>
+<p class="text-gray-500 dark:text-text-secondary text-lg max-w-2xl">Define the specific triggers and behaviors for when the AI should seamlessly transfer the conversation to a human agent.</p>
+</div>
+<!-- Form Container -->
+<form class="flex flex-col gap-6" onsubmit="return false;">
+<!-- Section: Trigger Conditions -->
+<div class="rounded-xl border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm overflow-hidden">
+<div class="px-6 py-5 border-b border-gray-200 dark:border-border-dark flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">bolt</span>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Trigger Conditions</h3>
+</div>
+<div class="p-6 flex flex-col gap-8">
+<!-- Low Confidence Rule -->
+<div class="flex flex-col gap-4">
+<div class="flex items-start gap-3">
+<div class="flex h-6 items-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700" id="confidence-check" name="confidence-check" type="checkbox"/>
+</div>
+<div class="flex flex-col flex-1 gap-1">
+<label class="font-medium text-gray-900 dark:text-white select-none cursor-pointer" for="confidence-check">Low Confidence Score</label>
+<p class="text-sm text-gray-500 dark:text-text-secondary">Transfer if the AI's confidence in its answer falls below a certain threshold.</p>
+</div>
+<div class="group relative flex justify-center">
+<span class="material-symbols-outlined text-gray-400 text-[20px] cursor-help">info</span>
+<span class="absolute bottom-full mb-2 w-max px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Based on NLP confidence scoring</span>
+</div>
+</div>
+<div class="pl-7 pr-2">
+<div class="bg-gray-50 dark:bg-background-dark/50 rounded-lg p-4 border border-gray-200 dark:border-border-dark flex flex-col gap-2">
+<div class="flex justify-between mb-1">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Confidence Threshold</label>
+<span class="text-sm font-bold text-primary">60%</span>
+</div>
+<input class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-primary" max="100" min="0" type="range" value="60"/>
+<div class="flex justify-between text-xs text-gray-400 mt-1">
+<span>Aggressive (High Handoff)</span>
+<span>Conservative (Low Handoff)</span>
+</div>
+</div>
+</div>
+</div>
+<hr class="border-gray-100 dark:border-border-dark/50"/>
+<!-- Explicit Request Rule -->
+<div class="flex flex-col gap-4">
+<div class="flex items-start gap-3">
+<div class="flex h-6 items-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700" id="keyword-check" name="keyword-check" type="checkbox"/>
+</div>
+<div class="flex flex-col flex-1 gap-1">
+<label class="font-medium text-gray-900 dark:text-white select-none cursor-pointer" for="keyword-check">Explicit User Request</label>
+<p class="text-sm text-gray-500 dark:text-text-secondary">Transfer immediately if the user asks for a human agent using specific keywords.</p>
+</div>
+</div>
+<div class="pl-7">
+<div class="bg-gray-50 dark:bg-background-dark/50 rounded-lg p-4 border border-gray-200 dark:border-border-dark">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Trigger Keywords</label>
+<div class="flex flex-wrap gap-2 p-2 bg-white dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-md focus-within:ring-1 focus-within:ring-primary focus-within:border-primary">
+<span class="inline-flex items-center px-2 py-1 rounded bg-primary/10 text-primary text-sm font-medium">
+                                                talk to agent
+                                                <button class="ml-1 text-primary/60 hover:text-primary" type="button"><span class="material-symbols-outlined text-[14px] font-bold">close</span></button>
+</span>
+<span class="inline-flex items-center px-2 py-1 rounded bg-primary/10 text-primary text-sm font-medium">
+                                                human support
+                                                <button class="ml-1 text-primary/60 hover:text-primary" type="button"><span class="material-symbols-outlined text-[14px] font-bold">close</span></button>
+</span>
+<span class="inline-flex items-center px-2 py-1 rounded bg-primary/10 text-primary text-sm font-medium">
+                                                speak to person
+                                                <button class="ml-1 text-primary/60 hover:text-primary" type="button"><span class="material-symbols-outlined text-[14px] font-bold">close</span></button>
+</span>
+<input class="flex-1 bg-transparent border-none outline-none focus:ring-0 text-sm min-w-[140px] text-gray-900 dark:text-white placeholder-gray-400" placeholder="Type and press Enter..." type="text"/>
+</div>
+<p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Separate keywords with commas or press Enter.</p>
+</div>
+</div>
+</div>
+<hr class="border-gray-100 dark:border-border-dark/50"/>
+<!-- Turn Limit Rule -->
+<div class="flex flex-col gap-4">
+<div class="flex items-start gap-3">
+<div class="flex h-6 items-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700" id="loop-check" name="loop-check" type="checkbox"/>
+</div>
+<div class="flex flex-col flex-1 gap-1">
+<label class="font-medium text-gray-900 dark:text-white select-none cursor-pointer" for="loop-check">Conversation Loop Protection</label>
+<p class="text-sm text-gray-500 dark:text-text-secondary">Automatically transfer if the conversation exceeds a certain number of exchanges without resolution.</p>
+</div>
+</div>
+<div class="pl-7 hidden"> <!-- Hidden state example -->
+<div class="bg-gray-50 dark:bg-background-dark/50 rounded-lg p-4 border border-gray-200 dark:border-border-dark flex items-center gap-3">
+<span class="text-sm text-gray-700 dark:text-gray-300">Transfer after</span>
+<input class="w-20 rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-background-dark text-gray-900 dark:text-white text-sm focus:border-primary focus:ring-primary text-center" max="50" min="1" type="number" value="10"/>
+<span class="text-sm text-gray-700 dark:text-gray-300">consecutive AI replies.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Handoff Actions -->
+<div class="rounded-xl border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm overflow-hidden">
+<div class="px-6 py-5 border-b border-gray-200 dark:border-border-dark flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">settings_applications</span>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Behavior Settings</h3>
+</div>
+<div class="p-6 flex flex-col gap-6">
+<div class="grid md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="block text-sm font-medium text-gray-900 dark:text-white" for="handoff-msg">Handoff Success Message</label>
+<p class="text-xs text-gray-500 dark:text-text-secondary mb-1">This message is sent to the user right before connecting an agent.</p>
+<textarea class="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-background-dark text-gray-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm resize-none" id="handoff-msg" placeholder="Enter message..." rows="3">Connecting you to a team member who can help...</textarea>
+</div>
+<div class="flex flex-col gap-2">
+<label class="block text-sm font-medium text-gray-900 dark:text-white" for="team-assignment">Chatwoot Inbox Assignment</label>
+<p class="text-xs text-gray-500 dark:text-text-secondary mb-1">Select which Chatwoot inbox or team should receive these conversations.</p>
+<div class="relative">
+<select class="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-background-dark text-gray-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm py-2.5 pl-3 pr-10 appearance-none" id="team-assignment">
+<option>General Support Inbox</option>
+<option>Sales Team</option>
+<option>Technical Issues</option>
+<option>Unassigned</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-between pt-4 pb-8">
+<button class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-border-dark bg-white dark:bg-surface-dark px-6 py-3 text-sm font-medium text-gray-700 dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark transition-colors" type="button">
+                            Back
+                        </button>
+<button class="inline-flex items-center justify-center rounded-lg border border-transparent bg-primary px-8 py-3 text-sm font-bold text-white shadow-sm hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark transition-all transform active:scale-95" type="submit">
+                            Next: Review Configuration
+                            <span class="material-symbols-outlined ml-2 text-lg">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</body></html>

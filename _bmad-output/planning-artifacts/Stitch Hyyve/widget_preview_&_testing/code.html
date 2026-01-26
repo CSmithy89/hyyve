@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Widget Preview &amp; Testing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", // Matched user's specific dark bg
+                        "card-dark": "#1c1b32",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col overflow-x-hidden text-white">
+<!-- Header Section -->
+<header class="border-b border-solid border-border-dark bg-background-dark px-6 py-3 sticky top-0 z-50">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-6">
+<!-- Branding -->
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-3xl">hive</span>
+</div>
+<h2 class="text-white text-xl font-bold tracking-tight">Hyyve</h2>
+</div>
+<!-- Divider -->
+<div class="h-6 w-px bg-border-dark"></div>
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-sm">
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Projects</a>
+<span class="material-symbols-outlined text-[16px] text-text-secondary">chevron_right</span>
+<a class="text-text-secondary hover:text-white transition-colors" href="#">CustomerSupportBot</a>
+<span class="material-symbols-outlined text-[16px] text-text-secondary">chevron_right</span>
+<span class="text-white font-medium bg-primary/10 px-2 py-0.5 rounded text-xs border border-primary/20">QA Testing</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2 text-text-secondary text-sm">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>Last run: 2 mins ago</span>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold shadow-[0_0_15px_rgba(80,72,229,0.3)]">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span>Run All Tests</span>
+</button>
+<div class="size-9 rounded-full bg-cover bg-center border border-border-dark cursor-pointer" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSb5K4wQBu24vTfNcN1mEgAMa1mfkUgZDm6h8f65f6n0S7tnPSNoFAMZDOqWUG5noH4AN85Eod2myP4oN6FL_Sfac3ETANtdXYIJAslP2D0nywkUGc4Yfa2jQfmjJnnpPu4dzoXzfL3yJRKOl7pGN0ZkkbZ5ODTM7kbIrDkxwqAb-s8pk8GkO0nNw8Rh_ZO0mh7AhPs9DOarqi_cwmsxZgWYicT_bXgzX-7Eoysa2A0BOy7oPayia8yVSC_wipi-tUpxNZR2DBL48");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col lg:flex-row h-[calc(100vh-65px)] overflow-hidden">
+<!-- Left Column: Chat Simulation -->
+<div class="w-full lg:w-[400px] flex flex-col border-r border-border-dark bg-background-dark z-10 shrink-0">
+<div class="px-5 py-4 border-b border-border-dark flex justify-between items-center bg-card-dark">
+<h3 class="font-bold text-base">Live Simulation</h3>
+<div class="flex gap-2">
+<button class="text-text-secondary hover:text-white" title="Restart Session">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+<button class="text-text-secondary hover:text-white" title="Settings">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+</div>
+<!-- Chat History -->
+<div class="flex-1 overflow-y-auto p-5 flex flex-col gap-6 bg-background-dark custom-scrollbar">
+<!-- Bot Message -->
+<div class="flex flex-col gap-1 w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<div class="size-6 rounded-full bg-primary flex items-center justify-center text-xs font-bold">AI</div>
+<span class="text-xs text-text-secondary font-medium">Bot • 10:42 AM</span>
+</div>
+<div class="bg-card-dark border border-border-dark p-3 rounded-2xl rounded-tl-none text-sm text-gray-200 leading-relaxed shadow-sm">
+                        Hello! Welcome to Support. How can I help you today?
+                    </div>
+</div>
+<!-- User Message -->
+<div class="flex flex-col gap-1 w-[85%] self-end items-end">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs text-text-secondary font-medium">You • 10:43 AM</span>
+</div>
+<div class="bg-primary p-3 rounded-2xl rounded-tr-none text-sm text-white leading-relaxed shadow-md">
+                        Where is my order #12345?
+                    </div>
+</div>
+<!-- Bot Message with Action -->
+<div class="flex flex-col gap-1 w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<div class="size-6 rounded-full bg-primary flex items-center justify-center text-xs font-bold">AI</div>
+<span class="text-xs text-text-secondary font-medium">Bot • 10:43 AM</span>
+</div>
+<div class="bg-card-dark border border-border-dark p-3 rounded-2xl rounded-tl-none text-sm text-gray-200 leading-relaxed shadow-sm">
+<p class="mb-2">I can help with that. Checking order status for <span class="font-mono bg-black/30 px-1 rounded text-primary text-xs">#12345</span>...</p>
+<div class="bg-background-dark rounded border border-border-dark p-3 mt-2 flex gap-3 items-center">
+<div class="size-10 rounded bg-green-500/20 flex items-center justify-center text-green-500">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold truncate">Order #12345</p>
+<p class="text-xs text-text-secondary truncate">Out for delivery</p>
+</div>
+</div>
+</div>
+<!-- Debug Data Toggle -->
+<div class="ml-2">
+<button class="text-[10px] text-text-secondary hover:text-primary flex items-center gap-1 mt-1 font-mono">
+<span class="material-symbols-outlined text-[12px]">code</span> View JSON
+                        </button>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 bg-card-dark border-t border-border-dark">
+<div class="relative">
+<input class="w-full bg-background-dark border border-border-dark rounded-lg py-3 pl-4 pr-12 text-sm text-white placeholder-text-secondary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Type a message to test..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-primary hover:bg-primary/10 rounded-md transition-colors">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Center/Right Column: Preview & Tests -->
+<div class="flex-1 flex flex-col min-w-0 bg-[#0c0b15]">
+<!-- Preview Controls -->
+<div class="px-6 py-3 flex justify-between items-center border-b border-border-dark bg-background-dark">
+<div class="flex items-center gap-3">
+<h3 class="font-bold text-base">Widget Preview</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">v2.4.1-beta</span>
+</div>
+<!-- Device Segmented Control -->
+<div class="flex bg-card-dark p-1 rounded-lg border border-border-dark">
+<button class="px-3 py-1.5 rounded-md bg-border-dark text-white shadow-sm flex items-center gap-2 text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[16px]">desktop_windows</span>
+<span>Desktop</span>
+</button>
+<button class="px-3 py-1.5 rounded-md text-text-secondary hover:text-white flex items-center gap-2 text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[16px]">tablet_mac</span>
+<span>Tablet</span>
+</button>
+<button class="px-3 py-1.5 rounded-md text-text-secondary hover:text-white flex items-center gap-2 text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[16px]">smartphone</span>
+<span>Mobile</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-text-secondary">Environment:</span>
+<select class="bg-card-dark border border-border-dark text-xs text-white rounded px-2 py-1 outline-none">
+<option>Staging</option>
+<option>Production</option>
+<option>Localhost:3000</option>
+</select>
+</div>
+</div>
+<!-- Viewport Area -->
+<div class="flex-1 relative bg-neutral-900/50 flex items-center justify-center p-8 overflow-hidden">
+<!-- Browser Mock Frame -->
+<div class="w-full h-full max-w-5xl bg-white rounded-lg shadow-2xl flex flex-col overflow-hidden relative border border-border-dark/50">
+<!-- Fake Browser Bar -->
+<div class="h-8 bg-gray-100 border-b border-gray-200 flex items-center px-3 gap-2">
+<div class="flex gap-1.5">
+<div class="size-2.5 rounded-full bg-red-400"></div>
+<div class="size-2.5 rounded-full bg-yellow-400"></div>
+<div class="size-2.5 rounded-full bg-green-400"></div>
+</div>
+<div class="flex-1 mx-4 bg-white border border-gray-200 h-5 rounded text-[10px] text-gray-400 flex items-center px-2">
+                            https://example-store.com/orders
+                        </div>
+</div>
+<!-- Mock Website Content -->
+<div class="flex-1 relative bg-cover bg-top" data-alt="Abstract blurred colorful gradient representing a generic e-commerce website interface" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA71h7f8kJYIi1vPOo-2nyzqDwbiV98h-9KkSkFPgIGW6GTgkqwtDWpE-n2tT0NkTH6LOZ8HCC0DlZxRqK4QOY4rMbavw_1tvUe-ZtPPyiIXXNKSxgKVPkXbdTKfGSk8QDUdv-Y71e7x5DnoNODeQ0qEDFvej_jTC1b6k-G0vv21ODT5oMKnzKvXITobt_mifQiQmK0dumNFsXPkXUea4xVbg3d1WWPLrpizEnJNkyPoNBXMVwQLWOWWFxlANvbPYmCN1HtJEtuMIE');">
+<div class="absolute inset-0 bg-white/90 backdrop-blur-[2px]"></div>
+<!-- Mock Page Elements to give context -->
+<div class="p-8 max-w-4xl mx-auto opacity-50 pointer-events-none select-none">
+<div class="h-8 w-32 bg-gray-300 rounded mb-8"></div>
+<div class="h-64 w-full bg-gray-200 rounded mb-6"></div>
+<div class="flex gap-4">
+<div class="h-40 flex-1 bg-gray-200 rounded"></div>
+<div class="h-40 flex-1 bg-gray-200 rounded"></div>
+<div class="h-40 flex-1 bg-gray-200 rounded"></div>
+</div>
+</div>
+<!-- The Actual Widget Overlay (Visual Representation) -->
+<div class="absolute bottom-6 right-6 w-[360px] h-[520px] bg-background-dark rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-border-dark flex flex-col overflow-hidden animate-fade-in-up">
+<!-- Widget Header -->
+<div class="bg-primary p-4 flex items-center justify-between text-white">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+</div>
+<div>
+<h4 class="text-sm font-bold">Support Bot</h4>
+<div class="flex items-center gap-1">
+<div class="size-1.5 bg-green-400 rounded-full"></div>
+<span class="text-[10px] opacity-90">Online</span>
+</div>
+</div>
+</div>
+<button class="text-white/80 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+</div>
+<!-- Widget Body (Mirroring Left Col) -->
+<div class="flex-1 bg-card-dark p-4 flex flex-col gap-3 overflow-hidden relative">
+<!-- Gradient fade at top -->
+<div class="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-card-dark to-transparent z-10"></div>
+<div class="flex gap-2">
+<div class="bg-[#272546] p-2.5 rounded-xl rounded-tl-none text-xs text-gray-200 max-w-[85%]">
+                                        Hello! Welcome to Support. How can I help you today?
+                                    </div>
+</div>
+<div class="flex gap-2 justify-end">
+<div class="bg-primary p-2.5 rounded-xl rounded-tr-none text-xs text-white max-w-[85%]">
+                                        Where is my order #12345?
+                                    </div>
+</div>
+<div class="flex gap-2">
+<div class="bg-[#272546] p-2.5 rounded-xl rounded-tl-none text-xs text-gray-200 max-w-[85%]">
+                                        Checking order status for #12345...
+                                        <div class="mt-2 p-2 bg-background-dark/50 rounded border border-white/5 flex gap-2 items-center">
+<span class="material-symbols-outlined text-green-400 text-sm">local_shipping</span>
+<span class="font-bold">Out for delivery</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Widget Footer -->
+<div class="p-3 bg-background-dark border-t border-border-dark">
+<div class="relative">
+<input class="w-full bg-card-dark border border-border-dark rounded px-3 py-2 text-xs text-white placeholder-text-secondary" disabled="" placeholder="Reply..." type="text"/>
+<span class="material-symbols-outlined absolute right-2 top-1.5 text-text-secondary text-sm">send</span>
+</div>
+<div class="flex justify-center mt-2">
+<span class="text-[9px] text-text-secondary">Powered by Hyyve</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Panel: Test Scenarios -->
+<div class="h-64 bg-background-dark border-t border-border-dark flex flex-col shrink-0">
+<div class="px-6 py-3 border-b border-border-dark flex justify-between items-center bg-card-dark">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-sm">Test Scenarios</h3>
+<span class="bg-green-500/10 text-green-500 text-[10px] px-1.5 py-0.5 rounded border border-green-500/20 font-mono">12 PASS</span>
+<span class="bg-red-500/10 text-red-500 text-[10px] px-1.5 py-0.5 rounded border border-red-500/20 font-mono">1 FAIL</span>
+</div>
+<div class="flex items-center gap-4 text-xs">
+<div class="flex items-center gap-1.5 text-text-secondary">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span>Running suite...</span>
+</div>
+<button class="text-primary hover:underline font-medium">View Full Report</button>
+</div>
+</div>
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left text-sm border-collapse">
+<thead class="bg-background-dark text-text-secondary sticky top-0 z-10 text-xs uppercase tracking-wider font-semibold">
+<tr>
+<th class="px-6 py-2 border-b border-border-dark w-16">Status</th>
+<th class="px-6 py-2 border-b border-border-dark">Scenario Name</th>
+<th class="px-6 py-2 border-b border-border-dark">Expected Outcome</th>
+<th class="px-6 py-2 border-b border-border-dark w-32">Duration</th>
+<th class="px-6 py-2 border-b border-border-dark w-24 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-dark">
+<tr class="hover:bg-card-dark/50 transition-colors group">
+<td class="px-6 py-3">
+<span class="inline-flex items-center justify-center size-5 rounded-full bg-green-500/10 text-green-500">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</span>
+</td>
+<td class="px-6 py-3 font-medium text-white">Order Lookup Flow</td>
+<td class="px-6 py-3 text-text-secondary">Bot retrieves correct order status</td>
+<td class="px-6 py-3 text-text-secondary font-mono text-xs">240ms</td>
+<td class="px-6 py-3 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[18px]">play_circle</span></button>
+</td>
+</tr>
+<tr class="hover:bg-card-dark/50 transition-colors group">
+<td class="px-6 py-3">
+<span class="inline-flex items-center justify-center size-5 rounded-full bg-green-500/10 text-green-500">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</span>
+</td>
+<td class="px-6 py-3 font-medium text-white">Refund Policy Query</td>
+<td class="px-6 py-3 text-text-secondary">Bot cites 30-day return window</td>
+<td class="px-6 py-3 text-text-secondary font-mono text-xs">120ms</td>
+<td class="px-6 py-3 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[18px]">play_circle</span></button>
+</td>
+</tr>
+<tr class="bg-red-500/5 hover:bg-red-500/10 transition-colors group">
+<td class="px-6 py-3">
+<span class="inline-flex items-center justify-center size-5 rounded-full bg-red-500/10 text-red-500">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</span>
+</td>
+<td class="px-6 py-3 font-medium text-white">Escalation to Human</td>
+<td class="px-6 py-3 text-text-secondary">Bot offers agent handoff on negative sentiment</td>
+<td class="px-6 py-3 text-text-secondary font-mono text-xs">--</td>
+<td class="px-6 py-3 text-right">
+<button class="text-text-secondary hover:text-white opacity-100 transition-opacity" title="Re-run failed test"><span class="material-symbols-outlined text-[18px]">refresh</span></button>
+</td>
+</tr>
+<tr class="hover:bg-card-dark/50 transition-colors group">
+<td class="px-6 py-3">
+<span class="inline-flex items-center justify-center size-5 rounded-full bg-border-dark text-text-secondary">
+<span class="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+</span>
+</td>
+<td class="px-6 py-3 font-medium text-white">Multi-language Greeting</td>
+<td class="px-6 py-3 text-text-secondary">Bot detects Spanish input</td>
+<td class="px-6 py-3 text-text-secondary font-mono text-xs">Running...</td>
+<td class="px-6 py-3 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[18px]">stop</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<style>
+        /* Custom Scrollbar for dark theme */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+
+        /* Subtle Fade In Animation */
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.4s ease-out forwards;
+        }
+    </style>
+</body></html>

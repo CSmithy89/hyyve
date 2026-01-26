@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - AI UI Generator</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1c1b32",
+                        "surface-darker": "#131221",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["Fira Code", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for code panel */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #383663; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+        
+        .syntax-keyword { color: #c792ea; }
+        .syntax-func { color: #82aaff; }
+        .syntax-string { color: #c3e88d; }
+        .syntax-tag { color: #f07178; }
+        .syntax-attr { color: #ffcb6b; }
+        .syntax-comment { color: #546e7a; font-style: italic; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-background-dark px-6 py-3 shrink-0 z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center bg-primary/20 rounded-lg text-primary">
+<svg fill="none" height="24" viewbox="0 0 48 48" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Projects</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Components</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 bg-surface-dark px-3 py-1.5 rounded-full border border-border-dark">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-medium text-text-secondary">v2.4.0 Live</span>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-border-dark" data-alt="User avatar profile picture showing a person smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCGyDbEeulYKQlfc5aAiasOGGuMCdWBufvBh7L8xzQimdEuyKGsmPXwDmpywtrBTSYX0yqnyPjuumGiaJYI_3IrDwOM8Ll9p3ns9rpLlakgsx3hCtKpnmLQy6HdAKk03t5H3QUFAT-8_yO8g7VovYTLgJVCXPvi0kSUL7Y4dklGm1Jgg_bHFprn_ifSH323U3pmqrttS1ORqjS6BdnAhtiErsnEhc42CwBynB5J13pakfGmkGfb3AM4h5q73LS55XpiAw2-XzoQ8kA");'></div>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Sidebar: Component Library -->
+<aside class="w-72 bg-surface-darker border-r border-border-dark flex flex-col shrink-0">
+<div class="px-4 pt-5 pb-2">
+<h2 class="text-white tracking-light text-xl font-bold leading-tight px-1">Library</h2>
+</div>
+<div class="px-4 py-3">
+<div class="flex w-full items-stretch rounded-lg">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-1 focus:ring-primary border border-[#383663] bg-[#1c1b32] focus:border-primary h-10 placeholder:text-[#9795c6] px-3 rounded-r-none border-r-0 text-sm font-normal leading-normal transition-all" placeholder="Search..." value=""/>
+<div class="text-[#9795c6] flex border border-[#383663] bg-[#1c1b32] items-center justify-center pr-3 rounded-r-lg border-l-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-4 pb-4 space-y-2 custom-scrollbar">
+<!-- Category 1 -->
+<details class="flex flex-col rounded-lg border border-[#383663] bg-[#131221] px-3 py-1 group" open="">
+<summary class="flex cursor-pointer items-center justify-between py-2 list-none outline-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">grid_view</span>
+<p class="text-white text-sm font-medium leading-normal">Layouts</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform text-[20px]">expand_more</span>
+</summary>
+<div class="pl-2 pb-2 flex flex-col gap-1 border-l border-[#383663] ml-2.5 my-1">
+<button class="text-left text-[#9795c6] hover:text-white hover:bg-[#272546] px-2 py-1.5 rounded text-sm transition-colors">App Shell</button>
+<button class="text-left text-white bg-[#272546] px-2 py-1.5 rounded text-sm font-medium transition-colors border-l-2 border-primary">Dashboard Grid</button>
+<button class="text-left text-[#9795c6] hover:text-white hover:bg-[#272546] px-2 py-1.5 rounded text-sm transition-colors">Sidebar Nav</button>
+</div>
+</details>
+<!-- Category 2 -->
+<details class="flex flex-col rounded-lg border border-[#383663] bg-[#131221] px-3 py-1 group">
+<summary class="flex cursor-pointer items-center justify-between py-2 list-none outline-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">input</span>
+<p class="text-white text-sm font-medium leading-normal">Forms</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform text-[20px]">expand_more</span>
+</summary>
+<div class="pl-2 pb-2 flex flex-col gap-1 border-l border-[#383663] ml-2.5 my-1">
+<button class="text-left text-[#9795c6] hover:text-white hover:bg-[#272546] px-2 py-1.5 rounded text-sm transition-colors">Input Field</button>
+<button class="text-left text-[#9795c6] hover:text-white hover:bg-[#272546] px-2 py-1.5 rounded text-sm transition-colors">Select Menu</button>
+</div>
+</details>
+<!-- Category 3 -->
+<details class="flex flex-col rounded-lg border border-[#383663] bg-[#131221] px-3 py-1 group" open="">
+<summary class="flex cursor-pointer items-center justify-between py-2 list-none outline-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">bar_chart</span>
+<p class="text-white text-sm font-medium leading-normal">Data Display</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform text-[20px]">expand_more</span>
+</summary>
+<div class="pl-2 pb-2 flex flex-col gap-1 border-l border-[#383663] ml-2.5 my-1">
+<button class="text-left text-[#9795c6] hover:text-white hover:bg-[#272546] px-2 py-1.5 rounded text-sm transition-colors">Stat Card</button>
+<button class="text-left text-[#9795c6] hover:text-white hover:bg-[#272546] px-2 py-1.5 rounded text-sm transition-colors">Data Table</button>
+<button class="text-left text-[#9795c6] hover:text-white hover:bg-[#272546] px-2 py-1.5 rounded text-sm transition-colors">Line Chart</button>
+</div>
+</details>
+</div>
+</aside>
+<!-- Right: Canvas & Prompt -->
+<main class="flex-1 flex flex-col bg-background-light dark:bg-background-dark min-w-0">
+<!-- Prompt Area -->
+<div class="w-full px-6 py-4 border-b border-border-dark bg-background-dark z-10">
+<div class="flex items-center gap-3 w-full max-w-4xl mx-auto">
+<div class="relative flex-1 group">
+<div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-purple-600 rounded-lg blur opacity-25 group-focus-within:opacity-50 transition duration-200"></div>
+<div class="relative flex w-full flex-1 items-stretch rounded-lg bg-[#272546]">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-12 placeholder:text-[#9795c6] px-4 rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal" placeholder="Describe the UI you want to build... (e.g., A dark mode analytics dashboard with 3 charts)" value="Create a dark mode analytics dashboard with revenue stats and a recent activity table"/>
+<div class="flex border-none bg-transparent items-center justify-center pr-2 rounded-r-lg border-l-0">
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center p-2 rounded-md hover:bg-white/5 transition-colors text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+</button>
+<button class="flex items-center justify-center gap-2 cursor-pointer overflow-hidden rounded-md h-8 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold shadow-lg shadow-primary/20">
+<span class="truncate">Generate</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Editor Split View -->
+<div class="flex-1 flex flex-col min-h-0 p-4 gap-4">
+<!-- Live Preview -->
+<div class="flex-1 flex flex-col bg-surface-dark border border-border-dark rounded-xl overflow-hidden shadow-2xl">
+<div class="h-12 bg-[#131221] border-b border-border-dark flex items-center justify-between px-4 shrink-0">
+<div class="flex items-center gap-2">
+<div class="flex gap-1.5">
+<div class="size-3 rounded-full bg-[#ff5f57]"></div>
+<div class="size-3 rounded-full bg-[#febc2e]"></div>
+<div class="size-3 rounded-full bg-[#28c840]"></div>
+</div>
+<div class="ml-4 px-3 py-1 bg-[#272546] rounded text-xs text-text-secondary flex items-center gap-2">
+<span class="material-symbols-outlined text-[12px]">lock</span>
+                                localhost:3000/dashboard
+                            </div>
+</div>
+<div class="flex items-center gap-1 bg-[#272546] p-0.5 rounded-lg">
+<button class="p-1.5 rounded bg-[#383663] text-white shadow-sm">
+<span class="material-symbols-outlined text-[18px]">desktop_windows</span>
+</button>
+<button class="p-1.5 rounded hover:bg-[#383663]/50 text-text-secondary transition-colors">
+<span class="material-symbols-outlined text-[18px]">tablet_mac</span>
+</button>
+<button class="p-1.5 rounded hover:bg-[#383663]/50 text-text-secondary transition-colors">
+<span class="material-symbols-outlined text-[18px]">smartphone</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+</div>
+</div>
+<!-- Inner Canvas (The Generated UI Simulation) -->
+<div class="flex-1 overflow-auto bg-[#0f172a] relative p-6 custom-scrollbar">
+<!-- Mock Dashboard Generated Content -->
+<div class="max-w-6xl mx-auto space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h1 class="text-2xl font-bold text-white mb-1">Dashboard</h1>
+<p class="text-slate-400 text-sm">Overview of your project performance</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 bg-slate-800 text-slate-300 rounded text-sm border border-slate-700">Filter</button>
+<button class="px-3 py-1.5 bg-indigo-600 text-white rounded text-sm font-medium">Download Report</button>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+<div class="flex justify-between items-start mb-2">
+<div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+<span class="material-symbols-outlined">attach_money</span>
+</div>
+<span class="text-green-400 text-xs font-medium flex items-center">+12.5% <span class="material-symbols-outlined text-[14px]">arrow_upward</span></span>
+</div>
+<div class="text-2xl font-bold text-white">$48,290</div>
+<div class="text-slate-400 text-xs mt-1">Total Revenue</div>
+</div>
+<div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+<div class="flex justify-between items-start mb-2">
+<div class="p-2 bg-pink-500/10 rounded-lg text-pink-400">
+<span class="material-symbols-outlined">group</span>
+</div>
+<span class="text-green-400 text-xs font-medium flex items-center">+4.2% <span class="material-symbols-outlined text-[14px]">arrow_upward</span></span>
+</div>
+<div class="text-2xl font-bold text-white">2,405</div>
+<div class="text-slate-400 text-xs mt-1">Active Users</div>
+</div>
+<div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+<div class="flex justify-between items-start mb-2">
+<div class="p-2 bg-amber-500/10 rounded-lg text-amber-400">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<span class="text-red-400 text-xs font-medium flex items-center">-2.1% <span class="material-symbols-outlined text-[14px]">arrow_downward</span></span>
+</div>
+<div class="text-2xl font-bold text-white">892</div>
+<div class="text-slate-400 text-xs mt-1">New Orders</div>
+</div>
+</div>
+<!-- Main Chart Section -->
+<div class="grid grid-cols-3 gap-6">
+<div class="col-span-2 bg-slate-800 rounded-lg border border-slate-700 p-5">
+<h3 class="text-white font-medium mb-4">Revenue Overview</h3>
+<div class="h-64 w-full bg-slate-900/50 rounded flex items-end justify-between px-4 pb-4 gap-2" data-alt="Bar chart visualization showing monthly revenue trends">
+<div class="w-full bg-indigo-600/30 hover:bg-indigo-600/50 rounded-t transition-all h-[40%]"></div>
+<div class="w-full bg-indigo-600/30 hover:bg-indigo-600/50 rounded-t transition-all h-[65%]"></div>
+<div class="w-full bg-indigo-600/30 hover:bg-indigo-600/50 rounded-t transition-all h-[50%]"></div>
+<div class="w-full bg-indigo-600/30 hover:bg-indigo-600/50 rounded-t transition-all h-[75%]"></div>
+<div class="w-full bg-indigo-600/30 hover:bg-indigo-600/50 rounded-t transition-all h-[60%]"></div>
+<div class="w-full bg-indigo-600/30 hover:bg-indigo-600/50 rounded-t transition-all h-[85%]"></div>
+<div class="w-full bg-indigo-600 hover:bg-indigo-500 rounded-t transition-all h-[95%] shadow-[0_0_15px_rgba(79,70,229,0.5)]"></div>
+<div class="w-full bg-indigo-600/30 hover:bg-indigo-600/50 rounded-t transition-all h-[70%]"></div>
+</div>
+</div>
+<!-- Recent Activity -->
+<div class="col-span-1 bg-slate-800 rounded-lg border border-slate-700 p-5">
+<h3 class="text-white font-medium mb-4">Recent Activity</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xs">JD</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm text-white truncate">John Doe created a project</p>
+<p class="text-xs text-slate-500">2 min ago</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-xs">AS</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm text-white truncate">Alice Smith commented</p>
+<p class="text-xs text-slate-500">15 min ago</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs">MK</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm text-white truncate">Mike K uploaded files</p>
+<p class="text-xs text-slate-500">1 hour ago</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400 text-xs">PR</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm text-white truncate">Pull Request merged</p>
+<p class="text-xs text-slate-500">3 hours ago</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- End Mock Content -->
+</div>
+</div>
+<!-- Code Panel -->
+<div class="h-64 flex flex-col bg-[#0d0c18] border border-border-dark rounded-xl overflow-hidden shrink-0">
+<div class="flex items-center justify-between px-4 py-2 border-b border-border-dark bg-[#131221]">
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold text-text-secondary uppercase tracking-wider">Source Code</span>
+<div class="flex bg-[#272546] rounded p-0.5">
+<button class="px-3 py-0.5 rounded bg-[#383663] text-xs text-white shadow-sm">React (TSX)</button>
+<button class="px-3 py-0.5 rounded hover:bg-[#383663]/50 text-xs text-text-secondary transition-colors">Vue</button>
+<button class="px-3 py-0.5 rounded hover:bg-[#383663]/50 text-xs text-text-secondary transition-colors">HTML</button>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1.5 px-2 py-1 hover:bg-[#272546] rounded text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span class="text-xs">Copy</span>
+</button>
+<button class="flex items-center gap-1.5 px-2 py-1 hover:bg-[#272546] rounded text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span class="text-xs">Export</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-auto p-4 font-mono text-sm leading-6 custom-scrollbar">
+<pre><code class="language-tsx">
+<span class="text-slate-500">1</span>  <span class="syntax-keyword">import</span> React <span class="syntax-keyword">from</span> <span class="syntax-string">'react'</span>;
+<span class="text-slate-500">2</span>  <span class="syntax-keyword">import</span> { <span class="syntax-func">Card</span>, <span class="syntax-func">Button</span> } <span class="syntax-keyword">from</span> <span class="syntax-string">'@hyyve/ui'</span>;
+<span class="text-slate-500">3</span>  
+<span class="text-slate-500">4</span>  <span class="syntax-keyword">export default function</span> <span class="syntax-func">Dashboard</span>() {
+<span class="text-slate-500">5</span>    <span class="syntax-keyword">return</span> (
+<span class="text-slate-500">6</span>      <span class="syntax-tag">&lt;div</span> <span class="syntax-attr">className</span>=<span class="syntax-string">"p-6 bg-slate-900 min-h-screen"</span><span class="syntax-tag">&gt;</span>
+<span class="text-slate-500">7</span>        <span class="syntax-tag">&lt;header</span> <span class="syntax-attr">className</span>=<span class="syntax-string">"flex justify-between mb-8"</span><span class="syntax-tag">&gt;</span>
+<span class="text-slate-500">8</span>          <span class="syntax-tag">&lt;h1</span> <span class="syntax-attr">className</span>=<span class="syntax-string">"text-2xl font-bold text-white"</span><span class="syntax-tag">&gt;</span>Dashboard<span class="syntax-tag">&lt;/h1&gt;</span>
+<span class="text-slate-500">9</span>          <span class="syntax-tag">&lt;Button</span> <span class="syntax-attr">variant</span>=<span class="syntax-string">"primary"</span><span class="syntax-tag">&gt;</span>Download Report<span class="syntax-tag">&lt;/Button&gt;</span>
+<span class="text-slate-500">10</span>       <span class="syntax-tag">&lt;/header&gt;</span>
+<span class="text-slate-500">11</span>       
+<span class="text-slate-500">12</span>       <span class="syntax-comment">{/* Stats Grid */}</span>
+<span class="text-slate-500">13</span>       <span class="syntax-tag">&lt;div</span> <span class="syntax-attr">className</span>=<span class="syntax-string">"grid grid-cols-1 md:grid-cols-3 gap-4"</span><span class="syntax-tag">&gt;</span>
+<span class="text-slate-500">14</span>         <span class="syntax-tag">&lt;Card</span> <span class="syntax-attr">title</span>=<span class="syntax-string">"Total Revenue"</span> <span class="syntax-attr">value</span>=<span class="syntax-string">"$48,290"</span> <span class="syntax-attr">trend</span>=<span class="syntax-string">"+12.5%"</span> <span class="syntax-attr">positive</span> <span class="syntax-tag">/&gt;</span>
+<span class="text-slate-500">15</span>         <span class="syntax-tag">&lt;Card</span> <span class="syntax-attr">title</span>=<span class="syntax-string">"Active Users"</span> <span class="syntax-attr">value</span>=<span class="syntax-string">"2,405"</span> <span class="syntax-attr">trend</span>=<span class="syntax-string">"+4.2%"</span> <span class="syntax-attr">positive</span> <span class="syntax-tag">/&gt;</span>
+<span class="text-slate-500">16</span>         <span class="syntax-tag">&lt;Card</span> <span class="syntax-attr">title</span>=<span class="syntax-string">"New Orders"</span> <span class="syntax-attr">value</span>=<span class="syntax-string">"892"</span> <span class="syntax-attr">trend</span>=<span class="syntax-string">"-2.1%"</span> <span class="syntax-attr">positive</span>=<span class="syntax-string">{false}</span> <span class="syntax-tag">/&gt;</span>
+<span class="text-slate-500">17</span>       <span class="syntax-tag">&lt;/div&gt;</span>
+<span class="text-slate-500">18</span>     <span class="syntax-tag">&lt;/div&gt;</span>
+<span class="text-slate-500">19</span>   );
+<span class="text-slate-500">20</span> }
+</code>
+</pre>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

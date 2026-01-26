@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enterprise SSO Configuration - Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1b1a31",
+                        "border-dark": "#272546",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white transition-colors duration-300">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark px-10 py-3 bg-background-dark">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">Hyyve</h2>
+</div>
+<div class="flex items-center gap-9">
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Models</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Datasets</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Deployments</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Settings</a>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden">
+<div class="text-[#9795c6] flex border-none bg-surface-dark items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-surface-dark text-white focus:outline-0 focus:ring-0 placeholder:text-[#9795c6] px-4 pl-2 text-base font-normal" placeholder="Search" value=""/>
+</div>
+</label>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-primary/30" data-alt="User profile avatar with colorful abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSpspYIzYHlDbpLIfiFkaF1PNXgCCRHokAziSTZNu1uU4F8x2a2sjY0RA5Epj29UPfdTeTnNZ1uiz9SEwbO8LTSCr_M6Shu5w2Kj1thlmRNIuynPvDS1bH3AtAskx3tILuzrWcW_gQkzmEMk7TGbK2b8EI1s8jXF2eKfciqkoNtZ6mr7bnrwgIluqiqdbyrsafvN71c4gBfqJN9s55P0PWJUH_8eE-DfPLGyeITA63DzQRQmYWRVb6FS30VwFdcBCnS_Le3zcekK0");'></div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1 px-4">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between gap-3 mb-6">
+<div class="flex min-w-72 flex-col gap-1">
+<p class="text-white text-4xl font-black leading-tight tracking-tight">Enterprise SSO</p>
+<p class="text-[#9795c6] text-base font-normal leading-normal">Configure Single Sign-On for your organization to manage access at scale.</p>
+</div>
+</div>
+<!-- SSO Status Action Panel -->
+<div class="mb-8">
+<div class="flex flex-1 flex-col items-start justify-between gap-4 rounded-xl border border-border-dark bg-surface-dark p-6 @[480px]:flex-row @[480px]:items-center">
+<div class="flex flex-col gap-1">
+<p class="text-white text-lg font-bold leading-tight">SSO Status</p>
+<p class="text-[#9795c6] text-sm font-normal leading-normal">Single Sign-On is currently enabled. Users must authenticate via your provider.</p>
+</div>
+<label class="relative flex h-[34px] w-[60px] cursor-pointer items-center rounded-full border-none bg-[#272546] p-1 has-[:checked]:justify-end has-[:checked]:bg-primary transition-all duration-300">
+<div class="h-full aspect-square rounded-full bg-white shadow-lg"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<!-- Identity Provider Selection -->
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight mb-4">Identity Provider</h2>
+<div class="grid grid-cols-4 gap-4 mb-10">
+<!-- Okta -->
+<div class="group relative cursor-pointer rounded-xl border-2 border-primary bg-surface-dark p-5 transition-all hover:border-primary/70">
+<div class="flex flex-col items-center gap-3">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">verified_user</span>
+</div>
+<p class="text-white text-base font-bold leading-tight">Okta</p>
+<span class="material-symbols-outlined absolute top-2 right-2 text-primary text-xl">check_circle</span>
+</div>
+</div>
+<!-- Azure -->
+<div class="group relative cursor-pointer rounded-xl border-2 border-border-dark bg-surface-dark p-5 transition-all hover:border-primary/50">
+<div class="flex flex-col items-center gap-3">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#9795c6] text-3xl">cloud</span>
+</div>
+<p class="text-white text-base font-bold leading-tight">Azure AD</p>
+</div>
+</div>
+<!-- Google -->
+<div class="group relative cursor-pointer rounded-xl border-2 border-border-dark bg-surface-dark p-5 transition-all hover:border-primary/50">
+<div class="flex flex-col items-center gap-3">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#9795c6] text-3xl">account_circle</span>
+</div>
+<p class="text-white text-base font-bold leading-tight">Google</p>
+</div>
+</div>
+<!-- SAML -->
+<div class="group relative cursor-pointer rounded-xl border-2 border-border-dark bg-surface-dark p-5 transition-all hover:border-primary/50">
+<div class="flex flex-col items-center gap-3">
+<div class="size-12 rounded-lg bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#9795c6] text-3xl">vpn_key</span>
+</div>
+<p class="text-white text-base font-bold leading-tight">SAML 2.0</p>
+</div>
+</div>
+</div>
+<!-- Configuration Form -->
+<div class="bg-surface-dark rounded-xl border border-border-dark p-8 mb-8">
+<h3 class="text-white text-lg font-bold mb-6">General Configuration</h3>
+<div class="grid grid-cols-2 gap-6 mb-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#9795c6]">Authorized Domain</label>
+<input class="bg-background-dark border border-border-dark rounded-lg px-4 py-2.5 text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="e.g. acme.com" type="text" value="acme-corp.com"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#9795c6]">Client ID</label>
+<input class="bg-background-dark border border-border-dark rounded-lg px-4 py-2.5 text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="Enter provider Client ID" type="text" value="0oa6k5p2m7XyZ..."/>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-6 mb-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#9795c6]">Client Secret</label>
+<div class="relative flex items-center">
+<input class="w-full bg-background-dark border border-border-dark rounded-lg px-4 py-2.5 text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none pr-12" type="password" value="••••••••••••••••••••••••"/>
+<span class="material-symbols-outlined absolute right-4 text-[#9795c6] cursor-pointer hover:text-white">visibility</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#9795c6]">Discovery URL / Metadata</label>
+<input class="bg-background-dark border border-border-dark rounded-lg px-4 py-2.5 text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="https://example.com/metadata" type="text" value="https://acme.okta.com/.well-known/openid-configuration"/>
+</div>
+</div>
+<!-- Attribute Mapping Section -->
+<div class="bg-surface-dark rounded-xl border border-border-dark overflow-hidden mb-10">
+<div class="p-6 border-b border-border-dark">
+<h3 class="text-white text-lg font-bold">Attribute Mapping</h3>
+<p class="text-[#9795c6] text-sm">Map Identity Provider attributes to Hyyve user fields.</p>
+</div>
+<div class="p-0">
+<!-- Mapping Rows -->
+<div class="flex items-center justify-between p-4 border-b border-border-dark/50 hover:bg-white/5 transition-colors">
+<div class="flex-1 text-sm font-medium text-white px-4">Email Address</div>
+<div class="flex items-center justify-center px-4">
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</div>
+<div class="flex-1 px-4">
+<input class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-1.5 text-sm text-white" type="text" value="user.email"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-border-dark/50 hover:bg-white/5 transition-colors">
+<div class="flex-1 text-sm font-medium text-white px-4">First Name</div>
+<div class="flex items-center justify-center px-4">
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</div>
+<div class="flex-1 px-4">
+<input class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-1.5 text-sm text-white" type="text" value="user.given_name"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-border-dark/50 hover:bg-white/5 transition-colors">
+<div class="flex-1 text-sm font-medium text-white px-4">Last Name</div>
+<div class="flex items-center justify-center px-4">
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</div>
+<div class="flex-1 px-4">
+<input class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-1.5 text-sm text-white" type="text" value="user.family_name"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-white/5 transition-colors">
+<div class="flex-1 text-sm font-medium text-white px-4">Group Membership</div>
+<div class="flex items-center justify-center px-4">
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</div>
+<div class="flex-1 px-4">
+<input class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-1.5 text-sm text-white" type="text" value="user.groups"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="flex items-center justify-end gap-4 pb-12">
+<button class="px-6 py-2.5 rounded-lg border border-border-dark text-white font-semibold hover:bg-white/5 transition-all">
+                            Test Connection
+                        </button>
+<button class="px-8 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+                            Save Configuration
+                        </button>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

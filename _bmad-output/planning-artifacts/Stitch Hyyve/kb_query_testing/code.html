@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KB Query Testing - Hyyve Platform</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "primary-dark": "#3f38b5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121", // Main dark bg
+              "surface-dark": "#1c1b32", // Card/Input bg
+              "border-dark": "#383663", // Borders
+              "text-secondary": "#9795c6",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-64 flex-none hidden md:flex flex-col border-r border-border-dark bg-[#131221] h-full">
+<div class="flex flex-col h-full p-4 justify-between">
+<div class="flex flex-col gap-6">
+<!-- Brand -->
+<div class="flex gap-3 items-center px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shadow-lg border border-border-dark" data-alt="Abstract purple geometric logo pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJL5fHUPiLFLv6lKHpdZBIjfx0-w-gxnSp2by_favlREEvMsBqV1IsbnqSt5ZdWG-86KP9m5xzS2Ewi5RnlEZzIAuKEbidSTTgR4MhcpYkCd_kvMWn-OLIxBsb_I4OTNNEATezjAS_0MCyAMwA332f2y-OfARcodwYnLdzDSoyKUyRXGlQElfpyZ_EGyQtH11tL502X2LpSrZ3TggfWcxCN6DDnyjn--TdKsTNzYESe6K6ROqpmQJVmhFLXLQAbjbOrKRNpecw9yU");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-tight">Hyyve Platform</h1>
+<p class="text-text-secondary text-xs font-normal">Dev Workspace</p>
+</div>
+</div>
+<!-- Navigation -->
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white transition-colors">dashboard</span>
+<p class="text-text-secondary group-hover:text-white text-sm font-medium transition-colors">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white transition-colors">hub</span>
+<p class="text-text-secondary group-hover:text-white text-sm font-medium transition-colors">Pipelines</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#272546] border border-border-dark/50" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">database</span>
+<p class="text-white text-sm font-medium">KB Query</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white transition-colors">terminal</span>
+<p class="text-text-secondary group-hover:text-white text-sm font-medium transition-colors">Playground</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white transition-colors">settings</span>
+<p class="text-text-secondary group-hover:text-white text-sm font-medium transition-colors">Settings</p>
+</a>
+</div>
+</div>
+<!-- Footer/User -->
+<div class="flex items-center gap-3 px-3 py-4 border-t border-border-dark">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-purple-400" data-alt="User avatar gradient"></div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium">Alex Chen</p>
+<p class="text-text-secondary text-xs">Lead AI Engineer</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-background-dark relative">
+<!-- Page Header -->
+<div class="flex-none p-6 md:px-10 pb-4 border-b border-border-dark bg-[#131221]/80 backdrop-blur-sm z-10">
+<div class="flex flex-col gap-2 max-w-7xl mx-auto w-full">
+<h1 class="text-white text-3xl md:text-4xl font-black tracking-tight">KB Query Testing</h1>
+<p class="text-text-secondary text-base">Validate your RAG retrieval pipeline and generated answers.</p>
+</div>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-6 md:px-10">
+<div class="max-w-7xl mx-auto flex flex-col gap-8 pb-10">
+<!-- Input Section: Query + Settings -->
+<div class="flex flex-col lg:flex-row gap-6">
+<!-- Query Input -->
+<div class="flex-1 flex flex-col gap-2 min-w-0">
+<label class="text-white text-sm font-medium ml-1">Test Query</label>
+<div class="relative group">
+<textarea class="w-full h-40 resize-none rounded-xl bg-surface-dark border border-border-dark text-white placeholder-text-secondary p-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-lg text-base leading-relaxed" placeholder="Enter your test question here to validate retrieval (e.g., 'What is the expense policy for international travel?')..."></textarea>
+<div class="absolute bottom-4 right-4 text-xs text-text-secondary bg-surface-dark/80 px-2 py-1 rounded">248 chars</div>
+</div>
+</div>
+<!-- Settings & Action -->
+<div class="w-full lg:w-80 flex-none flex flex-col gap-6">
+<!-- Sliders & Selects Panel -->
+<div class="bg-surface-dark border border-border-dark rounded-xl p-5 flex flex-col gap-5 shadow-lg">
+<!-- Top K Slider -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<label class="text-white text-sm font-medium">Top K (Retrieval)</label>
+<span class="text-primary font-bold text-sm bg-primary/10 px-2 py-0.5 rounded">5</span>
+</div>
+<div class="relative flex items-center h-6 w-full cursor-pointer group">
+<div class="h-1.5 w-full bg-background-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[50%] group-hover:bg-primary-dark transition-colors"></div>
+</div>
+<div class="absolute left-[50%] size-4 bg-white border-2 border-primary rounded-full shadow cursor-grab active:cursor-grabbing hover:scale-110 transition-transform"></div>
+</div>
+</div>
+<!-- Search Type -->
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Search Strategy</label>
+<div class="relative">
+<select class="w-full appearance-none bg-background-dark border border-border-dark text-white text-sm rounded-lg pl-4 pr-10 py-3 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+<option>Hybrid (Dense + Sparse)</option>
+<option>Cosine Similarity</option>
+<option>Keyword Search (BM25)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Run Button -->
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-6 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">play_arrow</span>
+                                Run Validation
+                            </button>
+</div>
+</div>
+<div class="w-full h-px bg-border-dark"></div>
+<!-- Output Section: 2 Columns -->
+<div class="grid lg:grid-cols-12 gap-8 items-start">
+<!-- Left: Generated Answer (Approx 40-50%) -->
+<div class="lg:col-span-5 flex flex-col gap-4 sticky top-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">smart_toy</span>
+<h2 class="text-white text-lg font-bold">Generated Answer</h2>
+</div>
+<span class="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded border border-green-400/20">Completed in 1.2s</span>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-6 shadow-lg relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-transparent"></div>
+<p class="text-gray-300 leading-relaxed text-sm md:text-base">
+                                    Based on the company expense policy, international travel requires pre-approval from a department head at least 14 days in advance <button class="inline-flex items-center justify-center align-middle mx-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary/20 text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer" title="View Source">[1]</button>. 
+                                    <br/><br/>
+                                    Daily meal allowances are capped at $75 USD per day, and receipts must be uploaded for any single expense exceeding $25 <button class="inline-flex items-center justify-center align-middle mx-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary/20 text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer" title="View Source">[2]</button>. Alcohol is generally not reimbursable unless part of a client entertainment event <button class="inline-flex items-center justify-center align-middle mx-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary/20 text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer" title="View Source">[3]</button>.
+                                </p>
+<div class="mt-6 pt-4 border-t border-white/5 flex gap-2">
+<button class="flex-1 py-2 text-xs font-medium text-text-secondary hover:text-white bg-white/5 hover:bg-white/10 rounded flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">thumb_up</span> Helpful
+                                    </button>
+<button class="flex-1 py-2 text-xs font-medium text-text-secondary hover:text-white bg-white/5 hover:bg-white/10 rounded flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy
+                                    </button>
+</div>
+</div>
+</div>
+<!-- Right: Retrieved Chunks (Approx 50-60%) -->
+<div class="lg:col-span-7 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary">library_books</span>
+<h2 class="text-white text-lg font-bold">Retrieved Context <span class="text-text-secondary font-normal text-sm ml-1">(Top 5)</span></h2>
+</div>
+<div class="flex gap-2">
+<button class="text-xs text-text-secondary hover:text-white flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-sm">sort</span> Sort by Score
+                                    </button>
+</div>
+</div>
+<!-- Chunk List -->
+<div class="flex flex-col gap-3">
+<!-- Card 1 -->
+<div class="bg-surface-dark border border-primary/50 rounded-xl p-4 shadow-lg hover:border-primary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div class="flex gap-2 items-center">
+<span class="bg-primary/20 text-primary text-xs font-bold px-2 py-1 rounded border border-primary/20">[1]</span>
+<span class="bg-white/5 text-text-secondary text-xs font-medium px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">description</span>
+                                                global_expense_policy_v2.pdf
+                                            </span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex flex-col items-end">
+<span class="text-xs text-text-secondary">Relevance</span>
+<span class="text-sm font-bold text-green-400">0.94</span>
+</div>
+<!-- Circular Score Indicator Placeholder -->
+<div class="size-8 rounded-full border-2 border-green-400/30 border-t-green-400 flex items-center justify-center bg-green-400/5">
+<span class="material-symbols-outlined text-green-400 text-sm">check</span>
+</div>
+</div>
+</div>
+<p class="text-gray-300 text-sm leading-relaxed border-l-2 border-primary/30 pl-3">
+                                        ...employees traveling internationally must submit a travel request form to their department head at least 14 days prior to departure. Approval is mandatory for reimbursement eligibility...
+                                    </p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 shadow-md hover:border-white/30 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div class="flex gap-2 items-center">
+<span class="bg-white/5 text-text-secondary text-xs font-bold px-2 py-1 rounded border border-white/5 group-hover:bg-primary/20 group-hover:text-primary transition-colors">[2]</span>
+<span class="bg-white/5 text-text-secondary text-xs font-medium px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">description</span>
+                                                meal_allowance_2024.docx
+                                            </span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex flex-col items-end">
+<span class="text-xs text-text-secondary">Relevance</span>
+<span class="text-sm font-bold text-green-400">0.89</span>
+</div>
+<div class="size-8 rounded-full border-2 border-green-400/30 border-t-green-400 border-r-green-400 -rotate-45 bg-transparent"></div>
+</div>
+</div>
+<p class="text-text-secondary text-sm leading-relaxed border-l-2 border-white/10 pl-3 group-hover:text-gray-300 transition-colors">
+                                        ...Policy ID: MA-2024. Maximum daily per diem for meals is set at $75 USD. Receipts are required for any individual transaction exceeding $25 USD. Tips are included in this limit...
+                                    </p>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 shadow-md hover:border-white/30 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div class="flex gap-2 items-center">
+<span class="bg-white/5 text-text-secondary text-xs font-bold px-2 py-1 rounded border border-white/5 group-hover:bg-primary/20 group-hover:text-primary transition-colors">[3]</span>
+<span class="bg-white/5 text-text-secondary text-xs font-medium px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">link</span>
+                                                hr_knowledge_base/entertainment
+                                            </span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex flex-col items-end">
+<span class="text-xs text-text-secondary">Relevance</span>
+<span class="text-sm font-bold text-yellow-400">0.76</span>
+</div>
+<div class="size-8 rounded-full border-2 border-yellow-400/30 border-t-yellow-400 rotate-12 bg-transparent"></div>
+</div>
+</div>
+<p class="text-text-secondary text-sm leading-relaxed border-l-2 border-white/10 pl-3 group-hover:text-gray-300 transition-colors">
+                                        ...Client entertainment events may include reasonable alcohol expenses. However, personal alcohol consumption during business travel meals is strictly non-reimbursable...
+                                    </p>
+</div>
+<!-- View More -->
+<button class="w-full py-3 text-sm text-text-secondary hover:text-white border border-dashed border-border-dark hover:border-primary/50 hover:bg-primary/5 rounded-xl transition-all flex items-center justify-center gap-2">
+                                    Show 2 more chunks
+                                    <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

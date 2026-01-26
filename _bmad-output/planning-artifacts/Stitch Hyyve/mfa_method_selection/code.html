@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - MFA Selection</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-hover": "#4338ca",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221",
+                        "surface-dark": "#1c1b2e",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans", "sans-serif"],
+                        "body": ["Inter", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary/30 selection:text-white">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="sticky top-0 z-10 flex w-full items-center justify-between border-b border-border-dark bg-background-dark/80 px-6 py-4 backdrop-blur-md md:px-10">
+<div class="flex items-center gap-4 text-white">
+<div class="flex size-8 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<svg class="size-5" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">Hyyve</h2>
+</div>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="hidden sm:block">Support</span>
+</button>
+<div class="h-8 w-[1px] bg-border-dark"></div>
+<div class="size-9 overflow-hidden rounded-full bg-surface-dark border border-border-dark ring-2 ring-transparent hover:ring-primary/50 transition-all cursor-pointer bg-center bg-cover" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4H2Rfss-EVFb9lGDz0CB7iX3gDpVT5gHbc8JM4Gw8uQNvQBkYkXdww4yq3UzlJDdLzwfdFJFTnhGlUeso-uS2_KApJX3e2kjZa4DKKPhCPYTi8j_9eg46yTXBzASC7ru7E5IA3WbS5-QmMMk2gff3r18IbPhh2i9LAAmonqZxQMnZv2nBBuM5v1PnzcbQF_EK4Ed0LVFuQkVsO5ZfX_3DQUpcVtw5aW5y-NC35M2lGHpUYYGfdihJ6RA_fgRtchkEWKBV1Rviv2k");'></div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex flex-1 flex-col items-center px-4 py-8 md:px-0 md:py-12">
+<div class="flex w-full max-w-[640px] flex-col gap-8">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm font-medium">
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Settings</a>
+<span class="text-border-dark select-none">/</span>
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Security</a>
+<span class="text-border-dark select-none">/</span>
+<span class="text-white">MFA Setup</span>
+</nav>
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl font-bold tracking-tight text-white md:text-4xl">Choose Authentication Method</h1>
+<p class="text-base text-text-secondary md:text-lg">Add an extra layer of security to your Hyyve workspace.</p>
+</div>
+<!-- Selection Cards -->
+<div aria-label="MFA Methods" class="flex flex-col gap-4" role="radiogroup">
+<!-- Option 1: Authenticator App (Recommended) -->
+<label class="group relative flex cursor-pointer items-start gap-4 rounded-xl border border-primary bg-primary/5 p-4 transition-all hover:bg-primary/10 md:p-5">
+<div class="flex h-6 items-center">
+<input aria-describedby="option-app-desc" aria-labelledby="option-app-label" checked="" class="size-4 border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800" name="mfa_method" type="radio" value="app"/>
+</div>
+<div class="flex flex-1 items-start gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-[24px]">phonelink_lock</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="text-base font-semibold text-white" id="option-app-label">Authenticator App</span>
+<span class="rounded bg-primary/20 px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-primary">Recommended</span>
+</div>
+<p class="text-sm leading-relaxed text-text-secondary" id="option-app-desc">Use Google Authenticator, Authy, or 1Password to generate time-based codes.</p>
+</div>
+</div>
+</label>
+<!-- Option 2: SMS -->
+<label class="group relative flex cursor-pointer items-start gap-4 rounded-xl border border-border-dark bg-surface-dark p-4 transition-all hover:border-primary/50 hover:bg-surface-dark/80 md:p-5">
+<div class="flex h-6 items-center">
+<input aria-describedby="option-sms-desc" aria-labelledby="option-sms-label" class="size-4 border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800" name="mfa_method" type="radio" value="sms"/>
+</div>
+<div class="flex flex-1 items-start gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-border-dark text-text-secondary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">sms</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-base font-semibold text-white" id="option-sms-label">SMS Verification</span>
+<p class="text-sm leading-relaxed text-text-secondary" id="option-sms-desc">Receive a unique one-time code via text message to your mobile device.</p>
+</div>
+</div>
+</label>
+<!-- Option 3: Email -->
+<label class="group relative flex cursor-pointer items-start gap-4 rounded-xl border border-border-dark bg-surface-dark p-4 transition-all hover:border-primary/50 hover:bg-surface-dark/80 md:p-5">
+<div class="flex h-6 items-center">
+<input aria-describedby="option-email-desc" aria-labelledby="option-email-label" class="size-4 border-gray-300 text-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800" name="mfa_method" type="radio" value="email"/>
+</div>
+<div class="flex flex-1 items-start gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-border-dark text-text-secondary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">mail</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-base font-semibold text-white" id="option-email-label">Email Verification</span>
+<p class="text-sm leading-relaxed text-text-secondary" id="option-email-desc">Receive a unique one-time code via your registered email address.</p>
+</div>
+</div>
+</label>
+</div>
+<!-- Info Box -->
+<div class="flex gap-4 rounded-lg bg-blue-500/10 p-4 border border-blue-500/20">
+<span class="material-symbols-outlined shrink-0 text-blue-400">info</span>
+<div class="flex flex-col gap-1">
+<h4 class="text-sm font-semibold text-blue-100">Why enable 2FA?</h4>
+<p class="text-sm text-blue-200/70">Two-factor authentication adds an extra layer of security to your account by requiring more than just a password to log in. This significantly reduces the risk of unauthorized access.</p>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="mt-4 flex w-full flex-col gap-3 sm:flex-row">
+<button class="flex w-full items-center justify-center gap-2 rounded-lg bg-surface-dark border border-border-dark px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-border-dark focus:outline-none focus:ring-2 focus:ring-border-dark focus:ring-offset-2 focus:ring-offset-background-dark sm:w-auto">
+                        Cancel
+                    </button>
+<button class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark">
+                        Continue Setup
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Simple script to handle visual selection state changes for the radio buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            const radioButtons = document.querySelectorAll('input[type="radio"][name="mfa_method"]');
+            
+            const updateVisuals = () => {
+                radioButtons.forEach(radio => {
+                    const label = radio.closest('label');
+                    const iconContainer = label.querySelector('.size-12');
+                    const icon = label.querySelector('.material-symbols-outlined'); // Select the icon text itself if needed, or container
+                    
+                    if (radio.checked) {
+                        // Active State
+                        label.classList.remove('border-border-dark', 'bg-surface-dark');
+                        label.classList.add('border-primary', 'bg-primary/5');
+                        
+                        if (!iconContainer.classList.contains('bg-primary/20')) {
+                             iconContainer.classList.remove('bg-border-dark', 'text-text-secondary');
+                             iconContainer.classList.add('bg-primary/20', 'text-primary');
+                        }
+                    } else {
+                        // Inactive State
+                        label.classList.remove('border-primary', 'bg-primary/5');
+                        label.classList.add('border-border-dark', 'bg-surface-dark');
+                        
+                        if (iconContainer.classList.contains('bg-primary/20')) {
+                             iconContainer.classList.remove('bg-primary/20', 'text-primary');
+                             iconContainer.classList.add('bg-border-dark', 'text-text-secondary');
+                        }
+                    }
+                });
+            };
+
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', updateVisuals);
+            });
+
+            // Initial run
+            updateVisuals();
+        });
+    </script>
+</body></html>

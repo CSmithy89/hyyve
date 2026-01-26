@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#1c1b2e",
+                        "card-border": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Sidebar -->
+<aside class="hidden w-64 flex-col justify-between border-r border-card-border bg-background-dark p-4 md:flex">
+<div class="flex flex-col gap-6">
+<!-- Logo -->
+<div class="flex items-center gap-3 px-2">
+<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white text-2xl">hive</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-lg font-bold leading-none tracking-tight">Hyyve</h1>
+<p class="text-text-secondary text-xs font-medium">AI Platform</p>
+</div>
+</div>
+<!-- Nav Links -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg bg-card-border px-3 py-2.5 transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-sm font-medium text-white">Home</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-card-border/50 group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">folder_open</span>
+<span class="text-sm font-medium text-text-secondary group-hover:text-white">Projects</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-card-border/50 group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">settings</span>
+<span class="text-sm font-medium text-text-secondary group-hover:text-white">Settings</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-card-border/50 group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">menu_book</span>
+<span class="text-sm font-medium text-text-secondary group-hover:text-white">Documentation</span>
+</a>
+</nav>
+</div>
+<!-- User Profile (Bottom) -->
+<div class="flex items-center gap-3 rounded-lg border border-card-border bg-card-dark p-3">
+<div class="h-9 w-9 rounded-full bg-cover bg-center" data-alt="Portrait of Chris user" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAFph-enJZPLIo2mYSohEnHMWaJ0dF_FEvER6DjKcfYhMckWyliY1YLu2YPdopovjP3mfi0p8ex1O5gvKsWBv_NG56uXkOinn7CV-pG8lD84r4CtD8An_BYQBbbNRF4gkstIRJikFjkCC19RyqpbAedU_0cEvfkE-AYXf_uuK0XtqZcgJ6rZba9FpQoEhTaBD-gwZxjAyDETfn32zs85vZbYVsYjTueSLQvmTzKhlGKfmOMaqg1-gqT3aXfahfrRK6W_5AbJg9sHrs');"></div>
+<div class="flex flex-1 flex-col overflow-hidden">
+<p class="truncate text-sm font-medium text-white">Chris Evans</p>
+<p class="truncate text-xs text-text-secondary">Pro Plan</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-lg">expand_more</span>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex flex-1 flex-col overflow-hidden bg-background-dark">
+<!-- Top Header -->
+<header class="flex h-16 items-center justify-between border-b border-card-border px-6 py-3 bg-background-dark/50 backdrop-blur-md sticky top-0 z-10">
+<div class="flex items-center gap-4 text-white md:hidden">
+<button class="flex items-center justify-center p-1">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="text-lg font-bold">Hyyve</h2>
+</div>
+<!-- Desktop Search -->
+<div class="hidden md:flex flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-xl">search</span>
+<input class="w-full rounded-lg border border-transparent bg-card-border py-2 pl-10 pr-4 text-sm text-white placeholder-text-secondary focus:border-primary focus:bg-card-dark focus:outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Search projects, modules, or docs..." type="text"/>
+</div>
+</div>
+<!-- Right Actions -->
+<div class="flex items-center gap-4">
+<button class="relative flex h-9 w-9 items-center justify-center rounded-lg bg-card-border text-white hover:bg-card-border/80 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary ring-2 ring-background-dark"></span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-6 md:p-8 scroll-smooth">
+<div class="mx-auto flex max-w-[1200px] flex-col gap-8 pb-10">
+<!-- Welcome Heading -->
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl font-black tracking-tight text-white md:text-4xl">Welcome back, Chris</h1>
+<p class="text-text-secondary">Ready to build the next generation of AI?</p>
+</div>
+<!-- Quick Action Cards Grid -->
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+<!-- Card 1 -->
+<div class="group flex cursor-pointer flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-5 transition-all hover:border-primary/50 hover:bg-card-border/50">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/20 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">extension</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">Module Builder</h3>
+<p class="text-sm text-text-secondary mt-1">Create logic blocks for your AI.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex cursor-pointer flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-5 transition-all hover:border-primary/50 hover:bg-card-border/50">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">smart_toy</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">Chatbot Builder</h3>
+<p class="text-sm text-text-secondary mt-1">Design conversational flows.</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex cursor-pointer flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-5 transition-all hover:border-primary/50 hover:bg-card-border/50">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/20 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">graphic_eq</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">Voice Agent</h3>
+<p class="text-sm text-text-secondary mt-1">Configure voice synthesis.</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group flex cursor-pointer flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-5 transition-all hover:border-primary/50 hover:bg-card-border/50">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">account_tree</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">Canvas Builder</h3>
+<p class="text-sm text-text-secondary mt-1">Map out complex architectures.</p>
+</div>
+</div>
+</div>
+<!-- Layout: Left (Projects & Activity) / Right (Usage) -->
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+<!-- Main Column (2/3 width) -->
+<div class="flex flex-col gap-8 lg:col-span-2">
+<!-- Recent Projects -->
+<section>
+<div class="mb-4 flex items-center justify-between">
+<h2 class="text-xl font-bold text-white">Recent Projects</h2>
+<button class="text-sm font-medium text-primary hover:text-primary/80">View All</button>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+<!-- Project Card 1 -->
+<div class="min-w-[280px] flex-1 cursor-pointer overflow-hidden rounded-xl border border-card-border bg-card-dark transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5">
+<div class="h-32 w-full bg-cover bg-center" data-alt="Abstract code interface for Customer Support Bot" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnSLkVBdrxTr-BP0FTm8R6jJyrsuC3CX6_x3HyooYuG_20gTteiRKSo5DQ7dR_n0XBigeKidx_LLE8foiqITHr5xQagmzK1wHNL2pVj8Q7DvuIsrFHt4el_Cd8DpveE5uPBoge722Lv3s4Q0P8RSPybvJ19p_MmyJRgoIWY22DKX47DWKJcfjYZiRRQdAWDM1dqtJPiILWMgZG8L45vsvLNmtSSdoddu0Wehsh6QaPXgBaHpEjKu_Lx0Fvwwm8uUrvp1WiFgeKSQw');">
+<div class="flex h-full w-full flex-col justify-between bg-gradient-to-t from-card-dark to-transparent p-4">
+<div class="self-end rounded bg-emerald-500/20 px-2 py-0.5 text-xs font-semibold text-emerald-400 backdrop-blur-sm">Active</div>
+</div>
+</div>
+<div class="p-4">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="font-bold text-white">Customer Support Bot</h3>
+<p class="text-xs text-text-secondary mt-1">Last edited 2h ago</p>
+</div>
+<button class="rounded-lg p-1 text-text-secondary hover:bg-card-border hover:text-white">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="min-w-[280px] flex-1 cursor-pointer overflow-hidden rounded-xl border border-card-border bg-card-dark transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5">
+<div class="h-32 w-full bg-cover bg-center" data-alt="Data analytics dashboard for Sales Lead Qualifier" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBrEZvjd2OqTnOyon_leA-kklGvvWmcuAZzpbVK80AqkTNaML1597yU6CCMB99ZwfPta7FWW1hIGp607EgLLPmy94jSPMLF5NQTgQsFlllzNxLcl-g4oTvLP-r_exMieSp13xhzQPmF6YSP4ldJZ4J1OoMJZRJBAmZzvmEM4-Xvuf4pyp7pA5bNu2z1K97YGsDxvKPk_brOXpWfd32dGT3LmiKpqRa7b8OsuPGFYhpztrd29CuNAPPRSCgDJJ7RbBA8xeCiSDz19Ws');">
+<div class="flex h-full w-full flex-col justify-between bg-gradient-to-t from-card-dark to-transparent p-4">
+<div class="self-end rounded bg-amber-500/20 px-2 py-0.5 text-xs font-semibold text-amber-400 backdrop-blur-sm">Training</div>
+</div>
+</div>
+<div class="p-4">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="font-bold text-white">Sales Lead Qualifier</h3>
+<p class="text-xs text-text-secondary mt-1">Last edited Yesterday</p>
+</div>
+<button class="rounded-lg p-1 text-text-secondary hover:bg-card-border hover:text-white">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Card 3 -->
+<div class="min-w-[280px] flex-1 cursor-pointer overflow-hidden rounded-xl border border-dashed border-card-border bg-card-dark/30 hover:bg-card-dark/50 transition-colors flex items-center justify-center flex-col gap-2">
+<div class="p-4 flex flex-col items-center">
+<div class="h-12 w-12 rounded-full bg-card-border flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-text-secondary">add</span>
+</div>
+<h3 class="font-bold text-white">New Project</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Activity Feed -->
+<section>
+<div class="mb-4 flex items-center justify-between">
+<h2 class="text-xl font-bold text-white">Activity Feed</h2>
+</div>
+<div class="rounded-xl border border-card-border bg-card-dark p-6">
+<div class="relative flex flex-col gap-6">
+<!-- Timeline Line -->
+<div class="absolute left-[19px] top-2 h-full w-0.5 bg-card-border"></div>
+<!-- Item 1 -->
+<div class="relative flex items-start gap-4">
+<div class="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-4 border-card-dark bg-emerald-500/20 text-emerald-400">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<div class="flex flex-col pt-0.5">
+<p class="text-sm font-medium text-white">Deployment Successful: <span class="text-emerald-400">Support Bot v2.1</span></p>
+<span class="text-xs text-text-secondary">10 minutes ago</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="relative flex items-start gap-4">
+<div class="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-4 border-card-dark bg-red-500/20 text-red-400">
+<span class="material-symbols-outlined text-sm font-bold">priority_high</span>
+</div>
+<div class="flex flex-col pt-0.5">
+<p class="text-sm font-medium text-white">Execution Failed: <span class="text-red-400">Lead Qualifier</span></p>
+<span class="text-xs text-text-secondary">2 hours ago • Timeout Error</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="relative flex items-start gap-4">
+<div class="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-4 border-card-dark bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-sm font-bold">bolt</span>
+</div>
+<div class="flex flex-col pt-0.5">
+<p class="text-sm font-medium text-white">New Model Training Started</p>
+<span class="text-xs text-text-secondary">5 hours ago • Project: Sentiment Analysis</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (1/3 width) - Usage Stats -->
+<div class="flex flex-col gap-8">
+<section class="flex h-full flex-col">
+<div class="mb-4 flex items-center justify-between">
+<h2 class="text-xl font-bold text-white">Usage This Month</h2>
+</div>
+<div class="flex flex-1 flex-col justify-between gap-6 rounded-xl border border-card-border bg-card-dark p-6">
+<!-- Metric 1: API Calls -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="flex items-center gap-2 text-sm font-medium text-text-secondary">
+<span class="material-symbols-outlined text-lg">api</span>
+                                                API Calls
+                                            </span>
+<span class="rounded bg-card-border px-2 py-1 text-xs text-white">Pro Plan</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-bold text-white">124,592</span>
+<span class="text-sm text-text-secondary">/ 500k</span>
+</div>
+<!-- Progress Bar -->
+<div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-card-border">
+<div class="h-full rounded-full bg-primary" style="width: 25%"></div>
+</div>
+<p class="text-xs text-text-secondary mt-1">Resets in 12 days</p>
+</div>
+<div class="h-px w-full bg-card-border"></div>
+<!-- Metric 2: Cost Estimate -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="flex items-center gap-2 text-sm font-medium text-text-secondary">
+<span class="material-symbols-outlined text-lg">payments</span>
+                                                Est. Cost
+                                            </span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-bold text-white">$42.50</span>
+<span class="text-sm text-text-secondary">USD</span>
+</div>
+<!-- Progress Bar -->
+<div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-card-border">
+<div class="h-full rounded-full bg-emerald-500" style="width: 35%"></div>
+</div>
+<p class="text-xs text-text-secondary mt-1">Within budget ($120.00 limit)</p>
+</div>
+<!-- Upgrade CTA -->
+<div class="mt-4 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 p-4 border border-primary/20">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">rocket_launch</span>
+<div>
+<h4 class="text-sm font-bold text-white">Scale up?</h4>
+<p class="mt-1 text-xs text-text-secondary">Upgrade to Enterprise for unlimited API calls and dedicated support.</p>
+<button class="mt-3 rounded bg-primary px-3 py-1.5 text-xs font-bold text-white hover:bg-primary/90 transition-colors">
+                                                    Upgrade Plan
+                                                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

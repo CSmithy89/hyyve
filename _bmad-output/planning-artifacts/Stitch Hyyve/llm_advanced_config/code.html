@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LLM Advanced Config - Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#1c1b32", 
+              "border-dark": "#383663",
+              "text-secondary": "#9795c6",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            keyframes: {
+                slideIn: {
+                    '0%': { transform: 'translateX(100%)' },
+                    '100%': { transform: 'translateX(0)' },
+                }
+            },
+            animation: {
+                slideIn: 'slideIn 0.3s ease-out forwards',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom range slider styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            margin-top: -7px;
+            box-shadow: 0 0 0 2px #5048e5;
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #383663;
+            border-radius: 2px;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        
+        /* Custom Scrollbar for the panel content */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #383663;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-black/60 h-screen w-full flex justify-end font-display antialiased overflow-hidden backdrop-blur-sm">
+<!-- Slide-over Panel Container -->
+<div class="h-full w-full max-w-[480px] bg-background-dark border-l border-border-dark flex flex-col shadow-2xl animate-slideIn relative">
+<!-- Header -->
+<div class="flex flex-col gap-1 p-6 border-b border-border-dark bg-background-dark z-10 shrink-0">
+<div class="flex items-start justify-between">
+<div>
+<h2 class="text-white text-lg font-bold leading-tight mb-1">Configure Node</h2>
+<div class="flex items-center gap-2">
+<span class="bg-primary/20 text-primary text-[10px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wide">LLM</span>
+<p class="text-text-secondary text-sm font-normal">ID: <span class="font-mono text-white/80">#8821</span></p>
+</div>
+</div>
+<button class="text-text-secondary hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-all duration-200">
+<span class="material-symbols-outlined block">close</span>
+</button>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="px-6 border-b border-border-dark bg-background-dark shrink-0">
+<div class="flex gap-8">
+<button class="pb-3 pt-2 border-b-[3px] border-transparent text-text-secondary text-sm font-medium hover:text-white transition-colors">Basic</button>
+<button class="pb-3 pt-2 border-b-[3px] border-primary text-white text-sm font-bold">Advanced</button>
+<button class="pb-3 pt-2 border-b-[3px] border-transparent text-text-secondary text-sm font-medium hover:text-white transition-colors">Prompts</button>
+<button class="pb-3 pt-2 border-b-[3px] border-transparent text-text-secondary text-sm font-medium hover:text-white transition-colors">Testing</button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<div class="p-6 space-y-8">
+<!-- Provider & Model Selection -->
+<div class="space-y-5">
+<label class="block group">
+<span class="text-white text-sm font-medium mb-2 block group-focus-within:text-primary transition-colors">Provider</span>
+<div class="relative">
+<select class="w-full h-12 pl-4 pr-10 bg-surface-dark border border-border-dark rounded-lg text-white text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary appearance-none transition-all">
+<option>Anthropic</option>
+<option>OpenAI</option>
+<option>Mistral AI</option>
+<option>Google Vertex</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</label>
+<label class="block group">
+<span class="text-white text-sm font-medium mb-2 block group-focus-within:text-primary transition-colors">Model</span>
+<div class="relative">
+<select class="w-full h-12 pl-4 pr-10 bg-surface-dark border border-border-dark rounded-lg text-white text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary appearance-none transition-all">
+<option>Claude Sonnet 4</option>
+<option>Claude 3 Opus</option>
+<option>Claude 3 Haiku</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-text-secondary text-[16px]">info</span>
+<p class="text-text-secondary text-xs font-normal">$3.00 / 1M input tokens</p>
+</div>
+</label>
+</div>
+<!-- Divider -->
+<div class="h-px w-full bg-border-dark"></div>
+<!-- Temperature Slider -->
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<label class="text-white text-sm font-medium">Temperature</label>
+<div class="flex items-center bg-surface-dark border border-border-dark rounded px-2 py-1">
+<input class="bg-transparent text-right w-8 text-white text-xs font-mono focus:outline-none" max="2" min="0" step="0.1" type="number" value="0.7"/>
+</div>
+</div>
+<div class="relative pt-2 pb-1">
+<input class="w-full" max="2" min="0" step="0.1" type="range" value="0.7"/>
+<div class="flex justify-between text-text-secondary text-[11px] mt-2 font-medium tracking-wide uppercase">
+<span>Precise</span>
+<span>Creative</span>
+</div>
+</div>
+</div>
+<!-- Stop Sequences -->
+<div class="space-y-2">
+<label class="text-white text-sm font-medium block">Stop Sequences</label>
+<div class="bg-surface-dark border border-border-dark rounded-lg p-3 flex flex-wrap gap-2 min-h-[52px] focus-within:border-primary transition-colors">
+<!-- Chip 1 -->
+<div class="bg-[#2a2845] text-white text-xs pl-2.5 pr-1.5 py-1 rounded-md flex items-center gap-1 border border-border-dark shadow-sm">
+                            \n
+                            <button class="text-text-secondary hover:text-white rounded-full p-0.5"><span class="material-symbols-outlined text-[14px] block">close</span></button>
+</div>
+<!-- Chip 2 -->
+<div class="bg-[#2a2845] text-white text-xs pl-2.5 pr-1.5 py-1 rounded-md flex items-center gap-1 border border-border-dark shadow-sm">
+                            User:
+                            <button class="text-text-secondary hover:text-white rounded-full p-0.5"><span class="material-symbols-outlined text-[14px] block">close</span></button>
+</div>
+<input class="bg-transparent text-sm text-white focus:outline-none flex-1 min-w-[120px] placeholder:text-text-secondary/50 py-1" placeholder="Add sequence..." type="text"/>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px w-full bg-border-dark"></div>
+<!-- Toggles Section -->
+<div class="space-y-5">
+<!-- Stream Toggle -->
+<div class="flex items-center justify-between group cursor-pointer">
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">Stream Response</p>
+<p class="text-text-secondary text-xs mt-0.5">Receive tokens progressively</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dark peer-focus:outline-none border border-border-dark rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary peer-checked:border-primary"></div>
+</label>
+</div>
+<!-- Caching Toggle -->
+<div class="flex items-center justify-between group cursor-pointer">
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">Response Caching</p>
+<p class="text-text-secondary text-xs mt-0.5">Cache identical requests for 24h</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dark peer-focus:outline-none border border-border-dark rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary peer-checked:border-primary"></div>
+</label>
+</div>
+<!-- Thinking Toggle -->
+<div class="flex items-center justify-between group cursor-pointer">
+<div>
+<div class="flex items-center gap-2">
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">Extended Thinking</p>
+<span class="bg-blue-500/20 text-blue-400 text-[9px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wider border border-blue-500/20">Beta</span>
+</div>
+<p class="text-text-secondary text-xs mt-0.5">Allow model to reason before answering</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dark peer-focus:outline-none border border-border-dark rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary peer-checked:border-primary"></div>
+</label>
+</div>
+</div>
+<!-- Cost Estimation Card -->
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-5 relative overflow-hidden">
+<!-- Subtle background glow -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[50px] rounded-full pointer-events-none"></div>
+<div class="flex items-center gap-2 mb-4 relative z-10">
+<div class="p-1.5 bg-primary/20 rounded-md">
+<span class="material-symbols-outlined text-primary text-[18px] block">monitoring</span>
+</div>
+<p class="text-white text-sm font-bold tracking-tight">Cost Estimation</p>
+</div>
+<div class="grid grid-cols-2 gap-4 relative z-10">
+<div class="flex flex-col">
+<span class="text-text-secondary text-xs mb-1">Per Call (Est.)</span>
+<span class="text-white text-lg font-semibold tracking-tight">~$0.003</span>
+</div>
+<div class="flex flex-col border-l border-primary/10 pl-4">
+<span class="text-text-secondary text-xs mb-1">Projected Monthly</span>
+<span class="text-white text-lg font-semibold tracking-tight">~$15.50</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-primary/10 relative z-10">
+<p class="text-primary/70 text-[11px] leading-relaxed">
+                            Projection based on your average traffic of ~5.2k req/month. Actual costs may vary depending on prompt complexity.
+                         </p>
+</div>
+</div>
+<div class="h-4"></div> <!-- Spacer -->
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-6 border-t border-border-dark bg-background-dark flex gap-4 shrink-0 z-20">
+<button class="flex-1 px-4 h-11 rounded-lg border border-border-dark text-white text-sm font-medium hover:bg-surface-dark hover:border-text-secondary/50 transition-all focus:ring-2 focus:ring-primary/50 focus:outline-none">
+                Cancel
+            </button>
+<button class="flex-1 px-4 h-11 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#131221] focus:ring-primary focus:outline-none">
+                Save Configuration
+            </button>
+</div>
+</div>
+</body></html>

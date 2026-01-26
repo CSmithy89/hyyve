@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - MCP Tool Consent</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1e1c30",
+                        "surface-darker": "#171626"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["Fira Code", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Courier New', Courier, monospace; /* Fallback */
+        }
+        /* Custom scrollbar for code editor feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3e3b6b; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden h-screen flex flex-col font-display antialiased selection:bg-primary/30 selection:text-white">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#272546] bg-[#131221] px-6 py-3 shrink-0 z-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 text-primary flex items-center justify-center">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<!-- Breadcrumbs / Context -->
+<div class="hidden md:flex items-center gap-2 text-sm text-slate-400">
+<span>hyyve-core</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span>src</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-white">auth.ts</span>
+</div>
+<label class="hidden lg:flex flex-col min-w-40 !h-9 max-w-96">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-[#1e1c30] border border-[#272546] group focus-within:border-primary/50 transition-colors">
+<div class="text-[#9795c6] flex border-none items-center justify-center pl-3 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-full placeholder:text-[#9795c6] px-3 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search files, symbols, or actions..." value=""/>
+<div class="flex items-center pr-3 text-[#9795c6] text-xs">⌘K</div>
+</div>
+</label>
+</div>
+<div class="flex gap-3">
+<button class="flex size-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#272546] hover:bg-[#322f56] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex size-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#272546] hover:bg-[#322f56] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<button class="flex size-9 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary to-purple-600 text-white border border-white/10">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Sidebar -->
+<aside class="w-16 flex flex-col items-center py-4 gap-6 border-r border-[#272546] bg-[#131221] shrink-0 z-0">
+<div class="flex flex-col gap-4 w-full px-2">
+<button class="group flex items-center justify-center w-full aspect-square rounded-lg bg-[#272546] text-white relative">
+<div class="absolute left-0 top-2 bottom-2 w-1 bg-primary rounded-r-full"></div>
+<span class="material-symbols-outlined text-[24px]">folder</span>
+</button>
+<button class="group flex items-center justify-center w-full aspect-square rounded-lg hover:bg-[#272546]/50 text-[#9795c6] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</button>
+<button class="group flex items-center justify-center w-full aspect-square rounded-lg hover:bg-[#272546]/50 text-[#9795c6] hover:text-white transition-colors relative">
+<span class="material-symbols-outlined text-[24px]">account_tree</span> <!-- Source Control -->
+<span class="absolute top-2 right-2 size-2 rounded-full bg-primary border border-[#131221]"></span>
+</button>
+<button class="group flex items-center justify-center w-full aspect-square rounded-lg hover:bg-[#272546]/50 text-[#9795c6] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">bug_report</span> <!-- Debug -->
+</button>
+<button class="group flex items-center justify-center w-full aspect-square rounded-lg hover:bg-[#272546]/50 text-[#9795c6] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">extension</span> <!-- Extensions -->
+</button>
+</div>
+<div class="mt-auto flex flex-col gap-4 w-full px-2">
+<button class="group flex items-center justify-center w-full aspect-square rounded-lg hover:bg-[#272546]/50 text-[#9795c6] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">smart_toy</span> <!-- AI Agent -->
+</button>
+</div>
+</aside>
+<!-- Secondary Sidebar (Explorer) -->
+<div class="w-64 hidden md:flex flex-col border-r border-[#272546] bg-[#171626] shrink-0">
+<div class="flex items-center justify-between p-3 text-xs font-bold text-[#9795c6] uppercase tracking-wider">
+                Explorer
+                <span class="material-symbols-outlined text-[16px] cursor-pointer">more_horiz</span>
+</div>
+<div class="flex flex-col gap-0.5 px-2">
+<div class="flex items-center gap-2 py-1 px-2 text-sm text-white bg-[#272546] rounded cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-yellow-400 rotate-90">arrow_right</span>
+<span class="font-medium">src</span>
+</div>
+<div class="pl-4 flex flex-col gap-0.5 border-l border-[#272546] ml-3.5">
+<div class="flex items-center gap-2 py-1 px-2 text-sm text-[#9795c6] hover:text-white hover:bg-[#272546]/50 rounded cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-blue-400">folder</span>
+<span>components</span>
+</div>
+<div class="flex items-center gap-2 py-1 px-2 text-sm text-[#9795c6] hover:text-white hover:bg-[#272546]/50 rounded cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-blue-400">folder</span>
+<span>hooks</span>
+</div>
+<div class="flex items-center gap-2 py-1 px-2 text-sm text-[#9795c6] hover:text-white hover:bg-[#272546]/50 rounded cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-blue-400">folder</span>
+<span>utils</span>
+</div>
+<div class="flex items-center gap-2 py-1 px-2 text-sm text-white bg-[#272546]/30 rounded cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-yellow-300">description</span>
+<span>auth.ts</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Editor Area (Blurred Background Context) -->
+<main class="flex-1 flex flex-col min-w-0 bg-[#131221] relative overflow-hidden">
+<!-- Editor Tabs -->
+<div class="flex items-center bg-[#131221] border-b border-[#272546]">
+<div class="px-4 py-2.5 bg-[#1e1c30] border-r border-[#272546] border-t-2 border-t-primary text-sm text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-yellow-300">description</span>
+                    auth.ts
+                    <span class="material-symbols-outlined text-[14px] ml-2 text-slate-500 hover:text-white cursor-pointer">close</span>
+</div>
+<div class="px-4 py-2.5 bg-transparent border-r border-[#272546] text-sm text-[#9795c6] flex items-center gap-2 hover:bg-[#1e1c30]/50 cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-blue-400">description</span>
+                    App.tsx
+                    <span class="material-symbols-outlined text-[14px] ml-2 text-slate-500 hover:text-white">close</span>
+</div>
+</div>
+<!-- Fake Code Content -->
+<div class="p-6 font-mono text-sm leading-relaxed text-slate-400 select-none opacity-60">
+<div class="flex"><span class="w-8 text-slate-600 select-none">1</span><span class="text-purple-400">import</span> <span class="text-yellow-200">{</span> User <span class="text-yellow-200">}</span> <span class="text-purple-400">from</span> <span class="text-green-400">'./types'</span>;</div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">2</span></div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">3</span><span class="text-purple-400">export const</span> <span class="text-blue-400">validateSession</span> = <span class="text-yellow-200">(</span>token: <span class="text-orange-300">string</span><span class="text-yellow-200">)</span>: <span class="text-orange-300">boolean</span> =&gt; <span class="text-yellow-200">{</span></div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">4</span> <span class="text-slate-500">// Check if token is valid</span></div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">5</span> <span class="text-purple-400">if</span> <span class="text-purple-200">(!</span>token<span class="text-purple-200">)</span> <span class="text-purple-400">return</span> <span class="text-red-400">false</span>;</div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">6</span> </div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">7</span> <span class="text-purple-400">try</span> <span class="text-purple-200">{</span></div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">8</span> <span class="text-purple-400">const</span> decoded = jwt.<span class="text-blue-400">verify</span><span class="text-purple-200">(</span>token, SECRET_KEY<span class="text-purple-200">)</span>;</div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">9</span> <span class="text-purple-400">return</span> <span class="text-purple-200">!!</span>decoded;</div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">10</span> <span class="text-purple-200">}</span> <span class="text-purple-400">catch</span> <span class="text-purple-200">(</span>e<span class="text-purple-200">)</span> <span class="text-purple-200">{</span></div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">11</span>    console.<span class="text-blue-400">error</span><span class="text-purple-200">(</span><span class="text-green-400">'Session validation failed'</span><span class="text-purple-200">)</span>;</div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">12</span> <span class="text-purple-400">return</span> <span class="text-red-400">false</span>;</div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">13</span> <span class="text-purple-200">}</span></div>
+<div class="flex"><span class="w-8 text-slate-600 select-none">14</span><span class="text-yellow-200">}</span>;</div>
+</div>
+</main>
+<!-- BACKDROP BLUR OVERLAY -->
+<div class="absolute inset-0 z-40 bg-black/60 backdrop-blur-[2px] flex items-center justify-center p-4 animate-in fade-in duration-200">
+<!-- MODAL CARD -->
+<div class="w-full max-w-[520px] bg-[#1e1c30] rounded-xl shadow-2xl border border-white/10 flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+<!-- Modal Header -->
+<div class="p-6 pb-2">
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 size-12 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
+<span class="material-symbols-outlined text-orange-500 text-[28px]">warning</span>
+</div>
+<div class="flex-1">
+<h2 class="text-white text-lg font-bold leading-tight">Potential Security Risk: File Write</h2>
+<p class="text-slate-400 text-sm font-normal mt-1 leading-relaxed">
+                                The agent <span class="text-white font-semibold">DevBot-01</span> is requesting to write a file to your local system. Please review the changes carefully.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Content Area -->
+<div class="px-6 py-4">
+<!-- Tech Details Card -->
+<div class="bg-[#131221] rounded-lg border border-[#272546] overflow-hidden">
+<!-- Top details row -->
+<div class="grid grid-cols-2 divide-x divide-[#272546] border-b border-[#272546]">
+<div class="p-3">
+<div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">Tool</div>
+<div class="flex items-center gap-2 text-primary text-sm font-mono font-medium">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+                                    fs.write_file
+                                </div>
+</div>
+<div class="p-3">
+<div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">Source Agent</div>
+<div class="flex items-center gap-2 text-white text-sm font-medium">
+<span class="material-symbols-outlined text-[16px] text-purple-400">smart_toy</span>
+                                    DevBot-01 (PID: 884)
+                                </div>
+</div>
+</div>
+<!-- File Path -->
+<div class="p-3 border-b border-[#272546]">
+<div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">Target Path</div>
+<div class="text-slate-300 font-mono text-sm break-all">./src/utils/auth.ts</div>
+</div>
+<!-- Diff / Preview Snippet -->
+<div class="bg-[#0f0e1a] p-3 font-mono text-xs overflow-x-auto">
+<div class="text-slate-500 mb-2 text-[10px] font-sans font-bold uppercase">Content Preview (First 5 lines)</div>
+<div class="flex gap-2">
+<div class="text-slate-600 flex flex-col text-right select-none min-w-[12px]">
+<span>1</span><span>2</span><span>3</span>
+</div>
+<div class="flex flex-col">
+<div class="text-green-400 bg-green-900/20 w-full">+ export const checkPermission = (role) =&gt; {</div>
+<div class="text-green-400 bg-green-900/20 w-full">+   if (role === 'ADMIN') return true;</div>
+<div class="text-green-400 bg-green-900/20 w-full">+   return false;</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Permission Options -->
+<div class="mt-5 space-y-3">
+<label class="flex items-start gap-3 p-3 rounded-lg border border-transparent hover:bg-[#272546]/40 transition-colors cursor-pointer group">
+<input class="mt-0.5 rounded border-[#3e3b6b] bg-[#272546] text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-sm text-white font-medium group-hover:text-primary transition-colors">Trust for this session</span>
+<span class="text-xs text-slate-500">Approves all future 'write_file' requests from this agent until restart.</span>
+</div>
+</label>
+<label class="flex items-center gap-3 px-3 cursor-pointer group">
+<input class="rounded border-[#3e3b6b] bg-[#272546] text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-white transition-colors">Always allow <span class="font-mono text-xs bg-[#272546] px-1 py-0.5 rounded text-slate-200">write_file</span> for this project</span>
+</label>
+</div>
+</div>
+<!-- Actions Footer -->
+<div class="bg-[#171626] p-4 flex items-center justify-between border-t border-[#272546]">
+<button class="px-4 py-2 rounded-lg text-sm font-bold text-slate-300 hover:text-white hover:bg-[#272546] transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500">
+                        Deny Access
+                    </button>
+<div class="flex gap-3">
+<button class="px-5 py-2 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all focus:outline-none focus:ring-2 focus:ring-white/20">
+                            Allow Once
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

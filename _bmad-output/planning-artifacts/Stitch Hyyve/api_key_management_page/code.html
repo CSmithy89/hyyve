@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - API Key Management</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1a1929",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["Roboto Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #383663; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<aside class="hidden lg:flex w-72 flex-col border-r border-[#272546] bg-[#131221]">
+<div class="flex h-16 items-center gap-3 px-6 border-b border-[#272546]">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-white">Hyyve</h1>
+</div>
+<div class="flex flex-1 flex-col justify-between p-4">
+<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<p class="px-3 text-xs font-semibold uppercase tracking-wider text-[#9795c6]">Platform</p>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-[#9795c6] hover:bg-[#272546] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg bg-[#272546] px-3 py-2 text-white" href="#">
+<span class="material-symbols-outlined icon-fill">vpn_key</span>
+<span class="text-sm font-medium">API Keys</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-[#9795c6] hover:bg-[#272546] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-sm font-medium">Usage</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-[#9795c6] hover:bg-[#272546] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">webhook</span>
+<span class="text-sm font-medium">Webhooks</span>
+</a>
+</div>
+<div class="flex flex-col gap-2">
+<p class="px-3 text-xs font-semibold uppercase tracking-wider text-[#9795c6]">Settings</p>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-[#9795c6] hover:bg-[#272546] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Team</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-[#9795c6] hover:bg-[#272546] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">credit_card</span>
+<span class="text-sm font-medium">Billing</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-[#9795c6] hover:bg-[#272546] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">General</span>
+</a>
+</div>
+</div>
+<div class="rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 p-4 border border-primary/20">
+<p class="text-sm font-medium text-white mb-1">Hyyve Pro</p>
+<p class="text-xs text-[#9795c6] mb-3">You are using 45% of your monthly token limit.</p>
+<div class="h-1.5 w-full rounded-full bg-[#272546]">
+<div class="h-1.5 w-[45%] rounded-full bg-primary"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex flex-1 flex-col h-full overflow-hidden relative">
+<!-- Top Header -->
+<header class="flex h-16 w-full items-center justify-between border-b border-[#272546] bg-[#131221]/80 px-8 backdrop-blur-md z-10">
+<div class="flex items-center gap-4 lg:hidden">
+<button class="text-[#9795c6]">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+</div>
+<div class="hidden lg:flex items-center text-[#9795c6] text-sm gap-2">
+<span>Dev Console</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-white">API Keys</span>
+</div>
+<div class="flex items-center gap-6">
+<label class="hidden md:flex relative w-64">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#9795c6] material-symbols-outlined" style="font-size: 20px;">search</span>
+<input class="h-10 w-full rounded-lg border-none bg-[#272546] pl-10 pr-4 text-sm text-white placeholder:text-[#9795c6] focus:ring-2 focus:ring-primary/50" placeholder="Search resources..."/>
+</label>
+<button class="text-[#9795c6] hover:text-white transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-red-500 rounded-full border border-[#131221]"></span>
+</button>
+<div class="h-8 w-8 rounded-full bg-cover bg-center ring-2 ring-[#272546] cursor-pointer" data-alt="User profile avatar of a smiling woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAt2ytXOaxNP4KiJze0ZgdeDTAPPwG_PyNjOR7NPCRivS8r3yhxGPRaCuCs4h-O4VPWB2N-8VD8NSrODQenvot12Dy86iO4IZCKrZgZ-zOgEWNK086FfR8DYeykYc2523n_05hYgjBe59kGCvocIhvkcdf6w-6TBfRCQhT4_9FX3C6pYL3gGn2w2oM2Yxsd0jcZuqRHhhU7qeVV_CgzuK1qEYK-fSOUtQ62ERqj4VbrUTQe0aHd6LYzZjDCbpU1KU-nMtd0qJQSMOA');">
+</div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-4 md:p-8 pb-32">
+<div class="mx-auto max-w-5xl flex flex-col gap-8">
+<!-- Page Heading -->
+<div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+<div>
+<h2 class="text-3xl font-black tracking-tight text-white mb-2">API Keys</h2>
+<p class="text-[#9795c6] max-w-2xl">Manage your secret keys and access permissions securely. Create separate keys for different environments to ensure security best practices.</p>
+</div>
+<button class="flex items-center gap-2 rounded-lg bg-[#272546] px-4 py-2 text-sm font-medium text-white hover:bg-[#383663] transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">description</span>
+                            Read Docs
+                        </button>
+</div>
+<!-- Generate Key Card -->
+<div class="rounded-xl border border-[#272546] bg-[#1a1929] overflow-hidden">
+<div class="border-b border-[#272546] px-6 py-4 bg-[#1a1929]">
+<h3 class="text-lg font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">add_circle</span>
+                                Generate New Key
+                            </h3>
+</div>
+<div class="p-6">
+<div class="grid gap-6 md:grid-cols-2">
+<!-- Name Input -->
+<div class="col-span-2 md:col-span-1">
+<label class="block text-sm font-medium text-white mb-2">Key Name</label>
+<input class="w-full rounded-lg border border-[#383663] bg-[#131221] px-4 py-3 text-white placeholder:text-[#9795c6] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" placeholder="e.g. Production Inference Service" type="text"/>
+<p class="mt-2 text-xs text-[#9795c6]">Use a descriptive name to identify this key later.</p>
+</div>
+<!-- Environment Selector -->
+<div class="col-span-2 md:col-span-1">
+<label class="block text-sm font-medium text-white mb-2">Environment</label>
+<div class="flex gap-4">
+<label class="relative flex cursor-pointer rounded-lg border border-[#383663] bg-[#131221] p-3 shadow-sm hover:border-primary/50 focus:outline-none w-full">
+<input checked="" class="peer sr-only" name="env" type="radio"/>
+<div class="flex w-full items-center gap-3">
+<div class="flex h-5 w-5 items-center justify-center rounded-full border border-[#9795c6] peer-checked:border-primary peer-checked:bg-primary">
+<div class="h-2.5 w-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+</div>
+<div>
+<p class="text-sm font-medium text-white">Test</p>
+<p class="text-xs text-[#9795c6]">Sandbox access</p>
+</div>
+</div>
+<div class="absolute inset-0 rounded-lg ring-2 ring-primary opacity-0 peer-checked:opacity-100 pointer-events-none"></div>
+</label>
+<label class="relative flex cursor-pointer rounded-lg border border-[#383663] bg-[#131221] p-3 shadow-sm hover:border-primary/50 focus:outline-none w-full">
+<input class="peer sr-only" name="env" type="radio"/>
+<div class="flex w-full items-center gap-3">
+<div class="flex h-5 w-5 items-center justify-center rounded-full border border-[#9795c6] peer-checked:border-primary peer-checked:bg-primary">
+<div class="h-2.5 w-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+</div>
+<div>
+<p class="text-sm font-medium text-white">Production</p>
+<p class="text-xs text-[#9795c6]">Live data access</p>
+</div>
+</div>
+<div class="absolute inset-0 rounded-lg ring-2 ring-primary opacity-0 peer-checked:opacity-100 pointer-events-none"></div>
+</label>
+</div>
+</div>
+<!-- Permissions -->
+<div class="col-span-2">
+<label class="block text-sm font-medium text-white mb-3">Permissions Scope</label>
+<div class="rounded-lg border border-[#383663] bg-[#131221] p-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<label class="flex items-center space-x-3 cursor-pointer">
+<input checked="" class="form-checkbox h-5 w-5 rounded border-[#383663] bg-[#1a1929] text-primary focus:ring-primary/50" type="checkbox"/>
+<span class="text-sm text-white">Inference: Read</span>
+</label>
+<label class="flex items-center space-x-3 cursor-pointer">
+<input class="form-checkbox h-5 w-5 rounded border-[#383663] bg-[#1a1929] text-primary focus:ring-primary/50" type="checkbox"/>
+<span class="text-sm text-white">Fine-tunes: Write</span>
+</label>
+<label class="flex items-center space-x-3 cursor-pointer">
+<input class="form-checkbox h-5 w-5 rounded border-[#383663] bg-[#1a1929] text-primary focus:ring-primary/50" type="checkbox"/>
+<span class="text-sm text-white">Models: Write</span>
+</label>
+<label class="flex items-center space-x-3 cursor-pointer">
+<input class="form-checkbox h-5 w-5 rounded border-[#383663] bg-[#1a1929] text-primary focus:ring-primary/50" type="checkbox"/>
+<span class="text-sm text-white">Files: Read</span>
+</label>
+<label class="flex items-center space-x-3 cursor-pointer">
+<input class="form-checkbox h-5 w-5 rounded border-[#383663] bg-[#1a1929] text-primary focus:ring-primary/50" type="checkbox"/>
+<span class="text-sm text-white">Files: Write</span>
+</label>
+<label class="flex items-center space-x-3 cursor-pointer">
+<input class="form-checkbox h-5 w-5 rounded border-[#383663] bg-[#1a1929] text-primary focus:ring-primary/50" type="checkbox"/>
+<span class="text-sm text-white">Administration</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-[#131221]/50 px-6 py-4 flex justify-end border-t border-[#272546]">
+<button class="bg-primary hover:bg-primary/90 text-white font-semibold py-2.5 px-6 rounded-lg shadow-lg shadow-primary/20 transition-all transform active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px;">vpn_key</span>
+                                Create Secret Key
+                            </button>
+</div>
+</div>
+<!-- Active Keys Table -->
+<div class="flex flex-col gap-4">
+<h3 class="text-xl font-bold text-white px-1">Active Keys</h3>
+<div class="overflow-hidden rounded-xl border border-[#272546] bg-[#1a1929]">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-[#272546]/50 text-xs uppercase text-[#9795c6]">
+<tr>
+<th class="px-6 py-4 font-semibold">Name</th>
+<th class="px-6 py-4 font-semibold">Token Prefix</th>
+<th class="px-6 py-4 font-semibold">Environment</th>
+<th class="px-6 py-4 font-semibold">Created</th>
+<th class="px-6 py-4 font-semibold">Last Used</th>
+<th class="px-6 py-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#272546]">
+<!-- Row 1 -->
+<tr class="hover:bg-[#272546]/30 transition-colors">
+<td class="px-6 py-4 font-medium text-white">Production Cluster A</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<code class="rounded bg-[#131221] px-2 py-1 font-mono text-xs text-[#9795c6] border border-[#272546]">hyyve_prod_8f9s...</code>
+<button class="text-[#9795c6] hover:text-white transition-colors" title="Copy Key ID">
+<span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-400 border border-emerald-500/20">
+                                                    Production
+                                                </span>
+</td>
+<td class="px-6 py-4 text-[#9795c6]">Oct 24, 2023</td>
+<td class="px-6 py-4 text-white">2 mins ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-red-400 transition-colors" title="Revoke Key">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#272546]/30 transition-colors">
+<td class="px-6 py-4 font-medium text-white">Test Runner CI/CD</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<code class="rounded bg-[#131221] px-2 py-1 font-mono text-xs text-[#9795c6] border border-[#272546]">hyyve_test_bk22...</code>
+<button class="text-[#9795c6] hover:text-white transition-colors" title="Copy Key ID">
+<span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-slate-500/10 px-2.5 py-0.5 text-xs font-medium text-slate-400 border border-slate-500/20">
+                                                    Test
+                                                </span>
+</td>
+<td class="px-6 py-4 text-[#9795c6]">Oct 20, 2023</td>
+<td class="px-6 py-4 text-white">1 day ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-red-400 transition-colors" title="Revoke Key">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-[#272546]/30 transition-colors">
+<td class="px-6 py-4 font-medium text-white">Dev Local</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<code class="rounded bg-[#131221] px-2 py-1 font-mono text-xs text-[#9795c6] border border-[#272546]">hyyve_test_mn44...</code>
+<button class="text-[#9795c6] hover:text-white transition-colors" title="Copy Key ID">
+<span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-slate-500/10 px-2.5 py-0.5 text-xs font-medium text-slate-400 border border-slate-500/20">
+                                                    Test
+                                                </span>
+</td>
+<td class="px-6 py-4 text-[#9795c6]">Sep 15, 2023</td>
+<td class="px-6 py-4 text-white">Never</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-red-400 transition-colors" title="Revoke Key">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between border-t border-[#272546] bg-[#1a1929] px-6 py-3">
+<p class="text-xs text-[#9795c6]">Showing 3 of 8 keys</p>
+<div class="flex gap-2">
+<button class="rounded-md border border-[#383663] bg-[#131221] px-3 py-1 text-xs text-[#9795c6] hover:bg-[#272546] hover:text-white disabled:opacity-50">Previous</button>
+<button class="rounded-md border border-[#383663] bg-[#131221] px-3 py-1 text-xs text-[#9795c6] hover:bg-[#272546] hover:text-white">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Security Alert -->
+<div class="relative overflow-hidden rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+<div class="flex items-start gap-4">
+<div class="flex-shrink-0 rounded-full bg-amber-500/20 p-2 text-amber-500">
+<span class="material-symbols-outlined icon-fill">warning</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold text-amber-500">Important Security Warning</h4>
+<p class="mt-1 text-sm text-amber-200/80">
+                                    Your secret API keys are only displayed once upon creation. If you lose your secret key, you cannot recover it and will need to generate a new one. Ensure you store your keys securely in a vault or environment variable.
+                                </p>
+</div>
+<button class="text-amber-500/60 hover:text-amber-500">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

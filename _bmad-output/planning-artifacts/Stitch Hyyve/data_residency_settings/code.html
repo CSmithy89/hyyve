@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Data Residency Settings</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#5048e5",
+                "background-light": "#f6f6f8",
+                "background-dark": "#121121",
+                "surface-dark": "#1c1b32",
+                "surface-border": "#272546",
+                "text-secondary": "#9795c6"
+                },
+                fontFamily: {
+                "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden selection:bg-primary/30">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-64 flex-shrink-0 flex flex-col justify-between bg-background-dark border-r border-surface-border p-4 z-20 hidden lg:flex">
+<div class="flex flex-col gap-8">
+<div class="flex gap-3 items-center px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Hyyve platform abstract logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAXzaZIMQ8oTpdD4lP4CMIhO_3EDSGdbKXDqBwFqPgLXZrGeh36SRJo3nn8l-DRGb2HqDLUbEi6IO9RopMnWhoWQSq9PO5tKySltxvndyz62LIPE_657GCDLtN4T30GMKWOtS-4GYJDlf1VZ8jLCdfLE7d7_hPFI8Rd0mHnOvIOBhQR0soElbYeybXjdCoc4YTOnuVqrYytmg5GsK-aGFAujNJAEj_hE-4_WF6feXyWpGNgSZNsOkR_q5wbKlIcuqS0UPfsvnHOctc");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-normal">Hyyve Platform</h1>
+<p class="text-text-secondary text-xs font-normal leading-normal">Admin Console</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-surface-border/50 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white shadow-lg shadow-primary/20" href="#">
+<span class="material-symbols-outlined fill-1">public</span>
+<p class="text-sm font-medium leading-normal">Data Residency</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-surface-border/50 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<p class="text-sm font-medium leading-normal">Audit Logs</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-surface-border/50 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">extension</span>
+<p class="text-sm font-medium leading-normal">Integrations</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-surface-border/50 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Team Settings</p>
+</a>
+</div>
+</div>
+<div class="px-3 py-2">
+<div class="flex items-center gap-3 text-text-secondary hover:text-white cursor-pointer transition-colors">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium">Sign Out</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-full relative overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-surface-border bg-background-dark/95 backdrop-blur-sm px-6 py-3 z-10">
+<div class="flex items-center gap-4 text-white lg:hidden">
+<span class="material-symbols-outlined cursor-pointer">menu</span>
+</div>
+<!-- Desktop Breadcrumbs moved to header area for cleaner look or kept below -->
+<div class="hidden lg:flex items-center gap-4 text-white">
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Settings</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-[20px]">search</span>
+<input class="form-input w-64 rounded-lg bg-surface-dark border-none pl-10 pr-4 py-2 text-sm text-white placeholder:text-text-secondary focus:ring-1 focus:ring-primary focus:bg-[#23223b] transition-all" placeholder="Search settings..."/>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-surface-border flex items-center justify-center text-white relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-red-500 rounded-full border-2 border-background-dark"></span>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 border border-surface-border" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8wF4R851b9CnTAxMj1retpqUvS1UP0p63xT1NmCGniRQsKQZBFLkD0n0lhd6YC_9QnubWWhnPYTeVBfM4f0E2G-Oj-gK1XUxjv2OjCAAjWeBy9KdpKPDKAB_SOLhp5HS96K2u9NpAlNVxBM5py1JzBwaCxwnRvmXLbvI3y9g47sft6ngOMbs_bl2Xa7BMXe_lRo5Ay8x1PI2z5q6_3xiiH-f7A0o1xu30S3LAk9DkuQwwy0tu8AWngq1FJ--6FjdvDy_dhsz8M9o");'></div>
+</div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto bg-background-dark p-6 lg:p-10 pb-24">
+<div class="max-w-[1200px] mx-auto flex flex-col gap-8">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-sm">
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Settings</a>
+<span class="material-symbols-outlined text-text-secondary text-[16px]">chevron_right</span>
+<span class="text-white font-medium">Data Residency</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl lg:text-4xl font-black tracking-tight text-white">Data Residency &amp; Sovereignty</h1>
+<p class="text-text-secondary text-base max-w-2xl">
+                            Manage the geographic location where your data is stored and processed to comply with local regulations (GDPR, CCPA, etc.).
+                        </p>
+</div>
+<!-- Current Region Card (Hero) -->
+<div class="rounded-xl bg-surface-dark border border-surface-border shadow-xl overflow-hidden relative group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[120px] text-primary">public</span>
+</div>
+<div class="flex flex-col md:flex-row items-stretch">
+<div class="p-6 md:p-8 flex-1 flex flex-col justify-center gap-6 z-10">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-wider mb-3 border border-green-500/20">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+                                        Active Region
+                                    </div>
+<h3 class="text-2xl font-bold text-white mb-2">EU-WEST-1 (Ireland)</h3>
+<p class="text-text-secondary">Your data is physically stored and processed within the European Economic Area (EEA). This region is fully GDPR compliant.</p>
+</div>
+<div class="flex flex-wrap gap-4 text-sm text-text-secondary">
+<div class="flex items-center gap-2 bg-background-dark/50 px-3 py-2 rounded-lg border border-surface-border">
+<span class="material-symbols-outlined text-primary text-[18px]">dns</span>
+<span>Latency: 24ms</span>
+</div>
+<div class="flex items-center gap-2 bg-background-dark/50 px-3 py-2 rounded-lg border border-surface-border">
+<span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+<span>DPA Signed: Yes</span>
+</div>
+</div>
+</div>
+<!-- Map Image Placeholder -->
+<div class="w-full md:w-1/3 min-h-[200px] bg-cover bg-center border-l border-surface-border relative" data-alt="Map highlighting Ireland region" data-location="Ireland" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDienefI4x9ClrEPnqMwlqffOq6OCtHnodSjWG0j6mOtEKufKGUD4uKoJ-KtqAtk8DjtM_HDB3aTiEf0GVDapMdoJLs0duXuz9BQklXAko0uwfwuiMoXlWG7WDOBs506mQgeLMlv7jHGz-Hos4gQESgW3pW8qq3NShu2QaBQRcTGq4VqpUzrg9Ss39D8OLIkp09C-5yVEeolD3uUDNl3p8A3XCj8MA30ULFNSKqAI-sRqkqPa7HM-8wuV2z3dokKF2AH6W5H5K7UqA");'>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-dark to-transparent md:bg-gradient-to-l"></div>
+</div>
+</div>
+</div>
+<!-- Region Selection Grid -->
+<div class="flex flex-col gap-4">
+<h3 class="text-xl font-bold text-white">Available Regions</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- US Card -->
+<label class="relative flex flex-col gap-4 p-5 rounded-xl border border-surface-border bg-surface-dark hover:border-primary/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start">
+<div class="bg-primary/10 p-2 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">flag</span>
+</div>
+<input class="w-5 h-5 text-primary border-gray-600 bg-background-dark focus:ring-primary focus:ring-offset-background-dark" name="region" type="radio"/>
+</div>
+<div>
+<h4 class="text-lg font-bold text-white">US-EAST-1</h4>
+<p class="text-sm text-text-secondary">North Virginia, USA</p>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-border/50">
+<p class="text-xs text-text-secondary">Optimized for North American latency. Ideal for feature availability.</p>
+</div>
+</label>
+<!-- AP Card -->
+<label class="relative flex flex-col gap-4 p-5 rounded-xl border border-surface-border bg-surface-dark hover:border-primary/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start">
+<div class="bg-primary/10 p-2 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">sunny</span>
+</div>
+<input class="w-5 h-5 text-primary border-gray-600 bg-background-dark focus:ring-primary focus:ring-offset-background-dark" name="region" type="radio"/>
+</div>
+<div>
+<h4 class="text-lg font-bold text-white">AP-SOUTHEAST-2</h4>
+<p class="text-sm text-text-secondary">Sydney, Australia</p>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-border/50">
+<p class="text-xs text-text-secondary">Serves APAC region. Local data residency compliance for AU/NZ.</p>
+</div>
+</label>
+<!-- CA Card -->
+<label class="relative flex flex-col gap-4 p-5 rounded-xl border border-surface-border bg-surface-dark hover:border-primary/50 transition-all cursor-pointer group">
+<div class="flex justify-between items-start">
+<div class="bg-primary/10 p-2 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">ac_unit</span>
+</div>
+<input class="w-5 h-5 text-primary border-gray-600 bg-background-dark focus:ring-primary focus:ring-offset-background-dark" name="region" type="radio"/>
+</div>
+<div>
+<h4 class="text-lg font-bold text-white">CA-CENTRAL-1</h4>
+<p class="text-sm text-text-secondary">Montreal, Canada</p>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-border/50">
+<p class="text-xs text-text-secondary">PIPEDA compliant storage. Low latency for Canadian users.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- AI Sub-processor Table -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-xl font-bold text-white">AI Sub-processors</h3>
+<p class="text-sm text-text-secondary mt-1">Vendors that process data based on your selected region.</p>
+</div>
+<button class="text-primary text-sm font-medium hover:text-white transition-colors flex items-center gap-1">
+                                Download Full List <span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+<div class="rounded-xl border border-surface-border overflow-hidden bg-surface-dark">
+<table class="w-full text-left text-sm">
+<thead class="bg-surface-border/30 text-xs uppercase text-text-secondary font-semibold">
+<tr>
+<th class="px-6 py-4">Provider</th>
+<th class="px-6 py-4">Service</th>
+<th class="px-6 py-4">Processing Region</th>
+<th class="px-6 py-4">Data Retention</th>
+<th class="px-6 py-4">Compliance</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-border">
+<tr class="hover:bg-surface-border/10 transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-3">
+<div class="size-6 rounded-full bg-white/10 flex items-center justify-center text-xs">AI</div>
+                                            OpenAI
+                                        </td>
+<td class="px-6 py-4 text-text-secondary">LLM (GPT-4)</td>
+<td class="px-6 py-4 text-white">EU-WEST-1</td>
+<td class="px-6 py-4 text-text-secondary">30 Days (Zero Training)</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
+                                                SOC2 Type II
+                                            </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-border/10 transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-3">
+<div class="size-6 rounded-full bg-white/10 flex items-center justify-center text-xs">C</div>
+                                            Cohere
+                                        </td>
+<td class="px-6 py-4 text-text-secondary">Embeddings</td>
+<td class="px-6 py-4 text-white">EU-CENTRAL-1</td>
+<td class="px-6 py-4 text-text-secondary">Ephemeral (In-memory)</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
+                                                GDPR
+                                            </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-border/10 transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-3">
+<div class="size-6 rounded-full bg-white/10 flex items-center justify-center text-xs">A</div>
+                                            Anthropic
+                                        </td>
+<td class="px-6 py-4 text-text-secondary">LLM (Claude 3.5)</td>
+<td class="px-6 py-4 text-white">US-EAST-1 <span class="text-text-secondary text-xs ml-1">(Cross-border)</span></td>
+<td class="px-6 py-4 text-text-secondary">28 Days</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+                                                SCC Required
+                                            </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Policy Accordion -->
+<div class="rounded-xl border border-surface-border bg-surface-dark overflow-hidden">
+<details class="group open:bg-surface-border/20 transition-all">
+<summary class="flex cursor-pointer items-center justify-between p-6 list-none">
+<div class="flex items-center gap-4">
+<div class="p-2 bg-background-dark rounded-lg text-primary">
+<span class="material-symbols-outlined">policy</span>
+</div>
+<div>
+<h3 class="text-base font-bold text-white">Cross-Border Transfer Policy</h3>
+<p class="text-sm text-text-secondary">Legal agreements regarding data movement between regions.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-6 pb-6 pt-2 border-t border-surface-border/50">
+<p class="text-sm text-text-secondary leading-relaxed mb-4">
+                                    By selecting a region outside of your primary billing jurisdiction, you acknowledge and agree to the Cross-Border Data Transfer mechanism outlined in our Data Processing Agreement (DPA). Specifically, transfers to the US rely on the Data Privacy Framework (DPF) or Standard Contractual Clauses (SCCs) where applicable.
+                                </p>
+<div class="flex gap-4">
+<a class="text-sm text-primary hover:underline flex items-center gap-1" href="#">View DPA <span class="material-symbols-outlined text-[14px]">open_in_new</span></a>
+<a class="text-sm text-primary hover:underline flex items-center gap-1" href="#">Download SCC Template <span class="material-symbols-outlined text-[14px]">download</span></a>
+</div>
+</div>
+</details>
+</div>
+</div>
+</main>
+<!-- Sticky Footer Action Bar -->
+<footer class="bg-surface-dark border-t border-surface-border p-4 px-6 lg:px-10 absolute bottom-0 w-full z-30">
+<div class="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3 text-sm text-yellow-400 bg-yellow-400/10 px-4 py-2 rounded-lg border border-yellow-400/20 w-full sm:w-auto">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span>Changing regions may result in temporary service unavailability (up to 2h).</span>
+</div>
+<div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+<button class="px-6 py-2.5 rounded-lg text-sm font-medium text-white hover:bg-surface-border transition-colors">Cancel</button>
+<button class="px-6 py-2.5 rounded-lg text-sm font-medium bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                            Save &amp; Migrate
+                        </button>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

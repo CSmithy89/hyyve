@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>API Keys &amp; Providers</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#1c1b32", // Custom surface color from example
+              "border-dark": "#272546", // Custom border color from example
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Hide scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #383663; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<aside class="hidden lg:flex flex-col w-64 border-r border-gray-200 dark:border-border-dark bg-white dark:bg-background-dark">
+<div class="flex items-center gap-3 px-6 py-5 border-b border-gray-100 dark:border-border-dark">
+<div class="h-8 w-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">token</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-base font-bold leading-none dark:text-white">GenAI Admin</h1>
+<p class="text-xs text-gray-500 dark:text-[#9795c6] mt-1">Enterprise Plan</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
+<div class="px-3 py-2 text-xs font-semibold text-gray-400 dark:text-[#9795c6] uppercase tracking-wider">
+                    Platform
+                </div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:text-white dark:bg-primary" href="#">
+<span class="material-symbols-outlined fill-1">vpn_key</span>
+<span class="text-sm font-medium">API Keys &amp; Providers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="text-sm font-medium">Model Playground</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-sm font-medium">Usage Logs</span>
+</a>
+<div class="mt-6 px-3 py-2 text-xs font-semibold text-gray-400 dark:text-[#9795c6] uppercase tracking-wider">
+                    Settings
+                </div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Team</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-gray-100 dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-9 w-9 border border-gray-200 dark:border-gray-700" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAqCKsbssHex3Jy4iTNjZQ9P9ObOq8nJx9o6p4siV0xShy65guNJMNPRUhYuIWvZvm_5TYK7P8I4m8gW67KgVQ0L9WZmSpeLBaGZ8Fvmt_ak1KlCGl9Dn1xMsWiwYyCdLaJV-3-gJEubKCju8Pa72_MKgUAdzjzj8VDu3dLIu_D6WMwgm9vgJcwnD9H-WyReixBpwuTWKWc0bR8mK5Yl0NH2H_X-OYc_1aDBZQjidGixVJKQxAkkVdjxualwcrUNx3jmRArzTq7AtI");'></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium dark:text-white">Dev Team</p>
+<p class="text-xs text-gray-500 dark:text-[#9795c6]">admin@genai.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- Top Header -->
+<header class="h-16 flex items-center justify-between px-8 border-b border-gray-200 dark:border-border-dark bg-white dark:bg-background-dark shrink-0">
+<div class="flex items-center lg:hidden">
+<button class="text-gray-500 dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<!-- Breadcrumbs / Title -->
+<div class="hidden lg:flex items-center text-sm font-medium text-gray-500 dark:text-[#9795c6]">
+<span>Home</span>
+<span class="material-symbols-outlined mx-2 text-base">chevron_right</span>
+<span class="text-gray-900 dark:text-white">API Keys</span>
+</div>
+<!-- Right Actions -->
+<div class="flex items-center gap-4 ml-auto">
+<!-- Search -->
+<div class="relative hidden sm:block">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 dark:text-[#9795c6]">
+<span class="material-symbols-outlined text-xl">search</span>
+</span>
+<input class="w-64 pl-10 pr-4 py-2 bg-gray-50 dark:bg-surface-dark border border-gray-200 dark:border-border-dark rounded-lg text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-gray-400 dark:placeholder:text-[#9795c6]" placeholder="Search..." type="text"/>
+</div>
+<!-- Icons -->
+<button class="relative p-2 text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-surface-dark rounded-lg transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-background-dark"></span>
+</button>
+<button class="p-2 text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-surface-dark rounded-lg transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Page Content -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark p-6 lg:p-10">
+<div class="max-w-6xl mx-auto flex flex-col gap-8">
+<!-- Page Heading -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">API Keys &amp; Providers</h1>
+<p class="text-gray-500 dark:text-[#9795c6] mt-2">Manage your external model connections, usage limits, and provider configurations (BYOK).</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark rounded-lg text-sm font-medium text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-border-dark transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">description</span>
+                                Docs
+                            </button>
+<button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">add</span>
+                                Add New Key
+                            </button>
+</div>
+</div>
+<!-- Section 1: API Keys Table -->
+<div class="flex flex-col gap-4">
+<h2 class="text-xl font-bold text-gray-900 dark:text-white">Your API Keys</h2>
+<div class="w-full overflow-hidden rounded-xl border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50 dark:bg-[#1c1b32]/50 border-b border-gray-200 dark:border-border-dark">
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9795c6]">Provider</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9795c6]">Key Alias</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9795c6]">Status</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9795c6]">Monthly Spend</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-[#9795c6] text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-border-dark">
+<!-- Row 1 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-border-dark/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-white p-1.5 border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+<!-- Placeholder for OpenAI Logo -->
+<div class="w-full h-full bg-black rounded-full" data-alt="OpenAI Logo Black"></div>
+</div>
+<span class="font-medium text-gray-900 dark:text-white">OpenAI</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-gray-900 dark:text-white">production-gpt4</span>
+<span class="text-xs font-mono text-gray-400">sk-...48s1</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+                                                    Valid
+                                                </div>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm font-medium text-gray-900 dark:text-white">$124.50</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-border-dark/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-[#f4ebd9] p-1.5 border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+<!-- Placeholder for Anthropic Logo -->
+<div class="w-full h-full bg-[#d97757] rounded-md" data-alt="Anthropic Logo Orange"></div>
+</div>
+<span class="font-medium text-gray-900 dark:text-white">Anthropic</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-gray-900 dark:text-white">claude-fallback</span>
+<span class="text-xs font-mono text-gray-400">sk-ant...92x</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
+<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                                                    Valid
+                                                </div>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm font-medium text-gray-900 dark:text-white">$42.10</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-border-dark/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-white p-1.5 border border-gray-200 dark:border-gray-700 flex items-center justify-center overflow-hidden">
+<!-- Placeholder for Cohere Logo -->
+<div class="w-full h-full bg-gradient-to-tr from-purple-600 to-indigo-600 rounded-full" data-alt="Cohere Gradient Logo"></div>
+</div>
+<span class="font-medium text-gray-900 dark:text-white">Cohere</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-gray-900 dark:text-white">embed-v3-test</span>
+<span class="text-xs font-mono text-gray-400">bH...91z</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400 border border-red-200 dark:border-red-500/20">
+<span class="h-2 w-2 rounded-full bg-red-500"></span>
+                                                    Error
+                                                </div>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm font-medium text-gray-900 dark:text-white">$0.00</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">build</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Middle Section: Default Provider Settings -->
+<div class="flex flex-col gap-4">
+<h2 class="text-xl font-bold text-gray-900 dark:text-white">Default Provider Settings</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1: Chat/LLM -->
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark rounded-xl p-5 flex flex-col gap-3">
+<div class="flex items-center gap-3 mb-1">
+<div class="p-2 bg-indigo-50 dark:bg-indigo-500/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">chat_bubble</span>
+</div>
+<h3 class="font-semibold text-gray-900 dark:text-white">Primary Chat / LLM</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-[#9795c6]">Model used for general queries.</p>
+<div class="mt-auto">
+<select class="form-select mt-1 block w-full rounded-lg bg-gray-50 dark:bg-[#131221] border-gray-200 dark:border-border-dark text-gray-900 dark:text-white text-sm focus:border-primary focus:ring-primary">
+<option>OpenAI GPT-4 (production)</option>
+<option>Anthropic Claude 3.5 Sonnet</option>
+<option>Llama 3 70B</option>
+</select>
+</div>
+</div>
+<!-- Card 2: Embeddings -->
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark rounded-xl p-5 flex flex-col gap-3">
+<div class="flex items-center gap-3 mb-1">
+<div class="p-2 bg-purple-50 dark:bg-purple-500/10 rounded-lg text-purple-500">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<h3 class="font-semibold text-gray-900 dark:text-white">Embeddings</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-[#9795c6]">Provider for vector generation.</p>
+<div class="mt-auto">
+<select class="form-select mt-1 block w-full rounded-lg bg-gray-50 dark:bg-[#131221] border-gray-200 dark:border-border-dark text-gray-900 dark:text-white text-sm focus:border-primary focus:ring-primary">
+<option>Cohere Embed v3</option>
+<option>OpenAI text-embedding-3-small</option>
+</select>
+</div>
+</div>
+<!-- Card 3: Speech to Text -->
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark rounded-xl p-5 flex flex-col gap-3">
+<div class="flex items-center gap-3 mb-1">
+<div class="p-2 bg-blue-50 dark:bg-blue-500/10 rounded-lg text-blue-500">
+<span class="material-symbols-outlined">mic</span>
+</div>
+<h3 class="font-semibold text-gray-900 dark:text-white">Transcription (STT)</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-[#9795c6]">Audio processing engine.</p>
+<div class="mt-auto">
+<select class="form-select mt-1 block w-full rounded-lg bg-gray-50 dark:bg-[#131221] border-gray-200 dark:border-border-dark text-gray-900 dark:text-white text-sm focus:border-primary focus:ring-primary">
+<option>OpenAI Whisper-1</option>
+<option>Deepgram Nova-2</option>
+<option>Google Chirp</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Fallback Configuration -->
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark rounded-xl p-6 shadow-sm">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                    Fallback Configuration
+                                    <span class="material-symbols-outlined text-gray-400 text-lg">info</span>
+</h2>
+<p class="text-sm text-gray-500 dark:text-[#9795c6] mt-1">Define the order of providers to attempt if the primary fails.</p>
+</div>
+<!-- Toggle Switch -->
+<label class="inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 dark:peer-focus:ring-primary/20 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-gray-900 dark:text-white">Automatic Failover</span>
+</label>
+</div>
+<!-- Visual Chain -->
+<div class="relative flex flex-col md:flex-row items-center justify-between gap-4 p-6 bg-gray-50 dark:bg-[#131221] rounded-xl border border-dashed border-gray-300 dark:border-gray-600">
+<!-- Step 1 -->
+<div class="flex-1 w-full md:w-auto">
+<div class="flex items-center gap-3 p-4 bg-white dark:bg-surface-dark border border-primary dark:border-primary rounded-lg shadow-md relative">
+<span class="absolute -top-3 left-4 px-2 py-0.5 bg-primary text-white text-[10px] uppercase font-bold tracking-wider rounded">Priority 1</span>
+<div class="h-8 w-8 rounded-full bg-black flex items-center justify-center text-white text-xs font-bold">OA</div>
+<div class="flex flex-col">
+<span class="font-bold text-sm text-gray-900 dark:text-white">OpenAI GPT-4</span>
+<span class="text-xs text-green-500 flex items-center gap-1">
+<span class="h-1.5 w-1.5 rounded-full bg-green-500"></span> Online
+                                         </span>
+</div>
+</div>
+</div>
+<!-- Connector -->
+<div class="flex items-center justify-center text-gray-400 dark:text-gray-500">
+<span class="material-symbols-outlined rotate-90 md:rotate-0">arrow_right_alt</span>
+</div>
+<!-- Step 2 -->
+<div class="flex-1 w-full md:w-auto">
+<div class="flex items-center gap-3 p-4 bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark rounded-lg shadow-sm relative hover:border-gray-300 dark:hover:border-gray-600 transition-colors cursor-grab active:cursor-grabbing">
+<span class="absolute -top-3 left-4 px-2 py-0.5 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[10px] uppercase font-bold tracking-wider rounded">Priority 2</span>
+<div class="h-8 w-8 rounded-full bg-[#d97757] flex items-center justify-center text-white text-xs font-bold">AN</div>
+<div class="flex flex-col">
+<span class="font-bold text-sm text-gray-900 dark:text-white">Anthropic Claude</span>
+<span class="text-xs text-green-500 flex items-center gap-1">
+<span class="h-1.5 w-1.5 rounded-full bg-green-500"></span> Online
+                                        </span>
+</div>
+<span class="material-symbols-outlined ml-auto text-gray-400 cursor-move">drag_indicator</span>
+</div>
+</div>
+<!-- Connector -->
+<div class="flex items-center justify-center text-gray-400 dark:text-gray-500">
+<span class="material-symbols-outlined rotate-90 md:rotate-0">arrow_right_alt</span>
+</div>
+<!-- Step 3 -->
+<div class="flex-1 w-full md:w-auto">
+<div class="flex items-center gap-3 p-4 bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark rounded-lg shadow-sm relative hover:border-gray-300 dark:hover:border-gray-600 transition-colors cursor-grab active:cursor-grabbing opacity-75">
+<span class="absolute -top-3 left-4 px-2 py-0.5 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[10px] uppercase font-bold tracking-wider rounded">Priority 3</span>
+<div class="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">LL</div>
+<div class="flex flex-col">
+<span class="font-bold text-sm text-gray-900 dark:text-white">Hosted Llama 3</span>
+<span class="text-xs text-gray-500">Sleeping</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-gray-400 cursor-move">drag_indicator</span>
+</div>
+</div>
+<!-- Add Step Button -->
+<button class="flex items-center justify-center h-10 w-10 rounded-full border border-dashed border-gray-300 dark:border-gray-600 text-gray-400 hover:text-primary hover:border-primary dark:hover:text-white dark:hover:border-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Spacer for bottom scrolling -->
+<div class="h-10"></div>
+</main>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Integration Health Dashboard - Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-[#272546] flex flex-col bg-white dark:bg-[#131221]">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary rounded-lg p-2 text-white">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<div>
+<h1 class="text-base font-bold leading-none">Hyyve</h1>
+<p class="text-slate-500 dark:text-[#9795c6] text-xs mt-1">AI Dev Platform</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-[#9795c6] hover:bg-slate-100 dark:hover:bg-[#272546] rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary dark:bg-primary/20 dark:text-white rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-fill-1">monitor_heart</span>
+<span class="text-sm font-medium">Health</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-[#9795c6] hover:bg-slate-100 dark:hover:bg-[#272546] rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="text-sm font-medium">Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-[#9795c6] hover:bg-slate-100 dark:hover:bg-[#272546] rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-[#272546]">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-[#272546] flex items-center justify-center overflow-hidden">
+<img alt="User avatar" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvanrwwMAtYxDLvdg91rBpNU_u2X6tIRlHrE2wF2k8f8Q3bG8UeGlg_K5KwF58sQG1BpCE3Lyp7Kj2pbgxU_2Sz7oHLTboJ3yxNeTzEmSYYtInrZoPuZOSvfXn6BXuxSExMNbJkOEADWNOAc9_BR1MMr1U5SkP1Nr0PxrwXnv4-R_sONJ1hYlcdDNUqK6wK-nn8Or7niA-_qUaONa4AyWI-kEw0aLlDnnOenwcUiUCrJrjb_TQFoglQ6K76fwuKiEBmofJ-L16zUg"/>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-sm font-medium truncate">Dev Team Alpha</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Header -->
+<header class="flex items-center justify-between px-8 py-4 border-b border-slate-200 dark:border-[#272546] bg-white/50 dark:bg-[#131221]/50 backdrop-blur-md sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<h2 class="text-xl font-bold">Integration Health</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-xs text-slate-500 dark:text-[#9795c6] bg-slate-100 dark:bg-[#272546] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#383663]">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                        Last updated: 2 mins ago
+                    </div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-[#272546] rounded-lg text-slate-500 dark:text-white transition-colors border border-slate-200 dark:border-[#383663]">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+<button class="bg-primary text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        Subscribe
+                    </button>
+</div>
+</header>
+<div class="p-8 max-w-7xl mx-auto w-full space-y-8">
+<!-- Hero Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="col-span-1 md:col-span-2 flex flex-col gap-2 rounded-xl p-8 border border-slate-200 dark:border-[#383663] bg-white dark:bg-[#131221] shadow-sm relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-slate-500 dark:text-[#9795c6] text-base font-medium">Global Health Score</p>
+<div class="flex items-baseline gap-4 mt-2">
+<p class="text-5xl font-bold leading-tight tracking-tight">98.4%</p>
+<p class="text-emerald-500 text-lg font-semibold flex items-center">
+<span class="material-symbols-outlined">trending_up</span>
+                                    +0.2%
+                                </p>
+</div>
+<p class="text-sm text-slate-400 mt-4 max-w-sm">All systems are currently operational. Minor latency detected in North America region for OpenAI services.</p>
+</div>
+<div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-20 pointer-events-none">
+<svg class="h-full w-full" viewbox="0 0 100 100">
+<path d="M0,80 Q25,70 50,85 T100,75" fill="none" stroke="#5048e5" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<div class="grid grid-rows-2 gap-4">
+<div class="p-5 rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-[#131221] shadow-sm">
+<p class="text-slate-500 dark:text-[#9795c6] text-xs font-medium uppercase tracking-wider">Active Incidents</p>
+<p class="text-2xl font-bold mt-1 text-amber-500">1</p>
+</div>
+<div class="p-5 rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-[#131221] shadow-sm">
+<p class="text-slate-500 dark:text-[#9795c6] text-xs font-medium uppercase tracking-wider">Avg Latency</p>
+<p class="text-2xl font-bold mt-1">214ms</p>
+</div>
+</div>
+</div>
+<!-- Services Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- External Services -->
+<div class="space-y-4">
+<div class="flex items-center justify-between px-2">
+<h3 class="text-lg font-bold">External Services</h3>
+<span class="text-xs text-slate-500 dark:text-[#9795c6]">API Dependencies</span>
+</div>
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-[#131221]">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-[#1c1b32] border-b border-slate-200 dark:border-[#383663]">
+<tr>
+<th class="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-white/70 uppercase">Service</th>
+<th class="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-white/70 uppercase">Status</th>
+<th class="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-white/70 uppercase">Latency</th>
+<th class="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-white/70 uppercase">Uptime</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-[#383663]">
+<tr>
+<td class="px-4 py-4 text-sm font-medium">Anthropic</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> UP
+                                            </span>
+</td>
+<td class="px-4 py-4 text-sm text-slate-500 dark:text-[#9795c6]">142ms</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 rounded-full bg-slate-100 dark:bg-[#383663] overflow-hidden">
+<div class="bg-primary h-full" style="width: 100%"></div>
+</div>
+<span class="text-xs font-medium">100%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-4 py-4 text-sm font-medium">OpenAI</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">
+<span class="material-symbols-outlined text-[14px]">warning</span> WARN
+                                            </span>
+</td>
+<td class="px-4 py-4 text-sm text-slate-500 dark:text-[#9795c6]">850ms</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 rounded-full bg-slate-100 dark:bg-[#383663] overflow-hidden">
+<div class="bg-primary h-full" style="width: 94%"></div>
+</div>
+<span class="text-xs font-medium">94%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-4 py-4 text-sm font-medium">Stripe</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> UP
+                                            </span>
+</td>
+<td class="px-4 py-4 text-sm text-slate-500 dark:text-[#9795c6]">98ms</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 rounded-full bg-slate-100 dark:bg-[#383663] overflow-hidden">
+<div class="bg-primary h-full" style="width: 100%"></div>
+</div>
+<span class="text-xs font-medium">100%</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Internal Services -->
+<div class="space-y-4">
+<div class="flex items-center justify-between px-2">
+<h3 class="text-lg font-bold">Internal Infrastructure</h3>
+<span class="text-xs text-slate-500 dark:text-[#9795c6]">Core Modules</span>
+</div>
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-[#131221]">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-[#1c1b32] border-b border-slate-200 dark:border-[#383663]">
+<tr>
+<th class="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-white/70 uppercase">Service</th>
+<th class="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-white/70 uppercase">Status</th>
+<th class="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-white/70 uppercase">Latency</th>
+<th class="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-white/70 uppercase">Uptime</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-[#383663]">
+<tr>
+<td class="px-4 py-4 text-sm font-medium">Core API</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> UP
+                                            </span>
+</td>
+<td class="px-4 py-4 text-sm text-slate-500 dark:text-[#9795c6]">45ms</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 rounded-full bg-slate-100 dark:bg-[#383663] overflow-hidden">
+<div class="bg-primary h-full" style="width: 99.9%"></div>
+</div>
+<span class="text-xs font-medium">99.9</span>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-4 py-4 text-sm font-medium">Vector DB</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> UP
+                                            </span>
+</td>
+<td class="px-4 py-4 text-sm text-slate-500 dark:text-[#9795c6]">12ms</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 rounded-full bg-slate-100 dark:bg-[#383663] overflow-hidden">
+<div class="bg-primary h-full" style="width: 100%"></div>
+</div>
+<span class="text-xs font-medium">100%</span>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-4 py-4 text-sm font-medium">Task Runner</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-500/10 text-rose-500 border border-rose-500/20">
+<span class="material-symbols-outlined text-[14px]">cancel</span> DOWN
+                                            </span>
+</td>
+<td class="px-4 py-4 text-sm text-slate-500 dark:text-[#9795c6]">--</td>
+<td class="px-4 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 rounded-full bg-slate-100 dark:bg-[#383663] overflow-hidden">
+<div class="bg-primary h-full" style="width: 82%"></div>
+</div>
+<span class="text-xs font-medium">82%</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Recent Incidents -->
+<div class="space-y-4">
+<div class="flex items-center justify-between px-2">
+<h3 class="text-lg font-bold">Recent Incidents</h3>
+<a class="text-xs font-semibold text-primary hover:underline" href="#">View History</a>
+</div>
+<div class="space-y-3">
+<!-- Active Incident -->
+<div class="p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 dark:bg-amber-500/10 flex gap-4">
+<div class="text-amber-500 shrink-0">
+<span class="material-symbols-outlined">report_problem</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-bold text-amber-500">OpenAI API Latency Spike</h4>
+<span class="text-xs font-medium bg-amber-500 text-white px-2 py-0.5 rounded">INVESTIGATING</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300">We are observing increased response times from the OpenAI gpt-4o endpoints. Impacting chat processing speeds globally.</p>
+<div class="flex items-center gap-4 mt-2 text-[11px] text-slate-400 font-medium">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> Oct 24, 14:20 UTC</span>
+<span class="flex items-center gap-1 text-rose-400"><span class="material-symbols-outlined text-[14px]">error</span> Impact: High</span>
+</div>
+</div>
+</div>
+<!-- Resolved Incident -->
+<div class="p-4 rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-[#131221] flex gap-4 opacity-75">
+<div class="text-slate-400 shrink-0">
+<span class="material-symbols-outlined">task_alt</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-bold">Stripe Webhook Delivery Delays</h4>
+<span class="text-xs font-medium bg-slate-200 dark:bg-[#272546] text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">RESOLVED</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Inbound payment webhooks were delayed by up to 5 minutes due to database lock contention.</p>
+<div class="flex items-center gap-4 mt-2 text-[11px] text-slate-400 font-medium">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> Oct 23, 09:12 UTC</span>
+<span class="flex items-center gap-1 text-amber-400"><span class="material-symbols-outlined text-[14px]">info</span> Impact: Low</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="p-8 mt-auto border-t border-slate-200 dark:border-[#272546] bg-slate-50 dark:bg-[#0f111a]">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto w-full">
+<p class="text-xs text-slate-500 dark:text-[#9795c6]">© 2024 Hyyve AI. Powered by Real-time Health Monitoring.</p>
+<div class="flex gap-6">
+<a class="text-xs text-slate-500 dark:text-[#9795c6] hover:text-primary" href="#">Status Page API</a>
+<a class="text-xs text-slate-500 dark:text-[#9795c6] hover:text-primary" href="#">Documentation</a>
+<a class="text-xs text-slate-500 dark:text-[#9795c6] hover:text-primary" href="#">Support</a>
+</div>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Batch Processing Queue</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#1e1c36", // Slightly lighter than background-dark for cards
+              "border-dark": "#2d2b55",
+              "text-secondary": "#9795c6",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for table */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #383663; 
+            border-radius: 4px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navbar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#272546] bg-[#131221]/95 backdrop-blur-sm px-6 py-3 lg:px-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-white">
+<div class="flex items-center justify-center text-primary">
+<span class="material-symbols-outlined !text-[32px]">hive</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full group">
+<div class="text-[#9795c6] flex border-none bg-[#272546] items-center justify-center pl-4 rounded-l-lg border-r-0 group-focus-within:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#272546] focus:border-none h-full placeholder:text-[#9795c6] px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search jobs, models..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end items-center gap-4 lg:gap-8">
+<div class="hidden lg:flex items-center gap-6">
+<a class="text-[#9795c6] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Jobs</a>
+<a class="text-[#9795c6] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Models</a>
+<a class="text-[#9795c6] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</div>
+<div class="h-6 w-px bg-[#272546] hidden lg:block"></div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="mr-2 material-symbols-outlined text-[18px]">add</span>
+<span class="truncate">New Batch</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-[#272546]" data-alt="User profile avatar showing a stylized portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBtRjgbpriQy2rz9KZOLS8B88hEYzWZLwI3-_wSdk4Oycg91sS6odk3UXbuedEnu3pFgwglBjJ92DYNsSvG_cKqHv_zLBmPUnvDZGBt4QrEr4ROuv6lNJ91OUnJfrFdTydKijqsLEsPW6HUGi3D_5Phlr4gOPvCF0NTpoEuTVdp_iWPKQa7FtOOkZctFfJbIIEltdgUR6ypuoFEIuKwldvkPfSId_WZuapslPxpAWvFTfHBTqCvPLFUBc3OFOlobhOCAp3xDlpq2gY");'></div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center py-6 px-4 md:px-8 lg:px-12 w-full">
+<div class="w-full max-w-[1200px] flex flex-col gap-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap items-center gap-2">
+<a class="text-[#9795c6] hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Home</a>
+<span class="material-symbols-outlined text-[#9795c6] text-[16px]">chevron_right</span>
+<a class="text-[#9795c6] hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Jobs</a>
+<span class="material-symbols-outlined text-[#9795c6] text-[16px]">chevron_right</span>
+<span class="text-white text-sm font-medium leading-normal bg-[#272546] px-2 py-0.5 rounded text-xs">Queue</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Batch Processing Queue</h1>
+<p class="text-[#9795c6] text-base font-normal leading-normal">Real-time monitoring of your AI training and inference workloads.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 px-4 border border-[#383663] bg-transparent text-[#9795c6] hover:text-white hover:bg-[#272546] transition-colors text-sm font-bold">
+<span class="material-symbols-outlined mr-2 text-[18px]">history</span>
+                        History
+                    </button>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-[#272546] hover:bg-[#322f59] text-white transition-colors text-sm font-bold shadow-lg shadow-black/20">
+<span class="material-symbols-outlined mr-2 text-[18px]">pause_circle</span>
+                        Pause Queue
+                    </button>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-[#383663] bg-surface-dark/50 backdrop-blur-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[64px] text-white">layers</span>
+</div>
+<p class="text-[#9795c6] text-sm font-medium uppercase tracking-wider">Queued Jobs</p>
+<div class="flex items-end gap-2">
+<p class="text-white text-3xl font-bold leading-none">24</p>
+<span class="text-[#0bda68] text-sm font-medium mb-1 flex items-center"><span class="material-symbols-outlined text-[16px]">trending_up</span> +2%</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-[#383663] bg-surface-dark/50 backdrop-blur-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[64px] text-primary">memory</span>
+</div>
+<p class="text-[#9795c6] text-sm font-medium uppercase tracking-wider">Running Jobs</p>
+<div class="flex items-end gap-2">
+<p class="text-white text-3xl font-bold leading-none">8</p>
+<span class="text-primary text-sm font-medium mb-1 px-1.5 py-0.5 bg-primary/20 rounded">+15% GPU Usage</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-[#383663] bg-surface-dark/50 backdrop-blur-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[64px] text-[#0bda68]">check_circle</span>
+</div>
+<p class="text-[#9795c6] text-sm font-medium uppercase tracking-wider">Completed Jobs</p>
+<div class="flex items-end gap-2">
+<p class="text-white text-3xl font-bold leading-none">142</p>
+<span class="text-[#9795c6] text-sm font-medium mb-1">98% Success Rate</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-[#383663] bg-surface-dark/50 backdrop-blur-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[64px] text-white">attach_money</span>
+</div>
+<p class="text-[#9795c6] text-sm font-medium uppercase tracking-wider">Est. Cost</p>
+<div class="flex items-end gap-2">
+<p class="text-white text-3xl font-bold leading-none">$432.50</p>
+<span class="text-[#0bda68] text-sm font-medium mb-1">+12%</span>
+</div>
+</div>
+</div>
+<!-- Active Jobs Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h2 class="text-white text-xl font-bold leading-tight">Active Jobs</h2>
+<a class="text-primary text-sm font-medium hover:underline" href="#">View all running</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Active Job Card 1 -->
+<div class="flex flex-col rounded-xl border border-[#383663] bg-[#1e1c36] p-5 shadow-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-white font-bold text-lg">Model-Training-v4</h3>
+<p class="text-[#9795c6] text-xs mt-1">ID: #jb-8923-x • Image Classification</p>
+</div>
+<span class="inline-flex items-center gap-1 rounded bg-[#272546] px-2 py-1 text-xs font-medium text-white border border-[#383663]">
+<span class="material-symbols-outlined text-[14px]">cloud</span> AWS A100
+                            </span>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex justify-between text-sm">
+<span class="text-white font-medium">Processing...</span>
+<span class="text-primary font-bold">45%</span>
+</div>
+<div class="h-2 w-full bg-[#272546] rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 45%">
+<div class="absolute inset-0 bg-white/20 animate-[pulse_2s_ease-in-out_infinite]"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-[#272546]">
+<div class="flex items-center gap-2 text-xs text-[#9795c6]">
+<span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+<span>2h 15m remaining</span>
+</div>
+<div class="flex gap-2">
+<button class="p-1.5 text-[#9795c6] hover:text-white hover:bg-[#272546] rounded transition-colors" title="View Logs">
+<span class="material-symbols-outlined text-[20px]">description</span>
+</button>
+<button class="p-1.5 text-[#9795c6] hover:text-red-400 hover:bg-[#272546] rounded transition-colors" title="Cancel Job">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Active Job Card 2 -->
+<div class="flex flex-col rounded-xl border border-[#383663] bg-[#1e1c36] p-5 shadow-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-white font-bold text-lg">NLP-FineTune-Bert</h3>
+<p class="text-[#9795c6] text-xs mt-1">ID: #jb-8941-a • Text Analysis</p>
+</div>
+<span class="inline-flex items-center gap-1 rounded bg-[#272546] px-2 py-1 text-xs font-medium text-white border border-[#383663]">
+<span class="material-symbols-outlined text-[14px]">neurology</span> OpenAI
+                            </span>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex justify-between text-sm">
+<span class="text-white font-medium">Validating</span>
+<span class="text-primary font-bold">78%</span>
+</div>
+<div class="h-2 w-full bg-[#272546] rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 78%">
+<div class="absolute inset-0 bg-white/20 animate-[pulse_2s_ease-in-out_infinite]"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-[#272546]">
+<div class="flex items-center gap-2 text-xs text-[#9795c6]">
+<span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+<span>12m remaining</span>
+</div>
+<div class="flex gap-2">
+<button class="p-1.5 text-[#9795c6] hover:text-white hover:bg-[#272546] rounded transition-colors" title="View Logs">
+<span class="material-symbols-outlined text-[20px]">description</span>
+</button>
+<button class="p-1.5 text-[#9795c6] hover:text-red-400 hover:bg-[#272546] rounded transition-colors" title="Cancel Job">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Active Job Card 3 -->
+<div class="flex flex-col rounded-xl border border-[#383663] bg-[#1e1c36] p-5 shadow-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-white font-bold text-lg">Data-Preprocessing-Q3</h3>
+<p class="text-[#9795c6] text-xs mt-1">ID: #jb-9001-z • ETL Pipeline</p>
+</div>
+<span class="inline-flex items-center gap-1 rounded bg-[#272546] px-2 py-1 text-xs font-medium text-white border border-[#383663]">
+<span class="material-symbols-outlined text-[14px]">dns</span> Hyyve Cloud
+                            </span>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex justify-between text-sm">
+<span class="text-white font-medium">Initializing</span>
+<span class="text-primary font-bold">12%</span>
+</div>
+<div class="h-2 w-full bg-[#272546] rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 12%">
+<div class="absolute inset-0 bg-white/20 animate-[pulse_2s_ease-in-out_infinite]"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-[#272546]">
+<div class="flex items-center gap-2 text-xs text-[#9795c6]">
+<span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+<span>Calculating...</span>
+</div>
+<div class="flex gap-2">
+<button class="p-1.5 text-[#9795c6] hover:text-white hover:bg-[#272546] rounded transition-colors" title="View Logs">
+<span class="material-symbols-outlined text-[20px]">description</span>
+</button>
+<button class="p-1.5 text-[#9795c6] hover:text-red-400 hover:bg-[#272546] rounded transition-colors" title="Cancel Job">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Budget Alert Banner -->
+<div class="w-full bg-[#3f2e18]/80 border border-l-4 border-[#eab308] border-y-0 border-r-0 rounded-r-lg p-4 flex items-start gap-3 relative">
+<span class="material-symbols-outlined text-[#eab308] mt-0.5">warning</span>
+<div class="flex-1">
+<h4 class="text-[#eab308] font-bold text-sm">Daily budget limit ($500) reached 85%</h4>
+<p class="text-[#eab308]/80 text-sm mt-1">Approvals required for new High-Priority batches. Please review the <a class="underline hover:text-white" href="#">cost settings</a>.</p>
+</div>
+<button class="text-[#eab308]/60 hover:text-[#eab308]">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Queue Table Section -->
+<div class="flex flex-col gap-4 mt-2">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<h2 class="text-white text-xl font-bold leading-tight">Queue Backlog</h2>
+<div class="flex gap-2">
+<div class="relative">
+<select class="appearance-none bg-[#272546] text-white text-sm rounded-lg pl-3 pr-8 py-2 border border-[#383663] focus:outline-none focus:border-primary">
+<option>Filter by Priority</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 text-white pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<div class="w-full overflow-x-auto rounded-xl border border-[#383663] bg-[#1e1c36] custom-scrollbar">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="bg-[#272546] text-[#9795c6]">
+<tr>
+<th class="px-6 py-4 font-medium w-32">Priority</th>
+<th class="px-6 py-4 font-medium">Job Name</th>
+<th class="px-6 py-4 font-medium">Submitted By</th>
+<th class="px-6 py-4 font-medium">Est. Duration</th>
+<th class="px-6 py-4 font-medium">Submitted</th>
+<th class="px-6 py-4 font-medium w-20 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#272546]">
+<!-- Row 1 -->
+<tr class="hover:bg-[#272546]/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[12px] text-red-500" style="font-variation-settings: 'FILL' 1;">fiber_manual_record</span>
+<span class="text-red-400 font-medium text-xs bg-red-400/10 px-2 py-0.5 rounded">High</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-white font-medium">Image-Gen-Batch-002</span>
+<span class="text-[#9795c6] text-xs">Stable Diffusion XL</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Avatar of user Sarah" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAyEmHqXm7lnBYO-2h8-59FnwuLyMn4m_Td1X4o8N6iLfeGQphF3vQPx1zOeXfexouMv3TVh0qFxjIi4rb81f4GF-Xu1juQq1yiE6kk5Bd2qotdlwUaUJYaU5D7lBjeWhELfxHEAACXfU6gXBaVs0Zz50cst0hx6tENBGRsQHqpZpghMApz5YCvGeJpm-ipvwDbovWqNZMinpKwAozYdxC2921AkpleJdVdRWSJa7purCUuUKhZbxgvR1sTnKf3LJO9uoWt_W4ApYM");'></div>
+<span class="text-white">Sarah Jenkins</span>
+</div>
+</td>
+<td class="px-6 py-4 text-[#9795c6]">4h 30m</td>
+<td class="px-6 py-4 text-[#9795c6]">2m ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-white rounded p-1 hover:bg-[#383663]">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#272546]/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[12px] text-[#eab308]" style="font-variation-settings: 'FILL' 1;">fiber_manual_record</span>
+<span class="text-[#eab308] font-medium text-xs bg-[#eab308]/10 px-2 py-0.5 rounded">Med</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-white font-medium">Recommendation-Engine-v2</span>
+<span class="text-[#9795c6] text-xs">XGBoost Update</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Avatar of user Michael" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB_xQK7MR3d8j_-alIcFaHJ4kHUQ4UE_vqWpyHya8ruzNd_S3Irv-bjksFOhcypSyEp5tBScx0DhzPAeuipAFNKPUmfJFZ13AnZmaPGZtrPF3w0ZdYLnBIHnv6GekNTaLoA_Clus1ceWTLaZovU5weHnbO4tFx-HSUW8qKsIHMZQdrE0xj9yUYKp0ONNNbcE0SAazMAIE_fEAHWgMgDuNSzuXtgLs4aXEUD6fc7-4ha-e8Vudy31H66JKcQHygFi_2Hn2Ni8IcVZRo");'></div>
+<span class="text-white">Michael Chen</span>
+</div>
+</td>
+<td class="px-6 py-4 text-[#9795c6]">1h 15m</td>
+<td class="px-6 py-4 text-[#9795c6]">15m ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-white rounded p-1 hover:bg-[#383663]">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-[#272546]/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[12px] text-blue-400" style="font-variation-settings: 'FILL' 1;">fiber_manual_record</span>
+<span class="text-blue-400 font-medium text-xs bg-blue-400/10 px-2 py-0.5 rounded">Low</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-white font-medium">Log-Analysis-Weekly</span>
+<span class="text-[#9795c6] text-xs">Routine Maintenance</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 flex items-center justify-center rounded-full bg-[#383663] text-xs text-white">SYS</div>
+<span class="text-white">System Auto</span>
+</div>
+</td>
+<td class="px-6 py-4 text-[#9795c6]">45m</td>
+<td class="px-6 py-4 text-[#9795c6]">1h ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-white rounded p-1 hover:bg-[#383663]">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-[#272546]/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[12px] text-blue-400" style="font-variation-settings: 'FILL' 1;">fiber_manual_record</span>
+<span class="text-blue-400 font-medium text-xs bg-blue-400/10 px-2 py-0.5 rounded">Low</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-white font-medium">Thumbnail-Resize-Job</span>
+<span class="text-[#9795c6] text-xs">Image Processing</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Avatar of user Alex" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDLdnm8zBHBkEXDmmJhd8GUh2Qgl4cFtwWm7OWkEJ4mnSI3aMIaVukJT-O2izq3A9jL0-XD_hNeOU0VO6rNxW7E2ITeOXJpmkolmJ-8_gi0tysVvCGIijJOLzS5fjhRoD6FOalJQY1Rq044hjXfNsVb8lAv2V69E5wukahZurqK53aJIHr4NqOZg-VgtSojGuurHArOQfFTLyxLXv75Orc1CtjCXbhhySs3LdrCpZthvpeDrvCAi_b8s29ithRUYse_pTnrKWKK2qo");'></div>
+<span class="text-white">Alex Rivera</span>
+</div>
+</td>
+<td class="px-6 py-4 text-[#9795c6]">15m</td>
+<td class="px-6 py-4 text-[#9795c6]">1h 12m ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-white rounded p-1 hover:bg-[#383663]">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</body></html>

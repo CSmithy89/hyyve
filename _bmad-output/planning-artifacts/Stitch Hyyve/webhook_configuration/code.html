@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Webhook Configuration</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-hover": "#4338ca",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221",
+                        "surface-dark": "#1c1b2e",
+                        "border-dark": "#2d2b42",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for dark theme consistency */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d2b42;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #383663;
+        }
+        .code-editor-line {
+            counter-increment: line;
+        }
+        .code-editor-line::before {
+            content: counter(line);
+            display: inline-block;
+            width: 2rem;
+            text-align: right;
+            margin-right: 1rem;
+            color: #4b5563;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden">
+<div class="relative flex h-full min-h-screen w-full flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#272546] bg-[#1c1b2e] px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white cursor-pointer">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-size: 20px;">webhook</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">DevConnect</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-[#272546] overflow-hidden focus-within:ring-1 focus-within:ring-primary">
+<div class="text-[#9795c6] flex border-none items-center justify-center pl-4">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-white focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-[#9795c6] px-3 text-sm font-normal leading-normal" placeholder="Search resources..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-[#9795c6] hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Integrations</a>
+<a class="text-[#9795c6] hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Logs</a>
+<a class="text-[#9795c6] hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Settings</a>
+<a class="text-[#9795c6] hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Docs</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-[#9795c6] hover:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 cursor-pointer ring-2 ring-primary/20" data-alt="User Avatar Profile" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuATJ3dpSTwD2SWuYLv4lxl5hbFoi4sU3OWu2He1hFE8YAM9aKHEkBhS7wLYG7uSIIUWzdgzmKT642tKBq1IJwAmV-cy6wOb8i_oARSBxtMwY76fjCdMqMzKta3aeRcTK_WfD0S2JqPglicMUls1sqYtEgY-RCzrgGC9X2FlzRYNqE_vi1ri5jaPuuTm9XbVx8x9tR0jDx6b3rtmNU3Y1ntR8q_PPVWOWfAfc8QmGU4jRxYm_VwE666rcT8-RSYn_MCXyN081NwtmYs");'></div>
+</div>
+</div>
+</header>
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 md:px-10 xl:px-40 flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1 gap-8">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-4 border-b border-border-dark pb-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-3xl font-bold leading-tight tracking-tight">Webhook Management</h1>
+<p class="text-text-secondary text-base font-normal">Manage outgoing and incoming integrations for your project.</p>
+</div>
+<div class="flex gap-3">
+<a class="flex items-center gap-2 px-4 h-10 rounded-lg border border-border-dark bg-[#1c1b2e] text-white text-sm font-medium hover:bg-[#272546] transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">description</span>
+                                Docs
+                            </a>
+<button class="flex items-center gap-2 px-4 h-10 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+                                Create Webhook
+                            </button>
+</div>
+</div>
+<!-- Outgoing Webhooks Section -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-white text-lg font-bold">Outgoing Webhooks</h3>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono text-green-400 bg-green-400/10 px-2 py-1 rounded">System Status: Operational</span>
+</div>
+</div>
+<div class="rounded-xl border border-border-dark bg-[#1c1b2e] overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#232138] border-b border-border-dark text-xs uppercase text-text-secondary font-semibold">
+<th class="px-6 py-4">Name</th>
+<th class="px-6 py-4">Destination URL</th>
+<th class="px-6 py-4">Events</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4">Last Delivery</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="text-sm divide-y divide-border-dark">
+<tr class="group hover:bg-[#272546] transition-colors cursor-pointer bg-[#272546]/30 border-l-4 border-l-primary">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-[#047c3d] flex items-center justify-center text-white font-bold text-xs">PD</div>
+<span class="text-white font-medium">PagerDuty</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-text-secondary font-mono text-xs">
+<span class="truncate max-w-[200px]">https://events.pagerduty.com/v2/enqueue</span>
+<button class="hover:text-white"><span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span></button>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-1 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-primary/20 text-primary text-xs font-medium border border-primary/20">incident.trigger</span>
+<span class="px-2 py-0.5 rounded-full bg-[#2d2b42] text-text-secondary text-xs font-medium border border-[#383663]">+2</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-[#383663] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-emerald-500"></div>
+<span class="text-emerald-500 font-medium">200 OK</span>
+<span class="text-text-secondary text-xs ml-1">2m ago</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#383663] rounded text-text-secondary hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#383663] rounded text-text-secondary hover:text-white transition-colors" title="Test">
+<span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-[#272546] transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-[#4A154B] flex items-center justify-center text-white">
+<img alt="Slack" class="w-5 h-5 filter brightness-0 invert" data-alt="Slack Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC1X7TqDCmi20sJQ_k0pWpPNYNRaUZgaoYyP0jy0K_pSH8fx8A1dNeLPC_zmsR9jb7IEB3TtmXLjMKlpOmlKGzDqKcumcLMEU6XWJG4L7ggwqj6u0xOsPqzE_H9r5LJcMg95CKNSIRmPlQrVFEvny-8cB7eDj5djRupk2beNG2jOxJpXCKRkCJeoZrgFGYYjR1Jm3T4k5Mojv-e3GVgkMaGHeLPDhRzjMTw1_-YLkp6bk3Re6iKF-6bujV73sAwLekacQ1f_115Kc"/>
+</div>
+<span class="text-white font-medium">Slack Alerts</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-text-secondary font-mono text-xs">
+<span class="truncate max-w-[200px]">https://hooks.slack.com/services/T00...</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-1 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-[#2d2b42] text-text-secondary text-xs font-medium border border-[#383663]">channel_post</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-[#383663] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-emerald-500"></div>
+<span class="text-emerald-500 font-medium">200 OK</span>
+<span class="text-text-secondary text-xs ml-1">1h ago</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#383663] rounded text-text-secondary hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#383663] rounded text-text-secondary hover:text-white transition-colors" title="Test">
+<span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-[#272546] transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-[#2d2b42] border border-[#383663] flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-text-secondary" style="font-size: 18px;">code</span>
+</div>
+<span class="text-white font-medium">Custom Logger</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-text-secondary font-mono text-xs">
+<span class="truncate max-w-[200px]">https://api.myapp.com/webhooks</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-1 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-[#2d2b42] text-text-secondary text-xs font-medium border border-[#383663]">all_events</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-[#383663] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-red-500"></div>
+<span class="text-red-500 font-medium">Failed</span>
+<span class="text-text-secondary text-xs ml-1">5h ago</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#383663] rounded text-text-secondary hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#383663] rounded text-text-secondary hover:text-white transition-colors" title="Test">
+<span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Configuration Panel (Split View) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8 mt-4">
+<!-- Main Configuration Form -->
+<div class="xl:col-span-8 flex flex-col gap-6">
+<div class="rounded-xl border border-border-dark bg-[#1c1b2e] p-6 shadow-xl">
+<div class="flex items-center justify-between mb-8 pb-4 border-b border-border-dark">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-lg bg-[#047c3d] flex items-center justify-center text-white font-bold text-base shadow-lg shadow-green-900/20">PD</div>
+<div>
+<h3 class="text-white text-lg font-bold">Edit Configuration</h3>
+<p class="text-text-secondary text-sm">PagerDuty Integration</p>
+</div>
+</div>
+<button class="flex items-center gap-2 text-primary hover:text-primary-hover text-sm font-medium">
+<span class="material-symbols-outlined" style="font-size: 18px;">history</span>
+                                        View Logs
+                                    </button>
+</div>
+<form class="flex flex-col gap-6">
+<!-- Endpoint -->
+<div class="space-y-2">
+<label class="text-white text-sm font-medium">Payload URL</label>
+<div class="flex rounded-lg bg-[#131221] border border-border-dark overflow-hidden focus-within:border-primary transition-colors">
+<select class="bg-[#272546] text-white text-sm border-none px-4 py-2.5 focus:ring-0 font-medium">
+<option>POST</option>
+<option>GET</option>
+<option>PUT</option>
+</select>
+<div class="h-auto w-px bg-border-dark"></div>
+<input class="w-full bg-transparent border-none text-white text-sm px-4 py-2.5 focus:ring-0 font-mono placeholder:text-gray-600" type="text" value="https://events.pagerduty.com/v2/enqueue"/>
+</div>
+</div>
+<!-- Auth -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-white text-sm font-medium">Authentication Type</label>
+<select class="w-full rounded-lg bg-[#131221] border border-border-dark text-white text-sm px-4 py-2.5 focus:ring-1 focus:ring-primary focus:border-primary">
+<option>Bearer Token</option>
+<option>Basic Auth</option>
+<option>API Key</option>
+<option>No Auth</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-white text-sm font-medium">Secret Token</label>
+<div class="relative">
+<input class="w-full rounded-lg bg-[#131221] border border-border-dark text-white text-sm px-4 py-2.5 focus:ring-1 focus:ring-primary focus:border-primary font-mono pr-10" type="password" value="sk_live_51Mz..."/>
+<button class="absolute right-3 top-2.5 text-text-secondary hover:text-white" type="button">
+<span class="material-symbols-outlined" style="font-size: 18px;">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Events -->
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<label class="text-white text-sm font-medium">Trigger Events</label>
+<button class="text-primary text-xs font-medium hover:underline" type="button">Select All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-4 bg-[#131221] rounded-lg border border-border-dark">
+<label class="flex items-center gap-3 p-2 rounded hover:bg-[#1c1b2e] cursor-pointer group">
+<input checked="" class="rounded border-border-dark bg-[#2d2b42] text-primary focus:ring-offset-0 focus:ring-0" type="checkbox"/>
+<span class="text-sm text-gray-300 group-hover:text-white">incident.trigger</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded hover:bg-[#1c1b2e] cursor-pointer group">
+<input checked="" class="rounded border-border-dark bg-[#2d2b42] text-primary focus:ring-offset-0 focus:ring-0" type="checkbox"/>
+<span class="text-sm text-gray-300 group-hover:text-white">incident.acknowledge</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded hover:bg-[#1c1b2e] cursor-pointer group">
+<input class="rounded border-border-dark bg-[#2d2b42] text-primary focus:ring-offset-0 focus:ring-0" type="checkbox"/>
+<span class="text-sm text-gray-300 group-hover:text-white">incident.resolve</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded hover:bg-[#1c1b2e] cursor-pointer group">
+<input checked="" class="rounded border-border-dark bg-[#2d2b42] text-primary focus:ring-offset-0 focus:ring-0" type="checkbox"/>
+<span class="text-sm text-gray-300 group-hover:text-white">service.updated</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded hover:bg-[#1c1b2e] cursor-pointer group">
+<input class="rounded border-border-dark bg-[#2d2b42] text-primary focus:ring-offset-0 focus:ring-0" type="checkbox"/>
+<span class="text-sm text-gray-300 group-hover:text-white">user.onboarded</span>
+</label>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center justify-end gap-4 mt-4 pt-4 border-t border-border-dark">
+<button class="px-4 py-2 text-sm font-medium text-red-400 hover:text-red-300 transition-colors" type="button">Delete Webhook</button>
+<div class="flex gap-3">
+<button class="px-5 py-2 rounded-lg border border-border-dark bg-[#272546] text-white text-sm font-medium hover:bg-[#383663] transition-colors" type="button">Cancel</button>
+<button class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all" type="submit">Save Changes</button>
+</div>
+</div>
+</form>
+</div>
+<!-- Incoming Webhooks (Condensed) -->
+<div class="rounded-xl border border-border-dark bg-[#1c1b2e] p-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-white text-lg font-bold">Incoming Webhooks</h3>
+<button class="text-primary text-sm font-medium hover:underline">Add New</button>
+</div>
+<div class="p-8 border border-dashed border-border-dark rounded-lg bg-[#131221]/50 flex flex-col items-center justify-center text-center gap-3">
+<div class="size-12 rounded-full bg-[#272546] flex items-center justify-center mb-1">
+<span class="material-symbols-outlined text-text-secondary" style="font-size: 24px;">input</span>
+</div>
+<p class="text-white font-medium">No incoming webhooks configured</p>
+<p class="text-text-secondary text-sm max-w-md">Create an endpoint to receive real-time updates from external services.</p>
+<div class="mt-2 flex items-center gap-2 bg-[#1c1b2e] border border-border-dark rounded p-1 pl-3 max-w-full">
+<code class="text-xs text-text-secondary font-mono">https://api.devconnect.com/hooks/v1/inbound/</code>
+<button class="p-1 hover:bg-[#272546] rounded text-white"><span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Panel: Preview & Logs -->
+<div class="xl:col-span-4 flex flex-col gap-6">
+<!-- JSON Preview -->
+<div class="rounded-xl border border-border-dark bg-[#1c1b2e] overflow-hidden flex flex-col h-[420px]">
+<div class="px-4 py-3 border-b border-border-dark bg-[#232138] flex items-center justify-between">
+<span class="text-xs font-mono text-text-secondary uppercase tracking-wider">Payload Preview</span>
+<span class="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded font-mono">JSON</span>
+</div>
+<div class="flex-1 bg-[#0f0e1a] p-4 overflow-y-auto font-mono text-sm leading-6 relative group">
+<button class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity bg-[#272546] p-1.5 rounded text-white hover:bg-primary z-10">
+<span class="material-symbols-outlined block" style="font-size: 16px;">content_copy</span>
+</button>
+<div class="text-gray-400 code-editor-line"><span class="text-purple-400">{</span></div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"event"</span>: <span class="text-green-400">"incident.trigger"</span>,</div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"created_on"</span>: <span class="text-green-400">"2023-10-27T14:22:00Z"</span>,</div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"data"</span>: <span class="text-purple-400">{</span></div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"id"</span>: <span class="text-green-400">"evt_89s7d8f7s"</span>,</div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"severity"</span>: <span class="text-green-400">"critical"</span>,</div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"service"</span>: <span class="text-green-400">"payment-gateway"</span>,</div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"description"</span>: <span class="text-green-400">"High latency detected in API response"</span>,</div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"details"</span>: <span class="text-purple-400">{</span></div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"region"</span>: <span class="text-green-400">"us-east-1"</span>,</div>
+<div class="text-gray-400 code-editor-line"> <span class="text-blue-400">"latency_ms"</span>: <span class="text-orange-400">2450</span></div>
+<div class="text-gray-400 code-editor-line"> <span class="text-purple-400">}</span></div>
+<div class="text-gray-400 code-editor-line"> <span class="text-purple-400">}</span></div>
+<div class="text-gray-400 code-editor-line"><span class="text-purple-400">}</span></div>
+</div>
+</div>
+<!-- Recent Deliveries Log -->
+<div class="rounded-xl border border-border-dark bg-[#1c1b2e] flex flex-col flex-1">
+<div class="px-4 py-3 border-b border-border-dark bg-[#232138] flex items-center justify-between">
+<h4 class="text-white text-sm font-bold">Recent Deliveries</h4>
+<a class="text-xs text-text-secondary hover:text-primary" href="#">View All</a>
+</div>
+<div class="p-2 overflow-y-auto max-h-[300px]">
+<div class="relative pl-4 border-l border-border-dark ml-2 space-y-4 py-2">
+<!-- Item 1 -->
+<div class="relative group cursor-pointer">
+<div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-4 ring-[#1c1b2e]"></div>
+<div class="flex items-start justify-between rounded-lg p-2 hover:bg-[#272546] transition-colors">
+<div>
+<p class="text-white text-xs font-medium">incident.trigger</p>
+<p class="text-text-secondary text-[10px] mt-0.5">req_98s7df8s7d</p>
+</div>
+<div class="text-right">
+<span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">200</span>
+<p class="text-text-secondary text-[10px] mt-0.5">2m ago</p>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="relative group cursor-pointer">
+<div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-4 ring-[#1c1b2e]"></div>
+<div class="flex items-start justify-between rounded-lg p-2 hover:bg-[#272546] transition-colors">
+<div>
+<p class="text-white text-xs font-medium">service.updated</p>
+<p class="text-text-secondary text-[10px] mt-0.5">req_34s2df1s2d</p>
+</div>
+<div class="text-right">
+<span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">200</span>
+<p class="text-text-secondary text-[10px] mt-0.5">15m ago</p>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="relative group cursor-pointer">
+<div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-red-500 ring-4 ring-[#1c1b2e]"></div>
+<div class="flex items-start justify-between rounded-lg p-2 hover:bg-[#272546] transition-colors">
+<div>
+<p class="text-white text-xs font-medium">user.onboarded</p>
+<p class="text-text-secondary text-[10px] mt-0.5">req_12s9df3s8d</p>
+</div>
+<div class="text-right">
+<span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-400 border border-red-500/20">500</span>
+<p class="text-text-secondary text-[10px] mt-0.5">45m ago</p>
+</div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="relative group cursor-pointer">
+<div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-4 ring-[#1c1b2e]"></div>
+<div class="flex items-start justify-between rounded-lg p-2 hover:bg-[#272546] transition-colors">
+<div>
+<p class="text-white text-xs font-medium">incident.resolve</p>
+<p class="text-text-secondary text-[10px] mt-0.5">req_56s7df4s9d</p>
+</div>
+<div class="text-right">
+<span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">200</span>
+<p class="text-text-secondary text-[10px] mt-0.5">1h ago</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Canvas Builder Workspace</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "panel-dark": "#1c1b2e", 
+                        "border-dark": "#2d2b45",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'dot-pattern': 'radial-gradient(#383663 1px, transparent 1px)',
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d2b45; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark dark:bg-background-dark bg-white px-6 py-3 shrink-0 z-50">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary flex items-center justify-center">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<h2 class="dark:text-white text-slate-900 text-sm font-bold leading-tight">Untitled Landing Page</h2>
+<span class="text-xs text-slate-500 dark:text-slate-400">Hyyve Builder v2.4</span>
+</div>
+</div>
+<!-- Viewport Controls -->
+<div class="hidden md:flex gap-1 bg-background-light dark:bg-[#1c1b2e] p-1 rounded-lg border border-slate-200 dark:border-border-dark">
+<button class="p-2 rounded text-slate-500 hover:text-primary hover:bg-white dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">desktop_windows</span>
+</button>
+<button class="p-2 rounded bg-white dark:bg-primary shadow-sm text-primary dark:text-white">
+<span class="material-symbols-outlined text-[20px]">tablet_mac</span>
+</button>
+<button class="p-2 rounded text-slate-500 hover:text-primary hover:bg-white dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">smartphone</span>
+</button>
+</div>
+<div class="flex gap-3">
+<div class="flex items-center text-slate-400 mr-2 gap-2">
+<button class="hover:text-white transition-colors" title="Undo"><span class="material-symbols-outlined">undo</span></button>
+<button class="hover:text-white transition-colors" title="Redo"><span class="material-symbols-outlined">redo</span></button>
+</div>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-3 bg-slate-200 dark:bg-[#272546] hover:bg-slate-300 dark:hover:bg-[#383663] text-slate-700 dark:text-white gap-2 text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="hidden sm:inline">Preview</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all">
+<span>Publish</span>
+</button>
+</div>
+</header>
+<!-- Main Workspace Area -->
+<main class="flex flex-1 overflow-hidden">
+<!-- LEFT PANEL: Library & Assets -->
+<aside class="w-80 flex flex-col border-r border-border-dark bg-background-light dark:bg-background-dark shrink-0 z-30">
+<!-- Tabs -->
+<div class="flex border-b border-border-dark">
+<button class="flex-1 pb-3 pt-4 text-center border-b-2 border-primary text-primary dark:text-white font-semibold text-sm">
+                    Components
+                </button>
+<button class="flex-1 pb-3 pt-4 text-center border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:text-[#9795c6] dark:hover:text-white font-medium text-sm transition-colors">
+                    Assets
+                </button>
+</div>
+<!-- Search -->
+<div class="p-4 border-b border-border-dark">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-[20px]">search</span>
+<input class="w-full bg-slate-200 dark:bg-[#1c1b2e] border-none rounded-lg pl-10 pr-4 py-2 text-sm text-slate-900 dark:text-white placeholder-slate-500 focus:ring-2 focus:ring-primary outline-none" placeholder="Search components..." type="text"/>
+</div>
+</div>
+<!-- Component List (Scrollable) -->
+<div class="flex-1 overflow-y-auto p-2 space-y-1">
+<div class="text-xs font-bold text-slate-500 dark:text-[#9795c6] uppercase tracking-wider px-3 py-2 mt-2">Layout</div>
+<!-- Draggable Item 1 -->
+<div class="group flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-colors">
+<div class="flex items-center justify-center rounded bg-white dark:bg-[#2d2b45] size-8 shadow-sm group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-300 group-hover:text-primary text-[20px]">view_quilt</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium dark:text-white">Hero Header</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 opacity-0 group-hover:opacity-100 text-[18px]">drag_indicator</span>
+</div>
+<!-- Draggable Item 2 -->
+<div class="group flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-colors">
+<div class="flex items-center justify-center rounded bg-white dark:bg-[#2d2b45] size-8 shadow-sm group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-300 group-hover:text-primary text-[20px]">grid_on</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium dark:text-white">Feature Grid</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 opacity-0 group-hover:opacity-100 text-[18px]">drag_indicator</span>
+</div>
+<!-- Draggable Item 3 -->
+<div class="group flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-colors">
+<div class="flex items-center justify-center rounded bg-white dark:bg-[#2d2b45] size-8 shadow-sm group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-300 group-hover:text-primary text-[20px]">table_rows</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium dark:text-white">Pricing Table</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 opacity-0 group-hover:opacity-100 text-[18px]">drag_indicator</span>
+</div>
+<div class="text-xs font-bold text-slate-500 dark:text-[#9795c6] uppercase tracking-wider px-3 py-2 mt-4">Media</div>
+<!-- Draggable Item 4 -->
+<div class="group flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-colors">
+<div class="flex items-center justify-center rounded bg-white dark:bg-[#2d2b45] size-8 shadow-sm group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-300 group-hover:text-primary text-[20px]">image</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium dark:text-white">Image Card</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 opacity-0 group-hover:opacity-100 text-[18px]">drag_indicator</span>
+</div>
+<!-- Draggable Item 5 -->
+<div class="group flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-colors">
+<div class="flex items-center justify-center rounded bg-white dark:bg-[#2d2b45] size-8 shadow-sm group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-300 group-hover:text-primary text-[20px]">smart_display</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium dark:text-white">Video Player</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 opacity-0 group-hover:opacity-100 text-[18px]">drag_indicator</span>
+</div>
+<!-- Small Image Grid Preview (from requirements) -->
+<div class="mt-6 px-3">
+<p class="text-xs font-bold text-slate-500 dark:text-[#9795c6] mb-3">Recently Used Images</p>
+<div class="grid grid-cols-3 gap-2">
+<div class="bg-center bg-no-repeat bg-cover rounded aspect-square cursor-pointer hover:ring-2 ring-primary" data-alt="Abstract blue digital network background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAqhrsrYz5X5TkXwOAOkftBV_rwQvapOQ8oz7H9W7UQ_zqjEVgU8wA_qmvo0G_wlslD9y2LcdWqtMPORae0R8iQmhpKPxyI7eyULvZpKY7nPX8aTSwBTOOxmrT-a9jm_DQ5Y1JoN4Z2aUV8-iDFY5bjN32SCZVkAT8H-ZTY0sgxuliZUjPFHkjeKxB11Cxk0Z4w-QyDK10aZKitbyJUPTkRrAC2LVuAiKJ6S7_2j-4mjRUtch36fLJLGO6MXRm05I_A4QaUjOLf_Y4");'></div>
+<div class="bg-center bg-no-repeat bg-cover rounded aspect-square cursor-pointer hover:ring-2 ring-primary" data-alt="Modern geometric 3d shapes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuChWGQ9OrZrSLZrWkzVeaAidDnptD7Ch2yZ49Rc0nE_zuMR83ZfuNYVExLe7IXqFUSgk0SetcZvJllhb9SUN_8vsjvspH8w0cYkBeuHcDKAXnmiv_1ao4eyOlxXAqszvh8e9JJQg8tRp7vjRZBCe1lN5BYkg8c53m62p6WmnBazhul3IpbV9M2yyZ72S4u_AptDDWct_zHBbhlPEiSNWsv83M7FAN-1pZy4rKd-0YvXopF6Ebn_qteCwYx8JvA7lhCRj8JAevd9EjU");'></div>
+<div class="bg-center bg-no-repeat bg-cover rounded aspect-square cursor-pointer hover:ring-2 ring-primary" data-alt="Minimalist office setup" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkk2QQd5B50W0TFzen9XkCw4sAUE1RoDul30A5J3OSovp2zyZgFjM69hZiWG-esQ7wQSBt4mHgnjxRuW9z2SFoTlJiyGQLKU1dVkWze_2xez-fzLHPK7oefe2xmkRFOVlm3YjWjHUhOuImKiuY4gK5CgRvFikHFv9Nzai0UYuUXEy_RD6e7T3wg4JK6_lLIMLvTtYtvsl7gG1FcSa_0KhqPyG0rqDykVmmnEw9Pob5IdE208h9aFLm9mMjCU7LuJM5GS51E4Bjd-s");'></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- CENTER PANEL: Canvas Workspace -->
+<section class="flex-1 bg-[#1e1e24] relative overflow-hidden flex flex-col items-center justify-center">
+<!-- Dot Grid Background -->
+<div class="absolute inset-0 z-0 opacity-20 bg-dot-pattern" style="background-size: 24px 24px;"></div>
+<!-- Canvas Breadcrumbs/Info -->
+<div class="absolute top-4 left-4 z-10 flex items-center gap-2 text-xs text-slate-400 bg-[#2d2b45]/80 backdrop-blur px-3 py-1.5 rounded-full border border-white/5">
+<span>Page: Home</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span>Section: Hero</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-primary font-medium">H1 Heading</span>
+</div>
+<!-- The Canvas -->
+<div class="relative w-full max-w-[840px] h-[85vh] bg-white dark:bg-[#131221] shadow-2xl rounded-lg border border-border-dark overflow-y-auto z-10 custom-scrollbar group/canvas ring-1 ring-white/5">
+<!-- Floating Toolbar (Simulated Selection) -->
+<div class="absolute top-[28%] left-[8%] z-50 transform -translate-y-full flex gap-1 pb-2">
+<div class="bg-primary text-white text-xs font-bold px-2 py-1 rounded-t-md">Heading 1</div>
+<div class="flex bg-[#2d2b45] rounded-md overflow-hidden border border-white/10 shadow-xl">
+<button class="p-1.5 hover:bg-white/10 text-white"><span class="material-symbols-outlined text-[16px]">format_size</span></button>
+<button class="p-1.5 hover:bg-white/10 text-white"><span class="material-symbols-outlined text-[16px]">format_bold</span></button>
+<button class="p-1.5 hover:bg-white/10 text-white"><span class="material-symbols-outlined text-[16px]">format_italic</span></button>
+<div class="w-px bg-white/20 my-1"></div>
+<button class="p-1.5 hover:bg-white/10 text-white"><span class="material-symbols-outlined text-[16px]">palette</span></button>
+</div>
+</div>
+<!-- Content Inside Canvas (The Hero Section being built) -->
+<div class="flex flex-col items-center justify-center min-h-[600px] px-10 py-20 relative">
+<!-- Selection Border Overlay -->
+<div class="absolute top-[32%] left-[8%] right-[8%] height-[120px] border-2 border-primary pointer-events-none z-20 rounded-lg opacity-100">
+<div class="absolute -top-1.5 -left-1.5 size-3 bg-white border-2 border-primary rounded-full"></div>
+<div class="absolute -top-1.5 -right-1.5 size-3 bg-white border-2 border-primary rounded-full"></div>
+<div class="absolute -bottom-1.5 -left-1.5 size-3 bg-white border-2 border-primary rounded-full"></div>
+<div class="absolute -bottom-1.5 -right-1.5 size-3 bg-white border-2 border-primary rounded-full"></div>
+</div>
+<div class="max-w-3xl text-center space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-4">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                            v2.0 Now Available
+                        </div>
+<h1 class="text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.1]">
+                            Build the <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">Future</span> with Hyyve
+                        </h1>
+<p class="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                            The fastest way to deploy AI-powered applications. Drag, drop, and let our intelligent assistant Artie handle the code generation.
+                        </p>
+<div class="flex gap-4 justify-center pt-4">
+<button class="h-12 px-8 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg shadow-lg shadow-primary/25 transition-all">
+                                Get Started
+                            </button>
+<button class="h-12 px-8 bg-[#272546] hover:bg-[#383663] text-white font-semibold rounded-lg border border-white/5 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">description</span>
+                                Documentation
+                            </button>
+</div>
+</div>
+<div class="mt-16 w-full max-w-4xl">
+<div class="relative rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-[#0f0e1a]">
+<div class="absolute top-0 left-0 w-full h-8 bg-[#1c1b2e] border-b border-white/5 flex items-center px-4 gap-2">
+<div class="size-3 rounded-full bg-red-500/50"></div>
+<div class="size-3 rounded-full bg-yellow-500/50"></div>
+<div class="size-3 rounded-full bg-green-500/50"></div>
+</div>
+<img alt="Dashboard analytics interface preview" class="w-full h-auto opacity-80 mt-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5JN2WRGAAXb6dwDSb5pMAqXZXM3lfBdC2ifeg9u6c0AEjXDA5cdkPeva061jDjLw_RgxIhA-kAb5eQq0leUiqfeRJsOEiw4NVTeDqTEgtcE9qGCIGX2mnVVvKicppLXjDv-biGQ0xdj-TQHSXCPF8TxWqWy2Y0pBj3op0mpR-D-b9Aupj07eXjAPoPY8_UDuxe1F8wop_IrNbFPiScSWOujdmES-9wrKL-Y-YwEFZdaG3GV_AxW560qP3WaQL9T5L0MBfU3M-PwQ"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT PANEL: Artie (AI Assistant) -->
+<aside class="w-80 flex flex-col border-l border-border-dark bg-background-light dark:bg-background-dark shrink-0 z-30">
+<!-- Header -->
+<div class="h-14 flex items-center px-5 border-b border-border-dark gap-3 bg-[#1c1b2e]">
+<div class="size-8 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white text-[18px]">auto_awesome</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-white">Artie AI</h3>
+<div class="flex items-center gap-1.5">
+<span class="size-1.5 rounded-full bg-green-500"></span>
+<span class="text-[10px] text-slate-400 uppercase tracking-wide">Online</span>
+</div>
+</div>
+<button class="ml-auto text-slate-400 hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-4 space-y-5 bg-[#161525]">
+<!-- AI Message -->
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-gradient-to-br from-primary to-purple-600 shrink-0 flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-white text-[16px]">auto_awesome</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="bg-[#272546] text-slate-200 text-sm p-3 rounded-2xl rounded-tl-none border border-white/5">
+<p>I noticed the contrast on your primary button text is a bit low for accessibility compliance.</p>
+</div>
+<!-- Suggestion Card -->
+<div class="bg-[#1c1b2e] border border-primary/30 rounded-xl p-3 shadow-md">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[16px]">contrast</span>
+<span class="text-xs font-bold text-white">Contrast Fix</span>
+</div>
+<p class="text-xs text-slate-400 mb-3">Shall I darken the background to #5048e5 to match your brand palette and improve readability?</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary hover:bg-primary/90 text-white text-xs font-semibold py-1.5 rounded transition-colors">Apply Fix</button>
+<button class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold py-1.5 rounded transition-colors">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex gap-3 flex-row-reverse">
+<div class="size-8 rounded-full bg-slate-600 shrink-0 flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-white text-[16px]">person</span>
+</div>
+<div class="bg-primary text-white text-sm p-3 rounded-2xl rounded-tr-none shadow-md">
+<p>Yes, apply that fix. Also, can you suggest a better sub-headline?</p>
+</div>
+</div>
+<!-- AI Response (Typing) -->
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-gradient-to-br from-primary to-purple-600 shrink-0 flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-white text-[16px]">auto_awesome</span>
+</div>
+<div class="bg-[#272546] text-slate-200 text-sm p-3 rounded-2xl rounded-tl-none border border-white/5 w-16 flex items-center justify-center gap-1">
+<span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
+<span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce delay-100"></span>
+<span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce delay-200"></span>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 border-t border-border-dark bg-[#1c1b2e]">
+<div class="relative">
+<textarea class="w-full bg-[#131221] border border-border-dark rounded-xl pl-3 pr-10 py-3 text-sm text-white placeholder-slate-500 focus:ring-1 focus:ring-primary focus:border-primary outline-none resize-none scrollbar-hide" placeholder="Ask Artie to design something..." rows="2"></textarea>
+<button class="absolute right-2 bottom-2 p-1.5 bg-primary rounded-lg text-white hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</div>
+<div class="flex justify-between items-center mt-2">
+<button class="text-xs text-slate-500 hover:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">add_circle</span>
+                        Attach Context
+                    </button>
+<span class="text-[10px] text-slate-600">Enter to send</span>
+</div>
+</div>
+</aside>
+</main>
+</body></html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Deployment Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-dark": "#3e38b3",
+                        "danger": "#ef4444",
+                        "success": "#10b981",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f1115",
+                        "card-dark": "#1f2937",
+                        "card-dark-lighter": "#2d3748",
+                        "text-secondary": "#9ca3af"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["Fira Code", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .sparkline-anim {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 5s linear infinite;
+        }
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .pulse-dot {
+            box-shadow: 0 0 0 0 rgba(80, 72, 229, 0.7);
+            transform: scale(1);
+            animation: pulse-primary 2s infinite;
+        }
+        @keyframes pulse-primary {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(80, 72, 229, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(80, 72, 229, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(80, 72, 229, 0);
+            }
+        }
+        /* Scrollbar for logs */
+        .logs-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .logs-scroll::-webkit-scrollbar-track {
+            background: #1f2937; 
+        }
+        .logs-scroll::-webkit-scrollbar-thumb {
+            background: #4b5563; 
+            border-radius: 4px;
+        }
+        .logs-scroll::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="w-full border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#131221] px-6 py-4 flex items-center justify-between z-10">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Hyyve Deployment Manager</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-900/30 border border-green-800/50">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-green-400 text-xs font-semibold uppercase tracking-wide">Live</span>
+</div>
+<button class="flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400">notifications</span>
+</button>
+<button class="flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden ml-2 ring-2 ring-primary/20">
+<div class="w-full h-full bg-cover bg-center" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDWXpeCfrFK7YooIf1VNw8ArdSBxQbRBjBGReFgQT5QWgqfXC6izLi9UHWh6MBZnYXDvyUQyqbeCgGX_VbAaORZ2UJ4xXi-PilGCD_2iZtLuhGS-fg7YMxtyRtRp86jTlJe4qlkIZHKcBg4T-fFU0vMBIVhXAQlkO2UQe1dcE7z99TWAUIn-M09b3l4REMJUOTOK-zdtL1Bp5ztxFzz4c1p6rj0R4z3chrm4ZSe_HVRSZT4XM9MdqzDAiUJricFb6K0RJwna4xxLJc");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col h-full overflow-y-auto px-6 py-8 max-w-[1600px] mx-auto w-full gap-8">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<h2 class="text-3xl md:text-4xl font-black tracking-tight text-white">Deployment Health: Model v2.4.0 Canary</h2>
+<span class="px-2 py-1 rounded bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-xs font-mono">CANARY</span>
+</div>
+<div class="flex items-center gap-4 text-text-secondary text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">fingerprint</span> ID: #8821-X</span>
+<span class="w-1 h-1 rounded-full bg-gray-600"></span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">smart_toy</span> GPT-J-FineTune</span>
+<span class="w-1 h-1 rounded-full bg-gray-600"></span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">public</span> Region: us-east-1</span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 h-11 bg-card-dark border border-gray-700 hover:border-danger hover:bg-danger/10 hover:text-danger text-white text-sm font-bold rounded-lg transition-all">
+<span class="material-symbols-outlined text-[20px]">undo</span>
+                    Rollback
+                </button>
+<button class="flex items-center gap-2 px-6 h-11 bg-primary hover:bg-primary-dark text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/25 transition-all">
+                    Promote Now
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Top Section: Rollout Status -->
+<section class="bg-card-dark rounded-xl border border-gray-800 p-6 shadow-xl">
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<!-- Progress Bar -->
+<div class="flex-1 w-full flex flex-col gap-3">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-white text-lg font-medium">Rollout Progress: Canary Phase 2</p>
+<p class="text-text-secondary text-sm">Targeting 50% traffic distribution</p>
+</div>
+<span class="text-primary text-2xl font-bold">50%</span>
+</div>
+<div class="h-4 w-full bg-gray-800 rounded-full overflow-hidden relative">
+<!-- Striped animated background for active part -->
+<div class="absolute inset-0 w-1/2 h-full bg-primary rounded-full overflow-hidden">
+<div class="w-full h-full opacity-30" style="background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent); background-size: 1rem 1rem;"></div>
+</div>
+<!-- Marker for Target -->
+<div class="absolute top-0 bottom-0 w-0.5 bg-white z-10 opacity-50" style="left: 100%;"></div>
+</div>
+<div class="flex justify-between text-xs text-text-secondary font-mono">
+<span>0%</span>
+<span>25%</span>
+<span class="text-primary font-bold">50% (Current)</span>
+<span>75%</span>
+<span>100%</span>
+</div>
+</div>
+<!-- Timer -->
+<div class="w-full md:w-auto flex flex-col items-center md:items-end gap-2 pl-0 md:pl-8 border-l border-transparent md:border-gray-700">
+<p class="text-text-secondary text-xs uppercase tracking-wider font-semibold mb-1">Next Phase In</p>
+<div class="flex gap-2">
+<div class="bg-gray-800/50 rounded-lg p-2 min-w-[50px] flex flex-col items-center border border-gray-700">
+<span class="text-2xl font-mono font-bold text-white">00</span>
+<span class="text-[10px] text-gray-500 uppercase">Hrs</span>
+</div>
+<div class="text-2xl font-bold text-gray-600 self-start mt-1">:</div>
+<div class="bg-gray-800/50 rounded-lg p-2 min-w-[50px] flex flex-col items-center border border-gray-700">
+<span class="text-2xl font-mono font-bold text-white">12</span>
+<span class="text-[10px] text-gray-500 uppercase">Min</span>
+</div>
+<div class="text-2xl font-bold text-gray-600 self-start mt-1">:</div>
+<div class="bg-gray-800/50 rounded-lg p-2 min-w-[50px] flex flex-col items-center border border-gray-700">
+<span class="text-2xl font-mono font-bold text-white">30</span>
+<span class="text-[10px] text-gray-500 uppercase">Sec</span>
+</div>
+</div>
+<button class="text-primary text-xs hover:text-white transition-colors mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">pause</span> Pause Timer
+                    </button>
+</div>
+</div>
+</section>
+<!-- Middle Section: Metrics Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Metric Card 1: Error Rate -->
+<div class="bg-card-dark rounded-xl border border-gray-800 p-5 flex flex-col relative overflow-hidden group hover:border-gray-700 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<div class="flex flex-col">
+<span class="text-text-secondary text-sm font-medium">Error Rate</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-3xl font-bold text-white tracking-tight">0.02%</span>
+<span class="flex items-center text-success text-xs font-medium bg-success/10 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_down</span>
+                                -0.01%
+                            </span>
+</div>
+</div>
+<div class="p-2 rounded-lg bg-gray-800 text-gray-400 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">warning</span>
+</div>
+</div>
+<div class="h-24 mt-4 w-full relative">
+<!-- Placeholder SVG for Sparkline -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<path d="M0 35 Q 10 32, 20 34 T 40 30 T 60 36 T 80 20 T 100 32" fill="none" stroke="#ef4444" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<path d="M0 35 Q 10 32, 20 34 T 40 30 T 60 36 T 80 20 T 100 32 V 40 H 0 Z" fill="url(#gradError)" opacity="0.2"></path>
+<defs>
+<lineargradient id="gradError" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#ef4444;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#ef4444;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<div class="text-xs text-text-secondary mt-2 flex justify-between">
+<span>Last 30m</span>
+<span class="text-gray-500">Threshold: 1.0%</span>
+</div>
+</div>
+<!-- Metric Card 2: Latency P95 -->
+<div class="bg-card-dark rounded-xl border border-gray-800 p-5 flex flex-col relative overflow-hidden group hover:border-gray-700 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<div class="flex flex-col">
+<span class="text-text-secondary text-sm font-medium">Latency P95</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-3xl font-bold text-white tracking-tight">145ms</span>
+<span class="flex items-center text-gray-400 text-xs font-medium bg-gray-700/30 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px] mr-0.5">remove</span>
+                                +0ms
+                            </span>
+</div>
+</div>
+<div class="p-2 rounded-lg bg-gray-800 text-gray-400 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">timer</span>
+</div>
+</div>
+<div class="h-24 mt-4 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<path d="M0 20 Q 25 22, 50 18 T 100 20" fill="none" stroke="#10b981" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<path d="M0 20 Q 25 22, 50 18 T 100 20 V 40 H 0 Z" fill="url(#gradLatency)" opacity="0.2"></path>
+<defs>
+<lineargradient id="gradLatency" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#10b981;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#10b981;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<div class="text-xs text-text-secondary mt-2 flex justify-between">
+<span>Last 30m</span>
+<span class="text-gray-500">Target: &lt; 200ms</span>
+</div>
+</div>
+<!-- Metric Card 3: Throughput -->
+<div class="bg-card-dark rounded-xl border border-gray-800 p-5 flex flex-col relative overflow-hidden group hover:border-gray-700 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<div class="flex flex-col">
+<span class="text-text-secondary text-sm font-medium">Throughput</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-3xl font-bold text-white tracking-tight">2.4k</span>
+<span class="text-sm font-normal text-text-secondary ml-1">RPM</span>
+<span class="flex items-center text-success text-xs font-medium bg-success/10 px-1.5 py-0.5 rounded ml-auto">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span>
+                                +15%
+                            </span>
+</div>
+</div>
+<div class="p-2 rounded-lg bg-gray-800 text-gray-400 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+</div>
+<div class="h-24 mt-4 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<path d="M0 30 L 10 25 L 20 28 L 30 15 L 40 20 L 50 10 L 60 18 L 70 5 L 80 12 L 90 8 L 100 2" fill="none" stroke="#5048e5" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<path d="M0 30 L 10 25 L 20 28 L 30 15 L 40 20 L 50 10 L 60 18 L 70 5 L 80 12 L 90 8 L 100 2 V 40 H 0 Z" fill="url(#gradThroughput)" opacity="0.2"></path>
+<defs>
+<lineargradient id="gradThroughput" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#5048e5;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#5048e5;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<div class="text-xs text-text-secondary mt-2 flex justify-between">
+<span>Last 30m</span>
+<span class="text-gray-500">Peak: 3.1k</span>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Split & Logs -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
+<!-- Traffic Split -->
+<div class="lg:col-span-4 bg-card-dark rounded-xl border border-gray-800 p-6 flex flex-col h-full">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-white font-semibold">Traffic Distribution</h3>
+<button class="text-gray-500 hover:text-white">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="flex flex-col gap-6 flex-1 justify-center">
+<!-- Bar Chart Visual -->
+<div class="flex h-48 gap-8 items-end justify-center px-4">
+<!-- Baseline Column -->
+<div class="flex flex-col items-center gap-2 flex-1 group">
+<div class="text-sm font-bold text-gray-400">50%</div>
+<div class="w-full bg-gray-800 rounded-t-lg relative overflow-hidden h-32 group-hover:bg-gray-700 transition-colors">
+<div class="absolute bottom-0 left-0 right-0 top-0 bg-gray-600/50"></div>
+</div>
+<div class="text-xs text-text-secondary font-medium">Baseline (v2.3.9)</div>
+</div>
+<!-- Canary Column -->
+<div class="flex flex-col items-center gap-2 flex-1 group">
+<div class="text-sm font-bold text-primary">50%</div>
+<div class="w-full bg-primary/20 rounded-t-lg relative overflow-hidden h-32 group-hover:bg-primary/30 transition-colors border-t-2 border-primary">
+<div class="absolute bottom-0 left-0 right-0 h-full bg-primary opacity-20"></div>
+</div>
+<div class="text-xs text-primary font-medium">Canary (v2.4.0)</div>
+</div>
+</div>
+<div class="bg-gray-800/50 rounded-lg p-4 mt-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs text-text-secondary uppercase tracking-wider">Active Sessions</span>
+<span class="text-xs text-white font-mono">1,248 Total</span>
+</div>
+<div class="flex gap-2 text-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-gray-500"></span>
+<span class="text-gray-300">624 Old</span>
+</div>
+<div class="flex items-center gap-2 ml-4">
+<span class="w-2 h-2 rounded-full bg-primary pulse-dot"></span>
+<span class="text-white font-medium">624 New</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Streaming Logs -->
+<div class="lg:col-span-8 bg-[#0a0a0a] rounded-xl border border-gray-800 flex flex-col h-[400px] lg:h-auto overflow-hidden shadow-inner font-mono text-sm">
+<!-- Terminal Header -->
+<div class="flex items-center justify-between px-4 py-3 bg-[#1a1a1a] border-b border-gray-800">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-500 text-[18px]">terminal</span>
+<span class="text-gray-300 font-medium">Live Deployment Logs</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 px-2 py-1 rounded bg-gray-800 border border-gray-700 text-xs text-gray-400">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                            Streaming
+                        </div>
+<button class="text-gray-500 hover:text-white">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="text-gray-500 hover:text-white">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Terminal Content -->
+<div class="flex-1 overflow-y-auto p-4 space-y-2 logs-scroll bg-[#0c0c0c]">
+<div class="flex gap-3 text-gray-500">
+<span class="min-w-[80px]">10:41:55</span>
+<span class="text-blue-400">[INFO]</span>
+<span class="text-gray-400">Initiating traffic shift to 50% for canary-v2.4.0</span>
+</div>
+<div class="flex gap-3 text-gray-500">
+<span class="min-w-[80px]">10:41:58</span>
+<span class="text-blue-400">[INFO]</span>
+<span class="text-gray-400">Load balancer rules updated successfully.</span>
+</div>
+<div class="flex gap-3 text-gray-500">
+<span class="min-w-[80px]">10:42:01</span>
+<span class="text-blue-400">[INFO]</span>
+<span class="text-gray-400">Health check passed on instance i-0928374ba</span>
+</div>
+<div class="flex gap-3 text-gray-500">
+<span class="min-w-[80px]">10:42:05</span>
+<span class="text-yellow-500">[WARN]</span>
+<span class="text-gray-300">Slight latency spike detected in availability zone us-east-1a (180ms)</span>
+</div>
+<div class="flex gap-3 text-gray-500">
+<span class="min-w-[80px]">10:42:06</span>
+<span class="text-blue-400">[INFO]</span>
+<span class="text-gray-400">Auto-scaling group adjusting capacity +2 instances</span>
+</div>
+<div class="flex gap-3 text-gray-500">
+<span class="min-w-[80px]">10:42:12</span>
+<span class="text-blue-400">[INFO]</span>
+<span class="text-gray-400">Metric stream connected: 'latency_p99'</span>
+</div>
+<div class="flex gap-3 text-gray-500">
+<span class="min-w-[80px]">10:42:15</span>
+<span class="text-blue-400">[INFO]</span>
+<span class="text-gray-400">Traffic stable at 50%. Monitoring error rates...</span>
+</div>
+<div class="flex gap-3 text-gray-500 opacity-50">
+<span class="min-w-[80px]">10:42:22</span>
+<span class="text-gray-500">[DEBUG]</span>
+<span class="text-gray-500">Scraping prometheus metrics from pod/canary-7d9f8c</span>
+</div>
+<!-- Blinking cursor at the end -->
+<div class="flex gap-3 items-center mt-2">
+<span class="text-gray-600">&gt;</span>
+<span class="w-2 h-4 bg-gray-500 animate-pulse"></span>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

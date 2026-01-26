@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Real-time Sync Panel</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "panel-dark": "#181728",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for the dark theme log */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e1d2e; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #383663; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white font-display overflow-hidden h-screen w-screen flex flex-col relative">
+<!-- BACKGROUND CONTEXT (Main App Simulation) -->
+<!-- This section simulates the main application behind the slide-out panel -->
+<div class="flex flex-col flex-1 w-full opacity-40 select-none pointer-events-none blur-[1px] transition-all">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#272546] px-6 py-3 bg-background-dark">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-[24px]">hub</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Nexus AI Platform</h2>
+</div>
+<div class="flex gap-2">
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#272546] text-white hover:bg-[#323055] transition-colors">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<div class="w-[1px] h-10 bg-[#272546] mx-1"></div>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#272546] text-white hover:bg-[#323055] transition-colors">
+<span class="material-symbols-outlined text-[20px] fill-1">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Workspace Placeholder -->
+<div class="flex-1 relative bg-[radial-gradient(#272546_1px,transparent_1px)] [background-size:20px_20px] p-10">
+<!-- Simulated Node Graph UI -->
+<div class="absolute top-20 left-20 w-64 h-40 bg-[#1e1d2e] border border-[#383663] rounded-lg p-4 shadow-lg flex flex-col gap-2">
+<div class="flex justify-between items-center text-xs text-gray-400 font-mono"><span>ID: 0x82A</span> <span class="material-symbols-outlined text-sm">more_horiz</span></div>
+<div class="font-bold text-sm">LLM Processor</div>
+<div class="mt-auto h-2 w-full bg-[#383663] rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary"></div>
+</div>
+</div>
+<div class="absolute top-40 left-96 w-64 h-40 bg-[#1e1d2e] border border-primary/50 shadow-[0_0_20px_rgba(80,72,229,0.2)] rounded-lg p-4 flex flex-col gap-2">
+<div class="flex justify-between items-center text-xs text-gray-400 font-mono"><span>ID: 0x91B</span> <span class="material-symbols-outlined text-sm">more_horiz</span></div>
+<div class="font-bold text-sm text-primary">Context Embedder</div>
+<div class="text-xs text-gray-400">Processing input vectors...</div>
+</div>
+<!-- Connecting Lines SVG -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none opacity-50">
+<path d="M 310 180 C 350 180, 350 260, 384 260" fill="none" stroke="#5048e5" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- SLIDE-OUT PANEL -->
+<aside class="fixed top-0 right-0 h-full w-full max-w-[420px] bg-[#121121] border-l border-[#272546] shadow-2xl z-50 flex flex-col transform transition-transform duration-300">
+<!-- Header -->
+<div class="flex items-center justify-between px-6 py-5 border-b border-[#272546]">
+<h2 class="text-white text-xl font-bold leading-tight">Connection Status</h2>
+<button class="text-gray-400 hover:text-white transition-colors p-1 rounded-full hover:bg-[#272546]">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar flex flex-col">
+<!-- Connection Health Card -->
+<div class="p-6 pb-2">
+<div class="bg-gradient-to-br from-[#1e1d2e] to-[#181728] border border-[#272546] rounded-xl p-5 shadow-lg relative overflow-hidden group">
+<!-- Glow effect -->
+<div class="absolute -top-10 -right-10 size-40 bg-primary/10 rounded-full blur-3xl pointer-events-none group-hover:bg-primary/20 transition-all duration-500"></div>
+<div class="flex items-start justify-between mb-6">
+<div class="flex flex-col gap-1 z-10">
+<div class="flex items-center gap-2">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+</span>
+<span class="text-white text-lg font-bold leading-tight">System Online</span>
+</div>
+<p class="text-[#9795c6] text-sm pl-5">All real-time services operational</p>
+</div>
+<button class="bg-[#272546] hover:bg-[#383663] text-white text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors border border-white/5">
+                            Sync Now
+                        </button>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-3 gap-4 border-t border-[#272546] pt-4">
+<div class="flex flex-col gap-1">
+<span class="text-[#9795c6] text-xs font-medium uppercase tracking-wider">Latency</span>
+<span class="text-white font-mono text-lg font-bold text-green-400">24ms</span>
+</div>
+<div class="flex flex-col gap-1 border-l border-[#272546] pl-4">
+<span class="text-[#9795c6] text-xs font-medium uppercase tracking-wider">Upload</span>
+<span class="text-white font-mono text-lg font-bold">12<span class="text-xs text-gray-500 font-sans ml-0.5">kb/s</span></span>
+</div>
+<div class="flex flex-col gap-1 border-l border-[#272546] pl-4">
+<span class="text-[#9795c6] text-xs font-medium uppercase tracking-wider">Download</span>
+<span class="text-white font-mono text-lg font-bold">4<span class="text-xs text-gray-500 font-sans ml-0.5">kb/s</span></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Collaborators Section -->
+<div class="px-6 py-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-white text-sm font-bold tracking-wide uppercase text-gray-400">Active Collaborators (3)</h3>
+<span class="material-symbols-outlined text-gray-500 text-sm cursor-help" title="Users currently editing this project">info</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Collaborator 1 -->
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1e1d2e] transition-colors group cursor-pointer">
+<div class="relative">
+<div class="size-10 rounded-full bg-gray-700 bg-center bg-cover border border-[#383663]" data-alt="Profile picture of Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDA1CY21BjsV-px59rp-bP3tZLSJ3oI1ZxImGf3h0FpJBG3G4XI4-_n7hZH_y5Vrie885FT0CCujtPAUScbWkGdAF_-4fTBeE5mAyYf-I7ClUvfTK5Oj0jV4YtY-8nuzd_Wi0fmgzpz56ZmfSPHFv1MBNoKSUrqJtq1Q4AiaN3UUDGASqxFBVbwH9gwm-FSzBE1e-FUxkUZjppgvONJu6i6CDZBUZABp9pZnGDieGO81RpooGFDoNtlcPU7lq8YesnEwOlplSIzw38");'></div>
+<span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-[#121121]"></span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="text-white text-sm font-medium truncate">Sarah Jenkins</span>
+<span class="text-primary text-xs truncate flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px] animate-spin">sync</span>
+                                Editing LLM Node #82A
+                            </span>
+</div>
+<span class="material-symbols-outlined text-gray-600 group-hover:text-white transition-colors">chat_bubble</span>
+</div>
+<!-- Collaborator 2 -->
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1e1d2e] transition-colors group cursor-pointer">
+<div class="relative">
+<div class="size-10 rounded-full bg-indigo-900/50 flex items-center justify-center border border-indigo-500/30 text-indigo-300 font-bold text-xs">
+                                AI
+                            </div>
+<span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-[#121121]"></span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="text-white text-sm font-medium truncate">Nexus Copilot</span>
+<span class="text-[#9795c6] text-xs truncate">Optimizing prompt chains...</span>
+</div>
+</div>
+<!-- Collaborator 3 -->
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1e1d2e] transition-colors group cursor-pointer">
+<div class="relative">
+<div class="size-10 rounded-full bg-gray-700 bg-center bg-cover border border-[#383663]" data-alt="Profile picture of David Chen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBLpRbhPJM5geOExH6jMBfQJOu5C8DXF5KBUtWR8Mz-87sF09NjxCvS622RQ6W6-iOE1nt4OgFQly57cz-7dSFaCCfFApbiOk6HUX0ShjvYQ3EOIZr4RYW5XpkZhrXrjhXaszS5W-c1Ybty3h2AOkG8lB0J6-hvDHJAhaGwMcmpXFbjxwkltzOjKkbVLCpKw9wTqjvXVrpU_H4zgNA0MK9MsNFKb3-i4JUKAUUKNWOoxkHHIaRuux13Z38vk86W8RffrDd19_WPtwE");'></div>
+<span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-yellow-500 ring-2 ring-[#121121]"></span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="text-white text-sm font-medium truncate">David Chen</span>
+<span class="text-[#9795c6] text-xs truncate">Idle for 5m</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Spacer to push logs to bottom if needed, or just separation -->
+<div class="h-4"></div>
+<!-- Event Log Section (Fills remaining space) -->
+<div class="flex-1 px-6 pb-6 min-h-[300px] flex flex-col">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-white text-sm font-bold tracking-wide uppercase text-gray-400">Sync Events</h3>
+<div class="flex gap-2">
+<button class="text-[10px] text-[#9795c6] hover:text-white uppercase font-bold tracking-wider">Clear</button>
+<button class="text-[10px] text-primary hover:text-primary/80 uppercase font-bold tracking-wider">Export</button>
+</div>
+</div>
+<div class="flex-1 bg-[#0a0a12] border border-[#272546] rounded-lg p-3 font-mono text-xs overflow-y-auto custom-scrollbar shadow-inner relative">
+<!-- Gradient overlay for scroll cue -->
+<div class="flex flex-col gap-1.5 font-medium">
+<div class="flex gap-2 opacity-50">
+<span class="text-gray-500">[14:01:58]</span>
+<span class="text-blue-400">INFO</span>
+<span class="text-gray-400">Socket connection established</span>
+</div>
+<div class="flex gap-2 opacity-60">
+<span class="text-gray-500">[14:01:59]</span>
+<span class="text-green-400">AUTH</span>
+<span class="text-gray-400">Handshake successful (t=45ms)</span>
+</div>
+<div class="flex gap-2">
+<span class="text-gray-500">[14:02:05]</span>
+<span class="text-purple-400">PATCH</span>
+<span class="text-gray-300">/v1/nodes/completion <span class="text-gray-600">-&gt; 200 OK</span></span>
+</div>
+<div class="flex gap-2 bg-[#1e1d2e]/50 -mx-1 px-1 py-0.5 rounded">
+<span class="text-gray-500">[14:02:06]</span>
+<span class="text-yellow-400">DELTA</span>
+<span class="text-gray-300">Received 4kb update from <span class="text-white underline decoration-dotted">@s_jenkins</span></span>
+</div>
+<div class="flex gap-2">
+<span class="text-gray-500">[14:02:12]</span>
+<span class="text-blue-400">SYNC</span>
+<span class="text-gray-300">State consistency check passed</span>
+</div>
+<div class="flex gap-2">
+<span class="text-gray-500">[14:02:24]</span>
+<span class="text-purple-400">POST</span>
+<span class="text-gray-300">/v1/embeddings/generate</span>
+</div>
+<div class="flex gap-2">
+<span class="text-gray-500">[14:02:25]</span>
+<span class="text-purple-400">POST</span>
+<span class="text-gray-300">/v1/embeddings/generate <span class="text-gray-600">-&gt; 200 OK</span></span>
+</div>
+<div class="flex gap-2 border-l-2 border-green-500 pl-2 ml-0 my-1">
+<span class="text-gray-500">[14:02:30]</span>
+<span class="text-green-400">LIVE</span>
+<span class="text-white">Broadcasting cursor move (x:1420, y:450)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Panel Controls -->
+<div class="p-4 border-t border-[#272546] bg-[#0f0e1b]">
+<div class="flex items-center justify-between text-xs text-gray-500">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>End-to-end encrypted</span>
+</div>
+<span>v2.4.0</span>
+</div>
+</div>
+</aside>
+</body></html>

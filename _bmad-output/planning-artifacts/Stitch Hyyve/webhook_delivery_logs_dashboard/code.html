@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Webhook Delivery Logs</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", /* Matched to component style */
+                        "surface-dark": "#1c1b32",
+                        "border-dark": "#383663",
+                        "input-dark": "#272546",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["Roboto Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for code blocks */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c1b32; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #383663; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex">
+<!-- Sidebar -->
+<aside class="w-64 bg-background-dark border-r border-border-dark flex-col hidden lg:flex h-full flex-shrink-0">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Hyyve abstract geometric logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0jMP85JigpYQb6WXAQMW2bmSKI1Cz4yRx7MeOdSy5Fy_tDoeMUvKyv0CHdN8DwQboLAvpGGRs1XYRNWIyXXa95wGKI-NsSt40mo-OX5X9ZqF1sOMq06LzwuD_TzlpPSk5_Twmbwcb5vPniUugiyEN1gS9slaK_hPYASgBjPMpZIPocmV-tGbIKJ-XCUE_qJiY7kt9Pd-urRxJTqh543YrZWdaovzWjWURWtrjZKtbCFdW7r1BU7xWFTk1rcae108HdENrhkWLNno");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-normal">Hyyve</h1>
+<p class="text-text-secondary text-xs font-normal leading-normal">AI Platform</p>
+</div>
+</div>
+<nav class="flex-1 px-4 flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-input-dark rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">pie_chart</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-input-dark text-white rounded-lg" href="#">
+<span class="material-symbols-outlined text-white">public</span>
+<span class="text-sm font-medium">Webhooks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-input-dark rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">vpn_key</span>
+<span class="text-sm font-medium">API Keys</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-input-dark rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:text-white hover:bg-input-dark rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">menu_book</span>
+<span class="text-sm font-medium">Documentation</span>
+</a>
+</nav>
+<div class="p-4 border-t border-border-dark">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">JD</div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium">John Doe</p>
+<p class="text-text-secondary text-xs">john@hyyve.ai</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full min-w-0 bg-background-dark">
+<!-- Top Navigation -->
+<header class="h-16 border-b border-border-dark px-6 flex items-center justify-between shrink-0 bg-background-dark">
+<div class="flex items-center gap-4">
+<button class="lg:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-primary">webhook</span>
+<h2 class="text-lg font-bold tracking-tight">Webhook Monitor</h2>
+</div>
+</div>
+<div class="flex-1 max-w-xl mx-8 hidden md:block">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-secondary">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 rounded-lg bg-input-dark border-none text-white placeholder-text-secondary focus:ring-1 focus:ring-primary text-sm transition-all" placeholder="Search by event ID, endpoint, or status..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-text-secondary hover:text-white rounded-lg hover:bg-input-dark transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-border-dark" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD84obbgUG40fvi9z-1rkrmATKXk7bJYrcAI8BzSxglw_QC_8FkPwmEsSGGNA_Gl42hX6s5OxYYwN0-CJ_smFKi-Bw-AuZ85-ub-7MLf0zh-T2x8qs39BOnhZ5om5N49NLx5R1hWz9YWeIWo1cHYb5jntziKF-7yhrs6fn_9MomWim7TsDHhp6Q_e1IsOLInmx_CBFEeQhI_wo6tvhR14Pgm-jk_uUWcKNNShcyV-F24cA6IzKjP4saxEf59H2r4pRBUteXjzOhWoE");'></div>
+</div>
+</header>
+<!-- Scrollable Dashboard Content -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6">
+<div class="max-w-7xl mx-auto flex flex-col gap-6">
+<!-- Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-3xl font-black text-white tracking-tight mb-1">Webhook Delivery Logs</h1>
+<p class="text-text-secondary text-sm">Monitor your webhook infrastructure health and debug failures</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-input-dark rounded-lg p-1 border border-border-dark">
+<button class="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-border-dark shadow-sm">24h</button>
+<button class="px-3 py-1.5 rounded-md text-xs font-medium text-text-secondary hover:text-white transition-colors">7d</button>
+<button class="px-3 py-1.5 rounded-md text-xs font-medium text-text-secondary hover:text-white transition-colors">30d</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">send</span>
+                            Test Webhook
+                        </button>
+</div>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-dark border border-border-dark rounded-xl p-5 flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-white">send</span>
+</div>
+<p class="text-text-secondary text-sm font-medium">Total Deliveries</p>
+<div class="flex items-end gap-3 mt-1">
+<p class="text-white text-3xl font-bold">24,592</p>
+<span class="flex items-center text-[#0bda68] text-xs font-bold bg-[#0bda68]/10 px-1.5 py-0.5 rounded mb-1">
+                                +12%
+                                <span class="material-symbols-outlined text-[14px] ml-0.5">trending_up</span>
+</span>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-5 flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-white">check_circle</span>
+</div>
+<p class="text-text-secondary text-sm font-medium">Success Rate</p>
+<div class="flex items-end gap-3 mt-1">
+<p class="text-white text-3xl font-bold">98.4%</p>
+<span class="flex items-center text-[#0bda68] text-xs font-bold bg-[#0bda68]/10 px-1.5 py-0.5 rounded mb-1">
+                                +0.4%
+                                <span class="material-symbols-outlined text-[14px] ml-0.5">trending_up</span>
+</span>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-5 flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-white">speed</span>
+</div>
+<p class="text-text-secondary text-sm font-medium">Avg. Latency</p>
+<div class="flex items-end gap-3 mt-1">
+<p class="text-white text-3xl font-bold">142ms</p>
+<span class="flex items-center text-[#fa6938] text-xs font-bold bg-[#fa6938]/10 px-1.5 py-0.5 rounded mb-1">
+                                -15%
+                                <span class="material-symbols-outlined text-[14px] ml-0.5">trending_down</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Main Data Table -->
+<div class="flex flex-col rounded-xl border border-border-dark bg-surface-dark overflow-hidden">
+<div class="px-4 py-3 border-b border-border-dark flex items-center justify-between">
+<h3 class="text-white font-semibold text-sm">Recent Deliveries</h3>
+<div class="flex gap-2">
+<button class="p-1 text-text-secondary hover:text-white rounded hover:bg-input-dark">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+<button class="p-1 text-text-secondary hover:text-white rounded hover:bg-input-dark">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#151425] text-text-secondary text-xs uppercase tracking-wider font-semibold border-b border-border-dark">
+<th class="px-6 py-3">Status</th>
+<th class="px-6 py-3">Timestamp</th>
+<th class="px-6 py-3">Event Type</th>
+<th class="px-6 py-3">Endpoint URL</th>
+<th class="px-6 py-3 text-right">Duration</th>
+<th class="px-6 py-3"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-dark text-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-input-dark/50 transition-colors group cursor-pointer">
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500 border border-green-500/20">
+                                            200 OK
+                                        </span>
+</td>
+<td class="px-6 py-4 text-white font-mono text-xs">2023-10-27 10:42:01</td>
+<td class="px-6 py-4 text-white font-medium">model.training_completed</td>
+<td class="px-6 py-4 text-text-secondary max-w-xs truncate">https://api.client.com/hooks</td>
+<td class="px-6 py-4 text-text-secondary text-right font-mono">240ms</td>
+<td class="px-6 py-4 text-right">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-[20px]">chevron_right</span>
+</td>
+</tr>
+<!-- Row 2 (Selected/Failed) -->
+<tr class="bg-input-dark/30 hover:bg-input-dark/50 transition-colors group cursor-pointer border-l-2 border-l-red-500">
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500/10 text-red-500 border border-red-500/20">
+                                            500 Error
+                                        </span>
+</td>
+<td class="px-6 py-4 text-white font-mono text-xs">2023-10-27 10:41:55</td>
+<td class="px-6 py-4 text-white font-medium">inference.failed</td>
+<td class="px-6 py-4 text-text-secondary max-w-xs truncate">https://api.client.com/hooks/v2/inference</td>
+<td class="px-6 py-4 text-text-secondary text-right font-mono">120ms</td>
+<td class="px-6 py-4 text-right">
+<span class="material-symbols-outlined text-white text-[20px]">expand_more</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-input-dark/50 transition-colors group cursor-pointer">
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500 border border-green-500/20">
+                                            200 OK
+                                        </span>
+</td>
+<td class="px-6 py-4 text-white font-mono text-xs">2023-10-27 10:40:12</td>
+<td class="px-6 py-4 text-white font-medium">data.synced</td>
+<td class="px-6 py-4 text-text-secondary max-w-xs truncate">https://hooks.slack.com/services/...</td>
+<td class="px-6 py-4 text-text-secondary text-right font-mono">45ms</td>
+<td class="px-6 py-4 text-right">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-[20px]">chevron_right</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-input-dark/50 transition-colors group cursor-pointer">
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+                                            429 Too Many
+                                        </span>
+</td>
+<td class="px-6 py-4 text-white font-mono text-xs">2023-10-27 10:38:45</td>
+<td class="px-6 py-4 text-white font-medium">model.deployed</td>
+<td class="px-6 py-4 text-text-secondary max-w-xs truncate">https://api.partner.io/events</td>
+<td class="px-6 py-4 text-text-secondary text-right font-mono">800ms</td>
+<td class="px-6 py-4 text-right">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-[20px]">chevron_right</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Failed Delivery Detail Panel (Contextual) -->
+<div class="rounded-xl border border-border-dark bg-[#18172b] overflow-hidden shadow-2xl">
+<div class="p-4 border-b border-border-dark flex items-center justify-between bg-surface-dark">
+<div class="flex items-center gap-4">
+<div class="size-8 rounded bg-red-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-red-500 text-lg">error</span>
+</div>
+<div>
+<h3 class="text-white font-bold text-sm">Delivery Failed</h3>
+<div class="flex items-center gap-2 text-xs text-text-secondary font-mono">
+<span>ID: web_8923a9d8</span>
+<span class="size-1 rounded-full bg-border-dark"></span>
+<span>Attempt 3/5</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border-dark text-text-secondary text-xs font-medium hover:text-white hover:bg-input-dark transition-colors">
+<span class="material-symbols-outlined text-[16px]">content_copy</span> Copy Log
+                            </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/20 text-primary border border-primary/20 text-xs font-medium hover:bg-primary/30 transition-colors">
+<span class="material-symbols-outlined text-[16px]">replay</span> Retry Now
+                            </button>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-border-dark">
+<!-- Left: Payload & Response -->
+<div class="flex-1 p-0 flex flex-col">
+<div class="grid grid-cols-1 md:grid-cols-2 h-full divide-y md:divide-y-0 md:divide-x divide-border-dark">
+<!-- Request -->
+<div class="flex flex-col min-h-[300px]">
+<div class="px-4 py-2 border-b border-border-dark bg-[#131221] flex justify-between items-center">
+<span class="text-xs font-semibold text-text-secondary uppercase tracking-wider">Request Payload</span>
+<span class="text-[10px] text-text-secondary bg-input-dark px-1.5 rounded">JSON</span>
+</div>
+<div class="flex-1 p-4 bg-[#0d0c15] overflow-auto custom-scrollbar font-mono text-xs leading-relaxed">
+<pre><code class="language-json"><span class="text-[#9795c6]">{</span>
+  <span class="text-[#ff79c6]" style="color: #cba6f7;">"event"</span>: <span class="text-[#f1fa8c]" style="color: #a6e3a1;">"inference.failed"</span><span class="text-[#9795c6]">,</span>
+  <span class="text-[#ff79c6]" style="color: #cba6f7;">"model_id"</span>: <span class="text-[#f1fa8c]" style="color: #a6e3a1;">"gpt-j-6b-tuned-v2"</span><span class="text-[#9795c6]">,</span>
+  <span class="text-[#ff79c6]" style="color: #cba6f7;">"timestamp"</span>: <span class="text-[#bd93f9]" style="color: #fab387;">1698403315</span><span class="text-[#9795c6]">,</span>
+  <span class="text-[#ff79c6]" style="color: #cba6f7;">"data"</span>: <span class="text-[#9795c6]">{</span>
+    <span class="text-[#ff79c6]" style="color: #cba6f7;">"input_tokens"</span>: <span class="text-[#bd93f9]" style="color: #fab387;">1024</span><span class="text-[#9795c6]">,</span>
+    <span class="text-[#ff79c6]" style="color: #cba6f7;">"error_code"</span>: <span class="text-[#f1fa8c]" style="color: #a6e3a1;">"TIMEOUT_UPSTREAM"</span>
+  <span class="text-[#9795c6]">}</span>
+<span class="text-[#9795c6]">}</span></code></pre>
+</div>
+</div>
+<!-- Response -->
+<div class="flex flex-col min-h-[300px]">
+<div class="px-4 py-2 border-b border-border-dark bg-[#131221] flex justify-between items-center">
+<span class="text-xs font-semibold text-text-secondary uppercase tracking-wider">Response Body</span>
+<span class="text-[10px] text-red-400 bg-red-900/20 border border-red-500/20 px-1.5 rounded">500 Internal Server Error</span>
+</div>
+<div class="flex-1 p-4 bg-[#0d0c15] overflow-auto custom-scrollbar font-mono text-xs leading-relaxed">
+<pre><code class="language-json"><span class="text-[#9795c6]">{</span>
+  <span class="text-[#ff79c6]" style="color: #cba6f7;">"error"</span>: <span class="text-[#9795c6]">{</span>
+    <span class="text-[#ff79c6]" style="color: #cba6f7;">"code"</span>: <span class="text-[#bd93f9]" style="color: #fab387;">500</span><span class="text-[#9795c6]">,</span>
+    <span class="text-[#ff79c6]" style="color: #cba6f7;">"message"</span>: <span class="text-[#f1fa8c]" style="color: #a6e3a1;">"Internal Server Error"</span><span class="text-[#9795c6]">,</span>
+    <span class="text-[#ff79c6]" style="color: #cba6f7;">"details"</span>: <span class="text-[#f1fa8c]" style="color: #a6e3a1;">"Database connection timeout after 5000ms"</span><span class="text-[#9795c6]">,</span>
+    <span class="text-[#ff79c6]" style="color: #cba6f7;">"trace_id"</span>: <span class="text-[#f1fa8c]" style="color: #a6e3a1;">"req_01h8x4k2..."</span>
+  <span class="text-[#9795c6]">}</span>
+<span class="text-[#9795c6]">}</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Retry Config -->
+<div class="w-full lg:w-80 p-5 bg-surface-dark flex flex-col gap-6">
+<div>
+<h4 class="text-white font-bold text-sm mb-1">Retry Strategy</h4>
+<p class="text-text-secondary text-xs">Configure how Hyyve handles failures for this endpoint.</p>
+</div>
+<form class="flex flex-col gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold text-text-secondary">Strategy Type</label>
+<div class="relative">
+<select class="w-full appearance-none bg-input-dark text-white text-sm border border-border-dark rounded-lg px-3 py-2 pr-8 focus:ring-1 focus:ring-primary focus:outline-none">
+<option>Exponential Backoff</option>
+<option>Linear Backoff</option>
+<option>Immediate Retry</option>
+<option>No Retry</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-text-secondary pointer-events-none text-lg">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold text-text-secondary">Max Retries</label>
+<input class="bg-input-dark text-white text-sm border border-border-dark rounded-lg px-3 py-2 focus:ring-1 focus:ring-primary focus:outline-none placeholder-text-secondary" type="number" value="5"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold text-text-secondary">Base Delay (seconds)</label>
+<div class="flex items-center gap-2">
+<input class="flex-1 h-1 bg-border-dark rounded-lg appearance-none cursor-pointer [&amp;::-webkit-slider-thumb]:appearance-none [&amp;::-webkit-slider-thumb]:w-3 [&amp;::-webkit-slider-thumb]:h-3 [&amp;::-webkit-slider-thumb]:bg-primary [&amp;::-webkit-slider-thumb]:rounded-full" max="60" min="1" type="range" value="5"/>
+<span class="text-xs text-white font-mono bg-input-dark px-2 py-1 rounded border border-border-dark">5s</span>
+</div>
+</div>
+<div class="h-px bg-border-dark my-1"></div>
+<button class="w-full py-2 bg-primary hover:bg-primary/90 text-white text-sm font-semibold rounded-lg transition-colors shadow-lg shadow-primary/20" type="button">
+                                    Save Configuration
+                                </button>
+</form>
+</div>
+</div>
+</div>
+<div class="h-10"></div> <!-- Spacer -->
+</div>
+</div>
+</main>
+</body></html>

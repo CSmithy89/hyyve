@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Deployment Final</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221",
+                        "surface-dark": "#1e1c30",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["Fira Code", "monospace"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col antialiased selection:bg-primary/30">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark/80 backdrop-blur-md px-6 py-3 lg:px-10">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<svg fill="none" height="32" viewbox="0 0 48 48" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Deployments</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Docs</a>
+</nav>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-border-dark cursor-pointer" data-alt="User avatar with abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfJT3ayfqWzGoeL5ZEmVMYRNyO2B7ZwcIQXzMmn3QuaS-vMPnhnSfOBE93Dk17U4NiSEVEHldP3K-b3QPGCUyJ2lY_yHWd7uL6ZQx5OKn1wE80Zjzn8Gfv_W7ETNtSAjN5LyO1M0ZfixH29yoS4vHCvf1Y6vW8YK6mFpfl6H-wEcQIXIqZV0RnrUATftIJZL4kt_oVwIK3u0xV6MtbcKzl7zaXLfFAm0LoEneGKlsouUuuuO6TR2rUCr4kXRBHuaC0mNIU3tcuIUM");'></div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center w-full px-4 py-8 md:px-10 lg:px-20">
+<div class="w-full max-w-[960px] flex flex-col gap-8">
+<!-- Progress Bar -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-end">
+<p class="text-white text-lg font-semibold leading-normal">Step 4: Review &amp; Deploy</p>
+<p class="text-text-secondary text-sm font-normal">Configuration &gt; Agents &gt; Settings &gt; <span class="text-white font-medium">Deploy</span></p>
+</div>
+<div class="rounded-full bg-[#383663] overflow-hidden">
+<div class="h-2 rounded-full bg-primary animate-pulse" style="width: 100%;"></div>
+</div>
+</div>
+<!-- Success Hero & Summary -->
+<div class="flex flex-col md:flex-row gap-6 bg-surface-dark border border-border-dark rounded-xl p-6 shadow-lg">
+<!-- Status -->
+<div class="flex flex-col justify-center items-center md:items-start gap-4 md:w-1/3 border-b md:border-b-0 md:border-r border-border-dark pb-6 md:pb-0 md:pr-6">
+<div class="size-16 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 mb-2">
+<span class="material-symbols-outlined text-4xl">check_circle</span>
+</div>
+<div class="text-center md:text-left">
+<h3 class="text-white text-xl font-bold mb-2">Deployment Ready</h3>
+<p class="text-text-secondary text-sm leading-relaxed">
+                            Your Chatwoot widget is fully configured. Review the final summary before launching to production.
+                        </p>
+</div>
+</div>
+<!-- Data Summary Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 flex-1 md:pl-2">
+<div class="flex flex-col gap-1">
+<p class="text-text-secondary text-xs uppercase tracking-wider font-semibold">Widget Name</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">smart_toy</span>
+<p class="text-white font-medium">Customer Support Bot v2</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-text-secondary text-xs uppercase tracking-wider font-semibold">Environment</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-orange-400 text-sm">dns</span>
+<p class="text-white font-medium">Production</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-text-secondary text-xs uppercase tracking-wider font-semibold">Language Model</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-purple-400 text-sm">psychology</span>
+<p class="text-white font-medium">GPT-4o (High Accuracy)</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-text-secondary text-xs uppercase tracking-wider font-semibold">Rate Limit</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-blue-400 text-sm">speed</span>
+<p class="text-white font-medium">500 req/min</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Integration Section -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 border-b border-border-dark pb-2">
+<h3 class="text-white text-xl font-bold">Integration Details</h3>
+</div>
+<!-- Code Block -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-end">
+<label class="text-white text-sm font-medium">Embed Script (Head Tag)</label>
+<button class="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+                            Copy to clipboard
+                        </button>
+</div>
+<div class="bg-[#0f0e1a] rounded-lg border border-border-dark relative group overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-surface-dark hover:bg-border-dark text-white p-1.5 rounded-md shadow-lg border border-border-dark transition-colors">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+<div class="p-4 overflow-x-auto">
+<pre class="font-mono text-sm leading-relaxed text-gray-300"><span class="text-purple-400">&lt;script&gt;</span>
+  (<span class="text-blue-400">function</span>(d,t) {
+    <span class="text-blue-400">var</span> BASE_URL=<span class="text-green-400">"https://app.hyyve.ai"</span>;
+    <span class="text-blue-400">var</span> g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=BASE_URL+<span class="text-green-400">"/packs/js/sdk.js"</span>;
+    g.defer = <span class="text-orange-400">true</span>;
+    g.async = <span class="text-orange-400">true</span>;
+    s.parentNode.insertBefore(g,s);
+    g.onload=<span class="text-blue-400">function</span>(){
+      window.chatwootSDK.run({
+        websiteToken: <span class="text-green-400">"yY7d8s9d8f9s8d7f9s8d7f"</span>,
+        baseUrl: BASE_URL
+      })
+    }
+  })(document,<span class="text-green-400">"script"</span>);
+<span class="text-purple-400">&lt;/script&gt;</span>
+</pre>
+</div>
+</div>
+</div>
+<!-- Webhook -->
+<div class="flex flex-col gap-3">
+<label class="text-white text-sm font-medium">Incoming Webhook URL</label>
+<div class="flex gap-0">
+<div class="flex-1 bg-surface-dark border border-border-dark border-r-0 rounded-l-lg px-4 py-3 text-text-secondary font-mono text-sm truncate flex items-center">
+                            https://api.hyyve.ai/hooks/v1/cw_prod_99283472
+                        </div>
+<button class="bg-surface-dark hover:bg-border-dark border border-border-dark rounded-r-lg px-4 text-white transition-colors flex items-center justify-center" title="Copy URL">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+</div>
+<p class="text-xs text-text-secondary">Use this URL to configure custom event triggers in your backend.</p>
+</div>
+</div>
+<!-- Settings Section -->
+<div class="flex flex-col gap-6 mt-2">
+<div class="flex items-center gap-2 border-b border-border-dark pb-2">
+<h3 class="text-white text-xl font-bold">Agent Hand-off Settings</h3>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-6">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<div class="flex flex-col gap-1">
+<label class="text-white font-medium">Confidence Threshold</label>
+<p class="text-text-secondary text-sm">Transfer to human agent if AI confidence drops below this value.</p>
+</div>
+<span class="text-white font-bold bg-border-dark px-3 py-1 rounded-md font-mono">85%</span>
+</div>
+<!-- Custom Range Slider -->
+<div class="relative w-full h-6 flex items-center">
+<div class="absolute w-full h-2 bg-border-dark rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[85%]"></div>
+</div>
+<input class="absolute w-full h-full opacity-0 cursor-pointer z-10" max="100" min="0" title="Adjust confidence" type="range" value="85"/>
+<!-- Thumb visual -->
+<div class="absolute left-[85%] -translate-x-1/2 w-5 h-5 bg-white border-2 border-primary rounded-full shadow-md z-0 pointer-events-none"></div>
+</div>
+<div class="flex justify-between text-xs text-text-secondary font-mono">
+<span>0% (Always Human)</span>
+<span>100% (Strict AI)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-8 pb-12 border-t border-border-dark mt-4">
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg border border-border-dark text-white font-medium hover:bg-surface-dark transition-colors text-sm">
+                    Back to Settings
+                </button>
+<div class="flex gap-4 w-full sm:w-auto">
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg bg-surface-dark border border-border-dark text-text-secondary font-medium hover:text-white hover:border-white/20 transition-colors text-sm">
+                        Save as Draft
+                    </button>
+<button class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/25 transition-all transform hover:-translate-y-0.5 text-sm">
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+                        Deploy to Production
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

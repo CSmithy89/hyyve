@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Test Suite Manager</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#1e1c30", // Slightly lighter than background for cards
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6",
+                        "success": "#0bda68",
+                        "error": "#ef4444",
+                        "warning": "#f59e0b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white min-h-screen flex flex-col overflow-x-hidden transition-colors duration-200">
+<!-- Top Navbar -->
+<header class="w-full border-b border-solid border-gray-200 dark:border-[#272546] bg-white dark:bg-[#131221] px-6 py-3 sticky top-0 z-50">
+<div class="max-w-[1280px] mx-auto flex items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-gray-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-black tracking-tight">Hyyve</h2>
+</div>
+<div class="hidden md:flex flex-col min-w-64">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary focus:border-primary dark:bg-[#272546] dark:border-transparent dark:placeholder-[#9795c6] dark:text-white dark:focus:ring-primary dark:focus:border-primary transition-all" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors text-text-secondary" href="#">Dashboard</a>
+<a class="text-sm font-medium text-primary" href="#">Test Suites</a>
+<a class="text-sm font-medium hover:text-primary transition-colors text-text-secondary" href="#">Analytics</a>
+<a class="text-sm font-medium hover:text-primary transition-colors text-text-secondary" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#272546] text-text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border-2 border-primary/20 cursor-pointer" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBRIDkqsyXaygVari-F089dLaklVkfzrQM4VxhdcA84rGr3PQYFUp7eKhJxPo4kU7Y0E29J_YLVmdXRtEmivmDlEQSHmv637gwlPXrIDJeDuExL6VPVEETOHw9_u9Voq7LXn9D-35RYQuLd-l2cV8Z7-AvafD8fnROLJmPb9uL10TAlvH1YoPmXM2YO11CtfZxhj1EiaC1I-hO42sb84VX6isfPPW_5KxqayEq88Xg56cYHurOcaEb6AVMd7tQCR7BROMDCdrfUtwc");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1280px] mx-auto p-6 md:p-8 space-y-8">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<nav aria-label="Breadcrumb" class="flex mb-2">
+<ol class="inline-flex items-center space-x-1 md:space-x-3 text-sm text-text-secondary">
+<li class="inline-flex items-center hover:text-white">Home</li>
+<li><span class="mx-1">/</span></li>
+<li class="inline-flex items-center hover:text-white">QA</li>
+<li><span class="mx-1">/</span></li>
+<li aria-current="page" class="text-primary font-medium">Test Suites</li>
+</ol>
+</nav>
+<h1 class="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white">Test Suite Manager</h1>
+<p class="mt-2 text-text-secondary">Manage and monitor your AI quality assurance testing coverage.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-white dark:bg-[#272546] border border-gray-200 dark:border-transparent rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#322f56] transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">file_download</span> Export Report
+                </button>
+<button class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-medium shadow-lg shadow-primary/25 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span> Create Suite
+                </button>
+</div>
+</div>
+<!-- Coverage & Stats Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Coverage Card -->
+<div class="lg:col-span-3 bg-white dark:bg-[#131221] border border-gray-200 dark:border-[#272546] rounded-xl p-6 shadow-sm">
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<!-- Circular Progress (Visualized as linear for better responsiveness in this layout style) -->
+<div class="w-full md:w-1/3 flex flex-col gap-2">
+<div class="flex justify-between items-end mb-1">
+<span class="text-lg font-bold text-gray-900 dark:text-white">System Coverage</span>
+<span class="text-3xl font-black text-primary">87%</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-[#272546] rounded-full h-4 overflow-hidden">
+<div class="bg-primary h-4 rounded-full transition-all duration-1000 ease-out" style="width: 87%"></div>
+</div>
+<div class="flex justify-between text-xs text-text-secondary mt-1">
+<span>0%</span>
+<span>Target: 90%</span>
+<span>100%</span>
+</div>
+</div>
+<!-- Detail Cards -->
+<div class="w-full md:w-2/3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+<!-- Flows -->
+<div class="bg-gray-50 dark:bg-[#1c1a2e] rounded-lg p-4 border border-gray-100 dark:border-[#272546]">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[20px]">account_tree</span>
+<span class="text-sm font-medium text-text-secondary">Flows</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 dark:text-white">124</span>
+<span class="text-sm text-text-secondary">/ 140</span>
+</div>
+<div class="mt-1 text-xs font-medium text-success">+5 this week</div>
+</div>
+<!-- Intents -->
+<div class="bg-gray-50 dark:bg-[#1c1a2e] rounded-lg p-4 border border-gray-100 dark:border-[#272546]">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-warning text-[20px]">psychology</span>
+<span class="text-sm font-medium text-text-secondary">Intents</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 dark:text-white">92%</span>
+</div>
+<div class="mt-1 text-xs font-medium text-success">+1.2% verified</div>
+</div>
+<!-- Nodes -->
+<div class="bg-gray-50 dark:bg-[#1c1a2e] rounded-lg p-4 border border-gray-100 dark:border-[#272546]">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-blue-400 text-[20px]">hub</span>
+<span class="text-sm font-medium text-text-secondary">Nodes</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 dark:text-white">345</span>
+</div>
+<div class="mt-1 text-xs font-medium text-success">+12 tested</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Left Column: Test Suites Table -->
+<div class="lg:col-span-3 flex flex-col gap-6">
+<!-- Toolbar -->
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white dark:bg-[#131221] p-4 rounded-xl border border-gray-200 dark:border-[#272546]">
+<div class="relative w-full sm:w-64">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</div>
+<input class="block w-full p-2 pl-10 text-sm border border-gray-200 dark:border-[#272546] rounded-lg bg-transparent dark:text-white focus:ring-primary focus:border-primary placeholder-text-secondary" placeholder="Filter suites..." type="text"/>
+</div>
+<div class="flex gap-2 w-full sm:w-auto">
+<select class="bg-transparent border border-gray-200 dark:border-[#272546] text-text-secondary text-sm rounded-lg focus:ring-primary focus:border-primary block p-2 w-full sm:w-auto">
+<option>All Statuses</option>
+<option>Passing</option>
+<option>Failing</option>
+<option>Running</option>
+</select>
+<select class="bg-transparent border border-gray-200 dark:border-[#272546] text-text-secondary text-sm rounded-lg focus:ring-primary focus:border-primary block p-2 w-full sm:w-auto">
+<option>Sort by Date</option>
+<option>Sort by Name</option>
+</select>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-hidden rounded-xl border border-gray-200 dark:border-[#272546] bg-white dark:bg-[#131221]">
+<table class="w-full text-left text-sm">
+<thead class="bg-gray-50 dark:bg-[#1c1a2e] text-xs uppercase text-text-secondary font-semibold">
+<tr>
+<th class="px-6 py-4" scope="col">Test Suite Name</th>
+<th class="px-6 py-4 text-center" scope="col">Tests</th>
+<th class="px-6 py-4" scope="col">Last Run</th>
+<th class="px-6 py-4" scope="col">Status</th>
+<th class="px-6 py-4 text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-[#272546]">
+<!-- Row 1 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-[#1e1c3a] transition-colors group">
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+<div class="flex flex-col">
+<span class="text-base font-bold">Smoke Test Alpha</span>
+<span class="text-xs text-text-secondary font-normal">Core functionality verification</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center text-text-secondary">42</td>
+<td class="px-6 py-4 text-text-secondary">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                        2h ago
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-500/10 dark:text-green-500 border border-green-200 dark:border-green-500/20">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                        Passing
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-primary hover:bg-primary/10 rounded" title="Run Now">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+<button class="p-1.5 text-text-secondary hover:text-white hover:bg-white/10 rounded" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-text-secondary hover:text-red-500 hover:bg-red-500/10 rounded" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-[#1e1c3a] transition-colors group">
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+<div class="flex flex-col">
+<span class="text-base font-bold">Regression V2</span>
+<span class="text-xs text-text-secondary font-normal">Full system regression suite</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center text-text-secondary">156</td>
+<td class="px-6 py-4 text-text-secondary">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                        5m ago
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-500/10 dark:text-red-500 border border-red-200 dark:border-red-500/20">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                                        Failed (2)
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-primary hover:bg-primary/10 rounded">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+<button class="p-1.5 text-text-secondary hover:text-white hover:bg-white/10 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-text-secondary hover:text-red-500 hover:bg-red-500/10 rounded">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-[#1e1c3a] transition-colors group">
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+<div class="flex flex-col">
+<span class="text-base font-bold">Conversational Edge Cases</span>
+<span class="text-xs text-text-secondary font-normal">NLP ambiguity checks</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center text-text-secondary">28</td>
+<td class="px-6 py-4 text-text-secondary">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+                                        Running...
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-500/10 dark:text-yellow-500 border border-yellow-200 dark:border-yellow-500/20">
+<span class="material-symbols-outlined text-[14px]">hourglass_top</span>
+                                        In Progress
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-text-secondary hover:text-red-500 hover:bg-red-500/10 rounded">
+<span class="material-symbols-outlined text-[20px]">stop</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-[#1e1c3a] transition-colors group">
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+<div class="flex flex-col">
+<span class="text-base font-bold">Payment Gateway Flows</span>
+<span class="text-xs text-text-secondary font-normal">Stripe integration tests</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center text-text-secondary">12</td>
+<td class="px-6 py-4 text-text-secondary">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                        1d ago
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-500/10 dark:text-green-500 border border-green-200 dark:border-green-500/20">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                        Passing
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-primary hover:bg-primary/10 rounded">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+<button class="p-1.5 text-text-secondary hover:text-white hover:bg-white/10 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-text-secondary hover:text-red-500 hover:bg-red-500/10 rounded">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column: Recent Runs Feed -->
+<div class="lg:col-span-1 flex flex-col gap-4">
+<div class="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-[#272546]">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Recent Runs</h3>
+<a class="text-xs text-primary font-medium hover:underline" href="#">View All</a>
+</div>
+<div class="space-y-3">
+<!-- Feed Item 1 (Expanded) -->
+<div class="bg-white dark:bg-[#131221] border border-gray-200 dark:border-[#272546] rounded-lg p-3 shadow-sm">
+<div class="flex items-start gap-3">
+<div class="mt-1 flex-shrink-0 size-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-gray-900 dark:text-white truncate">Regression V2</p>
+<p class="text-xs text-text-secondary">Run #4092 • 5m ago</p>
+<!-- Expanded Details -->
+<div class="mt-3 bg-gray-50 dark:bg-[#1c1a2e] rounded p-2 text-xs">
+<div class="flex justify-between mb-1">
+<span class="text-text-secondary">Passed</span>
+<span class="text-green-500 font-medium">154</span>
+</div>
+<div class="flex justify-between mb-1">
+<span class="text-text-secondary">Failed</span>
+<span class="text-red-500 font-medium">2</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-[#272546] rounded-full h-1.5 mt-2">
+<div class="bg-red-500 h-1.5 rounded-full w-[98%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Feed Item 2 -->
+<div class="bg-white dark:bg-[#131221] border border-gray-200 dark:border-[#272546] rounded-lg p-3 shadow-sm hover:border-primary/50 cursor-pointer transition-colors group">
+<div class="flex items-start gap-3">
+<div class="mt-1 flex-shrink-0 size-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">Smoke Test Alpha</p>
+<p class="text-xs text-text-secondary">Run #4091 • 2h ago</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[16px]">chevron_right</span>
+</div>
+</div>
+<!-- Feed Item 3 -->
+<div class="bg-white dark:bg-[#131221] border border-gray-200 dark:border-[#272546] rounded-lg p-3 shadow-sm hover:border-primary/50 cursor-pointer transition-colors group">
+<div class="flex items-start gap-3">
+<div class="mt-1 flex-shrink-0 size-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">Payment Gateway</p>
+<p class="text-xs text-text-secondary">Run #4090 • 1d ago</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[16px]">chevron_right</span>
+</div>
+</div>
+<!-- Feed Item 4 -->
+<div class="bg-white dark:bg-[#131221] border border-gray-200 dark:border-[#272546] rounded-lg p-3 shadow-sm hover:border-primary/50 cursor-pointer transition-colors group">
+<div class="flex items-start gap-3">
+<div class="mt-1 flex-shrink-0 size-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">New User Onboarding</p>
+<p class="text-xs text-text-secondary">Run #4089 • 2d ago</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[16px]">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

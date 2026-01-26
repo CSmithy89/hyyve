@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>API Endpoint Manager Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1c1b32",
+                        "surface-highlight": "#272546",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-white font-display overflow-x-hidden selection:bg-primary selection:text-white">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#272546] bg-white dark:bg-[#131221] px-6 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full group">
+<div class="text-slate-400 dark:text-[#9795c6] flex border-none bg-slate-100 dark:bg-[#272546] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-[#272546] focus:border-none h-full placeholder:text-slate-400 dark:placeholder:text-[#9795c6] px-4 pl-2 text-sm font-normal leading-normal transition-all" placeholder="Search resources..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="hidden lg:flex items-center gap-8">
+<a class="text-slate-600 dark:text-white hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-white hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Deployments</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">API Endpoints</a>
+<a class="text-slate-600 dark:text-white hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Settings</a>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-[#383663] transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-[#383663] transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-slate-200 dark:ring-[#272546]" data-alt="User profile avatar showing abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7SKkEjlnN1OIrCADNe3zQQuX1hDimfKxlGAtMJk7XcIfDFMswiTbmOcbPKpbj-s9UkH_C1TnpKq8lEWRvGw7M2-kc5kVWNf-svkzjtyV-loDRpY05pcA5YahK1SNYNg1EofdaZ5i_9YQVL-oiE4A79b1R-wTgMijS1MwgHmjk3sj4KUSkcD4gXvpKIRfAA7EwKQ0T8ANNUN1Ih73Ud1Ve_hS6nGVGjrnVTR5baU0seQexjG4hLjqsNm3hq5J16-dDbQoqX7rrG4Q");'></div>
+</div>
+</header>
+<div class="layout-container flex h-full grow flex-col max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 py-2 mb-2 items-center">
+<a class="text-slate-500 dark:text-[#9795c6] hover:text-primary transition-colors text-sm font-medium leading-normal flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">folder</span> Projects
+            </a>
+<span class="material-symbols-outlined text-slate-400 text-[14px]">chevron_right</span>
+<a class="text-slate-500 dark:text-[#9795c6] hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">My AI App</a>
+<span class="material-symbols-outlined text-slate-400 text-[14px]">chevron_right</span>
+<span class="text-slate-900 dark:text-white text-sm font-medium leading-normal">API Endpoints</span>
+</div>
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">API Endpoints</h1>
+<p class="text-slate-500 dark:text-[#9795c6] text-base font-normal leading-normal max-w-2xl">Manage and monitor your model inference endpoints. Configure base paths and track usage.</p>
+</div>
+<button class="flex items-center gap-2 justify-center rounded-lg h-11 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors shadow-lg shadow-primary/20 whitespace-nowrap">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Create New Endpoint</span>
+</button>
+</div>
+<!-- Base URL Config -->
+<div class="w-full mb-8">
+<label class="flex flex-col w-full">
+<div class="flex justify-between items-end mb-2">
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-normal flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">link</span>
+                        Base URL
+                    </p>
+<span class="text-xs text-slate-500 dark:text-[#9795c6]">Use this URL to make API requests</span>
+</div>
+<div class="relative flex items-center">
+<input class="form-input flex w-full resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-200 dark:border-[#383663] bg-white dark:bg-surface-dark h-14 placeholder:text-slate-400 dark:placeholder:text-[#9795c6] px-4 font-mono text-sm shadow-sm" readonly="" value="https://api.hyyve.ai/v1/models"/>
+<button class="absolute right-2 top-2 bottom-2 aspect-square flex items-center justify-center rounded-md bg-slate-100 dark:bg-[#272546] hover:bg-slate-200 dark:hover:bg-[#383663] text-slate-600 dark:text-white transition-colors" title="Copy to clipboard">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+</div>
+</label>
+</div>
+<!-- Endpoints Table -->
+<div class="flex flex-col gap-4 mb-10">
+<div class="flex items-center justify-between">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Active Endpoints</h3>
+<div class="flex gap-2">
+<button class="text-slate-500 hover:text-primary text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">filter_list</span> Filter
+                    </button>
+</div>
+</div>
+<div class="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-[#272546] bg-white dark:bg-[#131221] shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-200 dark:border-[#272546] bg-slate-50 dark:bg-[#1c1b32]">
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Endpoint Path</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Method</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Model Version</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Status</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Last Called</th>
+<th class="py-4 px-6 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-[#272546]">
+<tr class="group hover:bg-slate-50 dark:hover:bg-[#1c1b32] transition-colors">
+<td class="py-4 px-6">
+<div class="font-mono text-sm text-slate-900 dark:text-white font-medium">/v1/chat/completions</div>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center rounded-md bg-green-100 dark:bg-green-500/20 px-2 py-1 text-xs font-bold text-green-700 dark:text-green-400 ring-1 ring-inset ring-green-600/20">POST</span>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-600 dark:text-slate-300">GPT-4-Turbo</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+</span>
+<span class="text-sm text-emerald-600 dark:text-emerald-400 font-medium">Active</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-500 dark:text-[#9795c6]">2 min ago</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-slate-400 hover:text-red-500 transition-colors p-1"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 dark:hover:bg-[#1c1b32] transition-colors">
+<td class="py-4 px-6">
+<div class="font-mono text-sm text-slate-900 dark:text-white font-medium">/v1/embeddings</div>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center rounded-md bg-green-100 dark:bg-green-500/20 px-2 py-1 text-xs font-bold text-green-700 dark:text-green-400 ring-1 ring-inset ring-green-600/20">POST</span>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-600 dark:text-slate-300">Ada-002</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+</span>
+<span class="text-sm text-emerald-600 dark:text-emerald-400 font-medium">Active</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-500 dark:text-[#9795c6]">15 min ago</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-slate-400 hover:text-red-500 transition-colors p-1"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 dark:hover:bg-[#1c1b32] transition-colors">
+<td class="py-4 px-6">
+<div class="font-mono text-sm text-slate-900 dark:text-white font-medium">/v1/models</div>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center rounded-md bg-blue-100 dark:bg-blue-500/20 px-2 py-1 text-xs font-bold text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-600/20">GET</span>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-600 dark:text-slate-300">System</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+</span>
+<span class="text-sm text-amber-600 dark:text-amber-400 font-medium">Testing</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-500 dark:text-[#9795c6]">2 days ago</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-slate-400 hover:text-red-500 transition-colors p-1"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-slate-50 dark:bg-[#1c1b32] border-t border-slate-200 dark:border-[#272546] px-6 py-3 flex items-center justify-between">
+<span class="text-xs text-slate-500 dark:text-[#9795c6]">Showing 3 of 12 endpoints</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded text-xs font-medium text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-[#272546] transition">Previous</button>
+<button class="px-3 py-1 rounded text-xs font-medium text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-[#272546] transition">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Stats & Documentation -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-10">
+<!-- Quick Stats -->
+<div class="lg:col-span-2 flex flex-col gap-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Performance Overview (24h)</h3>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<!-- Stat Card 1 -->
+<div class="bg-white dark:bg-[#1c1b32] rounded-xl border border-slate-200 dark:border-[#272546] p-5 flex flex-col justify-between h-32 hover:border-primary/50 transition-colors cursor-default">
+<div class="flex justify-between items-start">
+<span class="text-slate-500 dark:text-[#9795c6] text-sm font-medium">Total Requests</span>
+<div class="bg-primary/10 p-1.5 rounded-md text-primary">
+<span class="material-symbols-outlined text-[20px]">show_chart</span>
+</div>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">2.4M</span>
+<span class="text-xs font-bold text-green-500 mb-1.5 flex items-center">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 12%
+                            </span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-white dark:bg-[#1c1b32] rounded-xl border border-slate-200 dark:border-[#272546] p-5 flex flex-col justify-between h-32 hover:border-primary/50 transition-colors cursor-default">
+<div class="flex justify-between items-start">
+<span class="text-slate-500 dark:text-[#9795c6] text-sm font-medium">Avg. Latency</span>
+<div class="bg-amber-500/10 p-1.5 rounded-md text-amber-500">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">142<span class="text-lg font-bold text-slate-500 dark:text-[#9795c6]">ms</span></span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-white dark:bg-[#1c1b32] rounded-xl border border-slate-200 dark:border-[#272546] p-5 flex flex-col justify-between h-32 hover:border-primary/50 transition-colors cursor-default">
+<div class="flex justify-between items-start">
+<span class="text-slate-500 dark:text-[#9795c6] text-sm font-medium">Uptime</span>
+<div class="bg-green-500/10 p-1.5 rounded-md text-green-500">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">99.9%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Documentation Area -->
+<div class="lg:col-span-1 flex flex-col gap-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Documentation &amp; SDKs</h3>
+<div class="bg-white dark:bg-[#1c1b32] rounded-xl border border-slate-200 dark:border-[#272546] overflow-hidden flex flex-col">
+<a class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-[#272546] hover:bg-slate-50 dark:hover:bg-[#272546] group transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-indigo-50 dark:bg-[#272546] text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">api</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white text-sm font-bold">OpenAPI Spec</span>
+<span class="text-slate-500 dark:text-[#9795c6] text-xs">Swagger / JSON</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">arrow_outward</span>
+</a>
+<a class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-[#272546] hover:bg-slate-50 dark:hover:bg-[#272546] group transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-yellow-50 dark:bg-[#272546] text-yellow-600 group-hover:bg-yellow-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">code</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white text-sm font-bold">Python SDK</span>
+<span class="text-slate-500 dark:text-[#9795c6] text-xs">v2.1.0</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-yellow-500 transition-colors">download</span>
+</a>
+<a class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-[#272546] group transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-green-50 dark:bg-[#272546] text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">javascript</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white text-sm font-bold">Node.js SDK</span>
+<span class="text-slate-500 dark:text-[#9795c6] text-xs">v1.4.2</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-green-600 transition-colors">download</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</body></html>

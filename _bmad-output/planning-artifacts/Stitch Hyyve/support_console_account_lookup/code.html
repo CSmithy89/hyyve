@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Support Console - Account Lookup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1b1a31",
+                        "border-dark": "#272546",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-size: 20px; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Side Navigation -->
+<aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark flex flex-col">
+<div class="p-6 flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight">Hyyve</h1>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<div class="pb-4">
+<p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Internal Ops</p>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="text-sm">Account Lookup</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm">System Health</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="text-sm">Audit Logs</span>
+</a>
+</div>
+<div class="pt-4 border-t border-slate-200 dark:border-border-dark">
+<p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Platform Control</p>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">layers</span>
+<span class="text-sm">Model Registry</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-border-dark transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm">Billing Tiers</span>
+</a>
+</div>
+</nav>
+<div class="p-4 mt-auto border-t border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 dark:bg-border-dark flex items-center justify-center text-slate-500 overflow-hidden">
+<img alt="Agent" data-alt="User avatar for support agent" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA877PLC1iVZygxcYJY7Ht_Z73Nr0eQmXAF47pTLv_0yNTJosC8fsRjl0MKk7uXZkN_disufyAXDj6yUouczathP5pOJLyfCmrlksQINoiH_nX6UJNsXx3Fcy7vKf1ZrY4XtuobrlvIBOmYtXKuxWTOu-2OCRLxfRr7fCdeIWOEyqfBKWNZ3CDB5hTc0NXEWcJt3PL_mSpYyykiLpXAb63z5GOsl-GuxQ57bpmSuWCghJMW4mCcI9N-RsZRwqHO12nRVEdVHYKsHxw"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium truncate">Agent Smith</p>
+<p class="text-xs text-slate-500">L3 Support</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-white">settings</span>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Top Header / Search -->
+<header class="h-16 border-b border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark flex items-center px-8 gap-6">
+<div class="flex-1 max-w-2xl">
+<label class="relative block group">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</span>
+<input class="block w-full bg-slate-100 dark:bg-surface-dark border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-lg py-2 pl-10 pr-3 text-sm placeholder-slate-500 transition-all" placeholder="Search by email, name, or account UUID (Press / to focus)" type="text" value="jane.doe@acme.ai"/>
+</label>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-border-dark rounded-lg relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-background-dark"></span>
+</button>
+<div class="h-6 w-px bg-slate-200 dark:border-border-dark"></div>
+<span class="text-xs font-medium px-2 py-1 bg-green-500/10 text-green-500 rounded border border-green-500/20 uppercase">System Online</span>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 overflow-y-auto p-8 bg-background-light dark:bg-background-dark">
+<!-- Account Header -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark p-6 mb-6">
+<div class="flex flex-col @[520px]:flex-row justify-between items-start gap-6">
+<div class="flex gap-5">
+<div class="size-24 rounded-xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center text-white text-3xl font-bold" data-alt="Corporate logo placeholder for Acme AI">
+                                A
+                            </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3">
+<h2 class="text-2xl font-bold">Acme Corp AI</h2>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary text-white uppercase tracking-wider">Enterprise</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">UUID: 8f4e-912a-00bc-7d12</p>
+<div class="flex items-center gap-4 mt-3 text-sm">
+<div class="flex items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-sm">admin_panel_settings</span>
+                                        jane.doe@acme.ai
+                                    </div>
+<div class="flex items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                                        Joined Oct 2023
+                                    </div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 w-full @[520px]:w-auto">
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-opacity-90 transition-all">
+<span class="material-symbols-outlined">login</span>
+                                Impersonate
+                            </button>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 dark:bg-border-dark text-slate-700 dark:text-slate-200 rounded-lg text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined">lock_reset</span>
+                                Reset PWD
+                            </button>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 dark:bg-border-dark text-slate-700 dark:text-slate-200 rounded-lg text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined">update</span>
+                                Extend Trial
+                            </button>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-red-500/10 text-red-500 border border-red-500/20 rounded-lg text-sm font-semibold hover:bg-red-500/20 transition-all">
+<span class="material-symbols-outlined">block</span>
+                                Suspend
+                            </button>
+</div>
+</div>
+</div>
+<!-- Stats/Brief -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-4">
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Projects</p>
+<p class="text-2xl font-bold mt-1">14</p>
+<div class="mt-2 flex items-center text-xs text-green-500">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+2 this month</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-4">
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider">API Requests (30d)</p>
+<p class="text-2xl font-bold mt-1">1.2M</p>
+<div class="mt-2 flex items-center text-xs text-slate-400">
+<span class="material-symbols-outlined text-sm">info</span>
+<span>84% of quota used</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-4">
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Active Tickets</p>
+<p class="text-2xl font-bold mt-1">3</p>
+<div class="mt-2 flex items-center text-xs text-amber-500">
+<span class="material-symbols-outlined text-sm">priority_high</span>
+<span>1 high priority</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-4">
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider">MRR</p>
+<p class="text-2xl font-bold mt-1">$2,450</p>
+<div class="mt-2 flex items-center text-xs text-slate-400">
+<span>Billed monthly</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Projects Table -->
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-border-dark flex justify-between items-center">
+<h3 class="font-bold">Active Projects</h3>
+<button class="text-xs font-semibold text-primary hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-50 dark:bg-background-dark/50 text-slate-500 text-xs font-semibold uppercase tracking-wider">
+<tr>
+<th class="px-6 py-3">Project Name</th>
+<th class="px-6 py-3">Requests</th>
+<th class="px-6 py-3">Status</th>
+<th class="px-6 py-3"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-border-dark">
+<tr>
+<td class="px-6 py-4">
+<div class="font-medium">Acme-Gen-Alpha</div>
+<div class="text-xs text-slate-500">Production</div>
+</td>
+<td class="px-6 py-4 font-mono">842,019</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">Healthy</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-symbols-outlined text-slate-400">more_vert</button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4">
+<div class="font-medium">Acme-RAG-Demo</div>
+<div class="text-xs text-slate-500">Staging</div>
+</td>
+<td class="px-6 py-4 font-mono">12,400</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">Healthy</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-symbols-outlined text-slate-400">more_vert</button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4">
+<div class="font-medium">Internal-Testing</div>
+<div class="text-xs text-slate-500">Development</div>
+</td>
+<td class="px-6 py-4 font-mono">342</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-500/10 text-slate-500">Inactive</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-symbols-outlined text-slate-400">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Tickets Table -->
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-border-dark flex justify-between items-center">
+<h3 class="font-bold">Recent Support Tickets</h3>
+<button class="text-xs font-semibold text-primary hover:underline">New Ticket</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-50 dark:bg-background-dark/50 text-slate-500 text-xs font-semibold uppercase tracking-wider">
+<tr>
+<th class="px-6 py-3">Ticket ID</th>
+<th class="px-6 py-3">Subject</th>
+<th class="px-6 py-3">Status</th>
+<th class="px-6 py-3">Assigned</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-border-dark">
+<tr>
+<td class="px-6 py-4 text-slate-500">#HY-9021</td>
+<td class="px-6 py-4 font-medium truncate max-w-[150px]">API Latency Issues...</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-500">In Progress</span>
+</td>
+<td class="px-6 py-4">
+<div class="size-6 rounded-full bg-slate-200 dark:bg-border-dark flex items-center justify-center text-[10px]" data-alt="Small avatar for assigned agent">M</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 text-slate-500">#HY-8842</td>
+<td class="px-6 py-4 font-medium truncate max-w-[150px]">Billing Dispute - Q3</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">Pending</span>
+</td>
+<td class="px-6 py-4">
+<div class="size-6 rounded-full bg-slate-200 dark:bg-border-dark flex items-center justify-center text-[10px]" data-alt="Small avatar for assigned agent">J</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 text-slate-500">#HY-8611</td>
+<td class="px-6 py-4 font-medium truncate max-w-[150px]">Feature Request: LLM...</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">Resolved</span>
+</td>
+<td class="px-6 py-4">
+<span class="material-symbols-outlined text-slate-300">person_off</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Footer Quick Links -->
+<div class="mt-8 flex items-center justify-center gap-8">
+<div class="flex items-center gap-2 text-slate-400 hover:text-slate-200 cursor-pointer transition-colors">
+<span class="material-symbols-outlined">description</span>
+<span class="text-xs font-medium uppercase tracking-widest">Internal Documentation</span>
+</div>
+<div class="flex items-center gap-2 text-slate-400 hover:text-slate-200 cursor-pointer transition-colors">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-xs font-medium uppercase tracking-widest">Team Slack</span>
+</div>
+<div class="flex items-center gap-2 text-slate-400 hover:text-slate-200 cursor-pointer transition-colors">
+<span class="material-symbols-outlined">report</span>
+<span class="text-xs font-medium uppercase tracking-widest">Incident Report</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

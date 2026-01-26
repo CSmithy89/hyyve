@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Component Library</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "card-dark": "#1e1c30",
+              "card-hover": "#272546",
+              "secondary-text": "#9795c6",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary/30">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#272546] bg-white/95 dark:bg-[#131221]/95 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="text-slate-600 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Styles</a>
+<a class="text-primary text-sm font-medium leading-normal" href="#">Components</a>
+<a class="text-slate-600 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Assets</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-white/10" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJqa4jvzjdpMhC1aJbdlQLM71g6ssfFyoHJYLGUJD1pKu9NbyDTIKAiQeg33GElGNC6XRDjFcrmmhsBnD_hSezqYGE9hLnshb0PU3YF3Nu-cSBWzOPpaFWQ2VyNmJbu3bRhxz8OeNifRFyimC0qgQ7NWmyqsR2HuVhOu5qdLLvncJI-RioCXI6I_lGCRVKxBAs2zSrAEIt8T2JrqkKhmrnLArKc8dqs6UqZsmy2mFozOSxA77qcyQVgRUozirlO4IM0h9PVrbgg8Q");'></div>
+</div>
+</header>
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 md:px-12 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 px-4 py-2">
+<a class="text-slate-500 dark:text-[#9795c6] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Hyyve</a>
+<span class="text-slate-400 dark:text-[#9795c6]/60 text-sm font-medium leading-normal">/</span>
+<a class="text-slate-500 dark:text-[#9795c6] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Assets</a>
+<span class="text-slate-400 dark:text-[#9795c6]/60 text-sm font-medium leading-normal">/</span>
+<span class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Components</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between gap-3 px-4 py-4 md:py-8">
+<div class="flex min-w-72 flex-col gap-3">
+<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Component Library</h1>
+<p class="text-slate-500 dark:text-[#9795c6] text-lg font-normal leading-normal">Browse and manage your UI building blocks.</p>
+</div>
+<!-- Action Area -->
+<div class="flex items-center gap-3">
+<button class="flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-200 dark:bg-[#272546] px-4 hover:bg-slate-300 dark:hover:bg-[#323055] transition-colors">
+<span class="material-symbols-outlined text-slate-600 dark:text-white" style="font-size: 20px;">upload</span>
+<span class="text-slate-900 dark:text-white text-sm font-medium">Import</span>
+</button>
+<button class="flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white" style="font-size: 20px;">add</span>
+<span class="text-white text-sm font-medium">New Component</span>
+</button>
+</div>
+</div>
+<!-- Search & Filter Bar -->
+<div class="px-4 py-3 flex flex-col md:flex-row gap-4 items-center">
+<label class="flex flex-col min-w-40 h-12 w-full md:w-96">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm">
+<div class="text-slate-400 dark:text-[#9795c6] flex border border-r-0 border-slate-200 dark:border-none bg-white dark:bg-[#272546] items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined" style="font-size: 24px;">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border border-l-0 border-slate-200 dark:border-none bg-white dark:bg-[#272546] placeholder:text-slate-400 dark:placeholder:text-[#9795c6] px-4 pl-2 text-base font-normal leading-normal" placeholder="Search components..." value=""/>
+</div>
+</label>
+<!-- Filter Chips -->
+<div class="flex gap-2 p-1 overflow-x-auto w-full md:w-auto pb-2 md:pb-1 no-scrollbar mask-gradient">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary px-4 shadow-md shadow-primary/20 transition-all hover:scale-105 active:scale-95">
+<p class="text-white text-sm font-medium leading-normal">All</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-[#272546] px-4 hover:bg-slate-200 dark:hover:bg-[#353358] transition-colors border border-transparent dark:border-white/5">
+<p class="text-slate-600 dark:text-white text-sm font-medium leading-normal">Layout</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-[#272546] px-4 hover:bg-slate-200 dark:hover:bg-[#353358] transition-colors border border-transparent dark:border-white/5">
+<p class="text-slate-600 dark:text-white text-sm font-medium leading-normal">Forms</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-[#272546] px-4 hover:bg-slate-200 dark:hover:bg-[#353358] transition-colors border border-transparent dark:border-white/5">
+<p class="text-slate-600 dark:text-white text-sm font-medium leading-normal">Data Display</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-[#272546] px-4 hover:bg-slate-200 dark:hover:bg-[#353358] transition-colors border border-transparent dark:border-white/5">
+<p class="text-slate-600 dark:text-white text-sm font-medium leading-normal">Feedback</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-[#272546] px-4 hover:bg-slate-200 dark:hover:bg-[#353358] transition-colors border border-transparent dark:border-white/5">
+<p class="text-slate-600 dark:text-white text-sm font-medium leading-normal">Overlay</p>
+</button>
+</div>
+</div>
+<!-- Component Grid -->
+<div class="px-4 py-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1: Primary Button -->
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1e1c30] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-lg dark:hover:bg-[#222036] hover:-translate-y-1 transition-all duration-300">
+<div class="relative flex h-40 items-center justify-center bg-slate-50 dark:bg-[#151426] p-4 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2c2a4a_1px,transparent_1px)] [background-size:16px_16px]">
+<button class="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium shadow-lg shadow-primary/30">
+                                        Button
+                                    </button>
+</div>
+<div class="flex flex-col p-4 gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Primary Button</h3>
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400">
+                                            5 Variants
+                                        </span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-slate-400 dark:text-secondary-text text-xs">Forms / Action</span>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" href="#">
+                                            Preview
+                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 2: Text Input -->
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1e1c30] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-lg dark:hover:bg-[#222036] hover:-translate-y-1 transition-all duration-300">
+<div class="relative flex h-40 items-center justify-center bg-slate-50 dark:bg-[#151426] p-6 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2c2a4a_1px,transparent_1px)] [background-size:16px_16px]">
+<div class="w-full">
+<div class="h-9 w-full rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-[#1e1c30] px-3 py-2 text-sm text-slate-400 dark:text-slate-500">
+                                            Placeholder...
+                                        </div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Input Field</h3>
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400">
+                                            3 Variants
+                                        </span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-slate-400 dark:text-secondary-text text-xs">Forms / Text</span>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" href="#">
+                                            Preview
+                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 3: Toggle Switch -->
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1e1c30] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-lg dark:hover:bg-[#222036] hover:-translate-y-1 transition-all duration-300">
+<div class="relative flex h-40 items-center justify-center bg-slate-50 dark:bg-[#151426] p-4 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2c2a4a_1px,transparent_1px)] [background-size:16px_16px]">
+<div class="flex items-center gap-2">
+<div class="w-10 h-6 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Toggle Switch</h3>
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400">
+                                            2 Variants
+                                        </span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-slate-400 dark:text-secondary-text text-xs">Forms / Selection</span>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" href="#">
+                                            Preview
+                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 4: Modal -->
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1e1c30] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-lg dark:hover:bg-[#222036] hover:-translate-y-1 transition-all duration-300">
+<div class="relative flex h-40 items-center justify-center bg-slate-50 dark:bg-[#151426] p-4 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2c2a4a_1px,transparent_1px)] [background-size:16px_16px]">
+<div class="bg-white dark:bg-[#1e1c30] rounded-lg shadow-xl w-3/4 h-3/4 flex flex-col p-2 border border-slate-100 dark:border-white/5">
+<div class="h-2 w-1/2 bg-slate-200 dark:bg-slate-700 rounded mb-2"></div>
+<div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded mb-1"></div>
+<div class="h-1.5 w-2/3 bg-slate-100 dark:bg-slate-800 rounded"></div>
+<div class="mt-auto flex gap-1 justify-end">
+<div class="h-4 w-8 bg-slate-200 dark:bg-slate-700 rounded"></div>
+<div class="h-4 w-8 bg-primary/60 rounded"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Modal Dialog</h3>
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400">
+                                            1 Variant
+                                        </span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-slate-400 dark:text-secondary-text text-xs">Overlay / Dialog</span>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" href="#">
+                                            Preview
+                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 5: Data Table -->
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1e1c30] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-lg dark:hover:bg-[#222036] hover:-translate-y-1 transition-all duration-300">
+<div class="relative flex h-40 items-center justify-center bg-slate-50 dark:bg-[#151426] p-4 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2c2a4a_1px,transparent_1px)] [background-size:16px_16px]">
+<div class="w-full flex flex-col gap-1.5 opacity-80">
+<div class="flex gap-1">
+<div class="h-3 w-1/4 bg-slate-300 dark:bg-slate-600 rounded-sm"></div>
+<div class="h-3 w-1/4 bg-slate-300 dark:bg-slate-600 rounded-sm"></div>
+<div class="h-3 w-1/2 bg-slate-300 dark:bg-slate-600 rounded-sm"></div>
+</div>
+<div class="flex gap-1">
+<div class="h-2 w-1/4 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+<div class="h-2 w-1/4 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+<div class="h-2 w-1/2 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+</div>
+<div class="flex gap-1">
+<div class="h-2 w-1/4 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+<div class="h-2 w-1/4 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+<div class="h-2 w-1/2 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+</div>
+<div class="flex gap-1">
+<div class="h-2 w-1/4 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+<div class="h-2 w-1/4 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+<div class="h-2 w-1/2 bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Data Table</h3>
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400">
+                                            2 Variants
+                                        </span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-slate-400 dark:text-secondary-text text-xs">Data Display</span>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" href="#">
+                                            Preview
+                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 6: Badge -->
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1e1c30] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-lg dark:hover:bg-[#222036] hover:-translate-y-1 transition-all duration-300">
+<div class="relative flex h-40 items-center justify-center gap-2 bg-slate-50 dark:bg-[#151426] p-4 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2c2a4a_1px,transparent_1px)] [background-size:16px_16px]">
+<span class="px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-300 text-xs font-medium">Active</span>
+<span class="px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-300 text-xs font-medium">Error</span>
+</div>
+<div class="flex flex-col p-4 gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Status Badge</h3>
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400">
+                                            8 Variants
+                                        </span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-slate-400 dark:text-secondary-text text-xs">Data Display</span>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" href="#">
+                                            Preview
+                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 7: Alert -->
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1e1c30] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-lg dark:hover:bg-[#222036] hover:-translate-y-1 transition-all duration-300">
+<div class="relative flex h-40 items-center justify-center bg-slate-50 dark:bg-[#151426] p-4 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2c2a4a_1px,transparent_1px)] [background-size:16px_16px]">
+<div class="w-full flex items-center gap-3 p-2 rounded-md bg-yellow-50 dark:bg-yellow-500/10 border border-yellow-100 dark:border-yellow-500/20">
+<span class="material-symbols-outlined text-yellow-600 dark:text-yellow-400 text-sm">warning</span>
+<div class="h-2 w-2/3 bg-yellow-200 dark:bg-yellow-500/30 rounded"></div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Alert Banner</h3>
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400">
+                                            4 Variants
+                                        </span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-slate-400 dark:text-secondary-text text-xs">Feedback</span>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" href="#">
+                                            Preview
+                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 8: Sidebar Nav -->
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1e1c30] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-lg dark:hover:bg-[#222036] hover:-translate-y-1 transition-all duration-300">
+<div class="relative flex h-40 items-center justify-center bg-slate-50 dark:bg-[#151426] p-4 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2c2a4a_1px,transparent_1px)] [background-size:16px_16px]">
+<div class="flex h-full w-full gap-2">
+<div class="w-1/3 h-full bg-white dark:bg-[#1e1c30] rounded-md border border-slate-100 dark:border-white/5 flex flex-col gap-1.5 p-1.5">
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-700/50 rounded-sm"></div>
+<div class="h-2 w-3/4 bg-slate-100 dark:bg-slate-800 rounded-sm"></div>
+<div class="h-2 w-3/4 bg-slate-100 dark:bg-slate-800 rounded-sm"></div>
+</div>
+<div class="w-2/3 h-full bg-slate-100/50 dark:bg-slate-800/20 rounded-md border-dashed border border-slate-200 dark:border-white/10"></div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-900 dark:text-white text-base font-semibold">Sidebar Layout</h3>
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400">
+                                            2 Variants
+                                        </span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-slate-400 dark:text-secondary-text text-xs">Layout</span>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" href="#">
+                                            Preview
+                                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination / Load More -->
+<div class="mt-12 flex justify-center">
+<button class="flex items-center justify-center gap-2 rounded-lg border border-slate-200 dark:border-white/10 px-6 py-2.5 text-sm font-medium text-slate-600 dark:text-secondary-text hover:bg-slate-100 dark:hover:bg-[#272546] hover:text-primary transition-colors">
+                                Load more components
+                                <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

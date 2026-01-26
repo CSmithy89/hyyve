@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Branch Node Config</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", /* Matching the example background */
+                        "card-dark": "#1c1b32", /* Matching the input example background */
+                        "input-dark": "#272546",
+                        "border-dark": "#383663",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for better aesthetics in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #383663;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        .icon-filled {
+            font-variation-settings:
+            'FILL' 1,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display h-screen flex overflow-hidden selection:bg-primary/30">
+<!-- Sidebar -->
+<aside class="hidden lg:flex flex-col w-64 border-r border-border-dark bg-background-dark h-full flex-shrink-0">
+<div class="flex flex-col h-full p-4 justify-between">
+<div class="flex flex-col gap-6">
+<!-- Branding -->
+<div class="flex flex-col px-2">
+<div class="flex items-center gap-3 mb-1">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-white text-lg font-bold leading-tight tracking-tight">Hyyve</h1>
+</div>
+<p class="text-text-secondary text-xs font-normal pl-9">AI Platform</p>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/20 text-white border border-primary/20 hover:bg-primary/30 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary group-hover:text-white transition-colors">hub</span>
+<span class="text-sm font-medium">Builder</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-sm font-medium">Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Team</span>
+</a>
+</nav>
+</div>
+<!-- Bottom User/Meta -->
+<div class="px-3 py-4 border-t border-border-dark mt-auto">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8" data-alt="User profile avatar gradient" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-white">Alex Morgan</span>
+<span class="text-xs text-text-secondary">Workspace Admin</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative w-full">
+<!-- Top Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-border-dark px-8 py-4 bg-background-dark/80 backdrop-blur-sm z-10 sticky top-0">
+<div class="flex items-center gap-8">
+<!-- Mobile Menu Toggle (Visible on small screens) -->
+<button class="lg:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex items-center gap-6 hidden md:flex">
+<a class="text-white text-sm font-semibold border-b-2 border-primary pb-0.5 leading-normal" href="#">Workflows</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Deployments</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Analytics</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search -->
+<label class="hidden sm:flex flex-col min-w-40 h-10 w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-input-dark border border-transparent focus-within:border-primary/50 transition-colors">
+<div class="text-text-secondary flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 bg-transparent border-none text-white focus:ring-0 placeholder:text-text-secondary/70 px-3 text-sm" placeholder="Search workflows..."/>
+</div>
+</label>
+<button class="relative p-2 text-text-secondary hover:text-white transition-colors rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined icon-filled">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-background-dark"></span>
+</button>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<div class="flex-1 overflow-y-auto overflow-x-hidden p-6 md:p-10 relative">
+<div class="max-w-[1000px] mx-auto flex flex-col gap-8 pb-20">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap items-center gap-2 text-sm">
+<a class="text-text-secondary hover:text-white font-medium transition-colors" href="#">Workflows</a>
+<span class="material-symbols-outlined text-text-secondary text-[16px]">chevron_right</span>
+<a class="text-text-secondary hover:text-white font-medium transition-colors" href="#">Customer Support Bot</a>
+<span class="material-symbols-outlined text-text-secondary text-[16px]">chevron_right</span>
+<span class="text-white font-semibold bg-white/5 px-2 py-0.5 rounded">Intent Router</span>
+</div>
+<!-- Page Heading & Config -->
+<div class="flex flex-col md:flex-row justify-between gap-6 items-start md:items-end border-b border-border-dark pb-8">
+<div class="flex flex-col gap-2 max-w-xl">
+<h2 class="text-white text-3xl font-bold tracking-tight">Branch Node Config</h2>
+<p class="text-text-secondary text-base leading-relaxed">Configure conditional routing logic based on incoming user intent variables. Define paths for specific intents and a fallback for unhandled cases.</p>
+</div>
+<!-- Node Name Input -->
+<div class="flex flex-col w-full md:w-auto min-w-[300px]">
+<label class="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-2 ml-1">Node Identifier</label>
+<div class="flex items-center bg-card-dark border border-border-dark rounded-lg px-4 py-2.5 focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-text-secondary mr-2">tag</span>
+<input class="bg-transparent border-none text-white focus:ring-0 w-full p-0 font-mono text-sm" value="node_intent_router_v1"/>
+</div>
+</div>
+</div>
+<!-- Conditions Builder -->
+<div class="flex flex-col relative">
+<!-- Visual Connector Line -->
+<div class="absolute left-[27px] top-6 bottom-12 w-[2px] bg-border-dark -z-10 bg-gradient-to-b from-border-dark via-border-dark to-transparent"></div>
+<!-- Header -->
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-white text-lg font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">alt_route</span>
+                            Routing Logic
+                        </h3>
+<div class="flex gap-2">
+<span class="text-xs text-text-secondary bg-white/5 px-2 py-1 rounded border border-white/5 font-mono">input.intent</span>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<!-- Branch Card 1: Support (Blue) -->
+<div class="group relative flex items-start gap-4">
+<!-- Drag Handle -->
+<button class="mt-8 text-text-secondary hover:text-white cursor-grab active:cursor-grabbing p-1 hover:bg-white/5 rounded">
+<span class="material-symbols-outlined">drag_indicator</span>
+</button>
+<!-- Card -->
+<div class="flex-1 bg-card-dark rounded-xl border border-border-dark border-l-4 border-l-primary shadow-lg overflow-hidden transition-all hover:border-t-primary/30 hover:border-r-primary/30 hover:border-b-primary/30">
+<div class="px-6 py-4 border-b border-border-dark bg-white/2 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-2 rounded-full bg-primary shadow-[0_0_8px_rgba(80,72,229,0.5)]"></div>
+<span class="text-white font-medium">Support Request</span>
+</div>
+<button class="text-text-secondary hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 p-1">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-5">
+<!-- Logic Row -->
+<div class="flex flex-wrap items-center gap-3">
+<span class="text-text-secondary text-sm font-bold uppercase tracking-wide">If</span>
+<!-- Variable -->
+<div class="relative">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+<span class="text-primary font-mono text-xs">{ }</span>
+</div>
+<select class="appearance-none bg-input-dark border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-48 pl-9 p-2.5 font-mono cursor-pointer hover:bg-white/5 transition-colors">
+<option>user_intent</option>
+<option>sentiment_score</option>
+<option>message_body</option>
+</select>
+</div>
+<!-- Operator -->
+<select class="bg-input-dark border border-border-dark text-text-secondary text-sm rounded-lg focus:ring-primary focus:border-primary block w-32 p-2.5 cursor-pointer hover:bg-white/5 transition-colors">
+<option>Equals</option>
+<option>Contains</option>
+<option>Starts with</option>
+<option>Is empty</option>
+</select>
+<!-- Value -->
+<div class="relative flex-1 min-w-[180px]">
+<input class="bg-input-dark border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 placeholder:text-text-secondary/50 font-medium" placeholder="Value..." type="text" value="support"/>
+</div>
+</div>
+<!-- Target Row -->
+<div class="flex items-center gap-3 pt-2">
+<span class="material-symbols-outlined text-text-secondary rotate-90 text-[20px]">subdirectory_arrow_right</span>
+<span class="text-text-secondary text-sm font-medium">Then go to:</span>
+<select class="flex-1 bg-background-dark/50 border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 cursor-pointer hover:bg-input-dark transition-colors">
+<option>🤖 Support Agent Node</option>
+<option>📋 Ticket Creator</option>
+<option>End Flow</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Branch Card 2: Sales (Green) -->
+<div class="group relative flex items-start gap-4">
+<!-- Drag Handle -->
+<button class="mt-8 text-text-secondary hover:text-white cursor-grab active:cursor-grabbing p-1 hover:bg-white/5 rounded">
+<span class="material-symbols-outlined">drag_indicator</span>
+</button>
+<!-- Card -->
+<div class="flex-1 bg-card-dark rounded-xl border border-border-dark border-l-4 border-l-emerald-500 shadow-lg overflow-hidden transition-all hover:border-t-emerald-500/30 hover:border-r-emerald-500/30 hover:border-b-emerald-500/30">
+<div class="px-6 py-4 border-b border-border-dark bg-white/2 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+<span class="text-white font-medium">Sales Inquiry</span>
+</div>
+<button class="text-text-secondary hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 p-1">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-5">
+<!-- Logic Row -->
+<div class="flex flex-wrap items-center gap-3">
+<span class="text-text-secondary text-sm font-bold uppercase tracking-wide">If</span>
+<!-- Variable -->
+<div class="relative">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+<span class="text-primary font-mono text-xs">{ }</span>
+</div>
+<select class="appearance-none bg-input-dark border border-border-dark text-white text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-48 pl-9 p-2.5 font-mono cursor-pointer hover:bg-white/5 transition-colors">
+<option>user_intent</option>
+<option>sentiment_score</option>
+</select>
+</div>
+<!-- Operator -->
+<select class="bg-input-dark border border-border-dark text-text-secondary text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-32 p-2.5 cursor-pointer hover:bg-white/5 transition-colors">
+<option>Contains</option>
+<option>Equals</option>
+<option>Starts with</option>
+</select>
+<!-- Value -->
+<div class="relative flex-1 min-w-[180px]">
+<input class="bg-input-dark border border-border-dark text-white text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 placeholder:text-text-secondary/50 font-medium" placeholder="Value..." type="text" value="pricing"/>
+</div>
+</div>
+<!-- Target Row -->
+<div class="flex items-center gap-3 pt-2">
+<span class="material-symbols-outlined text-text-secondary rotate-90 text-[20px]">subdirectory_arrow_right</span>
+<span class="text-text-secondary text-sm font-medium">Then go to:</span>
+<select class="flex-1 bg-background-dark/50 border border-border-dark text-white text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block p-2.5 cursor-pointer hover:bg-input-dark transition-colors">
+<option>💰 Sales Bot Node</option>
+<option>📅 Meeting Scheduler</option>
+<option>End Flow</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Fallback Card (Gray) -->
+<div class="group relative flex items-start gap-4">
+<!-- Drag Handle Placeholder (Empty for alignment) -->
+<div class="w-6 mt-8"></div>
+<!-- Card -->
+<div class="flex-1 bg-card-dark/50 rounded-xl border border-border-dark border-l-4 border-l-slate-500 shadow-sm overflow-hidden">
+<div class="px-6 py-3 border-b border-border-dark bg-white/2 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-2 rounded-full bg-slate-500"></div>
+<span class="text-text-secondary font-medium">Default Path (Fallback)</span>
+</div>
+<!-- Info icon instead of delete -->
+<div class="text-text-secondary/50 p-1" title="This path runs if no other conditions are met">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</div>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="text-text-secondary text-sm font-bold uppercase tracking-wide">Else</span>
+<span class="text-text-secondary text-sm italic">If none of the above match...</span>
+</div>
+<!-- Target Row -->
+<div class="flex items-center gap-3 pt-2">
+<span class="material-symbols-outlined text-text-secondary rotate-90 text-[20px]">subdirectory_arrow_right</span>
+<span class="text-text-secondary text-sm font-medium">Then go to:</span>
+<select class="flex-1 bg-background-dark/50 border border-border-dark text-white text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block p-2.5 cursor-pointer hover:bg-input-dark transition-colors">
+<option>❓ General FAQ Node</option>
+<option>🔄 Restart Flow</option>
+<option>End Flow</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center gap-4 mt-4 pl-[42px]">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border-dark border-dashed text-text-secondary hover:text-white hover:bg-white/5 hover:border-white/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="text-sm font-medium">Add Branch</span>
+</button>
+<div class="flex-1"></div>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px] icon-filled">play_arrow</span>
+<span class="text-sm font-semibold">Test Conditions</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

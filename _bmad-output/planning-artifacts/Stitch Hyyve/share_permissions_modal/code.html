@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Share Permissions Modal</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1c1b32",
+                        "border-dark": "#383663",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for the list to match the theme */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #383663;
+            border-radius: 20px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #5048e5;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+<!-- Background Decoration (Abstract) -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-40" style="background: radial-gradient(circle at 50% 0%, #2a2945 0%, transparent 70%);"></div>
+<!-- Modal Container -->
+<div class="relative z-10 w-full max-w-[640px] flex flex-col bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-200 dark:border-border-dark overflow-hidden">
+<!-- Header -->
+<div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-border-dark">
+<h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Share Workflow</h3>
+<button class="text-gray-400 dark:text-text-secondary hover:text-gray-900 dark:hover:text-white transition-colors rounded-full p-1">
+<span class="material-symbols-outlined" style="font-size: 24px;">close</span>
+</button>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex flex-col max-h-[80vh] overflow-y-auto custom-scrollbar">
+<!-- Invite Section -->
+<div class="px-6 py-5">
+<div class="flex flex-col gap-2">
+<div class="flex w-full items-stretch gap-3">
+<!-- Email Input with Embedded Dropdown -->
+<div class="flex-1 relative flex items-center">
+<input class="form-input flex-1 w-full rounded-lg border border-gray-300 dark:border-border-dark bg-gray-50 dark:bg-background-dark text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary focus:border-primary h-12 pl-4 pr-32 placeholder:text-gray-400 dark:placeholder:text-text-secondary text-base font-normal leading-normal" placeholder="Add people, groups, or emails..."/>
+<!-- Permission Dropdown (Absolute positioned inside input) -->
+<div class="absolute right-1 top-1 bottom-1 flex items-center">
+<select class="h-full bg-transparent border-none text-gray-500 dark:text-text-secondary text-sm font-medium focus:ring-0 cursor-pointer pl-2 pr-7 py-0 hover:text-primary transition-colors">
+<option>Can edit</option>
+<option>Can view</option>
+</select>
+<!-- Arrow fix for select -->
+<div class="pointer-events-none absolute right-2 flex items-center text-gray-500 dark:text-text-secondary">
+<span class="material-symbols-outlined" style="font-size: 20px;">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Invite Button -->
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Invite</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Access List Section -->
+<div class="px-6 pb-2">
+<h2 class="text-gray-900 dark:text-white text-base font-bold leading-tight tracking-[-0.015em] pb-3">People with access</h2>
+<div class="flex flex-col gap-2">
+<!-- User 1: Owner -->
+<div class="flex items-center gap-4 bg-gray-50 dark:bg-background-dark px-4 py-3 rounded-lg justify-between border border-transparent hover:border-gray-200 dark:hover:border-border-dark transition-colors">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 shrink-0" data-alt="Portrait of Alicia Cooper" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCWZTD7JKDNJ4Ps-vpXA78v1Z0FOZ7JEoFM4CVkqrrDwA30vW0eZUu3g6qjUkGENMCi9mZrMUucwT3Cd7RWxY9U495Q2ZXVwH62Es_0GB0zcjH57Frkl_qj4Mn3lHHfbAO2e1d95p7t2qphGRHUWtyUfpAaau7c011_xPBoYRU19ScXJk8w_xnnWzugunWBdi_dcoYhut0bDg7JR9BaGq83iky9mQ4H3RzXElFCLXzYkYhHKVZE0J8bL7LOOe4PIbqyFDgzxvjqfLo");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-sm font-medium leading-normal line-clamp-1">Alicia Cooper (You)</p>
+<p class="text-gray-500 dark:text-text-secondary text-xs font-normal leading-normal line-clamp-1">alicia@company.com</p>
+</div>
+</div>
+<div class="shrink-0"><p class="text-gray-500 dark:text-text-secondary text-sm font-normal leading-normal">Owner</p></div>
+</div>
+<!-- User 2: Editor -->
+<div class="flex items-center gap-4 bg-gray-50 dark:bg-background-dark px-4 py-3 rounded-lg justify-between border border-transparent hover:border-gray-200 dark:hover:border-border-dark transition-colors group">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 shrink-0" data-alt="Portrait of Marcus Chen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBMG8m_MJu81fY_Ozz9HIP_2-J-6xY0oQdL3XV2JJ9MHX_TYRx6a4evjjAvw19CoUCt4Dt-7n9oTIINRYInOc8OXpet6Y08YViEiQ91zIoQMgMFQ4bkUbAUdzFzR8M5iYDs5-SJ_WtgtrfCGL5Y76QTM_ZciZ18oxbQLyNdhTeOqvG9VgMX5gWDc17i_hTdlBvjAJWsF3r34cqqAD8l1ZWAO5gimGJxreOyH4g6yobr_gS2c8gFkkKV6YGuzTem3euCQUTytBylA-s");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-sm font-medium leading-normal line-clamp-1">Marcus Chen</p>
+<p class="text-gray-500 dark:text-text-secondary text-xs font-normal leading-normal line-clamp-1">marcus@company.com</p>
+</div>
+</div>
+<div class="shrink-0 relative">
+<button class="flex items-center gap-1 text-gray-900 dark:text-white text-sm font-medium hover:text-primary transition-colors focus:outline-none">
+                                Can edit <span class="material-symbols-outlined" style="font-size: 20px;">expand_more</span>
+</button>
+</div>
+</div>
+<!-- User 3: Viewer -->
+<div class="flex items-center gap-4 bg-gray-50 dark:bg-background-dark px-4 py-3 rounded-lg justify-between border border-transparent hover:border-gray-200 dark:hover:border-border-dark transition-colors group">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 shrink-0" data-alt="Portrait of Sarah Jones" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBN3kuSZka_6dRIud3Rk41VYl5RJ2AERioQSZkHoCg8M99KUeSDaDxfoQD3MtsKx6ljtgjUJT_Ze4Aj0cPfJ8q-JpMaIGEyMvtpbr_gX_vaVPeDlcgI10TFGtQp66lbM26jBf1m03ZC4mGJ3PdlNuUeNomE_j2O2RPhY7cc1nsWUZtWzV2Y9byALPzVczfV68hXUfOe7-GQIaCh_F1iNqzqaa_7a6gZwn7K850O5vXJP2oFLFbh4KOK3vGPa5vR3BsKlOPJAsLn1b4");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-sm font-medium leading-normal line-clamp-1">Sarah Jones</p>
+<p class="text-gray-500 dark:text-text-secondary text-xs font-normal leading-normal line-clamp-1">sarah@company.com</p>
+</div>
+</div>
+<div class="shrink-0 relative">
+<button class="flex items-center gap-1 text-gray-900 dark:text-white text-sm font-medium hover:text-primary transition-colors focus:outline-none">
+                                Can view <span class="material-symbols-outlined" style="font-size: 20px;">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Link Sharing Section -->
+<div class="p-6 pt-4 mt-2 border-t border-gray-200 dark:border-border-dark">
+<h2 class="text-gray-900 dark:text-white text-base font-bold leading-tight tracking-[-0.015em] mb-4">Link settings</h2>
+<div class="space-y-4">
+<!-- Radio Option 1: Restricted -->
+<label class="flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer h-5 w-5 border-gray-300 dark:border-border-dark bg-gray-50 dark:bg-background-dark text-primary focus:ring-primary focus:ring-offset-0 dark:focus:ring-offset-surface-dark cursor-pointer" name="access-type" type="radio"/>
+</div>
+<div class="flex flex-col">
+<span class="text-gray-900 dark:text-white text-sm font-medium">Restricted</span>
+<span class="text-gray-500 dark:text-text-secondary text-xs mt-0.5">Only people added can open with this link</span>
+</div>
+</label>
+<!-- Radio Option 2: Public -->
+<label class="flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input checked="" class="peer h-5 w-5 border-gray-300 dark:border-border-dark bg-gray-50 dark:bg-background-dark text-primary focus:ring-primary focus:ring-offset-0 dark:focus:ring-offset-surface-dark cursor-pointer" name="access-type" type="radio"/>
+</div>
+<div class="flex flex-col">
+<span class="text-gray-900 dark:text-white text-sm font-medium">Public</span>
+<span class="text-gray-500 dark:text-text-secondary text-xs mt-0.5">Anyone on the internet with the link can view</span>
+</div>
+</label>
+</div>
+<!-- Copy Link Bar -->
+<div class="mt-5 flex items-center gap-2 bg-gray-50 dark:bg-background-dark border border-gray-300 dark:border-border-dark rounded-lg p-1.5 pl-3 transition-colors focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+<span class="material-symbols-outlined text-gray-400 dark:text-text-secondary" style="font-size: 20px;">link</span>
+<input class="flex-1 bg-transparent border-none p-0 text-sm text-gray-500 dark:text-text-secondary focus:ring-0 truncate" readonly="" type="text" value="https://workflow.ai/s/8s7d8f7s8d-share-workflow"/>
+<button class="bg-primary/10 hover:bg-primary/20 text-primary dark:text-primary text-xs font-bold px-3 py-2 rounded-md transition-colors whitespace-nowrap">
+                        Copy Link
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

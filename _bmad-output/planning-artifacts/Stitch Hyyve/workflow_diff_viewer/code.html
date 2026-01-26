@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Workflow Diff Viewer</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1E1C30",
+                        "diff-green": "#10B981",
+                        "diff-red": "#EF4444",
+                        "diff-yellow": "#F59E0B",
+                        "diff-green-bg": "rgba(16, 185, 129, 0.1)",
+                        "diff-red-bg": "rgba(239, 68, 68, 0.1)",
+                        "diff-yellow-bg": "rgba(245, 158, 11, 0.1)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .dot-pattern {
+            background-image: radial-gradient(#272546 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Hide scrollbar for cleaner UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex-none flex items-center justify-between border-b border-solid border-[#272546] bg-background-dark px-6 py-3 z-20">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-xl">account_tree</span>
+</div>
+<div>
+<h1 class="text-white text-lg font-bold leading-tight tracking-tight">Workflow: Chatbot Gen 2</h1>
+<p class="text-slate-400 text-xs font-medium">Visual Diff Viewer</p>
+</div>
+</div>
+<div class="h-8 w-px bg-[#272546]"></div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 bg-[#1E1C30] rounded-lg p-1 border border-[#272546]">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded bg-background-dark/50 border border-[#272546] cursor-pointer hover:border-slate-500 transition-colors">
+<span class="text-slate-400 text-xs">Base:</span>
+<span class="text-white text-sm font-semibold">v1.2 (Stable)</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+</div>
+<span class="material-symbols-outlined text-slate-500 text-sm">arrow_forward</span>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded bg-primary/10 border border-primary/30 cursor-pointer hover:border-primary transition-colors">
+<span class="text-primary text-xs">Target:</span>
+<span class="text-white text-sm font-semibold">v1.3 (Candidate)</span>
+<span class="material-symbols-outlined text-primary text-sm">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Summary Stats Mini -->
+<div class="flex items-center gap-3 mr-4">
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-diff-green-bg border border-diff-green/30">
+<span class="material-symbols-outlined text-diff-green text-sm font-bold">add</span>
+<span class="text-diff-green text-xs font-bold">+2 Added</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-diff-red-bg border border-diff-red/30">
+<span class="material-symbols-outlined text-diff-red text-sm font-bold">remove</span>
+<span class="text-diff-red text-xs font-bold">-1 Removed</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-diff-yellow-bg border border-diff-yellow/30">
+<span class="material-symbols-outlined text-diff-yellow text-sm font-bold">edit</span>
+<span class="text-diff-yellow text-xs font-bold">~3 Modified</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center gap-2 rounded-lg h-9 px-4 bg-[#272546] hover:bg-[#34325c] text-white text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-sm">call_merge</span>
+<span>Merge Changes</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-colors shadow-[0_0_15px_rgba(80,72,229,0.3)]">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+<span>Deploy v1.3</span>
+</button>
+</div>
+<div class="w-9 h-9 rounded-full bg-cover bg-center border border-[#272546]" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA5QPDvxRXyvuCk_CR6b51Ah1aqCixWjd3L2G_x6vnnBzhsk5ojLEDtamiI3A4Dt-qfoTYHT2YpOJ0cZri-vlpJ58F12OUJRf3J7wqVomhM_jmcGCTfvy8AtCoXKPPH3yfyUDcuX7ERUKE76hgQo9WhPn_nM9NkVUoGXYDjc3Ww5Ik2YSwkqFtXhIjNVPPsfYk9pgqnj38IoQP-_JMVnEno65i1PKGthIn0ujvzt2R-46qIuiDZxkBt5Bzwb03AUhzQyENWAKUgaOI");'></div>
+</div>
+</header>
+<!-- Main Content: Split View -->
+<main class="flex-1 flex overflow-hidden relative group/canvas">
+<!-- Legend Overlay -->
+<div class="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-[#1E1C30]/90 backdrop-blur-sm border border-[#383663] rounded-full px-4 py-2 flex gap-6 shadow-xl">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-diff-green shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+<span class="text-xs font-medium text-slate-300">Added</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-diff-yellow shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
+<span class="text-xs font-medium text-slate-300">Modified</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-diff-red shadow-[0_0_8px_rgba(239,68,68,0.5)]"></div>
+<span class="text-xs font-medium text-slate-300">Removed</span>
+</div>
+<div class="w-px h-4 bg-[#383663]"></div>
+<div class="flex items-center gap-2 cursor-pointer text-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-base">link</span>
+<span class="text-xs font-bold">Sync Scroll</span>
+</div>
+</div>
+<!-- Left Pane: Previous Version -->
+<div class="flex-1 flex flex-col border-r border-[#272546] relative overflow-hidden">
+<div class="absolute top-4 left-4 z-10 px-3 py-1 bg-[#1E1C30]/80 backdrop-blur border border-[#383663] rounded-lg text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                Previous (v1.2)
+            </div>
+<!-- Canvas Simulation -->
+<div class="flex-1 dot-pattern bg-[#131221] relative overflow-auto p-20 cursor-grab active:cursor-grabbing">
+<!-- SVG Connections Background -->
+<svg class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-visible" xmlns="http://www.w3.org/2000/svg">
+<!-- Start to LLM -->
+<path d="M 280 150 C 350 150, 350 250, 420 250" fill="none" stroke="#383663" stroke-width="2"></path>
+<!-- LLM to Safety Filter -->
+<path class="opacity-60" d="M 676 250 C 750 250, 750 250, 800 250" fill="none" stroke="#EF4444" stroke-dasharray="5,5" stroke-width="2"></path>
+</svg>
+<!-- Start Node -->
+<div class="absolute top-[100px] left-[80px] w-52 bg-[#1E1C30] rounded-xl border border-[#383663] shadow-lg p-0">
+<div class="p-3 border-b border-[#383663] flex items-center justify-between bg-[#232138] rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">play_circle</span>
+<span class="text-white text-sm font-semibold">User Input</span>
+</div>
+</div>
+<div class="p-3">
+<div class="text-slate-400 text-xs font-mono">type: text</div>
+<div class="text-slate-400 text-xs font-mono mt-1">max_len: 1000</div>
+</div>
+<!-- Handle -->
+<div class="absolute top-1/2 -right-1.5 w-3 h-3 bg-primary rounded-full border-2 border-[#1E1C30]"></div>
+</div>
+<!-- LLM Node (Modified) -->
+<div class="absolute top-[180px] left-[420px] w-64 bg-[#1E1C30] rounded-xl border border-diff-yellow shadow-[0_0_15px_rgba(245,158,11,0.1)] p-0">
+<div class="p-3 border-b border-[#383663] flex items-center justify-between bg-diff-yellow-bg rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-diff-yellow text-sm">smart_toy</span>
+<span class="text-white text-sm font-semibold">LLM Processor</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-diff-yellow/20 text-diff-yellow text-[10px] font-bold border border-diff-yellow/30">MOD</span>
+</div>
+<div class="p-3 space-y-2">
+<div class="flex justify-between items-center text-xs p-1 rounded bg-[#131221] border border-[#272546]">
+<span class="text-slate-400">Model</span>
+<span class="text-white font-mono">gpt-3.5-turbo</span>
+</div>
+<div class="flex justify-between items-center text-xs p-1 rounded bg-diff-yellow/10 border border-diff-yellow/30">
+<span class="text-slate-400">Temp</span>
+<span class="text-diff-yellow font-mono font-bold">0.7</span>
+</div>
+</div>
+<!-- Handles -->
+<div class="absolute top-1/2 -left-1.5 w-3 h-3 bg-[#383663] rounded-full border-2 border-[#1E1C30]"></div>
+<div class="absolute top-1/2 -right-1.5 w-3 h-3 bg-primary rounded-full border-2 border-[#1E1C30]"></div>
+</div>
+<!-- Safety Filter Node (Removed) -->
+<div class="absolute top-[180px] left-[800px] w-64 bg-[#1E1C30]/50 rounded-xl border-2 border-dashed border-diff-red shadow-none p-0 opacity-80">
+<div class="p-3 border-b border-dashed border-diff-red/50 flex items-center justify-between bg-diff-red-bg rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-diff-red text-sm">security</span>
+<span class="text-white text-sm font-semibold">Safety Filter</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-diff-red/20 text-diff-red text-[10px] font-bold border border-diff-red/30">DEL</span>
+</div>
+<div class="p-3 space-y-2 opacity-50">
+<div class="text-slate-400 text-xs">Standard OpenAI moderation endpoint.</div>
+</div>
+<!-- Handle -->
+<div class="absolute top-1/2 -left-1.5 w-3 h-3 bg-diff-red rounded-full border-2 border-[#1E1C30]"></div>
+</div>
+</div>
+</div>
+<!-- Right Pane: Current Version -->
+<div class="flex-1 flex flex-col relative overflow-hidden">
+<div class="absolute top-4 left-4 z-10 px-3 py-1 bg-[#1E1C30]/80 backdrop-blur border border-[#383663] rounded-lg text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                Current (v1.3)
+            </div>
+<!-- Canvas Simulation -->
+<div class="flex-1 dot-pattern bg-[#131221] relative overflow-auto p-20 cursor-grab active:cursor-grabbing">
+<!-- SVG Connections Background -->
+<svg class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-visible" xmlns="http://www.w3.org/2000/svg">
+<!-- Start to LLM -->
+<path d="M 280 150 C 350 150, 350 250, 420 250" fill="none" stroke="#383663" stroke-width="2"></path>
+<!-- LLM to Vector DB (New Path) -->
+<path d="M 676 250 C 750 250, 750 350, 800 350" fill="none" stroke="#10B981" stroke-width="2"></path>
+</svg>
+<!-- Start Node (Unchanged) -->
+<div class="absolute top-[100px] left-[80px] w-52 bg-[#1E1C30] rounded-xl border border-[#383663] shadow-lg p-0 opacity-60">
+<div class="p-3 border-b border-[#383663] flex items-center justify-between bg-[#232138] rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">play_circle</span>
+<span class="text-white text-sm font-semibold">User Input</span>
+</div>
+</div>
+<div class="p-3">
+<div class="text-slate-400 text-xs font-mono">type: text</div>
+<div class="text-slate-400 text-xs font-mono mt-1">max_len: 1000</div>
+</div>
+<!-- Handle -->
+<div class="absolute top-1/2 -right-1.5 w-3 h-3 bg-primary rounded-full border-2 border-[#1E1C30]"></div>
+</div>
+<!-- LLM Node (Modified) -->
+<div class="absolute top-[180px] left-[420px] w-64 bg-[#1E1C30] rounded-xl border border-diff-yellow shadow-[0_0_15px_rgba(245,158,11,0.1)] p-0">
+<div class="p-3 border-b border-[#383663] flex items-center justify-between bg-diff-yellow-bg rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-diff-yellow text-sm">smart_toy</span>
+<span class="text-white text-sm font-semibold">LLM Processor</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-diff-yellow/20 text-diff-yellow text-[10px] font-bold border border-diff-yellow/30">MOD</span>
+</div>
+<div class="p-3 space-y-2">
+<div class="flex justify-between items-center text-xs p-1 rounded bg-[#131221] border border-[#272546]">
+<span class="text-slate-400">Model</span>
+<span class="text-white font-mono">gpt-3.5-turbo</span>
+</div>
+<div class="flex justify-between items-center text-xs p-1 rounded bg-diff-yellow/10 border border-diff-yellow/30">
+<span class="text-slate-400">Temp</span>
+<span class="text-diff-yellow font-mono font-bold">0.2</span>
+</div>
+</div>
+<!-- Handles -->
+<div class="absolute top-1/2 -left-1.5 w-3 h-3 bg-[#383663] rounded-full border-2 border-[#1E1C30]"></div>
+<div class="absolute top-1/2 -right-1.5 w-3 h-3 bg-primary rounded-full border-2 border-[#1E1C30]"></div>
+</div>
+<!-- Vector DB Node (Added) -->
+<div class="absolute top-[280px] left-[800px] w-64 bg-[#1E1C30] rounded-xl border border-diff-green shadow-[0_0_15px_rgba(16,185,129,0.1)] p-0">
+<div class="p-3 border-b border-[#383663] flex items-center justify-between bg-diff-green-bg rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-diff-green text-sm">database</span>
+<span class="text-white text-sm font-semibold">Vector DB</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-diff-green/20 text-diff-green text-[10px] font-bold border border-diff-green/30">NEW</span>
+</div>
+<div class="p-3 space-y-2">
+<div class="text-xs text-slate-300">Retrieves context for RAG pipeline.</div>
+<div class="flex justify-between items-center text-xs p-1 rounded bg-[#131221] border border-[#272546]">
+<span class="text-slate-400">Index</span>
+<span class="text-white font-mono">pinecone-v1</span>
+</div>
+</div>
+<!-- Handle -->
+<div class="absolute top-1/2 -left-1.5 w-3 h-3 bg-diff-green rounded-full border-2 border-[#1E1C30]"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Panel: Change List -->
+<section class="flex-none bg-[#131221] border-t border-[#272546] flex flex-col max-h-64 z-20 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
+<div class="flex items-center justify-between px-6 py-3 border-b border-[#272546] bg-[#1E1C30]">
+<h3 class="text-white text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">list_alt</span>
+                Change Log Details
+            </h3>
+<div class="flex gap-2">
+<button class="text-slate-400 hover:text-white transition-colors"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="text-slate-400 hover:text-white transition-colors"><span class="material-symbols-outlined">expand_more</span></button>
+</div>
+</div>
+<div class="overflow-y-auto p-4">
+<div class="flex flex-wrap gap-3">
+<!-- Added Item -->
+<button class="flex items-start gap-3 p-3 rounded-lg bg-[#1E1C30] border border-[#272546] hover:bg-[#272546] hover:border-diff-green/50 transition-all group text-left min-w-[300px] flex-1">
+<div class="mt-0.5 w-6 h-6 rounded bg-diff-green/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-diff-green text-sm">add</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium leading-tight mb-1 group-hover:text-diff-green transition-colors">Added: Vector DB Node</p>
+<p class="text-slate-400 text-xs">New RAG component connected to LLM output.</p>
+</div>
+</button>
+<!-- Modified Item -->
+<button class="flex items-start gap-3 p-3 rounded-lg bg-[#1E1C30] border border-[#272546] hover:bg-[#272546] hover:border-diff-yellow/50 transition-all group text-left min-w-[300px] flex-1">
+<div class="mt-0.5 w-6 h-6 rounded bg-diff-yellow/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-diff-yellow text-sm">edit</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium leading-tight mb-1 group-hover:text-diff-yellow transition-colors">Modified: LLM Processor</p>
+<div class="flex items-center gap-2 text-xs font-mono">
+<span class="text-slate-500">temperature:</span>
+<span class="text-diff-red line-through">0.7</span>
+<span class="text-slate-500">→</span>
+<span class="text-diff-green">0.2</span>
+</div>
+</div>
+</button>
+<!-- Deleted Item -->
+<button class="flex items-start gap-3 p-3 rounded-lg bg-[#1E1C30] border border-[#272546] hover:bg-[#272546] hover:border-diff-red/50 transition-all group text-left min-w-[300px] flex-1">
+<div class="mt-0.5 w-6 h-6 rounded bg-diff-red/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-diff-red text-sm">delete</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium leading-tight mb-1 group-hover:text-diff-red transition-colors">Deleted: Safety Filter</p>
+<p class="text-slate-400 text-xs">Removed deprecated moderation node.</p>
+</div>
+</button>
+<!-- Another Modified Item -->
+<button class="flex items-start gap-3 p-3 rounded-lg bg-[#1E1C30] border border-[#272546] hover:bg-[#272546] hover:border-diff-yellow/50 transition-all group text-left min-w-[300px] flex-1">
+<div class="mt-0.5 w-6 h-6 rounded bg-diff-yellow/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-diff-yellow text-sm">edit</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium leading-tight mb-1 group-hover:text-diff-yellow transition-colors">Modified: System Prompt</p>
+<p class="text-slate-400 text-xs">Updated instructions for concise responses.</p>
+</div>
+</button>
+</div>
+</div>
+</section>
+</body></html>

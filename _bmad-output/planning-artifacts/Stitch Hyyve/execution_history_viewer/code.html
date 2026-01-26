@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Execution History Viewer - Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f172a",
+                        "surface-dark": "#1e293b",
+                        "border-dark": "#334155",
+                        "error-red": "#ef4444",
+                        "success-green": "#10b981",
+                        "warning-yellow": "#f59e0b"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex flex-col h-screen overflow-hidden">
+<!-- Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark px-10 py-3 z-20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-400 flex border-none bg-slate-100 dark:bg-surface-dark items-center justify-center pl-4 rounded-l-lg" data-icon="search">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-surface-dark focus:border-none h-full placeholder:text-slate-400 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal" placeholder="Search executions..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary py-1" href="#">Executions</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Deployments</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-surface-dark text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-border-dark" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDezue7OxAt03U6jBzB0ThQuFR4ZXgpU8-ZeT9hNyWEa54JN0-V8dp2mPYWaK4tJWrc7KVvVpzBo4IqQDyd-TbEBxDBvfGFKryxt8GFrcMRBC0kYCMKvaDHc_swYJjR67nfaTTr5GugQrjtTMLqHGNsBqY9ISocZqSV8uThh02arlpSdB5dEq5qyH4MF5uVYC1vVgVTUOg4A9gWjJdg8QLVMaJimGz66NJDQX9zGMAjbL4b8tZO92aKQ-p3q_exz8PSXlDhqMemry8");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Side: Table and Charts -->
+<div class="flex-1 overflow-y-auto scrollbar-hide flex flex-col">
+<!-- Page Heading -->
+<div class="flex flex-wrap items-center justify-between gap-3 p-6 pb-2">
+<div>
+<h1 class="text-slate-900 dark:text-white text-3xl font-black leading-tight tracking-tight">Execution History</h1>
+<p class="text-slate-500 text-sm mt-1">Real-time observability and logs for all service runs</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-slate-100 dark:bg-surface-dark text-slate-900 dark:text-white text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Export CSV</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-opacity-90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Refresh Logs</span>
+</button>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex gap-3 px-6 py-4 flex-wrap items-center">
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-surface-dark px-4 border border-slate-200 dark:border-border-dark">
+<span class="text-slate-600 dark:text-slate-300 text-sm font-medium">Status: All</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-primary/10 border border-primary/30 px-4">
+<span class="text-primary text-sm font-bold">Time: Last 24h</span>
+<span class="material-symbols-outlined text-[18px] text-primary">expand_more</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-surface-dark px-4 border border-slate-200 dark:border-border-dark">
+<span class="text-slate-600 dark:text-slate-300 text-sm font-medium">Trigger: All</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-surface-dark px-4 border border-slate-200 dark:border-border-dark">
+<span class="text-slate-600 dark:text-slate-300 text-sm font-medium">Environment: Production</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<div class="h-6 w-px bg-slate-200 dark:bg-border-dark mx-2"></div>
+<span class="text-slate-400 text-xs font-mono">1,248 results</span>
+</div>
+<!-- Activity Timeline -->
+<div class="px-6 py-4">
+<div class="bg-white dark:bg-surface-dark/50 rounded-xl border border-slate-200 dark:border-border-dark p-6">
+<div class="flex items-center justify-between mb-6">
+<div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Execution Activity Timeline</p>
+<div class="flex items-baseline gap-2 mt-1">
+<h3 class="text-slate-900 dark:text-white text-3xl font-black">14.2k</h3>
+<span class="text-success-green text-sm font-bold flex items-center">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span> 5.2%
+                                    </span>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-success-green"></div>
+<span class="text-xs text-slate-500">Success</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-error-red"></div>
+<span class="text-xs text-slate-500">Errors</span>
+</div>
+</div>
+</div>
+<!-- Simple Bar Chart Visualization -->
+<div class="grid grid-cols-12 gap-3 h-24 items-end px-2">
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-success-green/20 w-full rounded-t" style="height: 40%"></div>
+<div class="bg-success-green w-full rounded-t" style="height: 60%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">00:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-error-red/40 w-full rounded-t" style="height: 10%"></div>
+<div class="bg-success-green w-full rounded-t" style="height: 70%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">02:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-success-green w-full rounded-t" style="height: 90%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">04:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-error-red w-full rounded-t" style="height: 80%"></div>
+<div class="bg-success-green w-full rounded-t" style="height: 15%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">06:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-success-green w-full rounded-t" style="height: 55%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">08:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-success-green w-full rounded-t" style="height: 100%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">10:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-error-red w-full rounded-t" style="height: 40%"></div>
+<div class="bg-success-green w-full rounded-t" style="height: 45%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">12:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-success-green w-full rounded-t" style="height: 85%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">14:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-success-green w-full rounded-t" style="height: 70%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">16:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-error-red w-full rounded-t border-b-2 border-background-dark" style="height: 15%"></div>
+<div class="bg-success-green w-full rounded-t" style="height: 60%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">18:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-success-green w-full rounded-t" style="height: 40%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">20:00</span>
+</div>
+<div class="group relative flex flex-col justify-end h-full w-full">
+<div class="bg-success-green w-full rounded-t" style="height: 25%"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 font-mono">22:00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Execution Table -->
+<div class="px-6 py-4 flex-1">
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-border-dark">
+<th class="px-4 py-3 text-slate-600 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Status</th>
+<th class="px-4 py-3 text-slate-600 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Execution ID</th>
+<th class="px-4 py-3 text-slate-600 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Duration</th>
+<th class="px-4 py-3 text-slate-600 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Timestamp</th>
+<th class="px-4 py-3 text-slate-600 dark:text-slate-400 text-xs font-bold uppercase tracking-wider text-right">Source</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-border-dark">
+<!-- Error Row (Selected State) -->
+<tr class="bg-primary/5 border-l-4 border-l-error-red cursor-pointer group hover:bg-primary/10 transition-colors">
+<td class="px-4 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error-red text-[20px]">error</span>
+<span class="text-error-red text-sm font-bold uppercase tracking-wide">Error</span>
+</div>
+</td>
+<td class="px-4 py-4 font-mono text-sm text-slate-900 dark:text-white">ex_01H2J_88vP2...</td>
+<td class="px-4 py-4 text-slate-500 dark:text-slate-400 text-sm">450ms</td>
+<td class="px-4 py-4 text-slate-500 dark:text-slate-400 text-sm">2 mins ago</td>
+<td class="px-4 py-4 text-right">
+<span class="inline-flex items-center px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] font-bold uppercase">Webhook</span>
+</td>
+</tr>
+<!-- Success Row -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<td class="px-4 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success-green text-[20px]">check_circle</span>
+<span class="text-success-green text-sm font-bold uppercase tracking-wide">Success</span>
+</div>
+</td>
+<td class="px-4 py-4 font-mono text-sm text-slate-900 dark:text-white">ex_01H2K_29wQ1...</td>
+<td class="px-4 py-4 text-slate-500 dark:text-slate-400 text-sm">120ms</td>
+<td class="px-4 py-4 text-slate-500 dark:text-slate-400 text-sm">5 mins ago</td>
+<td class="px-4 py-4 text-right">
+<span class="inline-flex items-center px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] font-bold uppercase">API</span>
+</td>
+</tr>
+<!-- Success Row -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<td class="px-4 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success-green text-[20px]">check_circle</span>
+<span class="text-success-green text-sm font-bold uppercase tracking-wide">Success</span>
+</div>
+</td>
+<td class="px-4 py-4 font-mono text-sm text-slate-900 dark:text-white">ex_01H2L_11fM4...</td>
+<td class="px-4 py-4 text-slate-500 dark:text-slate-400 text-sm">85ms</td>
+<td class="px-4 py-4 text-slate-500 dark:text-slate-400 text-sm">12 mins ago</td>
+<td class="px-4 py-4 text-right">
+<span class="inline-flex items-center px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] font-bold uppercase">Manual</span>
+</td>
+</tr>
+<!-- Error Row -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<td class="px-4 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error-red text-[20px]">error</span>
+<span class="text-error-red text-sm font-bold uppercase tracking-wide">Error</span>
+</div>
+</td>
+<td class="px-4 py-4 font-mono text-sm text-slate-900 dark:text-white">ex_01H2M_90vX7...</td>
+<td class="px-4 py-4 text-slate-500 dark:text-slate-400 text-sm">1.2s</td>
+<td class="px-4 py-4 text-slate-500 dark:text-slate-400 text-sm">18 mins ago</td>
+<td class="px-4 py-4 text-right">
+<span class="inline-flex items-center px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] font-bold uppercase">Cron</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Detail Panel (Active for Error Row) -->
+<aside class="w-[450px] border-l border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark flex flex-col shadow-2xl z-10 overflow-hidden">
+<div class="p-6 border-b border-slate-200 dark:border-border-dark flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/30">
+<div>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Execution Details</h2>
+<span class="text-xs font-mono text-slate-500">ex_01H2J_88vP2...</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Action Toolbar -->
+<div class="flex gap-2">
+<button class="flex-1 flex items-center justify-center gap-2 rounded-lg h-9 bg-primary text-white text-xs font-bold hover:bg-opacity-90">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+                            Run Again
+                        </button>
+<button class="flex-1 flex items-center justify-center gap-2 rounded-lg h-9 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-white text-xs font-bold border border-slate-200 dark:border-border-dark">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+                            Full Logs
+                        </button>
+</div>
+<!-- AI Suggested Fix Card -->
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 p-5">
+<div class="flex items-start gap-3">
+<div class="bg-primary text-white p-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+</div>
+<div class="flex-1">
+<h3 class="text-primary font-bold text-sm">AI Suggested Fix</h3>
+<p class="text-slate-700 dark:text-slate-300 text-xs mt-2 leading-relaxed">
+                                    It looks like you're trying to access a Node.js global (<code class="bg-primary/10 px-1 rounded text-primary">process</code>) in a browser environment.
+                                </p>
+<div class="mt-4 p-3 bg-white dark:bg-background-dark/50 rounded-lg border border-primary/10 text-xs font-mono space-y-1">
+<div class="flex justify-between items-start">
+<span class="text-slate-400">Recommendation:</span>
+<button class="text-primary font-bold hover:underline">Apply</button>
+</div>
+<div class="text-success-green">+ if (typeof process !== 'undefined') {</div>
+<div class="text-slate-400">  console.log(process.env.NODE_ENV);</div>
+<div class="text-success-green">+ }</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stack Trace Section -->
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-error-red text-[18px]">terminal</span>
+                                Stack Trace
+                            </h3>
+<button class="text-xs text-primary font-medium hover:underline">Copy Trace</button>
+</div>
+<div class="rounded-lg bg-slate-900 p-4 text-xs font-mono leading-6 overflow-x-auto border border-slate-800">
+<div class="text-error-red font-bold">ReferenceError: process is not defined</div>
+<div class="text-slate-400 pl-4">at main.ts:14:5</div>
+<div class="text-slate-400 pl-4">at dispatch (index.js:452:12)</div>
+<div class="text-slate-400 pl-4">at processTicksAndRejections (task_queues:95:5)</div>
+<div class="text-slate-400 pl-4">at async Object.handler (server.ts:22:9)</div>
+</div>
+</div>
+<!-- Metadata List -->
+<div class="space-y-4 pt-4 border-t border-slate-200 dark:border-border-dark">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Runtime</p>
+<p class="text-sm text-slate-700 dark:text-slate-200">Node.js 18.x</p>
+</div>
+<div>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Memory Use</p>
+<p class="text-sm text-slate-700 dark:text-slate-200">248 MB</p>
+</div>
+<div>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Worker Node</p>
+<p class="text-sm text-slate-700 dark:text-slate-200">us-east-1-p4x</p>
+</div>
+<div>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Retry Count</p>
+<p class="text-sm text-slate-700 dark:text-slate-200">2 of 3</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Detail Panel Footer -->
+<div class="p-4 border-t border-slate-200 dark:border-border-dark bg-slate-50/50 dark:bg-slate-800/30 flex justify-end">
+<button class="px-4 py-2 text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-slate-900 dark:hover:text-white transition-colors">
+                        Clear Selection
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

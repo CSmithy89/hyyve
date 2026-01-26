@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Org Hierarchy Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", /* Matching component bg */
+                        "surface-dark": "#1f2937",
+                        "surface-highlight": "#272546", /* Component highlight color */
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark theme matching */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #383663; 
+        }
+        
+        /* Hide default summary marker */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        /* Tree lines */
+        .tree-line {
+            position: relative;
+        }
+        .tree-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 23px; /* Adjust based on padding */
+            width: 1px;
+            background-color: #383663;
+        }
+        /* Only show line if not last child if needed, but for simple tree vertical line is good */
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#272546] bg-[#131221] px-6 py-3 shrink-0 z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal transition-colors" href="#">Organization</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-text-secondary hover:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border border-[#383663]" data-alt="User profile picture showing a smiling professional" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDD0oZ2wXi_iQIvdFjUxx5cJEqo_XFjF5z0cqG3j4ZUm1b3_sgUWPYtofnM5T2eCPn0e2ZM9wG_HfFUw9n3ulrTx45ViaK9WYJbMAml6xdwlWh39ZetKjdpy4E8De_VgIsKCpbYjQcJUHyBXoOnzC9UcSQ-6SGRdeswXyj5FHa5kXdSMHn_bDMRQFxrKWc1TeMg8zYnZ-yESSF-n5kbLbarrgBF6sejJTGE50ScMYTA9bTEqhO-6EGYhR8FtfLdJjq3xaSWttsGVWg");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Left Pane: Hierarchy Tree -->
+<main class="flex-1 flex flex-col min-w-0 bg-[#131221] relative z-0">
+<!-- Header Section -->
+<div class="px-6 py-5 border-b border-[#272546]">
+<div class="flex flex-col gap-4 max-w-[1200px] mx-auto w-full">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 items-center">
+<a class="text-[#9795c6] text-sm font-medium hover:text-white" href="#">Organization</a>
+<span class="text-[#9795c6] text-sm font-medium">/</span>
+<a class="text-[#9795c6] text-sm font-medium hover:text-white" href="#">Structure</a>
+<span class="text-[#9795c6] text-sm font-medium">/</span>
+<span class="text-white text-sm font-medium">Hierarchy Manager</span>
+</div>
+<!-- Page Heading & Actions -->
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-white text-3xl font-black leading-tight tracking-[-0.033em]">Org Hierarchy Manager</h1>
+<p class="text-[#9795c6] text-sm">Visualize and manage organizational structure, permissions, and headcount.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-[#383663] text-white hover:bg-[#272546] transition-colors text-sm font-bold">
+<span class="material-symbols-outlined text-[20px]">file_upload</span>
+                                Import CSV
+                            </button>
+<button class="flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                                Add Root Unit
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Toolbar -->
+<div class="px-6 py-3 bg-[#131221]/50 border-b border-[#272546]">
+<div class="max-w-[1200px] mx-auto w-full flex items-center gap-4">
+<div class="relative flex-1 max-w-md">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[#9795c6]">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 bg-[#272546] border-none rounded-lg text-white placeholder-[#9795c6] text-sm focus:ring-2 focus:ring-primary" placeholder="Search for division, office, or team..." type="text"/>
+</div>
+<div class="flex items-center gap-2 ml-auto">
+<span class="text-[#9795c6] text-xs font-semibold uppercase tracking-wider">View:</span>
+<button class="p-2 text-white bg-[#272546] rounded hover:bg-primary/20 transition-colors" title="Tree View">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+</button>
+<button class="p-2 text-[#9795c6] hover:text-white transition-colors" title="List View">
+<span class="material-symbols-outlined text-[20px]">list</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Tree Visualization Area -->
+<div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+<div class="max-w-[1200px] mx-auto w-full pb-20">
+<!-- Root Node -->
+<div class="flex flex-col gap-2">
+<!-- Root Item -->
+<div class="group relative flex items-center justify-between p-3 rounded-lg border border-[#383663] bg-[#1e1c36] hover:border-primary/50 transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded bg-primary/20 text-primary">
+<span class="material-symbols-outlined">domain</span>
+</div>
+<div>
+<h3 class="text-white font-semibold text-sm">Global HQ</h3>
+<span class="text-[#9795c6] text-xs">Root Organization • 1,240 Members</span>
+</div>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-[#9795c6] hover:text-white rounded hover:bg-[#272546]">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="p-1.5 text-[#9795c6] hover:text-white rounded hover:bg-[#272546]">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Level 1 Container -->
+<div class="ml-6 pl-6 border-l border-[#383663] flex flex-col gap-2 relative">
+<!-- Branch 1: North America -->
+<details class="group/branch" open="">
+<summary class="flex items-center justify-between p-3 rounded-lg border border-[#383663] bg-[#131221] hover:bg-[#272546] hover:border-[#4a4778] transition-all cursor-pointer list-none mb-2">
+<div class="flex items-center gap-3">
+<div class="text-[#9795c6] transition-transform duration-200 group-open/branch:rotate-90">
+<span class="material-symbols-outlined text-[20px]">arrow_right</span>
+</div>
+<div class="p-1.5 rounded bg-blue-500/10 text-blue-400">
+<span class="material-symbols-outlined text-[18px]">public</span>
+</div>
+<div>
+<span class="text-white font-medium text-sm">North America</span>
+<span class="ml-2 text-[#9795c6] text-xs px-1.5 py-0.5 rounded bg-[#272546]">Division</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full border-2 border-[#131221] bg-gray-600" data-alt="User Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVrWkoqjIiMB8iq61pllzmM4gATSr_Fx-OWMzhIhAh_AHveWBhUSbLadoF3ME6Of6RFzAo1UuZv6i9LTzybEFC3g8FVt_zBVevR9yYqxh33NpJ_sz2dVRCrQ58Fv6GTk4qZMo-dT6cbnEEuMD3ee_klFNZIw1dbHsFQUHwaZF3EKwl6PBEYGTQVDo3UIBsgIM6y04d46VYWcjGrBfjkpy_NRwi0p5-VPQ_jdAs2_zS1cFbUJjw7bdnPeuO8wBwnTOwZj0fRdQ1UrI')"></div>
+<div class="size-6 rounded-full border-2 border-[#131221] bg-gray-500" data-alt="User Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiqqE0XW8CjYRgZsK0UCJk-GFHD068pavKlw6IbH4b_ym9zQj3cNLOfqS0FP3QNPjCrGZX92OLQ3chNKdnQtlZ-LxjO9zStjCg9xsq5XPv--O90wr-Ld6D2I03HgrAWc4CK-xCkjrJykjrQZ-QPlsDvbVSO8SXH5HgY8lBAyvToez2wK_QjiFBZkJCpAmYAvri5c-ZB0P3RWo0zK6w_45GPK8HfiWysY13_IgPcQb-29tuzwmTm97Jxlv2dA-d0K66vPFGk5Mjnjo')"></div>
+<div class="size-6 rounded-full border-2 border-[#131221] bg-[#272546] flex items-center justify-center text-[10px] text-white font-medium">+120</div>
+</div>
+<span class="material-symbols-outlined text-[#9795c6] text-[20px]">drag_indicator</span>
+</div>
+</summary>
+<!-- Level 2: Offices -->
+<div class="ml-6 pl-6 border-l border-[#383663] flex flex-col gap-2">
+<!-- US Operations -->
+<details class="group/office" open="">
+<summary class="flex items-center justify-between p-3 rounded-lg border border-[#383663] bg-[#131221] hover:bg-[#272546] transition-all cursor-pointer list-none mb-2">
+<div class="flex items-center gap-3">
+<div class="text-[#9795c6] transition-transform duration-200 group-open/office:rotate-90">
+<span class="material-symbols-outlined text-[20px]">arrow_right</span>
+</div>
+<div class="p-1.5 rounded bg-emerald-500/10 text-emerald-400">
+<span class="material-symbols-outlined text-[18px]">location_city</span>
+</div>
+<div>
+<span class="text-white font-medium text-sm">US Operations</span>
+<span class="ml-2 text-[#9795c6] text-xs px-1.5 py-0.5 rounded bg-[#272546]">Office</span>
+</div>
+</div>
+<div class="text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">drag_indicator</span>
+</div>
+</summary>
+<!-- Level 3: Teams -->
+<div class="ml-6 pl-6 border-l border-[#383663] flex flex-col gap-2">
+<!-- Sales Team (ACTIVE SELECTION) -->
+<div class="relative">
+<!-- Active indicator line -->
+<div class="absolute -left-[25px] top-1/2 -translate-y-1/2 w-[24px] h-[1px] bg-primary z-10"></div>
+<div class="absolute -left-[29px] top-1/2 -translate-y-1/2 size-2 rounded-full bg-primary z-10"></div>
+<div class="flex items-center justify-between p-3 rounded-lg border border-primary bg-primary/10 shadow-[0_0_15px_rgba(80,72,229,0.15)] cursor-pointer list-none">
+<div class="flex items-center gap-3">
+<div class="invisible w-[20px]"></div> <!-- Spacer for caret -->
+<div class="p-1.5 rounded bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+</div>
+<div>
+<span class="text-white font-bold text-sm">Sales Team</span>
+<span class="ml-2 text-primary text-xs px-1.5 py-0.5 rounded bg-primary/20 font-bold">Team</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs text-primary font-medium">Active Selection</span>
+<span class="material-symbols-outlined text-primary text-[20px]">drag_indicator</span>
+</div>
+</div>
+</div>
+<!-- Engineering Team -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-[#383663] bg-[#131221] hover:bg-[#272546] transition-all cursor-pointer list-none opacity-80 hover:opacity-100">
+<div class="flex items-center gap-3">
+<div class="invisible w-[20px]"></div>
+<div class="p-1.5 rounded bg-purple-500/10 text-purple-400">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+</div>
+<div>
+<span class="text-white font-medium text-sm">Engineering</span>
+<span class="ml-2 text-[#9795c6] text-xs px-1.5 py-0.5 rounded bg-[#272546]">Team</span>
+</div>
+</div>
+<div class="text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">drag_indicator</span>
+</div>
+</div>
+<!-- HR Team -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-[#383663] bg-[#131221] hover:bg-[#272546] transition-all cursor-pointer list-none opacity-80 hover:opacity-100">
+<div class="flex items-center gap-3">
+<div class="invisible w-[20px]"></div>
+<div class="p-1.5 rounded bg-pink-500/10 text-pink-400">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+</div>
+<div>
+<span class="text-white font-medium text-sm">HR</span>
+<span class="ml-2 text-[#9795c6] text-xs px-1.5 py-0.5 rounded bg-[#272546]">Team</span>
+</div>
+</div>
+<div class="text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">drag_indicator</span>
+</div>
+</div>
+</div>
+</details>
+<!-- Canada Remote -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-[#383663] bg-[#131221] hover:bg-[#272546] transition-all cursor-pointer list-none">
+<div class="flex items-center gap-3">
+<div class="text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">arrow_right</span>
+</div>
+<div class="p-1.5 rounded bg-emerald-500/10 text-emerald-400">
+<span class="material-symbols-outlined text-[18px]">location_city</span>
+</div>
+<div>
+<span class="text-white font-medium text-sm">Canada Remote</span>
+<span class="ml-2 text-[#9795c6] text-xs px-1.5 py-0.5 rounded bg-[#272546]">Office</span>
+</div>
+</div>
+<div class="text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">drag_indicator</span>
+</div>
+</div>
+</div>
+</details>
+<!-- Branch 2: EMEA -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-[#383663] bg-[#131221] hover:bg-[#272546] transition-all cursor-pointer list-none">
+<div class="flex items-center gap-3">
+<div class="text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">arrow_right</span>
+</div>
+<div class="p-1.5 rounded bg-blue-500/10 text-blue-400">
+<span class="material-symbols-outlined text-[18px]">public</span>
+</div>
+<div>
+<span class="text-white font-medium text-sm">EMEA</span>
+<span class="ml-2 text-[#9795c6] text-xs px-1.5 py-0.5 rounded bg-[#272546]">Division</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full border-2 border-[#131221] bg-gray-600" data-alt="User Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA0Z-m7fYzWMEraPSZ0LRCaq9PSb9-tK-4Mlpv1gjfrnTf-Q-xcM7Q6b3_-8jhpfSH1r0zwQfGEllTlvnytniHvKtgeRESdCcGuZltkVQXHv2ruTmBLQeCp1UqWpIN-E2j_d6diV227CZr6Mlz1fHLiVH8XL6UNAYx0iml1yv0mO3iAJ6rkJHSOe6LwWyowvM2TEk386hXnBT_nkgBTwrHc4EHmhxk1biSkiNCgcSO5W0oPFWWAt20kcVddF0wN2iIYw0eeqoVBxGA')"></div>
+<div class="size-6 rounded-full border-2 border-[#131221] bg-[#272546] flex items-center justify-center text-[10px] text-white font-medium">+45</div>
+</div>
+<span class="material-symbols-outlined text-[#9795c6] text-[20px]">drag_indicator</span>
+</div>
+</div>
+<!-- Branch 3: APAC -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-[#383663] bg-[#131221] hover:bg-[#272546] transition-all cursor-pointer list-none">
+<div class="flex items-center gap-3">
+<div class="text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">arrow_right</span>
+</div>
+<div class="p-1.5 rounded bg-blue-500/10 text-blue-400">
+<span class="material-symbols-outlined text-[18px]">public</span>
+</div>
+<div>
+<span class="text-white font-medium text-sm">APAC</span>
+<span class="ml-2 text-[#9795c6] text-xs px-1.5 py-0.5 rounded bg-[#272546]">Division</span>
+</div>
+</div>
+<div class="text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">drag_indicator</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Pane: Detail Inspector -->
+<aside class="w-[400px] shrink-0 bg-[#1f2937] border-l border-[#272546] flex flex-col shadow-2xl z-10 hidden lg:flex">
+<!-- Inspector Header -->
+<div class="p-6 border-b border-[#383663]">
+<div class="flex items-start justify-between mb-4">
+<div class="size-12 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">groups</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-[#9795c6] hover:text-white hover:bg-[#383663] rounded-md transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-[#9795c6] hover:text-red-400 hover:bg-[#383663] rounded-md transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<h2 class="text-white text-xl font-bold mb-1">Sales Team</h2>
+<div class="flex items-center text-[#9795c6] text-sm gap-2">
+<span class="material-symbols-outlined text-[16px]">subdirectory_arrow_right</span>
+<span>Child of <strong class="text-white font-medium">US Operations</strong></span>
+</div>
+</div>
+<!-- Inspector Body (Scrollable) -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Stats Grid -->
+<div class="grid grid-cols-3 gap-3">
+<div class="bg-[#131221] border border-[#383663] p-3 rounded-lg flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-bold text-white block">42</span>
+<span class="text-[10px] uppercase tracking-wider font-semibold text-[#9795c6] mt-1">Members</span>
+</div>
+<div class="bg-[#131221] border border-[#383663] p-3 rounded-lg flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-bold text-white block">8</span>
+<span class="text-[10px] uppercase tracking-wider font-semibold text-[#9795c6] mt-1">Roles</span>
+</div>
+<div class="bg-[#131221] border border-[#383663] p-3 rounded-lg flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-bold text-white block">3</span>
+<span class="text-[10px] uppercase tracking-wider font-semibold text-[#9795c6] mt-1">Projects</span>
+</div>
+</div>
+<!-- Settings Block -->
+<div class="space-y-4">
+<h3 class="text-xs font-bold text-[#9795c6] uppercase tracking-widest">Configuration</h3>
+<div class="bg-[#131221] rounded-lg border border-[#383663] p-4 flex items-center justify-between">
+<div>
+<p class="text-white font-medium text-sm">Inherit Permissions</p>
+<p class="text-[#9795c6] text-xs mt-0.5">Sync access rules from US Ops</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-[#383663] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="bg-[#131221] rounded-lg border border-[#383663] p-4">
+<div class="flex justify-between items-center mb-2">
+<p class="text-white font-medium text-sm">Manager</p>
+<button class="text-primary text-xs font-bold hover:underline">Change</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Manager Profile Picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQ5UnoH7bZLRIVmlH5LDP7iV7BDPWYfXcdSgnMLrrb8tqNBmLIqHXoDYPjKWR4F49Xm5KkwYiedCGrXyvEb-HYNRrsQzdyx-QzVRQSdsJF-7YMHqz4xcdS3jcZZpHapQINcfg7i9FMyO9XDfHp3gn3EtVa_QXo6ukonGc0nDl7JXL4FOM0U7-5fS-i5Bk2vo6jgNvhUMVvy1jzbGm3XWlYEagrsnaIp6pigxhW0YM_kweYn-1osDr0NcibZ7TLkHIYeSWDslHCbWI')"></div>
+<div>
+<p class="text-white text-sm font-semibold">Sarah Jenkins</p>
+<p class="text-[#9795c6] text-xs">VP of Sales</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Members List Preview -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold text-[#9795c6] uppercase tracking-widest">Team Members</h3>
+<a class="text-xs font-medium text-primary hover:text-white transition-colors" href="#">View All</a>
+</div>
+<div class="space-y-2">
+<!-- Member 1 -->
+<div class="flex items-center justify-between p-2 rounded hover:bg-[#272546] group transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center border border-[#383663]" data-alt="Team member portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAv3e3GeUleleSwp8sy6k7Dp0yqsp-WZFyhcD4X76Vqkp_jKaCpkGQ4dxB2rnGNLQHV4RiCkXk59DyhDDldL550U6LqmD3hI8HpGYM-yUYu-tMCRtTUIsXxy2N_3ZTAB8zSeE6sFeMzsc-PcrhBTTtT7uZioKzG_qbF2EEFm8uLogciHvxm9b5AJnX1EIjrY-YaRl6clRs-n--mw9aaaYJcxZlFZbQYln0cWjyka5mne-0Nw50XyvbrNohWN-77XNY-rexWHDThoaU')"></div>
+<div>
+<p class="text-white text-sm font-medium">Michael Chen</p>
+<p class="text-[#9795c6] text-xs">Sales Lead</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#9795c6] text-[18px] opacity-0 group-hover:opacity-100">chevron_right</span>
+</div>
+<!-- Member 2 -->
+<div class="flex items-center justify-between p-2 rounded hover:bg-[#272546] group transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center border border-[#383663]" data-alt="Team member portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPSpPFfejbPRkUKZ5jjQTJsR06YtkhNb3AX7-FOEUIT7iPlCy8C_EJQy9KKiHTjxHfny67emdmduHOGfo7xdyzCV7N9Fsw3BR1BnyQz2gGjkBiWe_6UvUgHe_lV-y_hM_P6y9TVqC_09mWmrFKEePG1JgLI-E5q2CH_aYyXjCZyyrREPouYhZkbYJvzhPmQPy5F6EHi-sPHjnceNjkM9389JYizYqmkjPAoDkJpi5CS8Cy2J6o7Jd2KOoL52CQhM9cvH4SROUmWbQ')"></div>
+<div>
+<p class="text-white text-sm font-medium">Jessica Alverez</p>
+<p class="text-[#9795c6] text-xs">Account Executive</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#9795c6] text-[18px] opacity-0 group-hover:opacity-100">chevron_right</span>
+</div>
+<!-- Member 3 -->
+<div class="flex items-center justify-between p-2 rounded hover:bg-[#272546] group transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center border border-[#383663]" data-alt="Team member portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6EgSfCeP_v3bCzjMEEdI4c6ZsLqtmg6c5SOMRqJFCvGUfywlxH1-JtA31cTIb6GfCXtnJDTBlZv56MwPeMTwUE-YcaJIEiGdjXSraadsIqG1BoiByQp4liLdDqNjHAabAAeu-t6U_aBj5K-ZShgowP9nQnX6ke5zlHcGIQRh4MaSXH2ZRemmXtktM6rR-vP0wuU9YWKnQ27V4BuzPhSG9-1FPldmpuHfVrd0L1AJKdSM0Cw-SezLJQlPOFSao2N_k7DcAaS_Gm2Y')"></div>
+<div>
+<p class="text-white text-sm font-medium">David Ross</p>
+<p class="text-[#9795c6] text-xs">SDR</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#9795c6] text-[18px] opacity-0 group-hover:opacity-100">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="space-y-2">
+<h3 class="text-xs font-bold text-[#9795c6] uppercase tracking-widest">Description</h3>
+<p class="text-sm text-[#9795c6] leading-relaxed">
+                        Responsible for all direct sales activities within the continental United States. Handles enterprise and mid-market accounts.
+                    </p>
+</div>
+</div>
+<!-- Inspector Footer -->
+<div class="p-4 border-t border-[#383663] bg-[#1a2332]">
+<button class="w-full flex items-center justify-center gap-2 h-10 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all">
+                    Save Changes
+                </button>
+</div>
+</aside>
+</div>
+</body></html>
