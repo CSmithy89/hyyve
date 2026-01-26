@@ -748,6 +748,8 @@ This document provides the complete epic and story breakdown for Hyyve, decompos
 | 0.2.13 | Knowledge Base UI | 1.4.1-1.4.8 |
 | 0.2.14 | Observability dashboard UI | 1.7.1-1.7.5 |
 | 0.2.15 | Storybook visual regression | All components |
+| 0.2.16 | Light mode theme variables | UX spec section 18.1, 18.6 |
+| 0.2.17 | Theme toggle component | UX spec section 22.16 |
 
 **NFRs:** NFR-MAINT-01, NFR-MAINT-02, NFR-PERF-01
 
@@ -2776,7 +2778,62 @@ So that **I can develop components in isolation and catch visual regressions**.
 
 ---
 
-**Epic E0.2 Complete: 15 stories**
+#### Story 0.2.16: Implement Light Mode Theme Variables
+
+As a **user**,
+I want **a complete light mode theme**,
+So that **I can use the platform in bright environments or based on my preference**.
+
+**Acceptance Criteria:**
+
+- **Given** design tokens from Story 0-2-1 exist
+- **When** I implement light mode variables
+- **Then** CSS custom properties are defined for light mode:
+  - Background: `#FFFFFF` (--color-bg)
+  - Surface: `#F9FAFB` (--color-surface)
+  - Border: `#E5E7EB` (--color-border)
+  - Text Primary: `#111827` (--color-text)
+  - Text Secondary: `#6B7280` (--color-text-secondary)
+  - Text Muted: `#9CA3AF` (--color-text-muted)
+- **And** light mode variables are scoped to `:root` (no `.dark` class)
+- **And** dark mode variables remain scoped to `.dark` class
+- **And** all color combinations meet WCAG 2.1 AA contrast (4.5:1 for text)
+- **And** primary color `#5048e5` works on both light and dark backgrounds
+- **And** shadows are adjusted for light mode (lighter opacity)
+
+**Source:** UX Design Specification sections 18.1 (Neutral Palette), 18.6 (Theme Tiers)
+**Creates:** Updated globals.css with light mode variables, design-tokens.ts light mode exports
+
+---
+
+#### Story 0.2.17: Create Theme Toggle Component
+
+As a **user**,
+I want **a theme toggle to switch between Light, Dark, and System preference**,
+So that **I can choose my preferred visual experience**.
+
+**Acceptance Criteria:**
+
+- **Given** light mode variables from Story 0-2-16 exist
+- **When** I create the theme toggle component
+- **Then** a `ThemeToggle` component exists with three options:
+  - Light (sun icon)
+  - Dark (moon icon)
+  - System (computer icon)
+- **And** component uses `prefers-color-scheme` media query for System mode
+- **And** user preference is persisted to `localStorage` key `hyyve-theme`
+- **And** theme changes apply smooth CSS transition (150ms)
+- **And** HTML root class toggles between no class (light) and `dark` class
+- **And** component is accessible (keyboard navigable, aria-label)
+- **And** dark mode remains the default for new users (per ADR-023)
+- **And** component can be placed in header or settings page
+
+**Source:** UX Design Specification section 22.16 (Dark Mode Patterns), ADR-023
+**Creates:** components/ui/theme-toggle.tsx, lib/hooks/use-theme.ts
+
+---
+
+**Epic E0.2 Complete: 17 stories**
 
 ---
 
@@ -10003,4 +10060,5 @@ _Step 3 Complete: All 270 stories generated with cross-references_
 _Step 4 Complete: Final validation passed - Ready for development_
 _Step 4.1 Complete: Added Epic E0.1 (Project Foundation) with 23 comprehensive infrastructure setup stories - Total: 293 stories across 58 epics_
 _Step 4.2 Complete: Added Epic E0.2 (Frontend Foundation) with 15 stories for parallel UI development - Total: 308 stories across 59 epics_
+_Step 4.3 Complete: Added Stories 0.2.16 (Light Mode Theme) and 0.2.17 (Theme Toggle) - Total: 310 stories across 59 epics_
 _Updated: 2026-01-26 - Added AG-UI integration guide and protocol stack references_
