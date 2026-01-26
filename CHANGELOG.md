@@ -1066,3 +1066,59 @@ _Reviewed and approved by Senior Developer (0 issues found)_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 issues found)_
+
+### [Story 0.1.20] Configure MCP (Model Context Protocol) Foundation
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **MCP Package** (`packages/@platform/mcp/`)
+  - Complete MCP infrastructure for standardized tool integration
+  - Follows MCP 2025-11-25 specification
+
+- **MCP Server** (`src/server/`)
+  - `MCPServer` class with tool registration and execution
+  - Concurrent execution limits and timeout handling
+  - Streaming support with `AsyncGenerator`
+  - `registerTool()`, `executeTool()`, `executeToolStreaming()`
+
+- **MCP Client** (`src/client/`)
+  - `MCPClient` class for tool discovery and invocation
+  - `discoverTools()`, `callTool()`, `invoke()`
+  - Retry logic with exponential backoff
+  - Streaming response handling
+
+- **Tool Registry** (`src/registry/`)
+  - `ToolRegistry` class for centralized tool management
+  - Category-based organization
+  - `register()`, `get()`, `find()`, `lookup()`, `has()`
+  - Search by name or description
+
+- **MCP Types** (`src/types/`)
+  - `Tool`, `ToolInput`, `ToolResult`, `ToolResultChunk`
+  - `MCPError` class with standard error codes
+  - `MCPErrorCode` enum following MCP spec
+  - Zod schemas for validation
+
+- **Built-in Tools** (`src/tools/`)
+  - `http_request` - HTTP requests to external APIs
+  - `database_query` - Read-only SQL queries (scaffold)
+  - `file_operation` - Sandboxed file operations (scaffold)
+
+#### Technical
+
+- **Error Handling:**
+  - `MCPErrorCode.InvalidRequest` (-32600)
+  - `MCPErrorCode.ToolNotFound` (-32000)
+  - `MCPErrorCode.ToolExecutionError` (-32001)
+  - `MCPErrorCode.ValidationError` (-32004)
+
+- **Security:**
+  - Read-only database queries enforced
+  - File operations sandboxed to allowed directories
+  - Input validation with Zod schemas
+
+---
+
+_Story completed: 2026-01-26_
