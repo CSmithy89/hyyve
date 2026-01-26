@@ -60,7 +60,7 @@ development_status:
   0-1-13-configure-environment-variables-secrets: done
   0-1-14-configure-eslint-prettier-and-git-hooks: done
   0-1-15-configure-ci-cd-pipeline: done
-  0-1-16-create-initial-database-schema: backlog
+  0-1-16-create-initial-database-schema: done
   0-1-17-configure-agno-agent-framework-python-backend: backlog
   0-1-18-configure-temporal-workflow-orchestration: backlog
   0-1-19-configure-anthropic-sdk-for-claude: backlog
