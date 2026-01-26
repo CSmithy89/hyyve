@@ -599,3 +599,54 @@ _Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO obse
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO observations - none blocking)_
+
+### [Story 0.1.11] Configure Stripe Billing
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Stripe SDK** in `apps/web/`
+  - `stripe@^20.2.0` - Stripe SDK for Node.js billing operations
+
+- **Stripe Client** (`apps/web/lib/billing/stripe.ts`)
+  - `stripe` - Server-side Stripe client singleton
+  - `createCustomer(params)` - Create a Stripe customer
+  - `getOrCreateCustomer(params)` - Get or create customer by email
+  - `createCheckoutSession(params)` - Create subscription checkout session
+  - `createPortalSession(params)` - Create billing portal session
+  - `getSubscription(id)` - Get subscription by ID
+  - `cancelSubscription(id)` - Cancel at period end
+  - `resumeSubscription(id)` - Resume canceled subscription
+  - `constructWebhookEvent(payload, signature, secret)` - Verify webhook
+  - `getWebhookSecret()` - Get webhook secret from environment
+
+- **Stripe Types** (`apps/web/lib/billing/types.ts`)
+  - `StripeEventType` - Enum with 26 webhook event types
+  - `SubscriptionStatus` - Subscription status enum
+  - `BillingPlan` - Plan tiers (free, starter, pro, enterprise)
+  - `UsageMetric` - Usage tracking metrics
+  - Event data interfaces for subscriptions, invoices, customers, checkout
+
+- **Webhook Handler** (`apps/web/app/api/webhooks/stripe/route.ts`)
+  - POST handler for Stripe webhook events
+  - Signature verification using `STRIPE_WEBHOOK_SECRET`
+  - Event routing to typed handlers
+  - Handlers for subscriptions, invoices, checkout, customers
+
+- **Environment Variables** (`.env.example`)
+  - `STRIPE_SECRET_KEY` - Stripe secret key
+  - `STRIPE_WEBHOOK_SECRET` - Webhook signing secret
+  - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Client-side public key
+
+#### Technical
+
+- **Server-Side Only:** Stripe client uses secret key, never exposed to browser
+- **Webhook Verification:** Uses `stripe.webhooks.constructEvent()` for signature validation
+- **Build Compatibility:** No env check at module load time to allow builds without secrets
+- **API Version:** Uses Stripe API version 2025-12-15.clover
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO observations - none blocking)_
