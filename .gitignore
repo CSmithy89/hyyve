@@ -46,3 +46,4 @@ yarn-error.log*
 .agent/
 .claude/
 .gemini/
+.turbo
