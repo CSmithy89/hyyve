@@ -1122,3 +1122,45 @@ _Reviewed and approved by Senior Developer (0 issues found)_
 ---
 
 _Story completed: 2026-01-26_
+
+### [Story 0.1.21] Configure Resend Email Service
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Resend Email Service** (`apps/web/lib/email/`)
+  - `resend@^6.8.0` - Official Resend SDK
+  - `resend.ts` - Email service with helper functions
+  - `sendEmail()`, `sendVerificationEmail()`, `sendPasswordResetEmail()`
+  - `sendTeamInvitationEmail()`, `sendWorkflowCompletionEmail()`
+  - `sendBudgetAlertEmail()` for usage notifications
+
+- **Email Templates Package** (`packages/@platform/email-templates/`)
+  - `@react-email/components` for composable email components
+  - `verification.tsx` - Email verification template
+  - `password-reset.tsx` - Password reset template
+  - `team-invitation.tsx` - Team invitation template
+  - `workflow-completion.tsx` - Workflow success/failure notification
+  - `budget-alert.tsx` - Budget warning/exceeded alerts
+
+- **Resend Webhook Handler** (`app/api/webhooks/resend/route.ts`)
+  - POST handler for delivery status events
+  - Handles: delivered, bounced, complained, opened, clicked
+  - Event logging for analytics integration
+
+- **Environment Variables** (`.env.example`)
+  - `RESEND_API_KEY` - Resend API key
+  - `RESEND_FROM_EMAIL` - Default sender address
+  - `RESEND_WEBHOOK_SECRET` - Webhook verification
+
+#### Technical
+
+- **Email Tracking:**
+  - Tags for email type categorization
+  - Delivery status webhook integration
+  - Open/click tracking support
+
+---
+
+_Story completed: 2026-01-26_
