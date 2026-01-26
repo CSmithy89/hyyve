@@ -32,7 +32,8 @@
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
-    "@supabase/supabase-js": "^2.49.8"
+    "@supabase/supabase-js": "^2.49.8",
+    "ioredis": "^5.9.2"
   },
   "peerDependencies": {
     "next": ">=14.0.0"
