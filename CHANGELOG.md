@@ -726,3 +726,43 @@ _Reviewed and approved by Senior Developer (0 issues found)_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 1 LOW, 1 INFO observations)_
+
+### [Story 0.1.14] Configure ESLint, Prettier, and Git Hooks
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Commitlint** for conventional commit enforcement
+  - `@commitlint/cli@^19.8.1` - Commit message linter
+  - `@commitlint/config-conventional@^19.8.1` - Conventional config
+
+- **Husky commit-msg Hook** (`.husky/commit-msg`)
+  - Runs commitlint on every commit
+  - Validates conventional commit format
+
+- **Commitlint Configuration** (`commitlint.config.js`)
+  - Enforces conventional commit format
+  - Rules for type-case, type-empty, subject-empty
+  - Header max length of 100 characters
+
+#### Technical
+
+- **Code Quality Stack:**
+  - ESLint 9.x with TypeScript plugin
+  - Prettier 3.8.1 with consistent style
+  - Husky 9.x for git hooks
+  - lint-staged 16.x for pre-commit linting
+  - commitlint 19.x for commit message validation
+
+- **Git Hooks:**
+  - `pre-commit`: Runs lint-staged (ESLint, Prettier, typecheck)
+  - `commit-msg`: Runs commitlint for conventional commits
+
+- **Conventional Commit Types:**
+  - feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 issues found)_
