@@ -44,6 +44,22 @@
 - PRs should reference the relevant Functional Requirement (FR) from `_bmad-output/planning-artifacts/prd.md` and the sprint status in `_bmad-output/implementation-artifacts/sprint-status.yaml`.
 - Expect automated AI reviews on PRs (Claude, CodeRabbit, CodeAnt, Gemini). Keep descriptions clear and link related artifacts.
 
+## Development MCP Servers
+
+Claude Code has access to these MCP servers for development:
+
+| MCP Server              | Purpose                                       |
+| ----------------------- | --------------------------------------------- |
+| **Context7**            | Up-to-date library documentation lookup       |
+| **Serena**              | Semantic code analysis & symbol-level editing |
+| **DeepWiki**            | GitHub repository documentation               |
+| **Playwright**          | Browser automation for E2E testing            |
+| **Sequential Thinking** | Structured problem-solving                    |
+| **21st Magic**          | AI-powered UI component generation            |
+| **shadcn**              | Component registry access                     |
+
+See `CLAUDE.md` for detailed usage guidance.
+
 ## Agent-Specific Instructions
 
 - Before implementing features, consult `_bmad-output/project-context.md`, PRD, architecture, and UX specs as directed in `CLAUDE.md`.

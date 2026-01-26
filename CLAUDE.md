@@ -290,6 +290,32 @@ This repository has multiple AI assistants:
 
 ---
 
+## Development MCP Servers
+
+Claude Code has access to the following MCP servers for development assistance:
+
+| MCP Server              | Purpose                                       | Key Tools                                                    |
+| ----------------------- | --------------------------------------------- | ------------------------------------------------------------ |
+| **Context7**            | Up-to-date library documentation              | `resolve-library-id`, `query-docs`                           |
+| **Serena**              | Semantic code analysis & symbol-level editing | `find_symbol`, `replace_symbol_body`, `get_symbols_overview` |
+| **DeepWiki**            | GitHub repository documentation               | `read_wiki_structure`, `read_wiki_contents`, `ask_question`  |
+| **Playwright**          | Browser automation for E2E testing            | `browser_navigate`, `browser_click`, `browser_snapshot`      |
+| **Sequential Thinking** | Structured problem-solving for complex tasks  | `sequentialthinking`                                         |
+| **21st Magic**          | AI-powered UI component generation            | `21st_magic_component_builder`, `logo_search`                |
+| **shadcn**              | Component registry access                     | `search_items_in_registries`, `view_items_in_registries`     |
+
+### When to Use Each MCP
+
+- **Context7**: Looking up current API docs for libraries (React, Next.js, Playwright, etc.)
+- **Serena**: Navigating large codebases, finding symbol references, precise code edits
+- **DeepWiki**: Understanding open-source projects on GitHub
+- **Playwright**: Automating browser interactions, debugging E2E tests visually
+- **Sequential Thinking**: Breaking down complex multi-step problems
+- **21st Magic**: Generating UI components, finding logos
+- **shadcn**: Adding shadcn/ui components to the project
+
+---
+
 ## Quick Reference
 
 ### Tech Stack
