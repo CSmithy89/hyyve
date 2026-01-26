@@ -493,3 +493,50 @@ _Reviewed and approved by Senior Developer (0 HIGH, 1 LOW, 3 INFO observations -
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 HIGH, 1 MEDIUM, 3 LOW, 2 INFO observations - none blocking)_
+
+### [Story 0.1.9] Configure Langfuse Observability
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Langfuse SDK** in `apps/web/`
+  - `langfuse@^3.38.6` - Langfuse client SDK
+  - `@langfuse/core@^4.5.1` - Core Langfuse types
+
+- **Langfuse Client** (`apps/web/lib/observability/langfuse.ts`)
+  - `getLangfuseClient()` - Singleton client for serverless environments
+  - `shutdownLangfuse()` - Graceful shutdown with event flush
+  - `flushLangfuse()` - Manual flush for serverless function termination
+  - `isLangfuseConfigured()` - Check if Langfuse credentials are set
+
+- **Trace Wrapper Functions**
+  - `traceLLMCall<T>(name, fn, options)` - Trace LLM generations with token/cost tracking
+  - `traceAgentRun<T>(name, fn, options)` - Trace agent executions (bond, wendy, morgan, artie)
+  - `traceToolExecution<T>(name, fn, options)` - Trace MCP tool executions
+  - `createWorkflowTrace(name, options)` - Create trace for multi-step workflows
+
+- **Cost Tracking**
+  - `MODEL_COSTS` - Per-model pricing (Claude Sonnet 4, Opus 4, Haiku 4)
+  - `calculateCost(model, usage)` - Calculate USD cost from token usage
+
+- **Barrel Exports** (`apps/web/lib/observability/index.ts`)
+  - All Langfuse utilities and types exported
+
+- **Environment Variables** (`.env.example`)
+  - `LANGFUSE_PUBLIC_KEY` - Langfuse project public key
+  - `LANGFUSE_SECRET_KEY` - Langfuse project secret key
+  - `LANGFUSE_HOST` - Langfuse host URL (for self-hosted)
+
+#### Technical
+
+- **Singleton Pattern:** Client reused across serverless invocations
+- **Serverless Flush:** `flushAt: 1`, `flushInterval: 0` for immediate event export
+- **Cost Calculation:** Per-million-token pricing with input/output breakdown
+- **Trace Hierarchy:** trace → generation/span structure per Langfuse best practices
+- **Type Safety:** Full TypeScript support with generic trace wrappers
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO observations - none blocking)_
