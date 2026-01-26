@@ -10,6 +10,8 @@
  *   traceAgentRun,
  *   traceToolExecution,
  *   flushLangfuse,
+ *   withSpan,
+ *   traceApiRoute,
  * } from '@/lib/observability';
  * ```
  */
@@ -36,3 +38,21 @@ export {
   type GenerationContext,
   type SpanContext,
 } from './langfuse';
+
+// OpenTelemetry tracing utilities
+export {
+  withSpan,
+  traceApiRoute,
+  traceDatabaseQuery,
+  traceLLMCall as traceOtelLLMCall,
+  traceExternalService,
+  extractTraceContext,
+  injectTraceContext,
+  getCurrentTraceId,
+  getCurrentSpanId,
+  addSpanAttributes,
+  recordSpanEvent,
+  setSpanError,
+  type SpanAttributes,
+  type SpanOptions,
+} from './tracing';
