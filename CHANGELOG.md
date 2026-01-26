@@ -540,3 +540,62 @@ _Reviewed and approved by Senior Developer (0 HIGH, 1 MEDIUM, 3 LOW, 2 INFO obse
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO observations - none blocking)_
+
+### [Story 0.1.10] Configure Protocol Stack (CopilotKit + AG-UI)
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **CopilotKit Packages** in `apps/web/`
+  - `@copilotkit/react-core@^1.51.2` - Core CopilotKit hooks and provider
+  - `@copilotkit/runtime@^1.51.2` - CopilotKit runtime for agent communication
+
+- **CopilotKit Provider** (`apps/web/lib/protocols/copilotkit.tsx`)
+  - `CopilotKitProvider` - Wrapper component with configurable runtime URL
+  - Re-exports `CopilotKit` from `@copilotkit/react-core`
+
+- **AG-UI Client** (`apps/web/lib/protocols/ag-ui.ts`)
+  - `createAGUIClient(options)` - SSE streaming client factory
+  - `useAGUI(options)` - React hook for AG-UI streaming
+  - Helper functions: `filterEventsByType`, `getTextContent`, `isRunComplete`, `getRunError`
+
+- **AG-UI Event Types** (`apps/web/lib/protocols/types.ts`)
+  - All 25 AG-UI protocol event types defined:
+    - Lifecycle: `RUN_STARTED`, `RUN_FINISHED`, `RUN_ERROR`
+    - Steps: `STEP_STARTED`, `STEP_FINISHED`, `STEP_ERROR`
+    - Text: `TEXT_MESSAGE_START`, `TEXT_MESSAGE_CONTENT`, `TEXT_MESSAGE_END`
+    - Tools: `TOOL_CALL_START`, `TOOL_CALL_ARGS`, `TOOL_CALL_END`, `TOOL_CALL_RESULT`
+    - State: `STATE_SNAPSHOT`, `STATE_DELTA`
+    - Activity: `ACTIVITY_START`, `ACTIVITY_DELTA`, `ACTIVITY_END`
+    - Messages: `MESSAGES_SNAPSHOT`
+    - Raw: `RAW`, `CUSTOM`
+  - Extended types: `THOUGHT_START`, `THOUGHT_CONTENT`, `THOUGHT_END`, `METADATA`
+  - Full TypeScript interfaces for each event type
+
+- **AG-UI SSE Endpoint** (`apps/web/app/api/ag-ui/route.ts`)
+  - GET handler for Server-Sent Events streaming
+  - POST handler for JSON body requests
+  - Proper SSE headers: `Content-Type: text/event-stream`
+  - Event encoding with `ReadableStream`
+
+- **CopilotKit Runtime Endpoint** (`apps/web/app/api/copilotkit/route.ts`)
+  - POST handler for CopilotKit runtime communication
+  - GET handler for health check
+  - Placeholder implementation (real backend integration in later stories)
+
+- **Barrel Exports** (`apps/web/lib/protocols/index.ts`)
+  - All protocol utilities, types, and components exported
+
+#### Technical
+
+- **SSE Pattern:** Uses `ReadableStream` for proper Next.js App Router SSE support
+- **Event Types:** Enum-based `AGUIEventType` with `as const` for type safety
+- **React Hook:** `useAGUI` provides streaming state, events array, and error handling
+- **CopilotKit:** Provider configured with default `/api/copilotkit` runtime URL
+- **Library Validated:** Implementation matches official CopilotKit and AG-UI documentation
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO observations - none blocking)_
