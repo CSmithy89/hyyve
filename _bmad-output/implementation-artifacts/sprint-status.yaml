@@ -91,7 +91,7 @@ development_status:
   # - Mapping: _bmad-output/planning-artifacts/wireframe-implementation-map.md
   # - Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
   # - All 146 wireframes mapped to routes, stories, and visual fidelity checklist
-  epic-0-2: backlog
+  epic-0-2: in-progress
   0-2-1-extract-design-system-from-wireframes: backlog
   0-2-2-create-shadcn-component-overrides: backlog
   0-2-3-create-layout-shells-app-builder-auth: backlog
