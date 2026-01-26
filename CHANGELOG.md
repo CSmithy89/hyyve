@@ -1010,3 +1010,59 @@ _Reviewed and approved by Senior Developer (0 issues found)_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 issues found)_
+
+### [Story 0.1.19] Configure Anthropic SDK for Claude
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **TypeScript Anthropic SDK** (`apps/web/lib/llm/`)
+  - `@anthropic-ai/sdk@^0.71.2` - Official Anthropic SDK
+  - `anthropic.ts` - Claude client with retry, timeout, streaming
+  - `types.ts` - LLM type definitions and model configs
+  - `index.ts` - Barrel exports
+
+- **Claude Client Features**
+  - `getAnthropicClient()` - Singleton client with API key
+  - `createChatCompletion()` - Non-streaming completions
+  - `createStreamingChatCompletion()` - Token-by-token streaming
+  - `completeText()` - Simple text completion wrapper
+  - `calculateCost()` - Token-based cost calculation
+
+- **Model Configurations**
+  - `claude-sonnet-4-20250514` - Default, balanced (default)
+  - `claude-opus-4-20250514` - Advanced reasoning
+  - `claude-haiku-4-20250514` - Fast, efficient
+
+- **Python Claude Client** (`apps/agent-service/src/llm/`)
+  - `claude.py` - ClaudeClient with sync/async methods
+  - `__init__.py` - LLM module exports
+  - Streaming support with `astream()`
+  - Cost calculation per model
+
+- **Environment Variables** (`.env.example`)
+  - `ANTHROPIC_API_KEY` - Anthropic API key
+
+#### Technical
+
+- **Client Configuration:**
+  - Timeout: 60 seconds
+  - Max retries: 3
+  - Singleton pattern for connection reuse
+
+- **Streaming Events:**
+  - `onTextDelta` - Text chunk handler
+  - `onToolUse` - Tool call handler
+  - `onComplete` - Usage stats handler
+  - `onError` - Error handler
+
+- **Tool Use Support:**
+  - `ToolDefinition` interface for MCP-compatible tools
+  - `ToolUseResult` for tool call results
+  - Automatic conversion to Anthropic format
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 issues found)_
