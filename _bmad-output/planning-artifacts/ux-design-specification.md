@@ -261,6 +261,14 @@ Organization (Tenant)
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### 3.3 Related Documentation
+
+| Document | Path | Purpose |
+|----------|------|---------|
+| **Routing Specification** | `routing-specification.md` | URL paths, route guards, navigation flows for all 146 screens |
+| **Cross-Reference Matrix** | `cross-reference-matrix.md` | Screen↔FR↔API↔Protocol traceability |
+| **Stitch Prompts Index** | `stitch-prompts-index.md` | Google Stitch prompt navigation for wireframe generation |
+
 ---
 
 ## 4. Phase 1: Foundation Platform

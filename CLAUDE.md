@@ -20,6 +20,7 @@
 | **AgentOS Spec**    | `_bmad-output/planning-artifacts/agentos-integration-spec.md`                     | 50+ AgentOS endpoints, memory, sessions        |
 | **Cost Service**    | `_bmad-output/planning-artifacts/unified-cost-service-architecture-2026-01-23.md` | Token tracking, billing, cost estimation       |
 | **Cross-Reference** | `_bmad-output/planning-artifacts/cross-reference-matrix.md`                       | FR↔Screen↔API↔Protocol traceability            |
+| **Routing Spec**    | `_bmad-output/planning-artifacts/routing-specification.md`                        | URL paths, route guards, navigation flows      |
 | **Arch Synthesis**  | `_bmad-output/planning-artifacts/architecture-synthesis-2026-01-23.md`            | Research summaries with code snippets          |
 
 ---

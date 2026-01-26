@@ -2030,6 +2030,7 @@ After each epic:
 
 | Document | Purpose | FR Coverage |
 |----------|---------|-------------|
+| `routing-specification.md` | URL paths, route guards, navigation flows for all 146 screens | All screens, auth flows |
 | `ag-ui-integration-guide.md` | AGENT_CONTENT_ZONE specs, A2UI schema, streaming patterns, screen-level zones | FR179-FR186 (UI Generation), all streaming screens |
 | `protocol-stack-specification.md` | AG-UI events, A2A messages, MCP tool calls, DCRL integration | All protocol-related FRs |
 | `project-context.md` | 91 implementation rules, TypeScript patterns, React hooks, testing | All implementation |
