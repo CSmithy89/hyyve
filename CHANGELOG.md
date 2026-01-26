@@ -812,3 +812,59 @@ _Reviewed and approved by Senior Developer (0 issues found)_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 issues found)_
+
+### [Story 0.1.16] Create Initial Database Schema
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Database Schema** (`supabase/migrations/00001_initial_schema.sql`)
+  - `organizations` table with id, name, slug, timestamps
+  - `organization_members` table linking Clerk users to orgs
+  - `workspaces` table for organizational units
+  - `projects` table for workflows, chatbots, voice agents, canvas
+
+- **Row Level Security (RLS)**
+  - Enabled on all tables
+  - Organizations: users see only orgs they belong to
+  - Workspaces: users see only workspaces in their orgs
+  - Projects: users see only projects in their workspaces
+  - Uses `auth.uid()` for Clerk JWT integration
+
+- **Database Indexes**
+  - `idx_organizations_slug` for slug lookups
+  - `idx_organization_members_user_id` for user membership queries
+  - `idx_workspaces_org_id` for org-scoped queries
+  - `idx_projects_workspace_id` and `idx_projects_type` for filtering
+
+- **Supabase Configuration** (`supabase/config.toml`)
+  - Local development settings
+  - Clerk external auth enabled
+
+- **TypeScript Types** (`packages/@platform/db/src/types.ts`)
+  - `Organization`, `OrganizationMember`, `Workspace`, `Project`
+  - Insert and Update variants for each
+  - Full `Database` type for Supabase client
+
+#### Technical
+
+- **Table Relationships:**
+
+  ```
+  organizations
+    └── organization_members (user_id from Clerk)
+    └── workspaces
+          └── projects (type: module|chatbot|voice|canvas)
+  ```
+
+- **RLS Policy Pattern:**
+  - SELECT: Check membership via `organization_members`
+  - INSERT: Check organization membership
+  - UPDATE: Check organization membership
+  - DELETE: Require admin/owner role
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 issues found)_
