@@ -77,7 +77,7 @@ development_status:
   0-1-18-configure-temporal-workflow-orchestration: done
   0-1-19-configure-anthropic-sdk-for-claude: done
   0-1-20-configure-mcp-model-context-protocol-foundation: done
-  0-1-21-configure-resend-email-service: backlog
+  0-1-21-configure-resend-email-service: done
   0-1-22-configure-opentelemetry-distributed-tracing: backlog
   0-1-23-configure-docker-compose-for-local-development: backlog
   epic-0-1-retrospective: optional
