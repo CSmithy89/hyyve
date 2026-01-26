@@ -688,3 +688,41 @@ _Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO obse
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 issues found)_
+
+### [Story 0.1.13] Configure Environment Variables & Secrets
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Environment Validation** (`apps/web/lib/env.ts`)
+  - Zod-based schema validation for all environment variables
+  - `serverSchema` - Server-only variables (secrets, API keys)
+  - `clientSchema` - Client-safe variables (NEXT*PUBLIC*\*)
+  - `serverEnv` export for server-side usage
+  - `clientEnv` export for client-side usage
+  - Type exports: `ServerEnv`, `ClientEnv`
+
+- **Application Configuration** (`.env.example`)
+  - `NEXT_PUBLIC_APP_URL` - Base URL for the application
+
+#### Technical
+
+- **Environment Variable Categories:**
+  - **Server-only:** SUPABASE_SERVICE_ROLE_KEY, CLERK_SECRET_KEY, STRIPE_SECRET_KEY, etc.
+  - **Client-safe:** NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, etc.
+
+- **Validation Features:**
+  - Runtime validation on app startup
+  - Graceful fallback for missing optional variables
+  - Descriptive error messages for invalid values
+
+- **Security:**
+  - Server variables never exposed to browser
+  - All secrets properly gitignored
+  - `.env.example` serves as documentation
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 1 LOW, 1 INFO observations)_
