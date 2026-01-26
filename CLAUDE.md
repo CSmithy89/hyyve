@@ -4,18 +4,23 @@
 
 **ALWAYS reference these documents before implementing features:**
 
-| Document            | Path                                                              | When to Use                                    |
-| ------------------- | ----------------------------------------------------------------- | ---------------------------------------------- |
-| **Project Context** | `_bmad-output/project-context.md`                                 | Tech stack, coding patterns, 85 critical rules |
-| **PRD**             | `_bmad-output/planning-artifacts/prd.md`                          | Verifying feature requirements (248 FRs)       |
-| **Architecture**    | `_bmad-output/planning-artifacts/architecture.md`                 | System design decisions (8 ADRs)               |
-| **Epics & Stories** | `_bmad-output/planning-artifacts/epics.md`                        | Implementation tasks (58 epics, 293 stories)   |
-| **UX Design**       | `_bmad-output/planning-artifacts/ux-design-specification.md`      | UI component specs, 146 wireframes             |
-| **Sprint Status**   | `_bmad-output/implementation-artifacts/sprint-status.yaml`        | Current sprint tracking                        |
-| **API Endpoints**   | `_bmad-output/planning-artifacts/api-endpoints.md`                | All endpoints with FR mappings, payloads       |
-| **OpenAPI Spec**    | `_bmad-output/planning-artifacts/openapi.yaml`                    | Formal API spec for SDK/type generation        |
-| **Protocol Events** | `_bmad-output/planning-artifacts/protocol-events.yaml`            | AG-UI, A2A, A2UI, DCRL event definitions       |
-| **Protocol Stack**  | `_bmad-output/planning-artifacts/protocol-stack-specification.md` | Protocol integration details, validation       |
+| Document            | Path                                                                              | When to Use                                    |
+| ------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **Project Context** | `_bmad-output/project-context.md`                                                 | Tech stack, coding patterns, 91 critical rules |
+| **PRD**             | `_bmad-output/planning-artifacts/prd.md`                                          | Verifying feature requirements (248 FRs)       |
+| **Architecture**    | `_bmad-output/planning-artifacts/architecture.md`                                 | System design decisions (8 ADRs)               |
+| **Epics & Stories** | `_bmad-output/planning-artifacts/epics.md`                                        | Implementation tasks (58 epics, 293 stories)   |
+| **UX Design**       | `_bmad-output/planning-artifacts/ux-design-specification.md`                      | UI component specs, 146 wireframes             |
+| **Sprint Status**   | `_bmad-output/implementation-artifacts/sprint-status.yaml`                        | Current sprint tracking                        |
+| **API Endpoints**   | `_bmad-output/planning-artifacts/api-endpoints.md`                                | All endpoints with FR mappings, payloads       |
+| **OpenAPI Spec**    | `_bmad-output/planning-artifacts/openapi.yaml`                                    | Formal API spec for SDK/type generation        |
+| **Protocol Events** | `_bmad-output/planning-artifacts/protocol-events.yaml`                            | AG-UI, A2A, A2UI, DCRL event definitions       |
+| **Protocol Stack**  | `_bmad-output/planning-artifacts/protocol-stack-specification.md`                 | Protocol integration details, validation       |
+| **AG-UI Guide**     | `_bmad-output/planning-artifacts/ag-ui-integration-guide.md`                      | AGENT_CONTENT_ZONE, A2UI schema, streaming     |
+| **AgentOS Spec**    | `_bmad-output/planning-artifacts/agentos-integration-spec.md`                     | 50+ AgentOS endpoints, memory, sessions        |
+| **Cost Service**    | `_bmad-output/planning-artifacts/unified-cost-service-architecture-2026-01-23.md` | Token tracking, billing, cost estimation       |
+| **Cross-Reference** | `_bmad-output/planning-artifacts/cross-reference-matrix.md`                       | FR↔Screen↔API↔Protocol traceability            |
+| **Arch Synthesis**  | `_bmad-output/planning-artifacts/architecture-synthesis-2026-01-23.md`            | Research summaries with code snippets          |
 
 ---
 
@@ -223,7 +228,7 @@ await a2aClient.send({
 1. **Identify the FR number** - Check PRD for the functional requirement
 2. **Find the story** - Look up in `epics.md`
 3. **Review UX spec** - Match the wireframe design
-4. **Check project-context.md** - Follow the 85 implementation rules
+4. **Check project-context.md** - Follow the 91 implementation rules
 
 ### API Implementation Rules
 
@@ -328,6 +333,8 @@ This repository has multiple AI assistants:
 - Voice agent integration (LiveKit, Rasa)
 - Security sandboxing
 - Enterprise SSO/SCIM
+
+**Quick Access:** Use `architecture-synthesis-2026-01-23.md` for consolidated research summaries with code snippets - references all individual research docs.
 
 ---
 
