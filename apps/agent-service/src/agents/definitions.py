@@ -49,6 +49,8 @@ def create_agent(
             table_name=f"agent_sessions_{agent_id}",
             db_url=settings.DATABASE_URL,
         ),
+        # Performance - cache session in memory for faster access
+        cache_session=True,
         # Additional settings
         markdown=True,
         show_tool_calls=settings.is_development,
@@ -129,6 +131,8 @@ builder_team = Team(
     enable_user_memories=True,
     share_member_interactions=True,
     enable_agentic_culture=True,
+    # Performance - cache team session in memory for faster access
+    cache_session=True,
 )
 
 # All teams list for registration

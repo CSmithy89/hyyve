@@ -935,3 +935,78 @@ _Reviewed and approved by Senior Developer (0 issues found)_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 issues found)_
+
+### [Story 0.1.18] Configure Temporal Workflow Orchestration
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Temporal Worker Application** (`apps/temporal-worker/`)
+  - `src/worker.ts` - Worker entry point with Temporal connection
+  - `src/workflows/agent.ts` - Agent execution workflow with HITL support
+  - `src/workflows/index.ts` - Workflow exports
+  - `src/activities/agent.ts` - Activities for agent service communication
+  - `src/activities/index.ts` - Activity exports
+
+- **Agent Execution Workflow**
+  - `agentExecutionWorkflow()` - Main workflow function
+  - HITL signal handling with `hitlApprovalSignal`
+  - Workflow cancellation with `cancelWorkflowSignal`
+  - Retry policies with exponential backoff (1s initial, 2x coefficient, 5 max attempts, 30s max interval)
+  - 24-hour HITL approval timeout
+
+- **Temporal Activities**
+  - `executeAgentTask()` - Send task to Agent Service
+  - `getAgentResponse()` - Get completed task response
+  - `processHITLApproval()` - Process human approval and continue
+
+- **Temporal Client Package** (`packages/@platform/temporal/`)
+  - `src/client.ts` - Temporal client wrapper with singleton pattern
+  - `src/index.ts` - Package exports
+  - `createTemporalClient()` / `getTemporalClient()` helper functions
+  - Zod validation for workflow inputs/outputs
+
+- **Client Methods**
+  - `startAgentWorkflow()` - Start new agent workflow
+  - `getWorkflowHandle()` - Get existing workflow
+  - `sendHITLApproval()` - Send approval signal
+  - `cancelWorkflow()` - Cancel running workflow
+  - `getWorkflowResult()` - Get workflow result
+
+- **Python Temporal Support** (`apps/agent-service/pyproject.toml`)
+  - `temporalio>=1.7.0` - Python Temporal SDK
+
+- **Environment Variables** (`.env.example`)
+  - `TEMPORAL_ADDRESS` - Temporal server address (localhost:7233)
+  - `TEMPORAL_NAMESPACE` - Temporal namespace (default)
+  - `TEMPORAL_TASK_QUEUE` - Agent task queue (hyyve-agent-tasks)
+
+#### Technical
+
+- **Workflow Architecture:**
+
+  ```
+  Next.js App ──▶ Temporal Client ──▶ Temporal Server
+                                           │
+                                    Temporal Worker
+                                           │
+                                    Agent Service
+  ```
+
+- **Dependencies:**
+  - @temporalio/client@^1.11.0 - Client SDK
+  - @temporalio/worker@^1.11.0 - Worker SDK
+  - @temporalio/workflow@^1.11.0 - Workflow definitions
+  - @temporalio/activity@^1.11.0 - Activity definitions
+
+- **Retry Policy:**
+  - Initial interval: 1 second
+  - Backoff coefficient: 2
+  - Maximum attempts: 5
+  - Maximum interval: 30 seconds
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 issues found)_
