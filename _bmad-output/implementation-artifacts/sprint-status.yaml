@@ -92,7 +92,7 @@ development_status:
   # - Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
   # - All 146 wireframes mapped to routes, stories, and visual fidelity checklist
   epic-0-2: in-progress
-  0-2-1-extract-design-system-from-wireframes: backlog
+  0-2-1-extract-design-system-from-wireframes: review
   0-2-2-create-shadcn-component-overrides: backlog
   0-2-3-create-layout-shells-app-builder-auth: backlog
   0-2-4-create-navigation-components: backlog
@@ -107,6 +107,8 @@ development_status:
   0-2-13-implement-knowledge-base-ui: backlog
   0-2-14-implement-observability-dashboard-ui: backlog
   0-2-15-create-storybook-visual-regression-baseline: backlog
+  0-2-16-implement-light-mode-theme-variables: backlog
+  0-2-17-create-theme-toggle-component: backlog
   epic-0-2-retrospective: optional
 
   # ===========================================
