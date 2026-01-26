@@ -161,6 +161,34 @@ _Reviewed and approved by Senior Developer (2 review cycles, 9 issues resolved)_
 _Story completed: 2026-01-27_
 _Reviewed and approved by Senior Developer (2 review cycles, 5 issues resolved)_
 
+### [Story 0-2-3] Create Layout Shells (App, Builder, Auth)
+
+**Epic 0.2:** Frontend Foundation & Design System
+
+#### Added
+
+- `apps/web/components/layouts/AppShell.tsx` - Main authenticated layout (h-16 header, w-64 sidebar)
+- `apps/web/components/layouts/BuilderLayout.tsx` - Three-panel builder layout (w-72/flex-1/w-80)
+- `apps/web/components/layouts/AuthLayout.tsx` - Centered auth card layout (max-w-[440px])
+- `apps/web/components/layouts/index.ts` - Barrel exports with TypeScript interfaces
+- Route group layouts: (auth), (app), (app)/builders
+- Skip-to-main accessibility link
+- Responsive mobile navigation with Sheet component
+- Canvas zoom controls with full ARIA toolbar accessibility
+
+#### Changed
+
+- `apps/web/app/globals.css` - Added bg-grid-pattern for auth backgrounds
+
+#### Tests
+
+- 93 unit tests for layout shell verification
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (2 review cycles, 3 MAJOR issues resolved)_
+
 ### [Story 0.1.1] Scaffold Turborepo Monorepo with Next.js 15
 
 **Epic 0.1:** Project Foundation & Infrastructure Setup

@@ -178,6 +178,16 @@
   background-size: 24px 24px;
 }
 
+/* Grid Pattern for Auth Layout - matches wireframe exactly */
+.bg-grid-pattern {
+  background-image: linear-gradient(
+      rgba(128, 128, 128, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(128, 128, 128, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
 /* Workflow connection lines - matches wireframe exactly */
 .connection-line {
   fill: none;
