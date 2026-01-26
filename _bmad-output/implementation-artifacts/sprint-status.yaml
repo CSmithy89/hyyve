@@ -56,7 +56,7 @@ development_status:
 
   # Epic E0.1: Backend Infrastructure
 
-  epic-0-1: in-progress
+  epic-0-1: done
   0-1-1-scaffold-turborepo-monorepo-with-nextjs-15: done
   0-1-2-configure-typescript-with-strict-mode: done
   0-1-3-install-core-frontend-dependencies: done
@@ -79,7 +79,7 @@ development_status:
   0-1-20-configure-mcp-model-context-protocol-foundation: done
   0-1-21-configure-resend-email-service: done
   0-1-22-configure-opentelemetry-distributed-tracing: done
-  0-1-23-configure-docker-compose-for-local-development: backlog
+  0-1-23-configure-docker-compose-for-local-development: done
   epic-0-1-retrospective: optional
 
   # Epic E0.2: Frontend Foundation & Design System
