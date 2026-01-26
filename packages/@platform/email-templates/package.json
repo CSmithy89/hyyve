@@ -1,0 +1,37 @@
+{
+  "name": "@platform/email-templates",
+  "version": "0.0.1",
+  "private": true,
+  "description": "React Email templates for Hyyve platform",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./templates": {
+      "import": "./dist/templates/index.js",
+      "types": "./dist/templates/index.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "preview": "email dev"
+  },
+  "dependencies": {
+    "@react-email/components": "^0.0.34",
+    "react": "^19.2.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.9",
+    "react-email": "^4.0.12",
+    "typescript": "^5.8.3"
+  }
+}
