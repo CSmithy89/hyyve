@@ -44,8 +44,8 @@ development_status:
   # PHASE 0: PROJECT INFRASTRUCTURE (1 Epic)
   # ===========================================
 
-  epic-0-1: backlog
-  0-1-1-scaffold-turborepo-monorepo-with-nextjs-15: ready-for-dev
+  epic-0-1: in-progress
+  0-1-1-scaffold-turborepo-monorepo-with-nextjs-15: done
   0-1-2-configure-typescript-with-strict-mode: backlog
   0-1-3-install-core-frontend-dependencies: backlog
   0-1-4-initialize-shadcn-ui-component-library: backlog
