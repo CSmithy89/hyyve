@@ -58,7 +58,7 @@ development_status:
   0-1-11-configure-stripe-billing: done
   0-1-12-configure-testing-infrastructure: done
   0-1-13-configure-environment-variables-secrets: done
-  0-1-14-configure-eslint-prettier-and-git-hooks: backlog
+  0-1-14-configure-eslint-prettier-and-git-hooks: done
   0-1-15-configure-ci-cd-pipeline: backlog
   0-1-16-create-initial-database-schema: backlog
   0-1-17-configure-agno-agent-framework-python-backend: backlog
