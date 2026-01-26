@@ -128,3 +128,70 @@ _Reviewed and approved by Senior Developer_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (2 review cycles)_
+
+### [Story 0.1.3] Install Core Frontend Dependencies
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Core Dependencies Installed** in `apps/web/`
+  - `tailwindcss@4.1.8` - Utility-first CSS framework with CSS-first configuration
+  - `zustand@5.0.8` - Lightweight state management
+  - `immer@11.1.3` - Immutable state updates for Zustand middleware
+  - `zod@4.0.1` - Runtime schema validation
+  - `@xyflow/react@12.10.0` - Visual flow editor for builders
+  - `clsx@2.1.1` - Conditional className utility
+  - `tailwind-merge@3.4.0` - Tailwind class conflict resolution
+
+- **Utility Functions** (`apps/web/lib/utils.ts`)
+  - `cn()` function combining clsx and tailwind-merge for class merging
+  - Properly resolves conflicting Tailwind classes (e.g., `p-4` + `p-2` = `p-2`)
+
+- **Stores Directory** (`apps/web/stores/`)
+  - Barrel export file for Zustand stores with immer middleware support
+
+#### Changed
+
+- **Tailwind CSS Configuration** (`apps/web/tailwind.config.ts`)
+  - Extended with shadcn/ui theme defaults
+  - CSS variable-based theming for light/dark mode support
+  - Container configuration with responsive breakpoints
+
+- **Global Styles** (`apps/web/app/globals.css`)
+  - Tailwind CSS 4.x import-based setup (`@import "tailwindcss"`)
+  - Complete shadcn CSS variable set for light theme
+  - Complete shadcn CSS variable set for dark theme
+  - Chart color variables for data visualization
+
+- **PostCSS Configuration** (`apps/web/postcss.config.js`)
+  - Configured with `@tailwindcss/postcss` plugin for Tailwind 4.x
+
+#### Technical
+
+- **Tailwind 4.x Migration:**
+  - Uses CSS-based `@import "tailwindcss"` instead of legacy `@tailwind` directives
+  - Native CSS variable support for theming
+  - PostCSS plugin changed to `@tailwindcss/postcss`
+
+- **shadcn/ui CSS Variables Configured:**
+  - Background, foreground, card, popover colors
+  - Primary, secondary, muted, accent semantic colors
+  - Destructive states for error handling
+  - Border, input, ring for form elements
+  - Chart colors (1-5) for data visualization
+  - Sidebar component variables
+  - `--radius: 0.5rem` for consistent border radius
+
+- **State Management Pattern:**
+  - Zustand with immer middleware for immutable updates
+  - Pattern established for future store implementations
+
+- **Validation Pattern:**
+  - Zod for runtime validation of external data
+  - Type inference with `z.infer<typeof schema>`
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (5 observations, none blocking)_
