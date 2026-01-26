@@ -14,6 +14,15 @@ inputDocuments:
   - path: '_bmad-output/planning-artifacts/research/technical-claude-agent-sdk-research-2026-01-20.md'
     type: 'research'
     focus: 'Claude Agent SDK - first Module Builder export target'
+  - path: '_bmad-output/planning-artifacts/wireframe-implementation-map.md'
+    type: 'ui-wireframes'
+    focus: '146 wireframes mapped to routes, stories, visual fidelity checklist'
+  - path: '_bmad-output/planning-artifacts/Stitch Hyyve/'
+    type: 'ui-sources'
+    focus: 'HTML/CSS/Tailwind wireframe source files (146 screens)'
+  - path: '_bmad-output/planning-artifacts/routing-specification.md'
+    type: 'ui-routing'
+    focus: 'URL paths, route guards, navigation flows'
 documentCounts:
   briefs: 0
   research: 34
@@ -21,6 +30,8 @@ documentCounts:
   validation: 1
   masterPlan: 1
   keyResearchLoaded: 2
+  uiWireframes: 146
+  uiRouting: 1
 workflowType: 'prd'
 
 # Project Classification (Step 2)
@@ -1426,6 +1437,23 @@ After each epic:
 | T9-EMOT | technical-agent-emotional-intelligence-research-2026-01-25.md |
 | T9-DIFF | technical-visual-diff-engine-research-2026-01-25.md |
 | T9-REC | technical-conversation-recording-research-2026-01-25.md |
+
+### UI Wireframe References
+
+**CRITICAL: All UI implementation MUST reference these documents:**
+
+| Code | Document | Purpose |
+|------|----------|---------|
+| UI-MAP | `_bmad-output/planning-artifacts/wireframe-implementation-map.md` | Master mapping of 146 wireframes → routes → stories → visual checklist |
+| UI-SRC | `_bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html` | HTML/CSS/Tailwind source files for pixel-perfect implementation |
+| UI-ROUTE | `_bmad-output/planning-artifacts/routing-specification.md` | URL paths, route guards, navigation flows |
+
+**UI Implementation Workflow:**
+1. Find screen in UI-MAP by FR#, Screen ID, or route path
+2. Open HTML source from UI-SRC (`Stitch Hyyve/{folder}/code.html`)
+3. Extract design tokens: primary (#5048e5), bg-dark (#131221), panel-dark (#1c1a2e)
+4. Match layout, components, and styling exactly
+5. Verify route per UI-ROUTE
 
 ### 1. Account & Identity Management (7 FRs)
 | FR# | Requirement | Source | UX Screen | API Endpoint | Protocol Event |
