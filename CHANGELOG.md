@@ -650,3 +650,41 @@ _Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO obse
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (0 HIGH, 0 MEDIUM, 2 LOW, 2 INFO observations - none blocking)_
+
+### [Story 0.1.12] Configure Testing Infrastructure
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Testing Library Packages**
+  - `@testing-library/react@^16.3.2` - React component testing utilities
+  - `@testing-library/jest-dom@^6.9.1` - Custom Jest/Vitest matchers
+
+#### Changed
+
+- **Vitest Setup** (`tests/support/vitest-setup.ts`)
+  - Enabled `@testing-library/jest-dom/vitest` matchers import
+  - Tests can now use matchers like `toBeInTheDocument()`, `toHaveClass()`
+
+#### Technical
+
+- **Testing Stack Completed:**
+  - Vitest 4.0.1 - Unit testing with jsdom environment
+  - Playwright 1.51.0 - E2E testing (Chromium, Firefox, WebKit)
+  - @testing-library/react - Component testing utilities
+  - @testing-library/jest-dom - Custom DOM matchers
+  - @vitest/coverage-v8 - Coverage reporting (text, json, html, lcov)
+
+- **Test Scripts:**
+  - `pnpm test:unit` - Run unit tests
+  - `pnpm test:unit:watch` - Watch mode
+  - `pnpm test:unit:coverage` - Coverage report
+  - `pnpm test:e2e` - Run E2E tests
+  - `pnpm test:e2e:ui` - Interactive UI mode
+  - `pnpm test:e2e:headed` - Headed browser mode
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 issues found)_

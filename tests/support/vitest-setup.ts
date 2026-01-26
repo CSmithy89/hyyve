@@ -7,8 +7,8 @@
 
 import { afterEach, vi } from 'vitest';
 
-// Extend expect with custom matchers if needed
-// import '@testing-library/jest-dom/vitest';
+// Extend expect with custom matchers from @testing-library/jest-dom
+import '@testing-library/jest-dom/vitest';
 
 // Mock environment variables
 process.env.NODE_ENV = 'test';
