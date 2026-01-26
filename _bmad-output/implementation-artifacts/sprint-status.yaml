@@ -54,7 +54,7 @@ development_status:
   0-1-7-configure-trpc-api-layer: done
   0-1-8-configure-redis-client: done
   0-1-9-configure-langfuse-observability: done
-  0-1-10-configure-protocol-stack-copilotkit-ag-ui: backlog
+  0-1-10-configure-protocol-stack-copilotkit-ag-ui: done
   0-1-11-configure-stripe-billing: backlog
   0-1-12-configure-testing-infrastructure: backlog
   0-1-13-configure-environment-variables-secrets: backlog
