@@ -260,3 +260,60 @@ _Reviewed and approved by Senior Developer (5 observations, none blocking)_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (3 minor observations, none blocking)_
+
+### [Story 0.1.5] Configure Supabase Database Client
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **Supabase SSR Configuration** in `packages/@platform/db/`
+  - `@supabase/supabase-js@^2.49.8` - Supabase JavaScript client
+  - `@supabase/ssr@^0.8.0` - SSR cookie handling for Next.js
+
+- **Server-Side Client** (`packages/@platform/db/src/server.ts`)
+  - `createClient()` - Server component client with cookie handling
+  - `createAdminClient()` - Admin client using service role key (bypasses RLS)
+  - Proper cookie handling via `next/headers` for Next.js App Router
+
+- **Browser-Side Client** (`packages/@platform/db/src/browser.ts`)
+  - `createClient()` - Client component Supabase client
+  - Uses `createBrowserClient` from `@supabase/ssr`
+
+- **Middleware Helper** (`packages/@platform/db/src/middleware.ts`)
+  - `updateSession()` - Session refresh for auth cookies
+  - `isProtectedRoute()` - Helper for route protection logic
+
+- **Next.js Middleware** (`apps/web/middleware.ts`)
+  - Integrated Supabase session refresh on all routes
+  - Excludes static assets and images from middleware
+
+- **Environment Variables** (`.env.example`)
+  - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Anonymous/public key
+  - `SUPABASE_SERVICE_ROLE_KEY` - Server-only admin key
+
+#### Changed
+
+- **Package Exports** (`packages/@platform/db/package.json`)
+  - Added `./server`, `./browser`, `./middleware` export paths
+  - Added `next` as peer dependency for Next.js API support
+
+- **Barrel Exports** (`packages/@platform/db/src/index.ts`)
+  - `createServerSupabaseClient` / `createBrowserSupabaseClient` explicit naming
+  - Exports middleware helpers `updateSession`, `isProtectedRoute`
+
+#### Technical
+
+- **SSR Pattern:** Uses `@supabase/ssr` cookie handling (not raw `@supabase/supabase-js`)
+- **Cookie Management:**
+  - Server: Uses `cookies()` from `next/headers` with `getAll`/`setAll`
+  - Browser: Automatic cookie handling via `createBrowserClient`
+  - Middleware: Cookie refresh on every request via `getUser()`
+- **Type Safety:** Generic `Database` type propagated to all clients
+- **Placeholder Types:** `Database` type ready for schema generation
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (2 HIGH, 3 LOW, 2 INFO observations - none blocking)_
