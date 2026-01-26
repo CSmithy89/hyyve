@@ -80,7 +80,7 @@ development_status:
   0-1-21-configure-resend-email-service: done
   0-1-22-configure-opentelemetry-distributed-tracing: done
   0-1-23-configure-docker-compose-for-local-development: done
-  epic-0-1-retrospective: optional
+  epic-0-1-retrospective: done
 
   # Epic E0.2: Frontend Foundation & Design System
   # Purpose: Parallel track to build UI components, layouts, and pages
