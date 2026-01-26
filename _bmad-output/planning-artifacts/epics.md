@@ -661,9 +661,9 @@ This document provides the complete epic and story breakdown for Hyyve, decompos
 
 ---
 
-### PHASE 0: PROJECT INFRASTRUCTURE (1 Epic) - Foundation Setup
+### PHASE 0: PROJECT INFRASTRUCTURE (2 Epics) - Foundation Setup
 
-#### Epic E0.1: Project Foundation & Infrastructure Setup
+#### Epic E0.1: Project Foundation & Infrastructure Setup (Backend)
 **User Outcome:** Development team has a fully configured monorepo with all dependencies, services, and tooling ready for feature development
 
 **Why This Epic First:**
@@ -710,6 +710,39 @@ This document provides the complete epic and story breakdown for Hyyve, decompos
 - Anthropic API key (Claude LLM)
 
 **NFRs:** NFR-MAINT-01, NFR-MAINT-02, NFR-MAINT-03, NFR-SEC-07
+
+---
+
+#### Epic E0.2: Frontend Foundation & Design System
+**User Outcome:** Complete UI layer built from 146 Stitch wireframes, enabling parallel frontend development while backend infrastructure completes
+
+**Why This Epic:**
+- Enables parallel frontend development while backend infrastructure (0-1-17 through 0-1-23) completes
+- 146 wireframes are ready with complete HTML/Tailwind CSS in `Stitch Hyyve/`
+- Frontend can use mock data and AG-UI event mocks
+- Reduces integration time when backend is ready
+- Design system extraction ensures visual consistency
+
+**Key Deliverables:**
+| Story | Deliverable | Wireframe Source |
+|-------|-------------|------------------|
+| 0.2.1 | Design tokens in Tailwind config | All wireframes (common theme) |
+| 0.2.2 | shadcn/ui component overrides | All wireframes |
+| 0.2.3 | Layout shells (App, Builder, Auth) | Module Builder, Login |
+| 0.2.4 | Navigation components | Module Builder header/sidebar |
+| 0.2.5 | Agent chat component | Module Builder right panel |
+| 0.2.6 | Flow canvas base (@xyflow) | Module Builder center canvas |
+| 0.2.7 | AG-UI mock provider | protocol-events.yaml |
+| 0.2.8 | Auth pages (Clerk UI) | 1.1.1, 1.1.2 |
+| 0.2.9 | Dashboard & project browser | 1.5.1, 1.5.2 |
+| 0.2.10 | Settings pages | 1.10.1-1.10.4 |
+| 0.2.11 | Module Builder UI shell | hyyve_module_builder |
+| 0.2.12 | Chatbot Builder UI shell | chatbot_builder_main |
+| 0.2.13 | Knowledge Base UI | 1.4.1-1.4.8 |
+| 0.2.14 | Observability dashboard UI | 1.7.1-1.7.5 |
+| 0.2.15 | Storybook visual regression | All components |
+
+**NFRs:** NFR-MAINT-01, NFR-MAINT-02, NFR-PERF-01
 
 ---
 
@@ -2309,6 +2342,432 @@ So that **all services can be run locally with a single command**.
 ---
 
 **Epic E0.1 Complete: 23 stories**
+
+---
+
+### Epic E0.2: Frontend Foundation & Design System
+
+**Epic Goal:** Build the complete UI layer from Stitch wireframes, establishing design system, layouts, and page shells that can be developed in parallel with backend infrastructure
+**FRs Covered:** None (Frontend foundation - enables parallel development)
+**Screens:** All 146 wireframes in `_bmad-output/planning-artifacts/Stitch Hyyve/`
+**NFRs:** NFR-MAINT-01, NFR-MAINT-02, NFR-PERF-01
+**Research:** stitch-prompts-index.md, routing-specification.md, cross-reference-matrix.md
+
+**Why This Epic:**
+- Enables parallel frontend development while backend infrastructure (0-1-17 through 0-1-23) completes
+- 146 wireframes are ready with complete HTML/Tailwind CSS
+- Frontend can use mock data and AG-UI event mocks
+- Reduces integration time when backend is ready
+
+---
+
+#### Story 0.2.1: Extract Design System from Wireframes
+
+As a **developer**,
+I want **the design tokens extracted from Stitch wireframes into Tailwind config**,
+So that **all UI components match the established visual language**.
+
+**Acceptance Criteria:**
+
+- **Given** the Stitch wireframes use custom Tailwind config
+- **When** I extract the design system
+- **Then** `tailwind.config.ts` includes:
+  ```typescript
+  colors: {
+    "primary": "#5048e5",
+    "primary-dark": "#3e38b3",
+    "background-light": "#f6f6f8",
+    "background-dark": "#131221",
+    "panel-dark": "#1c1a2e",
+    "canvas-dark": "#0f1115",
+    "border-dark": "#272546",
+    "text-secondary": "#9795c6"
+  }
+  ```
+- **And** custom font family "Inter" and "Noto Sans" are configured
+- **And** custom border-radius values match wireframes
+- **And** dark mode is the default (`class` strategy)
+- **And** CSS custom properties are defined in `globals.css`
+- **And** custom scrollbar styles are extracted
+
+**Source:** `hyyve_module_builder/code.html` lines 16-79
+**Creates:** Updated tailwind.config.ts, globals.css with custom properties
+
+---
+
+#### Story 0.2.2: Create shadcn Component Overrides
+
+As a **developer**,
+I want **shadcn/ui components customized to match Stitch design**,
+So that **all UI components have the correct Hyyve visual style**.
+
+**Acceptance Criteria:**
+
+- **Given** shadcn/ui is installed with default styles
+- **When** I override component styles
+- **Then** Button component uses primary (#5048e5) with glow shadow
+- **And** Card component uses panel-dark background with border-dark border
+- **And** Input component has dark background with focus:border-primary
+- **And** Dialog/Sheet components use panel-dark background
+- **And** All components support dark mode as default
+- **And** Component CSS variables match extracted design tokens
+
+**Technical Notes:**
+- Override via components.json and component file edits
+- Create `components/ui/theme.ts` for shared style utilities
+
+**Creates:** Updated components/ui/*.tsx, components/ui/theme.ts
+
+---
+
+#### Story 0.2.3: Create Layout Shells (App, Builder, Auth)
+
+As a **developer**,
+I want **reusable layout shells for different page types**,
+So that **all pages share consistent structure and navigation**.
+
+**Acceptance Criteria:**
+
+- **Given** the routing specification defines layout groups
+- **When** I create the layout shells
+- **Then** `AppShell` provides:
+  - Top navigation bar (h-16, logo, breadcrumbs, user avatar)
+  - Collapsible sidebar navigation
+  - Main content area
+- **And** `BuilderLayout` provides:
+  - Three-panel layout (left sidebar, center canvas, right chat)
+  - Resizable panels
+  - Canvas toolbar and zoom controls
+- **And** `AuthLayout` provides:
+  - Centered card layout
+  - Hyyve branding
+  - Social login buttons area
+- **And** All layouts are responsive
+- **And** Layouts use CSS Grid/Flexbox matching wireframes
+
+**Source:** `hyyve_module_builder/code.html`, `hyyve_login_screen/code.html`
+**Creates:** components/layouts/AppShell.tsx, BuilderLayout.tsx, AuthLayout.tsx
+
+---
+
+#### Story 0.2.4: Create Navigation Components
+
+As a **developer**,
+I want **navigation components matching wireframe patterns**,
+So that **users can navigate the platform consistently**.
+
+**Acceptance Criteria:**
+
+- **Given** wireframes show consistent navigation patterns
+- **When** I implement navigation components
+- **Then** `TopNav` includes:
+  - Hyyve logo with SVG
+  - Breadcrumb navigation
+  - Action buttons (Run, Save, Export)
+  - Settings and user avatar
+- **And** `Sidebar` includes:
+  - Collapsible sections with icons
+  - Active state highlighting
+  - Hover transitions
+- **And** `Breadcrumbs` shows current path with links
+- **And** All navigation uses Next.js Link component
+- **And** Mobile navigation with Sheet component
+
+**Source:** `hyyve_module_builder/code.html` lines 83-129
+**Creates:** components/nav/TopNav.tsx, Sidebar.tsx, Breadcrumbs.tsx, MobileNav.tsx
+
+---
+
+#### Story 0.2.5: Create Agent Chat Component
+
+As a **developer**,
+I want **a reusable agent chat interface component**,
+So that **Bond, Wendy, Morgan, and Artie can interact with users consistently**.
+
+**Acceptance Criteria:**
+
+- **Given** wireframes show agent chat panels (right sidebar in builders)
+- **When** I implement the chat component
+- **Then** `AgentChat` includes:
+  - Agent header with status indicator (online/offline)
+  - Message list with agent and user message bubbles
+  - Date dividers between message groups
+  - Typing indicator (bouncing dots animation)
+  - Quick action buttons in agent messages
+  - Input area with attachment button and send
+- **And** Component accepts `agentId` prop (bond|wendy|morgan|artie)
+- **And** Agent avatar and colors vary by agent personality
+- **And** Component has `onSendMessage` callback
+- **And** Component accepts `messages` array for controlled mode
+
+**Source:** `hyyve_module_builder/code.html` lines 346-427
+**Creates:** components/chat/AgentChat.tsx, AgentMessage.tsx, UserMessage.tsx, ChatInput.tsx
+
+---
+
+#### Story 0.2.6: Create Flow Canvas Base (xyflow)
+
+As a **developer**,
+I want **a base flow canvas component using @xyflow/react**,
+So that **Module Builder, Chatbot Builder, and Canvas Builder share a foundation**.
+
+**Acceptance Criteria:**
+
+- **Given** @xyflow/react is installed
+- **When** I create the base canvas
+- **Then** `FlowCanvas` includes:
+  - Dot grid background pattern (matching wireframes)
+  - Zoom controls (zoom in/out/fit)
+  - Minimap component
+  - Pan and zoom interactions
+  - SVG connection lines with animation
+- **And** Custom node wrapper with colored top border
+- **And** Custom edge with animated dash pattern
+- **And** Handle components for node connections
+- **And** Canvas state management with Zustand
+- **And** Undo/redo hook integration ready
+
+**Source:** `hyyve_module_builder/code.html` lines 207-343
+**Creates:** components/canvas/FlowCanvas.tsx, CanvasControls.tsx, NodeWrapper.tsx, CustomEdge.tsx
+
+---
+
+#### Story 0.2.7: Create AG-UI Mock Provider
+
+As a **developer**,
+I want **a mock AG-UI event provider for frontend development**,
+So that **I can build and test UI without requiring the real backend**.
+
+**Acceptance Criteria:**
+
+- **Given** the protocol-events.yaml defines 25 AG-UI event types
+- **When** I create the mock provider
+- **Then** `MockAGUIProvider` can:
+  - Simulate RUN_STARTED, RUN_FINISHED, RUN_ERROR events
+  - Stream TEXT_MESSAGE_CONTENT with configurable delays
+  - Emit TOOL_CALL_START/ARGS/END/RESULT sequences
+  - Send STATE_SNAPSHOT and STATE_DELTA events
+  - Track ACTIVITY_SNAPSHOT and ACTIVITY_DELTA
+- **And** Provider has hooks: `useMockAgentStream()`, `useMockToolCall()`
+- **And** Mock scenarios can be defined in JSON fixtures
+- **And** Provider can be swapped for real AG-UI client in production
+
+**Source:** protocol-events.yaml lines 1-212
+**Creates:** lib/mock/ag-ui-provider.tsx, lib/mock/fixtures/*.json, hooks/useAgentStream.ts
+
+---
+
+#### Story 0.2.8: Implement Auth Pages (Clerk UI)
+
+As a **developer**,
+I want **authentication pages using Clerk's pre-built components**,
+So that **users can sign in/up with the Hyyve visual style**.
+
+**Acceptance Criteria:**
+
+- **Given** Clerk is configured and AuthLayout exists
+- **When** I implement auth pages
+- **Then** `/sign-in` page renders with:
+  - Hyyve branding and logo
+  - Clerk `<SignIn />` component with custom appearance
+  - Social provider buttons (Google, GitHub)
+  - Link to sign-up
+- **And** `/sign-up` page renders with:
+  - Hyyve branding and logo
+  - Clerk `<SignUp />` component with custom appearance
+  - Social provider buttons
+  - Link to sign-in
+- **And** Clerk appearance is customized to match design tokens
+- **And** Pages are accessible and responsive
+
+**Source:** Wireframes 1.1.1, 1.1.2
+**Creates:** app/(auth)/sign-in/[[...sign-in]]/page.tsx, app/(auth)/sign-up/[[...sign-up]]/page.tsx
+
+---
+
+#### Story 0.2.9: Implement Dashboard and Project Browser
+
+As a **developer**,
+I want **the main dashboard and project browser pages**,
+So that **users can see their workspaces and projects**.
+
+**Acceptance Criteria:**
+
+- **Given** AppShell layout exists
+- **When** I implement dashboard pages
+- **Then** `/dashboard` shows:
+  - Welcome message with user name
+  - Quick action cards (Create Module, Create Chatbot, etc.)
+  - Recent projects list
+  - Usage summary widget
+- **And** `/dashboard/projects` shows:
+  - Project grid/list view toggle
+  - Search and filter controls
+  - Project cards with thumbnail, name, last modified
+  - Create new project button
+- **And** Pages use mock data initially
+- **And** Pages are responsive (mobile-friendly)
+
+**Source:** Wireframes 1.5.1, 1.5.2, `hyyve_home_dashboard/code.html`
+**Creates:** app/(app)/dashboard/page.tsx, app/(app)/dashboard/projects/page.tsx
+
+---
+
+#### Story 0.2.10: Implement Settings Pages
+
+As a **developer**,
+I want **the settings pages structure**,
+So that **users can manage their account and workspace settings**.
+
+**Acceptance Criteria:**
+
+- **Given** AppShell layout exists
+- **When** I implement settings pages
+- **Then** `/settings` has tabbed navigation:
+  - Profile & Preferences
+  - Account & Security
+  - API Keys
+  - Workspace Settings
+  - Billing & Usage
+- **And** Each tab renders appropriate form fields
+- **And** Forms use react-hook-form + zod validation
+- **And** API key management shows masked keys with copy button
+- **And** Pages use mock data initially
+
+**Source:** Wireframes 1.10.1-1.10.4, `user_profile_&_preferences/code.html`, `account_&_security_settings_1/code.html`
+**Creates:** app/(app)/settings/page.tsx, app/(app)/settings/[tab]/page.tsx
+
+---
+
+#### Story 0.2.11: Implement Module Builder UI Shell
+
+As a **developer**,
+I want **the Module Builder page with three-panel layout**,
+So that **users can see the visual workflow editor structure**.
+
+**Acceptance Criteria:**
+
+- **Given** BuilderLayout and FlowCanvas exist
+- **When** I implement the Module Builder shell
+- **Then** `/builders/module/[id]` shows:
+  - Left panel: Knowledge Base file browser
+  - Center: Flow canvas with sample nodes
+  - Right panel: Agent Bond chat interface
+- **And** Panels are resizable with drag handles
+- **And** Sample workflow nodes are displayed (Input, LLM, Branch, Slack)
+- **And** Node selection shows configuration in side panel
+- **And** Page works with mock workflow data
+
+**Source:** `hyyve_module_builder/code.html`
+**Creates:** app/(app)/builders/module/[id]/page.tsx, components/builders/module/*.tsx
+
+---
+
+#### Story 0.2.12: Implement Chatbot Builder UI Shell
+
+As a **developer**,
+I want **the Chatbot Builder page structure**,
+So that **users can see the conversation flow editor**.
+
+**Acceptance Criteria:**
+
+- **Given** BuilderLayout and FlowCanvas exist
+- **When** I implement the Chatbot Builder shell
+- **Then** `/builders/chatbot/[id]` shows:
+  - Left panel: Intent/Entity management
+  - Center: Conversation flow canvas
+  - Right panel: Agent Wendy chat interface
+  - Bottom panel: Chat preview/simulator
+- **And** Sample conversation nodes displayed
+- **And** Chat preview shows mock conversation
+- **And** Page works with mock chatbot data
+
+**Source:** `chatbot_builder_main/code.html`
+**Creates:** app/(app)/builders/chatbot/[id]/page.tsx, components/builders/chatbot/*.tsx
+
+---
+
+#### Story 0.2.13: Implement Knowledge Base UI
+
+As a **developer**,
+I want **the Knowledge Base management pages**,
+So that **users can view and manage their document collections**.
+
+**Acceptance Criteria:**
+
+- **Given** AppShell layout exists
+- **When** I implement Knowledge Base pages
+- **Then** `/knowledge` shows:
+  - Knowledge base list with search
+  - Create new KB button
+  - KB cards with document count and size
+- **And** `/knowledge/[id]` shows:
+  - Document list (files uploaded)
+  - Upload dropzone
+  - Document details panel
+  - Chunking and embedding status
+- **And** Pages use mock document data
+- **And** File upload component with progress
+
+**Source:** Wireframes 1.4.1-1.4.8, `rag_pipeline_config/code.html`
+**Creates:** app/(app)/knowledge/page.tsx, app/(app)/knowledge/[id]/page.tsx
+
+---
+
+#### Story 0.2.14: Implement Observability Dashboard UI
+
+As a **developer**,
+I want **the observability and analytics dashboard**,
+So that **users can view execution traces and costs**.
+
+**Acceptance Criteria:**
+
+- **Given** AppShell layout exists
+- **When** I implement observability pages
+- **Then** `/observability` shows:
+  - Execution trace list with filters
+  - Cost summary cards
+  - Usage graphs (mock data)
+  - Recent errors panel
+- **And** `/observability/traces/[id]` shows:
+  - Trace timeline visualization
+  - Node execution details
+  - Token usage breakdown
+  - Cost attribution
+- **And** Charts use recharts or similar library
+- **And** Pages use mock trace data
+
+**Source:** Wireframes 1.7.1-1.7.5, `observability_dashboard/code.html`
+**Creates:** app/(app)/observability/page.tsx, app/(app)/observability/traces/[id]/page.tsx
+
+---
+
+#### Story 0.2.15: Create Storybook Visual Regression Baseline
+
+As a **developer**,
+I want **Storybook configured with stories for all major components**,
+So that **I can develop components in isolation and catch visual regressions**.
+
+**Acceptance Criteria:**
+
+- **Given** all UI components from stories 0.2.1-0.2.14 exist
+- **When** I set up Storybook
+- **Then** Storybook 8.x is installed and configured
+- **And** Stories exist for:
+  - All shadcn/ui component overrides
+  - Layout shells (AppShell, BuilderLayout, AuthLayout)
+  - Navigation components
+  - AgentChat component with different agents
+  - FlowCanvas with sample workflows
+- **And** Chromatic or Percy integration is configured (optional)
+- **And** Stories include dark mode decorator
+- **And** Stories reference corresponding Stitch wireframes
+
+**Creates:** .storybook/*, stories/*.stories.tsx, Storybook configuration
+
+---
+
+**Epic E0.2 Complete: 15 stories**
 
 ---
 
@@ -9504,7 +9963,7 @@ So that **mobile apps have limited permissions**.
 
 | Phase | Epics | Stories |
 |-------|-------|---------|
-| Phase 0: Project Infrastructure | 1 | 23 |
+| Phase 0: Project Infrastructure | 2 | 38 |
 | Phase 1: Foundation | 17 | 117 |
 | Phase 2: Builder Suite | 13 | 80 |
 | Phase 3: Marketplace | 9 | 27 |
@@ -9534,4 +9993,5 @@ _Step 2 Complete: Epics designed and approved_
 _Step 3 Complete: All 270 stories generated with cross-references_
 _Step 4 Complete: Final validation passed - Ready for development_
 _Step 4.1 Complete: Added Epic E0.1 (Project Foundation) with 23 comprehensive infrastructure setup stories - Total: 293 stories across 58 epics_
+_Step 4.2 Complete: Added Epic E0.2 (Frontend Foundation) with 15 stories for parallel UI development - Total: 308 stories across 59 epics_
 _Updated: 2026-01-26 - Added AG-UI integration guide and protocol stack references_

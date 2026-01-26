@@ -41,8 +41,10 @@ story_location: _bmad-output/implementation-artifacts
 
 development_status:
   # ===========================================
-  # PHASE 0: PROJECT INFRASTRUCTURE (1 Epic)
+  # PHASE 0: PROJECT INFRASTRUCTURE (2 Epics)
   # ===========================================
+
+  # Epic E0.1: Backend Infrastructure
 
   epic-0-1: in-progress
   0-1-1-scaffold-turborepo-monorepo-with-nextjs-15: done
@@ -69,6 +71,28 @@ development_status:
   0-1-22-configure-opentelemetry-distributed-tracing: backlog
   0-1-23-configure-docker-compose-for-local-development: backlog
   epic-0-1-retrospective: optional
+
+  # Epic E0.2: Frontend Foundation & Design System
+  # Purpose: Parallel track to build UI components, layouts, and pages
+  # from Stitch wireframes while backend infrastructure completes.
+  # Can be developed independently using mock data and AG-UI event mocks.
+  epic-0-2: backlog
+  0-2-1-extract-design-system-from-wireframes: backlog
+  0-2-2-create-shadcn-component-overrides: backlog
+  0-2-3-create-layout-shells-app-builder-auth: backlog
+  0-2-4-create-navigation-components: backlog
+  0-2-5-create-agent-chat-component: backlog
+  0-2-6-create-flow-canvas-base-xyflow: backlog
+  0-2-7-create-ag-ui-mock-provider: backlog
+  0-2-8-implement-auth-pages-clerk-ui: backlog
+  0-2-9-implement-dashboard-and-project-browser: backlog
+  0-2-10-implement-settings-pages: backlog
+  0-2-11-implement-module-builder-ui-shell: backlog
+  0-2-12-implement-chatbot-builder-ui-shell: backlog
+  0-2-13-implement-knowledge-base-ui: backlog
+  0-2-14-implement-observability-dashboard-ui: backlog
+  0-2-15-create-storybook-visual-regression-baseline: backlog
+  epic-0-2-retrospective: optional
 
   # ===========================================
   # PHASE 1: FOUNDATION (17 Epics)
