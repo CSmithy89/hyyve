@@ -74,7 +74,7 @@ development_status:
   0-1-15-configure-ci-cd-pipeline: done
   0-1-16-create-initial-database-schema: done
   0-1-17-configure-agno-agent-framework-python-backend: done
-  0-1-18-configure-temporal-workflow-orchestration: backlog
+  0-1-18-configure-temporal-workflow-orchestration: done
   0-1-19-configure-anthropic-sdk-for-claude: backlog
   0-1-20-configure-mcp-model-context-protocol-foundation: backlog
   0-1-21-configure-resend-email-service: backlog
