@@ -225,13 +225,68 @@ All screens use the same design foundation documented in `stitch-prompts-group-0
 
 Screens requiring dynamic agent content zones:
 
-| Category | Screens | Component Type |
-|----------|---------|----------------|
-| Chat Interfaces | 1.2.1, 1.3.1, 2.2.3, 5.1.1 | Full conversation UI |
-| Test Results | 1.2.3, 1.4.3, 2.8.3 | Streaming output |
-| Analytics | 1.3.7, 2.2.5, 3.2.4 | Real-time charts |
-| AI Generation | 2.1.3, 2.14.1 | Generative UI forms |
-| Form Builders | 1.2.2a-f, 1.3.2 | Dynamic form schema |
+| Category | Screens | Component Type | API Endpoint | Protocol Events |
+|----------|---------|----------------|--------------|-----------------|
+| Chat Interfaces | 1.2.1, 1.3.1, 2.2.3, 5.1.1 | Full conversation UI | AgentOS: `/agui` (SSE); Hyyve: `/api/v1/dcrl/*` | AG-UI: `TEXT_MESSAGE_*`, `TOOL_CALL_*`; DCRL: `INTENT_*`, `CLARIFICATION_*` |
+| Test Results | 1.2.3, 1.4.3, 2.8.3 | Streaming output | AgentOS: `/runs/*`, `/agui`; `/knowledge/query` | AG-UI: `RUN_*`, `STEP_*`, `TOOL_CALL_RESULT` |
+| Analytics | 1.3.7, 2.2.5, 3.2.4 | Real-time charts | Hyyve: `/api/v1/analytics/*`, `/api/v1/mcp/usage/*` | AG-UI: `ACTIVITY_*`, `STATE_DELTA` |
+| AI Generation | 2.1.3, 2.14.1 | Generative UI forms | Hyyve: `/api/v1/a2ui/*` | A2UI: `BEGIN_RENDERING`, `SURFACE_UPDATE`, `DATA_MODEL_UPDATE` |
+| Form Builders | 1.2.2a-f, 1.3.2 | Dynamic form schema | AgentOS: `/agents/{id}/config` | AG-UI: `STATE_DELTA`, `STATE_SNAPSHOT` |
+
+---
+
+## API Context for Frontend Development
+
+When rendering screens with Google Stitch/AI Studio, use these API mappings:
+
+### Authentication & Session (Screens 1-7)
+| Screen | API Source | Endpoint Pattern |
+|--------|-----------|------------------|
+| Login, MFA | Clerk | `/api/auth/*` |
+| SSO | WorkOS | `/sso/*` |
+| Org Setup | Hyyve | `/api/v1/workspaces/*` |
+
+### Builder Screens (Screens 8-90)
+| Builder | AgentOS APIs | Hyyve APIs | Real-time Protocol |
+|---------|-------------|------------|-------------------|
+| Module Builder | `/agents/{id}/config`, `/agui` | `/api/v1/workflows/*`, `/api/v1/dcrl/*` | AG-UI SSE + DCRL Events |
+| Chatbot Builder | `/agents/{id}/config`, `/agui` | `/api/v1/widgets/*` | AG-UI SSE |
+| Knowledge Base | `/knowledge/*` | - | AG-UI: `TOOL_CALL_RESULT` |
+| Canvas Builder | `/agents/{id}/config`, `/agui` | `/api/v1/canvas/*` | AG-UI SSE |
+| Voice Builder | `/agents/{id}/config`, `/agui` | `/api/v1/voice/*` | AG-UI SSE |
+| UI Generation | `/agui` | `/api/v1/a2ui/*` | A2UI JSONL |
+
+### Marketplace Screens (Screens 91-108)
+| Area | API Endpoint |
+|------|-------------|
+| Marketplace Browse | `/api/v1/marketplace/*` |
+| Skills Directory | `/api/v1/skills/*` |
+| MCP Registry | AgentOS: `/mcp/*`; Hyyve: `/api/v1/mcp/registry/*` |
+| Creator Economy | `/api/v1/creator/*`, `/api/v1/creator/payouts/*` |
+
+### Enterprise Screens (Screens 109-140)
+| Area | API Endpoint |
+|------|-------------|
+| Agency/White-Label | `/api/v1/agency/*`, `/api/v1/white-label/*` |
+| SSO/SCIM | WorkOS: `/sso/*`; Hyyve: `/api/v1/enterprise/*` |
+| Security/Audit | `/api/v1/security/*`, `/api/v1/audit-logs/*` |
+| Collaboration | `/api/v1/collab/*` (Yjs WebSocket), A2A: `/a2a/agents/{id}/v1/message:stream` |
+
+### Developer Portal (Screens 141-146)
+| Area | API Endpoint |
+|------|-------------|
+| API Docs/Playground | `/api/v1/developer/*`, `/api/v1/playground/*` |
+| SDK/Export | `/api/v1/export/*`, `/api/v1/sdks/*` |
+| Self-Hosted | `/api/v1/self-hosted/*` |
+
+### Protocol Event Quick Reference
+
+| Protocol | Transport | Content Type | Use Cases |
+|----------|-----------|--------------|-----------|
+| **AG-UI** | SSE | `text/event-stream` | Agent streaming, state updates, tool calls |
+| **A2UI** | JSONL | `application/x-ndjson` | Generative UI rendering |
+| **DCRL** | SSE + REST | `application/json` | Confidence-based conversational building |
+| **A2A** | HTTP/JSON-RPC | `application/json` | Cross-builder agent coordination |
 
 ---
 

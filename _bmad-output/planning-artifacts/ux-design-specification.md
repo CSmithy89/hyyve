@@ -8613,200 +8613,200 @@ This section provides a complete mapping of all 248 Functional Requirements to t
 
 #### Authentication & Onboarding (FR1-FR12)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR1 | User authentication | 1.1.1 Login Page | Primary |
-| FR2 | Multi-factor authentication | 1.1.5, 1.1.6, 1.1.7 MFA Screens | Primary |
-| FR3 | Session management | 1.1.1 Login Page | Primary |
-| FR4 | User registration | 1.1.2 Registration Flow | Primary |
-| FR5 | Email verification | 1.1.2 Registration Flow | Primary |
-| FR6 | Password requirements | 1.1.2 Registration Flow | Primary |
-| FR7 | Organization creation | 1.1.3 Organization Setup | Primary |
-| FR8 | Organization settings | 1.1.3 Organization Setup | Primary |
-| FR9 | Onboarding experience | 1.1.4 Onboarding Quiz | Primary |
-| FR10 | Skill assessment | 1.1.4 Onboarding Quiz | Primary |
-| FR11 | Guided tutorials | 1.1.4 Onboarding Quiz | Primary |
-| FR12 | Help system | All screens (global component) | Global |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR1 | User authentication | 1.1.1 Login Page | Primary | Clerk: `/api/auth/*`; WorkOS: `/sso/*` | - |
+| FR2 | Multi-factor authentication | 1.1.5, 1.1.6, 1.1.7 MFA Screens | Primary | Clerk: `/api/auth/mfa/*` | - |
+| FR3 | Session management | 1.1.1 Login Page | Primary | Clerk: `/api/auth/session` | - |
+| FR4 | User registration | 1.1.2 Registration Flow | Primary | Clerk: `/api/auth/signup` | - |
+| FR5 | Email verification | 1.1.2 Registration Flow | Primary | Clerk: `/api/auth/verify` | - |
+| FR6 | Password requirements | 1.1.2 Registration Flow | Primary | Clerk: `/api/auth/*` | - |
+| FR7 | Organization creation | 1.1.3 Organization Setup | Primary | `/api/v1/workspaces` | - |
+| FR8 | Organization settings | 1.1.3 Organization Setup | Primary | `/api/v1/workspaces/{id}/settings` | - |
+| FR9 | Onboarding experience | 1.1.4 Onboarding Quiz | Primary | `/api/v1/users/onboarding` | - |
+| FR10 | Skill assessment | 1.1.4 Onboarding Quiz | Primary | `/api/v1/users/onboarding` | - |
+| FR11 | Guided tutorials | 1.1.4 Onboarding Quiz | Primary | `/api/v1/users/onboarding` | - |
+| FR12 | Help system | All screens (global component) | Global | `/api/v1/help/*` | - |
 
 #### Module Builder (FR13-FR45)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR13-FR25 | Module canvas & nodes | 1.2.1 Module Builder Main | Primary |
-| FR26-FR35 | Node configuration | 1.2.2 Node Configuration Panel | Primary |
-| FR33 | Natural language parsing | 1.2.1 (DCRL Flow section) | Primary |
-| FR36-FR45 | Execution & monitoring | 1.2.3 Execution Monitor | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR13-FR25 | Module canvas & nodes | 1.2.1 Module Builder Main | Primary | AgentOS: `/agents/{id}/config`, `/agui` (SSE); Hyyve: `/api/v1/workflows/*` | AG-UI: `STATE_*`, `TEXT_MESSAGE_*` |
+| FR26-FR35 | Node configuration | 1.2.2 Node Configuration Panel | Primary | AgentOS: `/agents/{id}/config` | AG-UI: `STATE_DELTA` |
+| FR33 | Natural language parsing | 1.2.1 (DCRL Flow section) | Primary | Hyyve: `/api/v1/dcrl/*` | DCRL: `INTENT_DETECTED`, `CLARIFICATION_*` |
+| FR36-FR45 | Execution & monitoring | 1.2.3 Execution Monitor | Primary | AgentOS: `/runs/*`, `/agui` (SSE) | AG-UI: `RUN_*`, `STEP_*`, `ACTIVITY_*` |
 
 #### Chatbot Builder (FR46-FR65)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR46-FR55 | Chatbot canvas | 1.3.1 Chatbot Builder Main | Primary |
-| FR56-FR60 | Intent training | 1.3.2 Intent Training | Primary |
-| FR61-FR65 | Widget customization | 1.3.3 Widget Customization | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR46-FR55 | Chatbot canvas | 1.3.1 Chatbot Builder Main | Primary | AgentOS: `/agents/{id}/config`, `/agui` (SSE) | AG-UI: `TEXT_MESSAGE_*`, `TOOL_CALL_*`, `STATE_*` |
+| FR56-FR60 | Intent training | 1.3.2 Intent Training | Primary | AgentOS: `/agents/{id}/config` | AG-UI: `STATE_DELTA` |
+| FR61-FR65 | Widget customization | 1.3.3 Widget Customization | Primary | Hyyve: `/api/v1/widgets/*` | - |
 
 #### Knowledge Base (FR66-FR85)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR66-FR75 | KB management | 1.4.1 KB Dashboard | Primary |
-| FR74 | MCP tool integration | 2.1.4, 2.1.5, 2.1.6 MCP Screens | Primary |
-| FR76-FR80 | Source ingestion | 1.4.2 Source Upload Modal | Primary |
-| FR81-FR85 | Query testing | 1.4.3 KB Query Testing | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR66-FR75 | KB management | 1.4.1 KB Dashboard | Primary | AgentOS: `/knowledge/*` | - |
+| FR74 | MCP tool integration | 2.1.4, 2.1.5, 2.1.6 MCP Screens | Primary | AgentOS: `/mcp/*`; Hyyve: `/api/v1/mcp/registry/*` | AG-UI: `TOOL_CALL_*` |
+| FR76-FR80 | Source ingestion | 1.4.2 Source Upload Modal | Primary | AgentOS: `/knowledge/sources` | - |
+| FR81-FR85 | Query testing | 1.4.3 KB Query Testing | Primary | AgentOS: `/knowledge/query`, `/agui` (SSE) | AG-UI: `TOOL_CALL_RESULT` |
 
 #### Dashboard & Navigation (FR86-FR100)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR86-FR90 | Home dashboard | 1.5.1 Home Dashboard | Primary |
-| FR91-FR100 | Project management | 1.5.2 Project Browser | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR86-FR90 | Home dashboard | 1.5.1 Home Dashboard | Primary | Hyyve: `/api/v1/workspaces/*`, `/api/v1/projects/*` | - |
+| FR91-FR100 | Project management | 1.5.2 Project Browser | Primary | Hyyve: `/api/v1/projects/*`, `/api/v1/folders/*` | - |
 
 #### Marketplace & MCP (FR100-FR120)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR100-FR105 | MCP registry browse | 3.2.1 MCP Registry Browser | Primary |
-| FR106-FR109 | MCP server details | 3.2.2 MCP Server Detail | Primary |
-| FR110-FR112 | MCP installation | 3.2.3 MCP Install Wizard | Primary |
-| FR113 | MCP usage tracking | 3.2.4 MCP Usage Dashboard | Primary |
-| FR101-FR110 | Pricing display | 1.6.1 Pricing Page | Primary |
-| FR111-FR120 | Billing management | 1.6.2 Billing Dashboard | Primary |
-| FR115-FR117 | Skills directory | 3.1.3, 3.1.4 Skills Browser | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR100-FR105 | MCP registry browse | 3.2.1 MCP Registry Browser | Primary | AgentOS: `/mcp/*`; Hyyve: `/api/v1/mcp/registry/*` | - |
+| FR106-FR109 | MCP server details | 3.2.2 MCP Server Detail | Primary | Hyyve: `/api/v1/mcp/registry/{id}` | - |
+| FR110-FR112 | MCP installation | 3.2.3 MCP Install Wizard | Primary | Hyyve: `/api/v1/mcp/install/*` | - |
+| FR113 | MCP usage tracking | 3.2.4 MCP Usage Dashboard | Primary | Hyyve: `/api/v1/mcp/usage/*` | - |
+| FR101-FR110 | Pricing display | 1.6.1 Pricing Page | Primary | Hyyve: `/api/v1/billing/plans` | - |
+| FR111-FR120 | Billing management | 1.6.2 Billing Dashboard | Primary | Hyyve: `/api/v1/billing/*`, `/api/v1/usage/*` | - |
+| FR115-FR117 | Skills directory | 3.1.3, 3.1.4 Skills Browser | Primary | Hyyve: `/api/v1/skills/*` | - |
 
 #### Observability (FR121-FR145)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR121-FR135 | Observability dashboard | 1.8.1 Observability Dashboard | Primary |
-| FR136-FR145 | Execution details | 1.8.2 Execution Detail View | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR121-FR135 | Observability dashboard | 1.8.1 Observability Dashboard | Primary | AgentOS: `/runs/*`; Hyyve: `/api/v1/metrics/*`, `/api/v1/logs/*` | - |
+| FR136-FR145 | Execution details | 1.8.2 Execution Detail View | Primary | AgentOS: `/runs/{id}` | - |
 
 #### Canvas Builder (FR146-FR155)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR146-FR150 | Canvas main view | 2.1.1 Canvas Builder Main | Primary |
-| FR151-FR155 | Component inspection | 2.1.2 Component Inspector | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR146-FR150 | Canvas main view | 2.1.1 Canvas Builder Main | Primary | AgentOS: `/agents/{id}/config`, `/agui` (SSE); Hyyve: `/api/v1/canvas/*` | AG-UI: `STATE_*`, `TEXT_MESSAGE_*`, `TOOL_CALL_*` |
+| FR151-FR155 | Component inspection | 2.1.2 Component Inspector | Primary | Hyyve: `/api/v1/canvas/components/*` | AG-UI: `STATE_DELTA` |
 
 #### Chatwoot Integration (FR156-FR165)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR156-FR158 | Chatwoot deployment | 2.6.1 Deployment Wizard | Primary |
-| FR159-FR161 | Inbox configuration | 2.6.2 Inbox Selection | Primary |
-| FR162-FR164 | Human handoff | 2.6.3 Handoff Configuration | Primary |
-| FR165 | Widget embedding | 2.6.4 Widget Embed | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR156-FR158 | Chatwoot deployment | 2.6.1 Deployment Wizard | Primary | Hyyve: `/api/v1/integrations/chatwoot/*` | - |
+| FR159-FR161 | Inbox configuration | 2.6.2 Inbox Selection | Primary | Hyyve: `/api/v1/integrations/chatwoot/inboxes` | - |
+| FR162-FR164 | Human handoff | 2.6.3 Handoff Configuration | Primary | Hyyve: `/api/v1/handoff/*` | AG-UI: `CUSTOM_EVENT` (handoff) |
+| FR165 | Widget embedding | 2.6.4 Widget Embed | Primary | Hyyve: `/api/v1/widgets/*` | - |
 
 #### Deployment Pipeline (FR166-FR175)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR166-FR168 | Environment management | 2.7.1 Environment Manager | Primary |
-| FR169-FR171 | Version rollout | 2.7.2 Version Rollout | Primary |
-| FR172-FR174 | Deployment health | 2.7.3 Health Dashboard | Primary |
-| FR175 | Environment config | 2.7.4 Environment Config | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR166-FR168 | Environment management | 2.7.1 Environment Manager | Primary | Hyyve: `/api/v1/environments/*` | - |
+| FR169-FR171 | Version rollout | 2.7.2 Version Rollout | Primary | Hyyve: `/api/v1/versions/*`, `/api/v1/rollouts/*` | - |
+| FR172-FR174 | Deployment health | 2.7.3 Health Dashboard | Primary | Hyyve: `/api/v1/deployments/health/*` | - |
+| FR175 | Environment config | 2.7.4 Environment Config | Primary | Hyyve: `/api/v1/environments/{id}/config` | - |
 
 #### Testing Framework (FR176-FR185)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR176-FR178 | Test suite management | 2.8.1 Test Suite Manager | Primary |
-| FR179-FR182 | Test case creation | 2.8.2 Test Case Builder | Primary |
-| FR183-FR185 | Test results | 2.8.3 Test Results | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR176-FR178 | Test suite management | 2.8.1 Test Suite Manager | Primary | Hyyve: `/api/v1/tests/suites/*` | - |
+| FR179-FR182 | Test case creation | 2.8.2 Test Case Builder | Primary | Hyyve: `/api/v1/tests/cases/*` | - |
+| FR183-FR185 | Test results | 2.8.3 Test Results | Primary | Hyyve: `/api/v1/tests/results/*` | - |
 
 #### UI Generation (FR179-FR186)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR179-FR181 | UI generation canvas | 2.14.1 UI Generation Canvas | Primary |
-| FR182-FR183 | Form building | 2.14.2 Form Builder | Primary |
-| FR184-FR185 | Theme customization | 2.14.3 Theme Customizer | Primary |
-| FR186 | Component embedding | 2.14.4 Embed Config | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR179-FR181 | UI generation canvas | 2.14.1 UI Generation Canvas | Primary | AgentOS: `/agui` (SSE); Hyyve: `/api/v1/a2ui/*` | A2UI: `BEGIN_RENDERING`, `SURFACE_UPDATE`; AG-UI: `TEXT_MESSAGE_*` |
+| FR182-FR183 | Form building | 2.14.2 Form Builder | Primary | Hyyve: `/api/v1/a2ui/forms/*` | A2UI: `SURFACE_UPDATE` |
+| FR184-FR185 | Theme customization | 2.14.3 Theme Customizer | Primary | Hyyve: `/api/v1/themes/*` | - |
+| FR186 | Component embedding | 2.14.4 Embed Config | Primary | Hyyve: `/api/v1/embeds/*` | - |
 
 #### Voice Builder (FR156-FR170)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR156-FR160 | Voice builder main | 2.2.1 Voice Builder Main | Primary |
-| FR161-FR165 | Voice configuration | 2.2.2 Voice Configuration | Primary |
-| FR166-FR170 | Live call monitoring | 2.2.3 Live Call Monitor | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR156-FR160 | Voice builder main | 2.2.1 Voice Builder Main | Primary | AgentOS: `/agents/{id}/config`; Hyyve: `/api/v1/voice/*` | AG-UI: `STATE_*`, `TEXT_MESSAGE_*` |
+| FR161-FR165 | Voice configuration | 2.2.2 Voice Configuration | Primary | Hyyve: `/api/v1/voice/config/*` | AG-UI: `STATE_DELTA` |
+| FR166-FR170 | Live call monitoring | 2.2.3 Live Call Monitor | Primary | AgentOS: `/agui` (SSE); Hyyve: `/api/v1/voice/calls/{id}/stream` | AG-UI: `TEXT_MESSAGE_*`, `ACTIVITY_*` |
 
 #### Creator Economy (FR171-FR178)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR171-FR175 | Creator dashboard | 3.3.1 Creator Dashboard | Primary |
-| FR173 | Revenue & payouts | 3.3.4, 3.3.5, 3.3.6 Payout Screens | Primary |
-| FR176-FR178 | Listing management | 3.3.2 Listing Editor | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR171-FR175 | Creator dashboard | 3.3.1 Creator Dashboard | Primary | Hyyve: `/api/v1/creator/*` | - |
+| FR173 | Revenue & payouts | 3.3.4, 3.3.5, 3.3.6 Payout Screens | Primary | Hyyve: `/api/v1/creator/payouts/*` | - |
+| FR176-FR178 | Listing management | 3.3.2 Listing Editor | Primary | Hyyve: `/api/v1/marketplace/listings/*` | - |
 
 #### Command Center (FR186-FR195)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR186-FR190 | Command center | 2.3.1 Command Center | Primary |
-| FR191-FR195 | HITL queue | 2.4.1 HITL Queue | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR186-FR190 | Command center | 2.3.1 Command Center | Primary | AgentOS: `/runs/*`; Hyyve: `/api/v1/command-center/*` | AG-UI: `ACTIVITY_SNAPSHOT`, `ACTIVITY_DELTA` |
+| FR191-FR195 | HITL queue | 2.4.1 HITL Queue | Primary | Hyyve: `/api/v1/hitl/queue/*` | AG-UI: `ACTIVITY_*` |
 
 #### Collaboration (FR196-FR202)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR196-FR200 | Review interface | 2.4.2 Review Interface | Primary |
-| FR197-FR198 | Multi-user editing | 5.1.1 Multi-user Editor | Primary |
-| FR199-FR200 | Version history | 5.2.1 Version History | Primary |
-| FR200-FR201 | Diff viewing | 5.2.2 Diff Viewer | Primary |
-| FR202 | Sharing | 5.1.2 Share Modal | Primary |
-| FR247 | Real-time sync | 5.1.3 Sync Status | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR196-FR200 | Review interface | 2.4.2 Review Interface | Primary | AgentOS: `/agui` (SSE); Hyyve: `/api/v1/hitl/reviews/*` | AG-UI: `STATE_*`, `TEXT_MESSAGE_*` |
+| FR197-FR198 | Multi-user editing | 5.1.1 Multi-user Editor | Primary | Hyyve: `/api/v1/collab/*` (Yjs WebSocket); A2A: `/a2a/agents/{id}/v1/message:stream` | A2A: `message:stream`; AG-UI: `STATE_DELTA` |
+| FR199-FR200 | Version history | 5.2.1 Version History | Primary | Hyyve: `/api/v1/versions/*`, `/api/v1/checkpoints/*` | - |
+| FR200-FR201 | Diff viewing | 5.2.2 Diff Viewer | Primary | Hyyve: `/api/v1/versions/{id}/diff` | - |
+| FR202 | Sharing | 5.1.2 Share Modal | Primary | Hyyve: `/api/v1/sharing/*` | - |
+| FR247 | Real-time sync | 5.1.3 Sync Status | Primary | Hyyve: `/api/v1/collab/status` (Yjs WebSocket); A2A: `/.well-known/agent-card.json` | A2A: discovery |
 
 #### White-Label & Agency (FR206-FR220)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR206-FR208 | Branding wizard | 4.1.3 Branding Wizard | Primary |
-| FR209-FR210 | Custom domains | 4.1.4 Domain Config | Primary |
-| FR211-FR212 | Client onboarding | 4.1.5 Onboarding Flow | Primary |
-| FR213 | Agency billing | 4.1.6 Billing Management | Primary |
-| FR206-FR210 | Agency dashboard | 4.1.1 Agency Dashboard | Primary |
-| FR211-FR215 | Client workspace | 4.1.2 Client Workspace | Primary |
-| FR215-FR220 | Tenant isolation | 2.13.1, 2.13.2 Tenant Screens | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR206-FR208 | Branding wizard | 4.1.3 Branding Wizard | Primary | Hyyve: `/api/v1/white-label/*` | - |
+| FR209-FR210 | Custom domains | 4.1.4 Domain Config | Primary | Hyyve: `/api/v1/white-label/domains/*` | - |
+| FR211-FR212 | Client onboarding | 4.1.5 Onboarding Flow | Primary | Hyyve: `/api/v1/agency/clients/onboarding` | - |
+| FR213 | Agency billing | 4.1.6 Billing Management | Primary | Hyyve: `/api/v1/agency/billing/*` | - |
+| FR206-FR210 | Agency dashboard | 4.1.1 Agency Dashboard | Primary | Hyyve: `/api/v1/agency/*` | - |
+| FR211-FR215 | Client workspace | 4.1.2 Client Workspace | Primary | Hyyve: `/api/v1/agency/clients/{id}/workspaces` | - |
+| FR215-FR220 | Tenant isolation | 2.13.1, 2.13.2 Tenant Screens | Primary | Hyyve: `/api/v1/tenants/isolation/*` | - |
 
 #### Enterprise Features (FR221-FR230)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR221-FR225 | SSO configuration | 4.4.1 SSO Config | Primary |
-| FR226-FR230 | Team management | 4.4.2 Team Management | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR221-FR225 | SSO configuration | 4.4.1 SSO Config | Primary | WorkOS: `/sso/*`; Hyyve: `/api/v1/enterprise/sso/*` | - |
+| FR226-FR230 | Team management | 4.4.2 Team Management | Primary | Hyyve: `/api/v1/workspaces/{id}/members`, `/api/v1/rbac/*` | - |
 
 #### API & Integration (FR231-FR248)
 
-| FR | Requirement | Screen(s) | Coverage Type |
-|----|------------|-----------|---------------|
-| FR231-FR235 | API key management | 6.1.1 API Key Management | Primary |
-| FR236-FR240 | Self-hosted setup | 6.3.1 Self-Hosted Wizard | Primary |
-| FR241-FR248 | Mobile dashboard | 6.5.1 Mobile Dashboard | Primary |
+| FR | Requirement | Screen(s) | Coverage Type | API Endpoint | Protocol Event |
+|----|------------|-----------|---------------|--------------|----------------|
+| FR231-FR235 | API key management | 6.1.1 API Key Management | Primary | Hyyve: `/api/v1/api-keys/*` | - |
+| FR236-FR240 | Self-hosted setup | 6.3.1 Self-Hosted Wizard | Primary | Hyyve: `/api/v1/self-hosted/*` | - |
+| FR241-FR248 | Mobile dashboard | 6.5.1 Mobile Dashboard | Primary | Hyyve: `/api/v1/workspaces/*`, `/api/v1/projects/*` | - |
 
 ---
 
 ### FR Coverage Summary
 
-| Category | FR Range | Screen Count | Coverage |
-|----------|----------|--------------|----------|
-| Auth & Onboarding | FR1-FR12 | 7 | ✅ 100% |
-| Module Builder | FR13-FR45 | 3 | ✅ 100% |
-| Chatbot Builder | FR46-FR65 | 3 | ✅ 100% |
-| Knowledge Base | FR66-FR85 | 6 | ✅ 100% |
-| Dashboard & Nav | FR86-FR100 | 2 | ✅ 100% |
-| Marketplace & MCP | FR100-FR120 | 8 | ✅ 100% |
-| Observability | FR121-FR145 | 2 | ✅ 100% |
-| Canvas Builder | FR146-FR155 | 2 | ✅ 100% |
-| Chatwoot | FR156-FR165 | 4 | ✅ 100% |
-| Deployment | FR166-FR175 | 4 | ✅ 100% |
-| Testing | FR176-FR185 | 3 | ✅ 100% |
-| UI Generation | FR179-FR186 | 5 | ✅ 100% |
-| Voice Builder | FR156-FR170 | 3 | ✅ 100% |
-| Creator Economy | FR171-FR178 | 5 | ✅ 100% |
-| Command Center | FR186-FR195 | 2 | ✅ 100% |
-| Collaboration | FR196-FR202 | 5 | ✅ 100% |
-| White-Label | FR206-FR220 | 9 | ✅ 100% |
-| Enterprise | FR221-FR230 | 2 | ✅ 100% |
+| Category | FR Range | Screen Count | Coverage | Primary APIs |
+|----------|----------|--------------|----------|--------------|
+| Auth & Onboarding | FR1-FR12 | 7 | ✅ 100% | Clerk, WorkOS, Hyyve |
+| Module Builder | FR13-FR45 | 3 | ✅ 100% | AgentOS, DCRL, Hyyve |
+| Chatbot Builder | FR46-FR65 | 3 | ✅ 100% | AgentOS, Hyyve |
+| Knowledge Base | FR66-FR85 | 6 | ✅ 100% | AgentOS Knowledge, MCP |
+| Dashboard & Nav | FR86-FR100 | 2 | ✅ 100% | Hyyve |
+| Marketplace & MCP | FR100-FR120 | 8 | ✅ 100% | AgentOS MCP, Hyyve |
+| Observability | FR121-FR145 | 2 | ✅ 100% | AgentOS Runs, Hyyve |
+| Canvas Builder | FR146-FR155 | 2 | ✅ 100% | AgentOS, Hyyve Canvas |
+| Chatwoot | FR156-FR165 | 4 | ✅ 100% | Hyyve Integrations |
+| Deployment | FR166-FR175 | 4 | ✅ 100% | Hyyve |
+| Testing | FR176-FR185 | 3 | ✅ 100% | Hyyve |
+| UI Generation | FR179-FR186 | 5 | ✅ 100% | AgentOS, A2UI, Hyyve |
+| Voice Builder | FR156-FR170 | 3 | ✅ 100% | AgentOS, Hyyve Voice |
+| Creator Economy | FR171-FR178 | 5 | ✅ 100% | Hyyve Creator |
+| Command Center | FR186-FR195 | 2 | ✅ 100% | AgentOS, Hyyve HITL |
+| Collaboration | FR196-FR202 | 5 | ✅ 100% | Hyyve Collab, A2A, Yjs |
+| White-Label | FR206-FR220 | 9 | ✅ 100% | Hyyve Agency |
+| Enterprise | FR221-FR230 | 2 | ✅ 100% | WorkOS, Hyyve Enterprise |
 | API & Integration | FR231-FR248 | 3 | ✅ 100% |
 | **TOTAL** | **FR1-FR248** | **93** | **✅ 100%** |
 
