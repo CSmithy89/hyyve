@@ -2101,16 +2101,18 @@ So that **agents can be orchestrated with memory, tools, and LLM integration**.
   - `uvicorn` for ASGI server
   - `psycopg[binary]` for PostgreSQL
   - `redis` for session memory
-- **And** Agno is configured with:
+- **And** Agno agents are configured with:
   - `add_history_to_context=True`
   - `add_memories_to_context=True`
   - `enable_agentic_memory=True`
-  - `db=PostgresDb()` for persistent memory
-- **And** FastAPI endpoints expose agent execution
-- **And** Health check endpoint at `/health`
+  - `storage=PostgresStorage()` for persistent memory
+- **And** AgentOS wraps agents and provides 50+ endpoints automatically
+- **And** Bond, Wendy, Morgan, Artie agents are defined
+- **And** builder_team coordinates all agents
 
 **Technical Notes:**
-- Agno provides context management, memory, and LLM orchestration
+- AgentOS provides `/health`, `/agents/*`, `/sessions/*`, `/memories/*`, `/a2a/*`, `/agui` endpoints
+- Use `AgentOS(agents=[...], teams=[...])` then `agent_os.get_app()` for FastAPI app
 - This is the Python backend that Next.js frontend communicates with
 - Use Poetry or uv for Python dependency management
 

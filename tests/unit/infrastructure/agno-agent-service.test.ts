@@ -1,7 +1,7 @@
 /**
  * ATDD Tests for Story 0.1.17: Configure Agno Agent Framework (Python Backend)
  *
- * Validates the Python agent service structure and configuration.
+ * Validates the Python agent service using AgentOS pattern.
  */
 
 import { describe, it, expect, beforeAll } from 'vitest';
@@ -12,7 +12,7 @@ import { join } from 'path';
 const projectRoot = join(__dirname, '../../..');
 const agentServicePath = join(projectRoot, 'apps/agent-service');
 
-describe('Story 0.1.17: Configure Agno Agent Framework', () => {
+describe('Story 0.1.17: Configure Agno Agent Framework with AgentOS', () => {
   describe('AC1: Python Service Directory Structure', () => {
     it('should have apps/agent-service directory', () => {
       expect(existsSync(agentServicePath)).toBe(true);
@@ -38,10 +38,6 @@ describe('Story 0.1.17: Configure Agno Agent Framework', () => {
       expect(existsSync(join(agentServicePath, 'src/workflows'))).toBe(true);
     });
 
-    it('should have src/routers directory', () => {
-      expect(existsSync(join(agentServicePath, 'src/routers'))).toBe(true);
-    });
-
     it('should have pyproject.toml', () => {
       expect(existsSync(join(agentServicePath, 'pyproject.toml'))).toBe(true);
     });
@@ -61,12 +57,8 @@ describe('Story 0.1.17: Configure Agno Agent Framework', () => {
       }
     });
 
-    it('should specify agno dependency', () => {
+    it('should specify agno dependency (includes AgentOS)', () => {
       expect(pyprojectContent).toMatch(/agno/i);
-    });
-
-    it('should specify fastapi dependency', () => {
-      expect(pyprojectContent).toMatch(/fastapi/i);
     });
 
     it('should specify uvicorn dependency', () => {
@@ -86,62 +78,12 @@ describe('Story 0.1.17: Configure Agno Agent Framework', () => {
     });
   });
 
-  describe('AC3: Agno Configuration', () => {
-    let configContent: string;
-    let baseAgentContent: string;
-
-    beforeAll(() => {
-      const configPath = join(agentServicePath, 'src/config.py');
-      const baseAgentPath = join(agentServicePath, 'src/agents/base.py');
-
-      if (existsSync(configPath)) {
-        configContent = readFileSync(configPath, 'utf-8');
-      }
-      if (existsSync(baseAgentPath)) {
-        baseAgentContent = readFileSync(baseAgentPath, 'utf-8');
-      }
-    });
-
-    it('should have config.py file', () => {
-      expect(existsSync(join(agentServicePath, 'src/config.py'))).toBe(true);
-    });
-
-    it('should have DATABASE_URL configuration', () => {
-      expect(configContent).toMatch(/DATABASE_URL/);
-    });
-
-    it('should have REDIS_URL configuration', () => {
-      expect(configContent).toMatch(/REDIS_URL/);
-    });
-
-    it('should have ANTHROPIC_API_KEY configuration', () => {
-      expect(configContent).toMatch(/ANTHROPIC_API_KEY/);
-    });
-
-    it('should have base agent file', () => {
-      expect(existsSync(join(agentServicePath, 'src/agents/base.py'))).toBe(
-        true
-      );
-    });
-
-    it('should configure add_history_to_context', () => {
-      expect(baseAgentContent).toMatch(/add_history_to_context/);
-    });
-
-    it('should configure add_memories_to_context', () => {
-      expect(baseAgentContent).toMatch(/add_memories_to_context/);
-    });
-
-    it('should configure enable_agentic_memory', () => {
-      expect(baseAgentContent).toMatch(/enable_agentic_memory/);
-    });
-  });
-
-  describe('AC4: FastAPI Application', () => {
+  describe('AC3: AgentOS Configuration', () => {
     let mainContent: string;
 
     beforeAll(() => {
       const mainPath = join(agentServicePath, 'src/main.py');
+
       if (existsSync(mainPath)) {
         mainContent = readFileSync(mainPath, 'utf-8');
       }
@@ -151,41 +93,109 @@ describe('Story 0.1.17: Configure Agno Agent Framework', () => {
       expect(existsSync(join(agentServicePath, 'src/main.py'))).toBe(true);
     });
 
-    it('should import FastAPI', () => {
-      expect(mainContent).toMatch(/from fastapi import|import fastapi/);
+    it('should import AgentOS from agno.os', () => {
+      expect(mainContent).toMatch(/from agno\.os import AgentOS/);
     });
 
-    it('should create FastAPI app instance', () => {
-      expect(mainContent).toMatch(/FastAPI\(/);
+    it('should create AgentOS instance', () => {
+      expect(mainContent).toMatch(/AgentOS\(/);
     });
 
-    it('should include routers', () => {
-      expect(mainContent).toMatch(/include_router|app\.include/);
+    it('should use agent_os.get_app() for FastAPI app', () => {
+      expect(mainContent).toMatch(/get_app\(\)/);
+    });
+
+    it('should have agent definitions file', () => {
+      expect(
+        existsSync(join(agentServicePath, 'src/agents/definitions.py'))
+      ).toBe(true);
+    });
+
+    it('should import agents and teams in main.py', () => {
+      expect(mainContent).toMatch(/from src\.agents\.definitions import/);
     });
   });
 
-  describe('AC5: Health Check Endpoint', () => {
-    let healthRouterContent: string;
+  describe('AC4: Agent Definitions', () => {
+    let definitionsContent: string;
 
     beforeAll(() => {
-      const healthPath = join(agentServicePath, 'src/routers/health.py');
-      if (existsSync(healthPath)) {
-        healthRouterContent = readFileSync(healthPath, 'utf-8');
+      const definitionsPath = join(
+        agentServicePath,
+        'src/agents/definitions.py'
+      );
+      if (existsSync(definitionsPath)) {
+        definitionsContent = readFileSync(definitionsPath, 'utf-8');
       }
     });
 
-    it('should have health router file', () => {
-      expect(existsSync(join(agentServicePath, 'src/routers/health.py'))).toBe(
-        true
+    it('should define Bond agent', () => {
+      expect(definitionsContent).toMatch(/bond\s*=\s*create_agent/);
+      expect(definitionsContent).toMatch(/agent_id="bond"/);
+    });
+
+    it('should define Wendy agent', () => {
+      expect(definitionsContent).toMatch(/wendy\s*=\s*create_agent/);
+      expect(definitionsContent).toMatch(/agent_id="wendy"/);
+    });
+
+    it('should define Morgan agent', () => {
+      expect(definitionsContent).toMatch(/morgan\s*=\s*create_agent/);
+      expect(definitionsContent).toMatch(/agent_id="morgan"/);
+    });
+
+    it('should define Artie agent', () => {
+      expect(definitionsContent).toMatch(/artie\s*=\s*create_agent/);
+      expect(definitionsContent).toMatch(/agent_id="artie"/);
+    });
+
+    it('should configure add_history_to_context', () => {
+      expect(definitionsContent).toMatch(/add_history_to_context=True/);
+    });
+
+    it('should configure add_memories_to_context', () => {
+      expect(definitionsContent).toMatch(/add_memories_to_context=True/);
+    });
+
+    it('should configure enable_agentic_memory', () => {
+      expect(definitionsContent).toMatch(/enable_agentic_memory=True/);
+    });
+
+    it('should define builder_team with all agents', () => {
+      expect(definitionsContent).toMatch(/builder_team\s*=\s*Team\(/);
+      expect(definitionsContent).toMatch(/team_id="hyyve-builders"/);
+    });
+
+    it('should export all_agents list', () => {
+      expect(definitionsContent).toMatch(/all_agents\s*=/);
+    });
+
+    it('should export all_teams list', () => {
+      expect(definitionsContent).toMatch(/all_teams\s*=/);
+    });
+  });
+
+  describe('AC5: No Redundant Routers (AgentOS provides these)', () => {
+    it('should NOT have src/routers directory', () => {
+      expect(existsSync(join(agentServicePath, 'src/routers'))).toBe(false);
+    });
+
+    it('should NOT have custom health.py router', () => {
+      expect(
+        existsSync(join(agentServicePath, 'src/routers/health.py'))
+      ).toBe(false);
+    });
+
+    it('should NOT have custom agents.py router', () => {
+      expect(
+        existsSync(join(agentServicePath, 'src/routers/agents.py'))
+      ).toBe(false);
+    });
+
+    it('should NOT have old base.py file', () => {
+      expect(existsSync(join(agentServicePath, 'src/agents/base.py'))).toBe(
+        false
       );
-    });
-
-    it('should define health endpoint', () => {
-      expect(healthRouterContent).toMatch(/\/health|@.*get.*health/i);
-    });
-
-    it('should return status in health response', () => {
-      expect(healthRouterContent).toMatch(/status|healthy|ok/i);
     });
   });
 
@@ -224,6 +234,33 @@ describe('Story 0.1.17: Configure Agno Agent Framework', () => {
     });
   });
 
+  describe('Configuration Management', () => {
+    let configContent: string;
+
+    beforeAll(() => {
+      const configPath = join(agentServicePath, 'src/config.py');
+      if (existsSync(configPath)) {
+        configContent = readFileSync(configPath, 'utf-8');
+      }
+    });
+
+    it('should have config.py file', () => {
+      expect(existsSync(join(agentServicePath, 'src/config.py'))).toBe(true);
+    });
+
+    it('should have DATABASE_URL configuration', () => {
+      expect(configContent).toMatch(/DATABASE_URL/);
+    });
+
+    it('should have REDIS_URL configuration', () => {
+      expect(configContent).toMatch(/REDIS_URL/);
+    });
+
+    it('should have ANTHROPIC_API_KEY configuration', () => {
+      expect(configContent).toMatch(/ANTHROPIC_API_KEY/);
+    });
+  });
+
   describe('Package Initialization Files', () => {
     it('should have src/__init__.py', () => {
       expect(existsSync(join(agentServicePath, 'src/__init__.py'))).toBe(true);
@@ -250,12 +287,6 @@ describe('Story 0.1.17: Configure Agno Agent Framework', () => {
     it('should have src/workflows/__init__.py', () => {
       expect(
         existsSync(join(agentServicePath, 'src/workflows/__init__.py'))
-      ).toBe(true);
-    });
-
-    it('should have src/routers/__init__.py', () => {
-      expect(
-        existsSync(join(agentServicePath, 'src/routers/__init__.py'))
       ).toBe(true);
     });
   });

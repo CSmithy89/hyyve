@@ -1,18 +1,23 @@
 """
 Hyyve Agent Service - Main Application
 
-FastAPI application for agent execution using the Agno framework.
+AgentOS runtime providing 50+ production-ready API endpoints for agent execution.
+
+AgentOS automatically provides:
+- /health, /config, /models - Core endpoints
+- /agents/* - Agent execution with SSE streaming
+- /sessions/* - Session management
+- /memories/* - Memory management
+- /knowledge/* - Knowledge base / RAG
+- /a2a/* - Agent-to-Agent protocol
+- /agui - AG-UI interface
 """
 
-from contextlib import asynccontextmanager
-from typing import AsyncGenerator
-
 import structlog
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from agno.os import AgentOS
 
+from src.agents.definitions import all_agents, all_teams
 from src.config import settings
-from src.routers import agents, health
 
 # Configure structured logging
 structlog.configure(
@@ -31,52 +36,40 @@ structlog.configure(
 
 logger = structlog.get_logger(__name__)
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    """Application lifespan manager for startup/shutdown events."""
-    # Startup
-    logger.info(
-        "Starting Hyyve Agent Service",
-        version=settings.app_version,
-        environment=settings.environment,
-    )
-
-    yield
-
-    # Shutdown
-    logger.info("Shutting down Hyyve Agent Service")
-
-
-# Create FastAPI application
-app = FastAPI(
-    title=settings.app_name,
-    description="Agent execution service using Agno framework",
+# Log startup
+logger.info(
+    "Initializing Hyyve Agent Service with AgentOS",
     version=settings.app_version,
-    lifespan=lifespan,
+    environment=settings.environment,
+    agents=[agent.agent_id for agent in all_agents],
+    teams=[team.team_id for team in all_teams],
+)
+
+# Initialize AgentOS with all agents and teams
+# This provides 50+ production-ready API endpoints automatically
+agent_os = AgentOS(
+    agents=all_agents,
+    teams=all_teams,
+    # AgentOS configuration
+    title=settings.app_name,
+    version=settings.app_version,
+    description="Hyyve Agent Execution Service using AgentOS runtime",
+    # Enable features
+    enable_cors=settings.is_development,
+    debug=settings.debug,
+)
+
+# Get the FastAPI application with all AgentOS endpoints
+# DO NOT add custom /health, /agents/*, /sessions/*, /memories/* routes
+# AgentOS provides these automatically
+app = agent_os.get_app()
+
+# Add Hyyve-specific custom routes here (if needed)
+# Example: app.include_router(dcrl_router, prefix="/api/v1")
+# Example: app.include_router(checkpoints_router, prefix="/api/v1")
+
+logger.info(
+    "AgentOS initialized successfully",
+    endpoints_count="50+",
     docs_url="/docs" if settings.is_development else None,
-    redoc_url="/redoc" if settings.is_development else None,
 )
-
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"] if settings.is_development else [],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Include routers
-app.include_router(health.router, tags=["Health"])
-app.include_router(agents.router, prefix="/api/v1", tags=["Agents"])
-
-
-@app.get("/")
-async def root() -> dict[str, str]:
-    """Root endpoint returning service info."""
-    return {
-        "service": settings.app_name,
-        "version": settings.app_version,
-        "status": "running",
-    }
