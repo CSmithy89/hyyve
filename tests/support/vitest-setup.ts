@@ -5,6 +5,8 @@
  * Add global mocks, matchers, or setup here.
  */
 
+import { afterEach, vi } from 'vitest';
+
 // Extend expect with custom matchers if needed
 // import '@testing-library/jest-dom/vitest';
 
@@ -19,5 +21,5 @@ process.env.NODE_ENV = 'test';
 
 // Clean up mocks after each test
 afterEach(() => {
-  // vi.clearAllMocks();
+  vi.clearAllMocks();
 });
