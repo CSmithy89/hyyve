@@ -53,6 +53,7 @@
       2. **Task Audit**: Verify each [x] task is really done
       3. **Code Quality**: Security, performance, maintainability
       4. **Test Quality**: Real tests vs placeholder bullshit
+      5. **Library Validation**: Verify code follows library best practices (Step 4)
     </action>
   </step>
 
@@ -106,10 +107,78 @@
       </action>
       <action>Find at least 3 more specific, actionable issues</action>
     </check>
+
+    <action>Store all findings in {{code_review_issues}} for combination with library validation</action>
   </step>
 
-  <step n="4" goal="Present findings and fix them">
-    <action>Categorize findings: HIGH (must fix), MEDIUM (should fix), LOW (nice to fix)</action>
+  <step n="4" goal="Library and Documentation Validation">
+    <critical>Validate implementation against current library best practices using external documentation</critical>
+    <critical>This is a SEPARATE validation pass - all issues are combined with Step 3 findings</critical>
+
+    <!-- Extract Dependencies from Changed Files -->
+    <action>Scan all changed files for import statements and dependencies:
+      - JavaScript/TypeScript: import/require statements
+      - Python: import statements
+      - Go: import blocks
+      - Other languages: appropriate import patterns
+    </action>
+    <action>Build {{detected_libraries}} list with library names and versions (if detectable)</action>
+    <action>Filter to significant libraries (exclude standard library, internal modules)</action>
+
+    <!-- Context7 MCP Integration -->
+    <action>For EACH library in {{detected_libraries}}:
+      1. Use Context7 MCP `resolve-library-id` to find the library documentation
+      2. Use Context7 MCP `query-docs` with queries relevant to how the library is used in the code:
+         - API patterns being used
+         - Configuration approaches
+         - Error handling patterns
+         - Performance considerations
+      3. Store fetched documentation in {{library_docs}}
+    </action>
+
+    <!-- DeepWiki MCP Integration (for GitHub repo references) -->
+    <action>Scan code and comments for GitHub repository references (e.g., patterns from specific repos)</action>
+    <check if="GitHub repos referenced in code or story">
+      <action>For EACH referenced repo:
+        1. Use DeepWiki MCP `read_wiki_structure` to understand repo documentation
+        2. Use DeepWiki MCP `ask_question` with specific questions about patterns used
+        3. Store insights in {{repo_patterns}}
+      </action>
+    </check>
+
+    <!-- Validation Against Fetched Documentation -->
+    <action>For EACH library with fetched docs, validate implementation:
+      1. **API Usage**: Is the code using current/recommended APIs? Flag deprecated usage.
+      2. **Patterns**: Does implementation follow library's recommended patterns?
+      3. **Configuration**: Is library configured according to best practices?
+      4. **Error Handling**: Does code handle library-specific errors correctly?
+      5. **Performance**: Are there known performance pitfalls being hit?
+      6. **Security**: Are there security considerations from docs not addressed?
+    </action>
+
+    <!-- Generate Library Validation Findings -->
+    <action>For each library validation issue found:
+      - Categorize: HIGH (deprecated/insecure), MEDIUM (anti-pattern), LOW (better alternative)
+      - Include: Library name, file:line, issue description, documentation reference
+      - Add to {{library_validation_issues}}
+    </action>
+
+    <!-- Fallback if MCP tools unavailable -->
+    <check if="Context7 MCP unavailable">
+      <action>Log: "Context7 MCP not available - skipping library documentation validation"</action>
+      <action>Set {{library_validation_issues}} = empty</action>
+      <action>Continue to Step 5 with code review findings only</action>
+    </check>
+
+    <check if="DeepWiki MCP unavailable">
+      <action>Log: "DeepWiki MCP not available - skipping GitHub repo pattern validation"</action>
+      <action>Continue with Context7 validation only</action>
+    </check>
+  </step>
+
+  <step n="5" goal="Combine and Present All Findings">
+    <action>Combine {{code_review_issues}} from Step 3 with {{library_validation_issues}} from Step 4</action>
+    <action>Categorize ALL findings: HIGH (must fix), MEDIUM (should fix), LOW (nice to fix)</action>
     <action>Set {{fixed_count}} = 0</action>
     <action>Set {{action_count}} = 0</action>
 
@@ -117,25 +186,48 @@
 
       **Story:** {{story_file}}
       **Git vs Story Discrepancies:** {{git_discrepancy_count}} found
-      **Issues Found:** {{high_count}} High, {{medium_count}} Medium, {{low_count}} Low
+      **Code Review Issues:** {{code_review_high}} High, {{code_review_medium}} Medium, {{code_review_low}} Low
+      **Library Validation Issues:** {{library_high}} High, {{library_medium}} Medium, {{library_low}} Low
+      **TOTAL Issues:** {{total_high}} High, {{total_medium}} Medium, {{total_low}} Low
 
-      ## 🔴 CRITICAL ISSUES
+      ---
+
+      ## 🔴 CRITICAL ISSUES (Code Review)
       - Tasks marked [x] but not actually implemented
       - Acceptance Criteria not implemented
       - Story claims files changed but no git evidence
       - Security vulnerabilities
 
-      ## 🟡 MEDIUM ISSUES
+      ## 🔴 CRITICAL ISSUES (Library Validation)
+      - Deprecated API usage (library docs confirm deprecation)
+      - Security issues flagged in library documentation
+      - Breaking changes from library version mismatch
+
+      ---
+
+      ## 🟡 MEDIUM ISSUES (Code Review)
       - Files changed but not documented in story File List
       - Uncommitted changes not tracked
       - Performance problems
       - Poor test coverage/quality
       - Code maintainability issues
 
-      ## 🟢 LOW ISSUES
+      ## 🟡 MEDIUM ISSUES (Library Validation)
+      - Anti-patterns according to library documentation
+      - Suboptimal configuration vs recommended setup
+      - Missing error handling for library-specific errors
+
+      ---
+
+      ## 🟢 LOW ISSUES (Code Review)
       - Code style improvements
       - Documentation gaps
       - Git commit message quality
+
+      ## 🟢 LOW ISSUES (Library Validation)
+      - Better alternatives available in library
+      - Minor performance improvements suggested in docs
+      - Newer API available (not deprecated, just improved)
     </output>
 
     <ask>What should I do with these issues?
@@ -147,7 +239,7 @@
       Choose [1], [2], or specify which issue to examine:</ask>
 
     <check if="user chooses 1">
-      <action>Fix all HIGH and MEDIUM issues in the code</action>
+      <action>Fix all HIGH and MEDIUM issues (both code review AND library validation)</action>
       <action>Add/update tests as needed</action>
       <action>Update File List in story if files changed</action>
       <action>Update story Dev Agent Record with fixes applied</action>
@@ -157,18 +249,20 @@
 
     <check if="user chooses 2">
       <action>Add "Review Follow-ups (AI)" subsection to Tasks/Subtasks</action>
-      <action>For each issue: `- [ ] [AI-Review][Severity] Description [file:line]`</action>
+      <action>For each code review issue: `- [ ] [AI-Review][Severity] Description [file:line]`</action>
+      <action>For each library validation issue: `- [ ] [AI-LibVal][Severity] Description [library] [file:line]`</action>
       <action>Set {{action_count}} = number of action items created</action>
       <action>Set {{fixed_count}} = 0</action>
     </check>
 
     <check if="user chooses 3">
       <action>Show detailed explanation with code examples</action>
+      <action>Include library documentation references where applicable</action>
       <action>Return to fix decision</action>
     </check>
   </step>
 
-  <step n="5" goal="Update story status and sync sprint tracking">
+  <step n="6" goal="Update story status and sync sprint tracking">
     <!-- Determine new status based on review outcome -->
     <check if="all HIGH and MEDIUM issues fixed AND all ACs implemented">
       <action>Set {{new_status}} = "done"</action>
@@ -217,8 +311,14 @@
     <output>**✅ Review Complete!**
 
       **Story Status:** {{new_status}}
-      **Issues Fixed:** {{fixed_count}}
+      **Code Review Issues Fixed:** {{code_fixed_count}}
+      **Library Validation Issues Fixed:** {{library_fixed_count}}
       **Action Items Created:** {{action_count}}
+
+      **Validation Sources Used:**
+      - Code Review: Adversarial analysis ✅
+      - Library Docs: Context7 MCP {{context7_status}}
+      - Repo Patterns: DeepWiki MCP {{deepwiki_status}}
 
       {{#if new_status == "done"}}Code review complete!{{else}}Address the action items and continue development.{{/if}}
     </output>
