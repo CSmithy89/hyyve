@@ -195,3 +195,68 @@ _Reviewed and approved by Senior Developer (2 review cycles)_
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (5 observations, none blocking)_
+
+### [Story 0.1.4] Initialize shadcn/ui Component Library
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **18 UI Components** installed in `apps/web/components/ui/`
+  - `button.tsx` - Button with variants (default, destructive, outline, secondary, ghost, link)
+  - `input.tsx` - Text input with consistent styling
+  - `label.tsx` - Form label component
+  - `card.tsx` - Card container with header, content, and footer sections
+  - `dialog.tsx` - Modal dialog with overlay and animations
+  - `sheet.tsx` - Slide-out panel (drawer) component
+  - `dropdown-menu.tsx` - Dropdown menu with keyboard navigation
+  - `form.tsx` - Form primitives with react-hook-form integration
+  - `tabs.tsx` - Tabbed interface component
+  - `accordion.tsx` - Collapsible accordion panels
+  - `tooltip.tsx` - Hover tooltip component
+  - `table.tsx` - Data table with header, body, row, and cell components
+  - `badge.tsx` - Status badge with variants
+  - `avatar.tsx` - User avatar with image and fallback support
+  - `sonner.tsx` - Toast notification wrapper (uses Sonner library)
+  - `alert.tsx` - Alert message component with variants
+  - `command.tsx` - Command palette (uses cmdk library)
+  - `popover.tsx` - Popover floating panel
+
+- **shadcn/ui Configuration** (`apps/web/components.json`)
+  - Style: New York
+  - Base color: Neutral
+  - CSS variables: Enabled
+  - Component path: `@/components/ui`
+  - Utils path: `@/lib/utils`
+
+- **Radix UI Primitives**
+  - `@radix-ui/react-accordion` - Accordion primitive
+  - `@radix-ui/react-avatar` - Avatar primitive
+  - `@radix-ui/react-dialog` - Dialog primitive
+  - `@radix-ui/react-dropdown-menu` - Dropdown menu primitive
+  - `@radix-ui/react-label` - Label primitive
+  - `@radix-ui/react-popover` - Popover primitive
+  - `@radix-ui/react-slot` - Slot primitive for component composition
+  - `@radix-ui/react-tabs` - Tabs primitive
+  - `@radix-ui/react-tooltip` - Tooltip primitive
+
+- **Form & UI Dependencies**
+  - `react-hook-form` - Form state management
+  - `@hookform/resolvers` - Zod integration for form validation
+  - `sonner` - Toast notification library
+  - `cmdk` - Command palette library
+  - `class-variance-authority` - Component variant management
+  - `lucide-react` - Icon library
+
+#### Technical
+
+- **Configuration:** New York style with Neutral color palette and CSS variables
+- **Component Pattern:** All components use `cn()` utility from `@/lib/utils` for className merging
+- **Accessibility:** Radix UI primitives provide WCAG-compliant keyboard navigation and focus management
+- **Tree-shaking:** Individual component imports enable optimal bundle size
+- **Type Safety:** Full TypeScript support with proper prop types and exports
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (3 minor observations, none blocking)_
