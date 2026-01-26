@@ -6,8 +6,6 @@
 # - Development environment variables
 # - Exposed debug ports
 
-version: '3.8'
-
 services:
   # Next.js Frontend - Development overrides
   web:
