@@ -375,3 +375,62 @@ _Reviewed and approved by Senior Developer (2 HIGH, 3 LOW, 2 INFO observations -
 
 _Story completed: 2026-01-26_
 _Reviewed and approved by Senior Developer (2 HIGH, 2 LOW, 2 INFO observations - none blocking)_
+
+### [Story 0.1.7] Configure tRPC API Layer
+
+**Epic 0.1:** Project Foundation & Infrastructure Setup
+
+#### Added
+
+- **tRPC Server Configuration** (`apps/web/lib/trpc/server.ts`)
+  - `initTRPC` with superjson transformer for Date/BigInt serialization
+  - `createTRPCContext` with Supabase client and Clerk user
+  - `publicProcedure` for unauthenticated endpoints
+  - `protectedProcedure` with Clerk auth middleware
+
+- **tRPC React Client** (`apps/web/lib/trpc/client.ts`)
+  - Type-safe `trpc` client with `createTRPCReact<AppRouter>()`
+  - Full TypeScript inference for procedures
+
+- **tRPC Provider** (`apps/web/lib/trpc/provider.tsx`)
+  - `TRPCProvider` component with QueryClient and tRPC client
+  - `httpBatchLink` for request batching
+  - Configured staleTime and refetchOnWindowFocus
+
+- **App Router Integration** (`apps/web/app/api/trpc/[trpc]/route.ts`)
+  - `fetchRequestHandler` from `@trpc/server/adapters/fetch`
+  - GET and POST handlers for queries and mutations
+  - Development error logging
+
+- **Root Router** (`apps/web/lib/trpc/routers/index.ts`)
+  - `appRouter` with example procedures
+  - `health` - Public health check endpoint
+  - `me` - Protected user info endpoint
+  - `echo` - Example mutation with Zod validation
+
+- **Package Dependencies**
+  - `@trpc/server@11.8.1` - tRPC server
+  - `@trpc/client@11.8.1` - tRPC client
+  - `@trpc/react-query@11.8.1` - React hooks
+  - `@tanstack/react-query@5.90.20` - Data fetching/caching
+  - `superjson@2.2.6` - JSON serialization
+
+#### Changed
+
+- **Providers** (`apps/web/app/providers.tsx`)
+  - Added `TRPCProvider` wrapping inside ClerkProvider
+  - tRPC available even when Clerk keys not configured
+
+#### Technical
+
+- **tRPC v11 Pattern:**
+  - Transformer configured at link level (not createClient)
+  - Uses fetch adapter (not @trpc/next) for App Router
+  - Context includes db (Supabase) and user (Clerk)
+- **Type Safety:** Full end-to-end type inference from procedures to hooks
+- **Request Batching:** httpBatchLink batches multiple queries into single request
+
+---
+
+_Story completed: 2026-01-26_
+_Reviewed and approved by Senior Developer (0 HIGH, 1 LOW, 3 INFO observations - none blocking)_
