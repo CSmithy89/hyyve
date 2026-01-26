@@ -14,7 +14,13 @@ inputDocuments:
     type: 'traceability'
   - path: '_bmad-output/project-context.md'
     type: 'implementation-rules'
-    rule_count: 85
+    rule_count: 91
+  - path: '_bmad-output/planning-artifacts/ag-ui-integration-guide.md'
+    type: 'implementation-guide'
+    topics: ['AGENT_CONTENT_ZONE', 'A2UI schema', 'streaming patterns']
+  - path: '_bmad-output/planning-artifacts/protocol-stack-specification.md'
+    type: 'implementation-guide'
+    topics: ['AG-UI events', 'A2A messages', 'MCP', 'DCRL']
 project_name: 'Hyyve'
 user_name: 'Chris'
 date: '2026-01-25'
@@ -9509,9 +9515,22 @@ So that **mobile apps have limited permissions**.
 
 ---
 
+---
+
+## Implementation Guides Reference
+
+| Document | Purpose | Stories Impacted |
+|----------|---------|------------------|
+| `ag-ui-integration-guide.md` | AGENT_CONTENT_ZONE specs, A2UI schema, streaming patterns | All stories with `AG-UI` protocol events |
+| `protocol-stack-specification.md` | AG-UI events, A2A messages, MCP tool calls, DCRL integration | All protocol-related stories |
+| `project-context.md` | 91 implementation rules, TypeScript patterns, React hooks, testing | All implementation stories |
+
+---
+
 _Document initialized: 2026-01-25_
 _Step 1 Complete: Prerequisites validated, requirements extracted_
 _Step 2 Complete: Epics designed and approved_
 _Step 3 Complete: All 270 stories generated with cross-references_
 _Step 4 Complete: Final validation passed - Ready for development_
 _Step 4.1 Complete: Added Epic E0.1 (Project Foundation) with 23 comprehensive infrastructure setup stories - Total: 293 stories across 58 epics_
+_Updated: 2026-01-26 - Added AG-UI integration guide and protocol stack references_

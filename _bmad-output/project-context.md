@@ -1,17 +1,18 @@
 ---
 project_name: 'Agentic RAG Platform'
 user_name: 'Chris'
-date: '2026-01-25'
+date: '2026-01-26'
 status: 'complete'
-sections_completed: ['technology_stack', 'typescript_rules', 'nextjs_rules', 'react_rules', 'state_management', 'reactflow', 'yjs', 'trpc', 'supabase', 'dcrl', 'circuit_breaker', 'realtime_channels', 'protocol_stack', 'testing', 'code_quality', 'performance', 'security', 'directory_structure', 'critical_rules', 'usage_guidelines']
-rule_count: 85
+sections_completed: ['technology_stack', 'typescript_rules', 'nextjs_rules', 'react_rules', 'state_management', 'reactflow', 'yjs', 'trpc', 'supabase', 'dcrl', 'circuit_breaker', 'realtime_channels', 'protocol_stack', 'ag_ui_patterns', 'testing', 'code_quality', 'performance', 'security', 'directory_structure', 'critical_rules', 'usage_guidelines']
+rule_count: 91
 optimized_for_llm: true
 existing_patterns_found: 118
-validated_via: ['Context7', 'DeepWiki', '37 research documents', 'PRD (248 FRs, 70 NFRs)', 'Architecture (8 ADRs)', 'UX Specification']
+validated_via: ['Context7', 'DeepWiki', '37 research documents', 'PRD (248 FRs, 70 NFRs)', 'Architecture (8 ADRs)', 'UX Specification', 'AG-UI Integration Guide']
 sources:
   - PRD: '/home/chris/projects/work/Agentic Rag/_bmad-output/planning-artifacts/prd.md'
   - Architecture: '/home/chris/projects/work/Agentic Rag/_bmad-output/planning-artifacts/architecture.md'
   - UX_Spec: '/home/chris/projects/work/Agentic Rag/_bmad-output/planning-artifacts/ux-design-specification.md'
+  - AG_UI_Guide: '/home/chris/projects/work/Agentic Rag/_bmad-output/planning-artifacts/ag-ui-integration-guide.md'
 ---
 
 # Project Context for AI Agents
@@ -561,6 +562,173 @@ interface A2AMessage {
 }
 ```
 
+### 13. AG-UI/A2UI Implementation Patterns
+
+#### AGENT_CONTENT_ZONE Marker Pattern
+
+```html
+<!-- ALWAYS use this pattern for dynamic agent content areas -->
+<!-- AGENT_CONTENT_ZONE: {zone-id} -->
+<div
+  id="{zone-id}-zone"
+  data-ag-ui="{content-type}"
+  data-ag-ui-stream="{true|false}"
+  data-ag-ui-schema="{schema-ref}"
+>
+  <!-- Agent-generated content renders here -->
+</div>
+```
+
+**Key Zones by Screen:**
+| Zone ID | Screen | Content Type |
+|---------|--------|--------------|
+| `module-builder-chat` | Module Builder | `conversation` |
+| `execution-output` | Execution Monitor | `stream-viewer` |
+| `chatbot-preview` | Chatbot Builder | `chat-widget` |
+| `kb-query-results` | KB Query Testing | `search-results` |
+| `call-transcription` | Live Call Monitor | `transcription-stream` |
+| `collab-activity-feed` | Multi-user Editor | `activity-stream` |
+
+#### A2UI Component Schema
+
+```typescript
+// ALWAYS use this interface for A2UI components
+interface A2UIComponent {
+  id: string;                    // Unique component identifier
+  type: string;                  // Component type (e.g., "ChatMessage")
+  parentId: string | null;       // Parent ID (null for root)
+  props: Record<string, unknown>;
+  children?: string[];           // Child IDs (adjacency list)
+  meta?: {
+    timestamp: number;
+    source: 'agent' | 'user' | 'system';
+    streamIndex?: number;
+  };
+}
+
+interface A2UIDocument {
+  version: string;
+  rootIds: string[];
+  components: Map<string, A2UIComponent>;
+  pendingComponents?: string[];  // Components being generated
+  streamCursor?: string;
+}
+```
+
+#### Component Primitives Library
+
+| Category | Primitives |
+|----------|------------|
+| **Chat** | `ChatMessage`, `ToolCall`, `ToolResult`, `ThinkingIndicator`, `QuickReply` |
+| **Content** | `TextChunk`, `CodeBlock`, `MarkdownBlock`, `Table`, `Image` |
+| **Form** | `FormField`, `Suggestion`, `FileUpload`, `SelectField` |
+| **Visualization** | `ProgressBar`, `MetricCard`, `Chart`, `Timeline` |
+| **Status** | `LoadingSpinner`, `ErrorDisplay`, `SuccessBanner`, `WarningAlert` |
+
+#### React Streaming Integration
+
+```typescript
+// ALWAYS use useA2UIStream for agent content zones
+import { A2UIRenderer, useA2UIStream } from '@hyyve/ag-ui';
+
+function ChatInterface({ workflowId }: { workflowId: string }) {
+  const { document, isStreaming, error } = useA2UIStream({
+    endpoint: `/api/workflows/${workflowId}/execute`,
+    onChunk: (chunk) => console.log('Received:', chunk),
+  });
+
+  return (
+    <div data-ag-ui="conversation">
+      <A2UIRenderer
+        document={document}
+        components={{
+          ChatMessage: CustomChatMessage,
+          CodeBlock: SyntaxHighlighter,
+          ToolCall: ToolCallDisplay,
+        }}
+        isStreaming={isStreaming}
+      />
+      {isStreaming && <ThinkingIndicator />}
+      {error && <ErrorDisplay error={error} />}
+    </div>
+  );
+}
+```
+
+#### Streaming Handler Pattern
+
+```typescript
+// ALWAYS use A2UIStreamHandler for SSE connections
+import { A2UIStreamHandler } from '@hyyve/ag-ui';
+
+const handler = new A2UIStreamHandler({
+  onComponentAdd: (component) => renderComponent(component),
+  onComponentUpdate: (id, props) => updateComponent(id, props),
+  onStreamComplete: () => finalizeRender(),
+});
+
+const eventSource = new EventSource('/api/execute?stream=true');
+eventSource.onmessage = (event) => {
+  handler.processChunk(JSON.parse(event.data));
+};
+```
+
+#### AG-UI Performance Patterns
+
+```typescript
+// ALWAYS virtualize long lists (chat histories, activity feeds)
+import { VirtualList } from 'react-window';
+
+function VirtualizedChat({ messages }: { messages: A2UIComponent[] }) {
+  return (
+    <VirtualList
+      height={600}
+      itemCount={messages.length}
+      itemSize={getMessageHeight}
+    >
+      {({ index, style }) => (
+        <ChatMessage message={messages[index]} style={style} />
+      )}
+    </VirtualList>
+  );
+}
+
+// ALWAYS debounce high-frequency streams (transcription)
+const debouncedUpdate = debounce((text: string) => {
+  updateTranscription(text);
+}, 50);
+
+// ALWAYS limit stored messages to prevent memory leaks
+const MAX_MESSAGES = 500;
+function addMessage(message: A2UIComponent) {
+  messages.push(message);
+  if (messages.length > MAX_MESSAGES) {
+    const removed = messages.splice(0, messages.length - MAX_MESSAGES);
+    removed.forEach(m => componentRegistry.delete(m.id));
+  }
+}
+```
+
+#### Optimistic UI Pattern
+
+```typescript
+// ALWAYS use optimistic updates for responsive feel
+function sendMessage(content: string) {
+  // 1. Optimistically add user message
+  const tempId = addOptimisticMessage({
+    role: 'user',
+    content,
+    status: 'sending'
+  });
+
+  // 2. Send to server
+  const response = await api.sendMessage(content);
+
+  // 3. Reconcile with server response
+  reconcileMessage(tempId, response.messageId);
+}
+```
+
 ---
 
 ## Testing Rules
@@ -766,6 +934,12 @@ infrastructure/
 8. **ALWAYS use circuit breakers** for external service calls
 9. **ALWAYS use the correct real-time channel** for the use case
 10. **ALWAYS handle loading and error states** - use Next.js conventions
+11. **ALWAYS use AGENT_CONTENT_ZONE markers** for dynamic agent content areas
+12. **ALWAYS use useA2UIStream hook** for streaming agent responses
+13. **ALWAYS virtualize long lists** (chat histories >100 messages)
+14. **ALWAYS debounce high-frequency streams** (transcription: 50ms)
+15. **ALWAYS limit stored messages** (MAX_MESSAGES=500) to prevent memory leaks
+16. **ALWAYS use optimistic UI updates** for responsive agent interactions
 
 ---
 
@@ -785,4 +959,4 @@ infrastructure/
 
 ---
 
-_Last Updated: 2026-01-25_
+_Last Updated: 2026-01-26_

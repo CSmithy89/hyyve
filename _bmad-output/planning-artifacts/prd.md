@@ -2023,3 +2023,15 @@ After each epic:
 #### Self-Hosted Deployment (FR225-FR232) → Screens: 6.3.1
 #### API & SDK Export (FR233-FR242) → Screens: 1.2.4-1.2.6, 2.9.x, 6.1.x, 6.2.x
 #### Cross-Builder Integration (FR243-FR248) → Screens: 1.4.1, 5.1.3, all builder screens
+
+---
+
+## Implementation Guides Reference
+
+| Document | Purpose | FR Coverage |
+|----------|---------|-------------|
+| `ag-ui-integration-guide.md` | AGENT_CONTENT_ZONE specs, A2UI schema, streaming patterns, screen-level zones | FR179-FR186 (UI Generation), all streaming screens |
+| `protocol-stack-specification.md` | AG-UI events, A2A messages, MCP tool calls, DCRL integration | All protocol-related FRs |
+| `project-context.md` | 91 implementation rules, TypeScript patterns, React hooks, testing | All implementation |
+
+_See `planning-artifacts/` for full documentation set._

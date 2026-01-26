@@ -406,6 +406,13 @@ _After validation, only 3 true gaps remain. Others require integration, not new 
 | `technical-chatbot-builder-research-2026-01-22.md` | Retry, Circuit Breakers, Handoff | #8 |
 | `technical-security-sandboxing-research-2026-01-21.md` | Cross-Agent Security, Trust Boundaries | Bonus finding |
 
+### 6.6 Implementation Guides
+
+| Document | Key Topics | Usage |
+|----------|------------|-------|
+| `ag-ui-integration-guide.md` | AGENT_CONTENT_ZONE specs, A2UI component schema, streaming patterns, zone definitions | Screen-level AG-UI implementation |
+| `protocol-stack-specification.md` | AG-UI events, A2A messages, MCP tool calls, DCRL integration | Protocol-level implementation |
+
 ---
 
 ## 7. Updated ADR Status
