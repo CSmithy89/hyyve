@@ -15,9 +15,17 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./apps/web/*"],
+      "@platform/*": ["./packages/@platform/*/src"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "references": [
+    { "path": "./apps/web" },
+    { "path": "./packages/@platform/ui" },
+    { "path": "./packages/@platform/db" },
+    { "path": "./packages/@platform/auth" },
+    { "path": "./packages/tsconfig" }
+  ],
+  "include": [],
   "exclude": ["node_modules", ".next", "tests"]
 }

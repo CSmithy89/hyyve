@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Component Embed</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#1e1d2e",
+              "input-bg": "#272546",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"],
+              "mono": ["Fira Code", "monospace"],
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center p-4 font-display">
+<!-- Modal Container -->
+<div class="relative w-full max-w-[800px] bg-surface-dark rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden flex flex-col max-h-[90vh]">
+<!-- Header -->
+<div class="p-6 pb-2 border-b border-white/5 bg-surface-dark sticky top-0 z-10">
+<div class="flex items-start justify-between">
+<div>
+<h1 class="text-white text-2xl font-bold tracking-tight">Embed Component</h1>
+<p class="text-[#9795c6] text-sm mt-1">Choose how to integrate <span class="text-white font-medium">Hyyve Assistant</span> into your application.</p>
+</div>
+<button class="text-[#9795c6] hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="overflow-y-auto custom-scrollbar p-6 space-y-8">
+<!-- Section 1: Integration Method (Segmented Control) -->
+<div class="space-y-3">
+<label class="text-white text-sm font-semibold uppercase tracking-wider opacity-80">Integration Method</label>
+<div class="flex h-12 w-full items-center rounded-lg bg-[#121121] p-1 border border-white/5">
+<label class="group relative flex cursor-pointer h-full flex-1 items-center justify-center overflow-hidden rounded-[6px] transition-all has-[:checked]:bg-primary has-[:checked]:shadow-lg hover:bg-white/5">
+<span class="flex items-center gap-2 text-[#9795c6] group-has-[:checked]:text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">code_blocks</span>
+                            React
+                        </span>
+<input checked="" class="invisible absolute" name="embed-type" type="radio" value="React"/>
+</label>
+<label class="group relative flex cursor-pointer h-full flex-1 items-center justify-center overflow-hidden rounded-[6px] transition-all has-[:checked]:bg-primary has-[:checked]:shadow-lg hover:bg-white/5">
+<span class="flex items-center gap-2 text-[#9795c6] group-has-[:checked]:text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">web</span>
+                            Web Component
+                        </span>
+<input class="invisible absolute" name="embed-type" type="radio" value="Web Component"/>
+</label>
+<label class="group relative flex cursor-pointer h-full flex-1 items-center justify-center overflow-hidden rounded-[6px] transition-all has-[:checked]:bg-primary has-[:checked]:shadow-lg hover:bg-white/5">
+<span class="flex items-center gap-2 text-[#9795c6] group-has-[:checked]:text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">iframe</span>
+                            iFrame
+                        </span>
+<input class="invisible absolute" name="embed-type" type="radio" value="iFrame"/>
+</label>
+</div>
+</div>
+<!-- Section 2: Installation & Usage (Code Blocks) -->
+<div class="space-y-4">
+<h2 class="text-white text-sm font-semibold uppercase tracking-wider opacity-80 mb-2">Installation &amp; Usage</h2>
+<!-- Install Block -->
+<div class="group relative bg-[#121121] rounded-lg border border-white/10 overflow-hidden">
+<div class="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/5">
+<span class="text-xs font-medium text-[#9795c6]">1. Install Package</span>
+<button class="flex items-center gap-1 text-xs text-primary hover:text-white transition-colors font-medium">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+                            Copy
+                        </button>
+</div>
+<div class="p-4 font-mono text-sm overflow-x-auto">
+<span class="text-pink-400">npm</span> <span class="text-white">install</span> <span class="text-green-400">@hyyve/ai-component</span>
+</div>
+</div>
+<!-- Usage Block -->
+<div class="group relative bg-[#121121] rounded-lg border border-white/10 overflow-hidden">
+<div class="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/5">
+<span class="text-xs font-medium text-[#9795c6]">2. Add to Codebase</span>
+<button class="flex items-center gap-1 text-xs text-primary hover:text-white transition-colors font-medium">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+                            Copy
+                        </button>
+</div>
+<div class="p-4 font-mono text-sm text-[#a6accd] overflow-x-auto whitespace-pre">
+<span class="text-gray-500">&lt;</span><span class="text-pink-400">HyyveComponent</span>
+<span class="text-orange-300">id</span><span class="text-gray-500">=</span><span class="text-green-400">"hyyve-832-xz"</span>
+<span class="text-orange-300">theme</span><span class="text-gray-500">=</span><span class="text-green-400">"dark"</span>
+<span class="text-orange-300">apiKey</span><span class="text-gray-500">=</span><span class="text-blue-300">{process.env.HYYVE_KEY}</span>
+<span class="text-gray-500">/&gt;</span></div>
+</div>
+</div>
+<!-- Section 3: Configuration Form -->
+<div class="space-y-6 pt-2">
+<h2 class="text-white text-sm font-semibold uppercase tracking-wider opacity-80 border-t border-white/10 pt-6">Configuration</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- API Key Input -->
+<div class="space-y-2">
+<label class="text-sm font-medium text-white">API Key</label>
+<div class="relative">
+<input class="w-full bg-[#121121] border border-white/10 rounded-lg pl-10 pr-10 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" type="password" value="sk_live_51M..."/>
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-500">key</span>
+<button class="absolute right-3 top-2.5 text-gray-500 hover:text-white">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+<p class="text-xs text-[#9795c6]">Use a restricted key for client-side usage.</p>
+</div>
+<!-- Theme Select -->
+<div class="space-y-2">
+<label class="text-sm font-medium text-white">Theme Preference</label>
+<div class="relative">
+<select class="w-full bg-[#121121] border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer">
+<option value="dark">Dark Mode (Default)</option>
+<option value="light">Light Mode</option>
+<option value="system">System Preference</option>
+</select>
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-500">palette</span>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-gray-500 pointer-events-none">expand_more</span>
+</div>
+<p class="text-xs text-[#9795c6]">Matches the component to your site's look.</p>
+</div>
+<!-- Success Message -->
+<div class="space-y-2 md:col-span-2">
+<label class="text-sm font-medium text-white">Success Message</label>
+<div class="relative">
+<input class="w-full bg-[#121121] border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="e.g., Analysis complete!" type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-500">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="p-6 pt-4 border-t border-white/5 bg-surface-dark flex justify-between items-center sticky bottom-0 z-10">
+<a class="text-sm text-[#9795c6] hover:text-white underline decoration-white/20 underline-offset-4" href="#">Read Documentation</a>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-lg text-white font-medium hover:bg-white/5 transition-colors text-sm">Cancel</button>
+<button class="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium shadow-[0_0_15px_rgba(80,72,229,0.3)] transition-all text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                    Done
+                </button>
+</div>
+</div>
+</div>
+<!-- Decorative Background Glow -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden pointer-events-none">
+<div class="absolute top-[20%] left-[20%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] mix-blend-screen opacity-50"></div>
+<div class="absolute bottom-[20%] right-[20%] w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[100px] mix-blend-screen opacity-50"></div>
+</div>
+</body></html>

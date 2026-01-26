@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Chatbot Analytics Dashboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-dark": "#3f38b5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", 
+                        "surface-dark": "#1e1d30",
+                        "surface-border": "#2d2b45",
+                        "text-secondary": "#9795c6",
+                        "success": "#0bda68",
+                        "danger": "#fa6938",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-white h-screen overflow-hidden flex font-display">
+<!-- Side Navigation -->
+<aside class="w-64 flex-shrink-0 border-r border-surface-border bg-[#131221] flex flex-col justify-between h-full hidden md:flex">
+<div class="flex flex-col gap-6 p-6">
+<!-- Logo -->
+<div class="flex flex-col">
+<h1 class="text-white text-xl font-bold tracking-tight">Hyyve</h1>
+<p class="text-text-secondary text-xs font-normal">AI Platform</p>
+</div>
+<!-- Nav Links -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-border hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-border hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="text-sm font-medium">Conversations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] text-primary fill-1">analytics</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-border hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Action -->
+<div class="p-6">
+<button class="w-full flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary hover:bg-primary-dark transition-colors text-white text-sm font-bold shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Project</span>
+</button>
+<div class="mt-4 flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-surface-border cursor-pointer">
+<div class="h-8 w-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500"></div>
+<div class="flex flex-col overflow-hidden">
+<span class="text-white text-sm font-medium truncate">Alex Developer</span>
+<span class="text-text-secondary text-xs truncate">alex@hyyve.ai</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Bar (Mobile Menu + Breadcrumb/Search placeholder) -->
+<header class="h-16 flex items-center justify-between px-6 md:px-10 border-b border-surface-border bg-background-dark/50 backdrop-blur-md z-10 sticky top-0 md:hidden">
+<span class="text-white font-bold text-lg">Hyyve</span>
+<button class="text-white p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto no-scrollbar p-6 md:p-10 scroll-smooth">
+<div class="max-w-7xl mx-auto flex flex-col gap-8">
+<!-- Page Heading -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-3xl font-bold tracking-tight">Analytics Dashboard</h2>
+<p class="text-text-secondary text-base">Monitor your chatbot's performance and health metrics.</p>
+</div>
+<div class="flex items-center bg-surface-dark rounded-lg p-1 border border-surface-border">
+<button class="px-4 py-1.5 rounded text-sm font-medium text-text-secondary hover:text-white transition-colors">7d</button>
+<button class="px-4 py-1.5 rounded bg-surface-border text-white text-sm font-medium shadow-sm">30d</button>
+<button class="px-4 py-1.5 rounded text-sm font-medium text-text-secondary hover:text-white transition-colors">90d</button>
+<div class="w-px h-4 bg-surface-border mx-1"></div>
+<button class="px-3 py-1.5 flex items-center gap-2 text-sm font-medium text-white hover:bg-surface-border rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Custom</span>
+</button>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Stat Card 1 -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-5 flex flex-col gap-4 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<p class="text-text-secondary text-sm font-medium">Total Conversations</p>
+<span class="material-symbols-outlined text-text-secondary/50 group-hover:text-primary transition-colors">chat</span>
+</div>
+<div>
+<p class="text-white text-3xl font-bold tracking-tight">12,405</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="bg-success/10 text-success text-xs font-bold px-1.5 py-0.5 rounded flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-0.5">trending_up</span> 12%
+                                </span>
+<span class="text-text-secondary text-xs">vs last 30 days</span>
+</div>
+</div>
+<!-- Sparkline SVG -->
+<div class="absolute bottom-0 right-0 w-24 h-12 opacity-20">
+<svg class="w-full h-full stroke-primary fill-none" stroke-width="2" viewbox="0 0 100 40">
+<path d="M0 35 Q 10 30, 20 32 T 40 25 T 60 15 T 80 20 T 100 5"></path>
+</svg>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-5 flex flex-col gap-4 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<p class="text-text-secondary text-sm font-medium">Avg Rating</p>
+<span class="material-symbols-outlined text-text-secondary/50 group-hover:text-primary transition-colors">star</span>
+</div>
+<div>
+<p class="text-white text-3xl font-bold tracking-tight">4.2<span class="text-lg text-text-secondary font-normal">/5.0</span></p>
+<div class="flex items-center gap-1 mt-1">
+<span class="bg-success/10 text-success text-xs font-bold px-1.5 py-0.5 rounded flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span> 0.1
+                                </span>
+<span class="text-text-secondary text-xs">vs last 30 days</span>
+</div>
+</div>
+<!-- Sparkline SVG -->
+<div class="absolute bottom-0 right-0 w-24 h-12 opacity-20">
+<svg class="w-full h-full stroke-success fill-none" stroke-width="2" viewbox="0 0 100 40">
+<path d="M0 20 L 20 20 L 40 15 L 60 18 L 80 10 L 100 5"></path>
+</svg>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-5 flex flex-col gap-4 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<p class="text-text-secondary text-sm font-medium">Auto-Resolved</p>
+<span class="material-symbols-outlined text-text-secondary/50 group-hover:text-primary transition-colors">smart_toy</span>
+</div>
+<div>
+<p class="text-white text-3xl font-bold tracking-tight">88%</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="bg-success/10 text-success text-xs font-bold px-1.5 py-0.5 rounded flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-0.5">trending_up</span> 2%
+                                </span>
+<span class="text-text-secondary text-xs">vs last 30 days</span>
+</div>
+</div>
+<!-- Sparkline SVG -->
+<div class="absolute bottom-0 right-0 w-24 h-12 opacity-20">
+<svg class="w-full h-full stroke-success fill-none" stroke-width="2" viewbox="0 0 100 40">
+<path d="M0 30 Q 25 35, 50 20 T 100 10"></path>
+</svg>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-5 flex flex-col gap-4 relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<p class="text-text-secondary text-sm font-medium">Handoff Rate</p>
+<span class="material-symbols-outlined text-text-secondary/50 group-hover:text-primary transition-colors">support_agent</span>
+</div>
+<div>
+<p class="text-white text-3xl font-bold tracking-tight">12%</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="bg-success/10 text-success text-xs font-bold px-1.5 py-0.5 rounded flex items-center">
+<span class="material-symbols-outlined text-[12px] mr-0.5">arrow_downward</span> 2%
+                                </span>
+<span class="text-text-secondary text-xs">Improvement</span>
+</div>
+</div>
+<!-- Sparkline SVG -->
+<div class="absolute bottom-0 right-0 w-24 h-12 opacity-20">
+<svg class="w-full h-full stroke-danger fill-none" stroke-width="2" viewbox="0 0 100 40">
+<path d="M0 10 L 30 15 L 50 10 L 70 25 L 100 30"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Main Volume Chart -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6 md:p-8 flex flex-col gap-6">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h3 class="text-white text-lg font-semibold">Conversation Volume</h3>
+<p class="text-text-secondary text-sm">Daily interaction count over the last 30 days.</p>
+</div>
+<button class="text-sm text-primary font-medium hover:text-primary-dark flex items-center gap-1">
+                            Download Report
+                            <span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+<!-- Chart Container -->
+<div class="w-full h-64 md:h-80 relative">
+<!-- Chart Grid Lines (Background) -->
+<div class="absolute inset-0 flex flex-col justify-between text-text-secondary text-xs pointer-events-none">
+<div class="border-b border-surface-border w-full h-0"></div>
+<div class="border-b border-surface-border w-full h-0"></div>
+<div class="border-b border-surface-border w-full h-0"></div>
+<div class="border-b border-surface-border w-full h-0"></div>
+<div class="border-b border-surface-border w-full h-0 border-dashed"></div>
+</div>
+<!-- SVG Chart -->
+<svg class="absolute inset-0 w-full h-full overflow-visible z-10" preserveaspectratio="none" viewbox="0 0 100 100">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#5048e5" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#5048e5" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Area Path -->
+<path d="M0 100 L0 70 Q 10 75, 20 60 T 40 40 T 60 55 T 80 30 T 100 45 L 100 100 Z" fill="url(#chartGradient)"></path>
+<!-- Line Path -->
+<path d="M0 70 Q 10 75, 20 60 T 40 40 T 60 55 T 80 30 T 100 45" fill="none" stroke="#5048e5" stroke-width="0.5" vector-effect="non-scaling-stroke"></path>
+<!-- Tooltip Point (Simulated) -->
+<circle class="cursor-pointer hover:r-2 transition-all shadow-xl" cx="80" cy="30" fill="#fff" r="1.5" stroke="#5048e5" stroke-width="0.5" vector-effect="non-scaling-stroke"></circle>
+</svg>
+<!-- Tooltip Box (Simulated position) -->
+<div class="absolute top-[20%] right-[18%] bg-background-dark border border-surface-border rounded-lg shadow-xl p-3 z-20 hidden md:block animate-fade-in">
+<p class="text-text-secondary text-xs mb-1">June 24, 2023</p>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-white font-bold">842 Conversations</span>
+</div>
+</div>
+</div>
+<!-- X-Axis Labels -->
+<div class="flex justify-between text-xs text-text-secondary px-2">
+<span>Jun 1</span>
+<span>Jun 5</span>
+<span>Jun 10</span>
+<span>Jun 15</span>
+<span>Jun 20</span>
+<span>Jun 25</span>
+<span>Jun 30</span>
+</div>
+</div>
+<!-- Secondary Charts Row -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Intent Distribution -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6 flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-white text-lg font-semibold">Intent Distribution</h3>
+<p class="text-text-secondary text-sm">Top user intents detected.</p>
+</div>
+<button class="text-text-secondary hover:text-white">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="flex flex-col gap-5 py-2">
+<!-- Intent 1 -->
+<div class="group">
+<div class="flex justify-between text-sm mb-2">
+<span class="text-white font-medium">Reset Password</span>
+<span class="text-text-secondary">42%</span>
+</div>
+<div class="w-full bg-surface-border rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 42%"></div>
+</div>
+</div>
+<!-- Intent 2 -->
+<div class="group">
+<div class="flex justify-between text-sm mb-2">
+<span class="text-white font-medium">Order Status</span>
+<span class="text-text-secondary">28%</span>
+</div>
+<div class="w-full bg-surface-border rounded-full h-2 overflow-hidden">
+<div class="bg-[#8b85f2] h-full rounded-full" style="width: 28%"></div>
+</div>
+</div>
+<!-- Intent 3 -->
+<div class="group">
+<div class="flex justify-between text-sm mb-2">
+<span class="text-white font-medium">Tech Support</span>
+<span class="text-text-secondary">18%</span>
+</div>
+<div class="w-full bg-surface-border rounded-full h-2 overflow-hidden">
+<div class="bg-[#b4b1f6] h-full rounded-full" style="width: 18%"></div>
+</div>
+</div>
+<!-- Intent 4 -->
+<div class="group">
+<div class="flex justify-between text-sm mb-2">
+<span class="text-white font-medium">Billing Inquiry</span>
+<span class="text-text-secondary">12%</span>
+</div>
+<div class="w-full bg-surface-border rounded-full h-2 overflow-hidden">
+<div class="bg-text-secondary h-full rounded-full" style="width: 12%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Resolution Breakdown (Donut) -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6 flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-white text-lg font-semibold">Resolution Breakdown</h3>
+<p class="text-text-secondary text-sm">Outcome of completed sessions.</p>
+</div>
+<button class="text-text-secondary hover:text-white">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="flex items-center justify-around h-full py-2">
+<!-- Donut Chart -->
+<div class="relative w-48 h-48">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Bot Solved (Purple) - 70% -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#5048e5" stroke-dasharray="220 251.2" stroke-dashoffset="0" stroke-width="12"></circle>
+<!-- Agent Handoff (Gray) - 20% -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#4b5563" stroke-dasharray="62.8 251.2" stroke-dashoffset="-220" stroke-width="12"></circle>
+<!-- Dropped (Red) - 10% -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#fa6938" stroke-dasharray="31.4 251.2" stroke-dashoffset="-282.8" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-bold text-white">12.4k</span>
+<span class="text-xs text-text-secondary">Total</span>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<div class="flex flex-col">
+<span class="text-white text-sm font-medium">Bot Solved</span>
+<span class="text-text-secondary text-xs">70%</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-gray-600"></div>
+<div class="flex flex-col">
+<span class="text-white text-sm font-medium">Agent Handoff</span>
+<span class="text-text-secondary text-xs">20%</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-danger"></div>
+<div class="flex flex-col">
+<span class="text-white text-sm font-medium">Dropped</span>
+<span class="text-text-secondary text-xs">10%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Conversations Table -->
+<div class="bg-surface-dark border border-surface-border rounded-xl flex flex-col overflow-hidden">
+<div class="p-6 border-b border-surface-border flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h3 class="text-white text-lg font-semibold">Recent Conversations</h3>
+<p class="text-text-secondary text-sm">Real-time logs of chatbot interactions.</p>
+</div>
+<div class="flex gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-[18px]">search</span>
+<input class="bg-[#131221] border-surface-border text-white text-sm rounded-lg pl-10 pr-4 py-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none placeholder:text-text-secondary/50" placeholder="Search user ID..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-border text-white text-sm font-medium rounded-lg hover:bg-surface-border/80 transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                Filter
+                             </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm text-text-secondary">
+<thead class="bg-[#181728] text-xs uppercase font-semibold text-text-secondary/80">
+<tr>
+<th class="px-6 py-4" scope="col">User</th>
+<th class="px-6 py-4" scope="col">Primary Intent</th>
+<th class="px-6 py-4" scope="col">Status</th>
+<th class="px-6 py-4" scope="col">Duration</th>
+<th class="px-6 py-4" scope="col">Rating</th>
+<th class="px-6 py-4" scope="col">Timestamp</th>
+<th class="px-6 py-4 text-right" scope="col">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-border">
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-medium text-white">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-900/50 flex items-center justify-center text-blue-400 font-bold text-xs">U1</div>
+                                            user_4920
+                                        </div>
+</td>
+<td class="px-6 py-4">Reset Password</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">
+                                            Resolved
+                                        </span>
+</td>
+<td class="px-6 py-4">2m 14s</td>
+<td class="px-6 py-4 text-white">
+<div class="flex text-yellow-500 text-[16px]">
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+</div>
+</td>
+<td class="px-6 py-4">2 mins ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-white font-medium hover:underline text-xs">View Log</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-medium text-white">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-purple-900/50 flex items-center justify-center text-purple-400 font-bold text-xs">U2</div>
+                                            user_8821
+                                        </div>
+</td>
+<td class="px-6 py-4">Billing Inquiry</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50">
+                                            Handoff
+                                        </span>
+</td>
+<td class="px-6 py-4">5m 30s</td>
+<td class="px-6 py-4 text-white">
+<div class="flex text-yellow-500 text-[16px]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-gray-600">star</span>
+<span class="material-symbols-outlined text-gray-600">star</span>
+</div>
+</td>
+<td class="px-6 py-4">12 mins ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-white font-medium hover:underline text-xs">View Log</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-medium text-white">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-pink-900/50 flex items-center justify-center text-pink-400 font-bold text-xs">U3</div>
+                                            user_1102
+                                        </div>
+</td>
+<td class="px-6 py-4">Product Question</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">
+                                            Resolved
+                                        </span>
+</td>
+<td class="px-6 py-4">1m 05s</td>
+<td class="px-6 py-4 text-white">
+<div class="flex text-yellow-500 text-[16px]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-gray-600">star</span>
+</div>
+</td>
+<td class="px-6 py-4">45 mins ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-white font-medium hover:underline text-xs">View Log</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-medium text-white">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-indigo-900/50 flex items-center justify-center text-indigo-400 font-bold text-xs">U4</div>
+                                            user_3329
+                                        </div>
+</td>
+<td class="px-6 py-4">Tech Support</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-danger/10 text-danger border border-danger/20">
+                                            Dropped
+                                        </span>
+</td>
+<td class="px-6 py-4">0m 20s</td>
+<td class="px-6 py-4 text-white">
+<span class="text-text-secondary italic text-xs">No rating</span>
+</td>
+<td class="px-6 py-4">1 hr ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-white font-medium hover:underline text-xs">View Log</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-surface-border flex items-center justify-between">
+<span class="text-xs text-text-secondary">Showing 1-4 of 1,204</span>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-surface-border text-text-secondary hover:text-white hover:bg-surface-border transition-colors">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-surface-border text-text-secondary hover:text-white hover:bg-surface-border transition-colors">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="mt-12 text-center pb-6">
+<p class="text-text-secondary text-xs">© 2024 Hyyve AI Platform. All rights reserved.</p>
+</div>
+</div>
+</main>
+</body></html>

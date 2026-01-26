@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MCP Tool Node Selector</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1c1b2e",
+                        "surface-highlight": "#272546",
+                        "border-dark": "#383663",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px
+    }
+::-webkit-scrollbar-track {
+    background: transparent
+    }
+::-webkit-scrollbar-thumb {
+    background: #383663;
+    border-radius: 4px
+    }
+.radio-card-input:checked + div {
+    border-color: #5048e5;
+    background-color: rgba(80, 72, 229, 0.1)
+    }
+.radio-card-input:checked + div .radio-circle {
+    border-color: #5048e5;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAeNLY9sc4OhinzNKE_aV2ZD8kng3IEq4g8HZOvCmsYCiUGehCVjZ218gu2B2RtDtglz1L0SLL6fr5z1yroguXjgaAntdbzTmAnr0QXAb89YOozsMGTuuBd59Mv6bInNUFHSnAI_iF-7Pu8e9R7lgS00AWNfekUYM5Y2R1AejG6UR886pshwOJbbBXr6Oe5XkVTFjDqriHMn85DtZARLvvJ7TwZloIiwqVWyrGRV4mF_arEAkLnZcXH_v_vE7aCVNT_aRkB_V0JJ-c)
+    }</style>
+</head>
+<body class="bg-background-dark font-display text-white min-h-screen flex items-center justify-center p-4">
+<!-- Modal Container -->
+<div class="w-full max-w-[1024px] bg-surface-dark border border-border-dark rounded-xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+<!-- Header -->
+<div class="px-8 py-6 border-b border-border-dark flex justify-between items-start shrink-0">
+<div class="flex flex-col gap-2">
+<h1 class="text-2xl font-bold tracking-tight text-white">Select Tool Node</h1>
+<p class="text-text-secondary text-sm">Choose an MCP server and select a tool capability to add to your graph.</p>
+</div>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">close</span>
+</button>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex flex-col overflow-y-auto grow">
+<!-- Server Selection Section -->
+<div class="px-8 pt-8 pb-4 flex flex-col gap-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-xl">dns</span>
+<h2 class="text-sm font-semibold uppercase tracking-wider text-text-secondary">MCP Servers</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Filesystem Server (Connected) -->
+<label class="cursor-pointer group relative">
+<input checked="" class="radio-card-input sr-only" name="server_select" type="radio"/>
+<div class="border border-border-dark rounded-xl p-4 h-full transition-all duration-200 hover:border-primary/50 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-surface-highlight flex items-center justify-center text-white">
+<span class="material-symbols-outlined">hard_drive</span>
+</div>
+<div class="radio-circle w-5 h-5 rounded-full border-2 border-border-dark bg-transparent"></div>
+</div>
+<div>
+<h3 class="font-semibold text-white">Filesystem</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs text-text-secondary">Connected • 12 Tools</span>
+</div>
+</div>
+</div>
+</label>
+<!-- GitHub Server (Connected) -->
+<label class="cursor-pointer group relative">
+<input class="radio-card-input sr-only" name="server_select" type="radio"/>
+<div class="border border-border-dark rounded-xl p-4 h-full transition-all duration-200 hover:border-primary/50 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-surface-highlight flex items-center justify-center text-white">
+<span class="material-symbols-outlined">deployed_code</span>
+</div>
+<div class="radio-circle w-5 h-5 rounded-full border-2 border-border-dark bg-transparent"></div>
+</div>
+<div>
+<h3 class="font-semibold text-white">GitHub</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs text-text-secondary">Connected • 5 Tools</span>
+</div>
+</div>
+</div>
+</label>
+<!-- Slack Server (Disconnected) -->
+<label class="cursor-pointer group relative">
+<input class="radio-card-input sr-only" name="server_select" type="radio"/>
+<div class="border border-border-dark rounded-xl p-4 h-full transition-all duration-200 hover:border-primary/50 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-surface-highlight flex items-center justify-center text-white">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<div class="radio-circle w-5 h-5 rounded-full border-2 border-border-dark bg-transparent"></div>
+</div>
+<div>
+<h3 class="font-semibold text-white">Slack</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span class="text-xs text-text-secondary">Disconnected</span>
+</div>
+</div>
+</div>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px w-full bg-gradient-to-r from-transparent via-border-dark to-transparent my-2"></div>
+<!-- Tools Section -->
+<div class="px-8 py-4 flex flex-col gap-4">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">build</span>
+<h2 class="text-sm font-semibold uppercase tracking-wider text-text-secondary">Available Tools</h2>
+</div>
+<!-- Search Bar -->
+<div class="relative w-full md:w-80">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 bg-surface-highlight border-none rounded-lg text-white placeholder-text-secondary focus:ring-1 focus:ring-primary sm:text-sm" placeholder="Find a tool (e.g. read_file)..." type="text"/>
+</div>
+</div>
+<!-- Tools List -->
+<div class="flex flex-col gap-3 pb-8">
+<!-- Tool Item 1 -->
+<div class="group flex flex-col md:flex-row gap-4 bg-[#181726] border border-border-dark hover:border-primary/40 rounded-xl p-4 transition-all items-start md:items-center">
+<div class="w-12 h-12 rounded-lg bg-surface-highlight shrink-0 flex items-center justify-center text-emerald-400">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex flex-col grow gap-1">
+<div class="flex items-center gap-3">
+<p class="text-white text-base font-medium font-mono">read_file</p>
+<span class="px-2 py-0.5 rounded bg-surface-highlight border border-border-dark text-[10px] text-text-secondary font-mono">FILESYSTEM</span>
+</div>
+<p class="text-text-secondary text-sm">Reads the complete contents of a file from the file system as a string.</p>
+<div class="flex flex-wrap gap-2 mt-1">
+<span class="text-[11px] bg-[#272546]/50 text-emerald-300 px-2 py-0.5 rounded font-mono border border-emerald-500/20">path: string</span>
+<span class="text-[11px] bg-[#272546]/50 text-blue-300 px-2 py-0.5 rounded font-mono border border-blue-500/20">encoding?: string</span>
+</div>
+</div>
+<div class="shrink-0 w-full md:w-auto mt-2 md:mt-0">
+<button class="w-full md:w-auto flex items-center justify-center gap-2 bg-surface-highlight hover:bg-primary text-white text-sm font-medium h-9 px-4 rounded-lg transition-colors border border-transparent hover:border-primary">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                Add Node
+                            </button>
+</div>
+</div>
+<!-- Tool Item 2 -->
+<div class="group flex flex-col md:flex-row gap-4 bg-[#181726] border border-border-dark hover:border-primary/40 rounded-xl p-4 transition-all items-start md:items-center">
+<div class="w-12 h-12 rounded-lg bg-surface-highlight shrink-0 flex items-center justify-center text-indigo-400">
+<span class="material-symbols-outlined">edit_document</span>
+</div>
+<div class="flex flex-col grow gap-1">
+<div class="flex items-center gap-3">
+<p class="text-white text-base font-medium font-mono">write_file</p>
+<span class="px-2 py-0.5 rounded bg-surface-highlight border border-border-dark text-[10px] text-text-secondary font-mono">FILESYSTEM</span>
+</div>
+<p class="text-text-secondary text-sm">Create a new file or overwrite an existing file with content.</p>
+<div class="flex flex-wrap gap-2 mt-1">
+<span class="text-[11px] bg-[#272546]/50 text-emerald-300 px-2 py-0.5 rounded font-mono border border-emerald-500/20">path: string</span>
+<span class="text-[11px] bg-[#272546]/50 text-emerald-300 px-2 py-0.5 rounded font-mono border border-emerald-500/20">content: string</span>
+</div>
+</div>
+<div class="shrink-0 w-full md:w-auto mt-2 md:mt-0">
+<button class="w-full md:w-auto flex items-center justify-center gap-2 bg-surface-highlight hover:bg-primary text-white text-sm font-medium h-9 px-4 rounded-lg transition-colors border border-transparent hover:border-primary">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                Add Node
+                            </button>
+</div>
+</div>
+<!-- Tool Item 3 -->
+<div class="group flex flex-col md:flex-row gap-4 bg-[#181726] border border-border-dark hover:border-primary/40 rounded-xl p-4 transition-all items-start md:items-center">
+<div class="w-12 h-12 rounded-lg bg-surface-highlight shrink-0 flex items-center justify-center text-amber-400">
+<span class="material-symbols-outlined">folder_open</span>
+</div>
+<div class="flex flex-col grow gap-1">
+<div class="flex items-center gap-3">
+<p class="text-white text-base font-medium font-mono">list_directory</p>
+<span class="px-2 py-0.5 rounded bg-surface-highlight border border-border-dark text-[10px] text-text-secondary font-mono">FILESYSTEM</span>
+</div>
+<p class="text-text-secondary text-sm">Get a list of all files and subdirectories in a directory path.</p>
+<div class="flex flex-wrap gap-2 mt-1">
+<span class="text-[11px] bg-[#272546]/50 text-emerald-300 px-2 py-0.5 rounded font-mono border border-emerald-500/20">path: string</span>
+<span class="text-[11px] bg-[#272546]/50 text-blue-300 px-2 py-0.5 rounded font-mono border border-blue-500/20">recursive?: boolean</span>
+</div>
+</div>
+<div class="shrink-0 w-full md:w-auto mt-2 md:mt-0">
+<button class="w-full md:w-auto flex items-center justify-center gap-2 bg-surface-highlight hover:bg-primary text-white text-sm font-medium h-9 px-4 rounded-lg transition-colors border border-transparent hover:border-primary">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                Add Node
+                            </button>
+</div>
+</div>
+<!-- Tool Item 4 (Disabled/Different state example) -->
+<div class="group flex flex-col md:flex-row gap-4 bg-[#181726]/50 border border-border-dark border-dashed rounded-xl p-4 transition-all items-start md:items-center opacity-70 hover:opacity-100">
+<div class="w-12 h-12 rounded-lg bg-surface-highlight/50 shrink-0 flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined">delete</span>
+</div>
+<div class="flex flex-col grow gap-1">
+<div class="flex items-center gap-3">
+<p class="text-text-secondary text-base font-medium font-mono">delete_file</p>
+<span class="px-2 py-0.5 rounded bg-surface-highlight border border-border-dark text-[10px] text-text-secondary font-mono">FILESYSTEM</span>
+<span class="text-[10px] text-red-400 font-medium">RESTRICTED</span>
+</div>
+<p class="text-text-secondary text-sm">Permanently removes a file from the file system. Requires admin context.</p>
+<div class="flex flex-wrap gap-2 mt-1">
+<span class="text-[11px] bg-[#272546]/50 text-text-secondary px-2 py-0.5 rounded font-mono border border-border-dark">path: string</span>
+</div>
+</div>
+<div class="shrink-0 w-full md:w-auto mt-2 md:mt-0">
+<button class="w-full md:w-auto flex items-center justify-center gap-2 bg-surface-highlight/30 text-text-secondary cursor-not-allowed text-sm font-medium h-9 px-4 rounded-lg border border-transparent" disabled="">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+                                Locked
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-8 py-5 border-t border-border-dark bg-surface-dark flex justify-end gap-3 shrink-0">
+<button class="px-5 py-2 rounded-lg text-sm font-medium text-white hover:bg-white/5 transition-colors">
+                Cancel
+            </button>
+<button class="px-5 py-2 rounded-lg text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                Done
+            </button>
+</div>
+</div>
+</body></html>

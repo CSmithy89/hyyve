@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Theme Customizer</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-dark": "#3e37b8",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "panel-dark": "#1A192E",
+                        "border-dark": "#2D2B52",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom range slider styling for modern look */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #5048e5;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 0 2px #1A192E;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #2D2B52;
+            border-radius: 2px;
+        }
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #3e37b8;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2D2B52; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-screen w-full flex-col">
+<!-- TopNavBar -->
+<header class="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark px-6 py-3 bg-[#131221] z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight">Hyyve</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-2 text-text-secondary text-sm font-medium">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span>Documentation</span>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-border-dark" data-alt="User profile avatar with abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjXcnR57Jrwoz1S7cnirWa5sIwRgSPqkaqFsuIj-BfInAVeuxeoDTMrVaI-XLjQDwfnbgim36SGZ6pSD2H9SWXHKazEcCdVp-wPv7HQYOhMgCVXbu26uqLy_jXSawvVKDqgXVNlqMG8wEj529SGlqQKKxhZ9spoH5MvsjsBw8HejqMGW7JDuC0V9u6yXQCwB88YP45pZqAeQuH5NXhWsYaxJ4hgJdVShHldiKQDi1SqF9Nf3lbjDrzDXIK6_E8WWM4yK50pr79gJM");'></div>
+</div>
+</header>
+<!-- Main Workspace -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Editor (Left Panel) -->
+<aside class="w-[360px] flex flex-col border-r border-r-border-dark bg-panel-dark overflow-y-auto z-10">
+<!-- Breadcrumbs & Heading Compact -->
+<div class="p-6 border-b border-b-border-dark">
+<div class="flex flex-wrap gap-2 mb-3">
+<a class="text-text-secondary text-xs font-medium hover:text-white transition-colors" href="#">Dashboard</a>
+<span class="text-text-secondary text-xs font-medium">/</span>
+<a class="text-text-secondary text-xs font-medium hover:text-white transition-colors" href="#">Settings</a>
+<span class="text-text-secondary text-xs font-medium">/</span>
+<span class="text-primary text-xs font-medium">Branding</span>
+</div>
+<h1 class="text-white text-2xl font-bold leading-tight mb-1">Theme Settings</h1>
+<p class="text-text-secondary text-sm">Customize design tokens.</p>
+</div>
+<!-- Theme Preset Selector -->
+<div class="px-6 py-5 border-b border-b-border-dark">
+<label class="block text-white text-sm font-medium mb-2">Theme Preset</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border border-border-dark bg-[#121121] text-white py-2.5 px-3 pr-10 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm">
+<option value="default">Hyyve Default</option>
+<option value="oceanic">Oceanic Blue</option>
+<option value="midnight">Midnight Purple</option>
+<option value="forest">Forest Green</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Accordion: Colors -->
+<div class="px-6 py-5 border-b border-b-border-dark">
+<div class="flex items-center justify-between mb-4 group cursor-pointer">
+<h3 class="text-white text-sm font-semibold uppercase tracking-wider">Colors</h3>
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-sm">expand_less</span>
+</div>
+<div class="space-y-4">
+<!-- Primary Color -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-text-secondary text-sm">Primary</label>
+<span class="text-xs font-mono text-white bg-border-dark px-1.5 py-0.5 rounded">#5048E5</span>
+</div>
+<div class="flex gap-2 items-center">
+<input class="size-8 rounded cursor-pointer border-none p-0 bg-transparent" type="color" value="#5048e5"/>
+<div class="flex-1 h-8 rounded-md bg-gradient-to-r from-[#5048e5] to-[#7c75f2] relative overflow-hidden" data-alt="Color gradient preview"></div>
+</div>
+</div>
+<!-- Surface Color -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-text-secondary text-sm">Surface</label>
+<span class="text-xs font-mono text-white bg-border-dark px-1.5 py-0.5 rounded">#1A192E</span>
+</div>
+<div class="flex gap-2 items-center">
+<input class="size-8 rounded cursor-pointer border-none p-0 bg-transparent" type="color" value="#1A192E"/>
+<div class="flex-1 h-8 rounded-md bg-panel-dark border border-border-dark"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Accordion: Typography -->
+<div class="px-6 py-5 border-b border-b-border-dark">
+<div class="flex items-center justify-between mb-4 group cursor-pointer">
+<h3 class="text-white text-sm font-semibold uppercase tracking-wider">Typography</h3>
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-sm">expand_less</span>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-text-secondary text-sm mb-2">Font Family</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border border-border-dark bg-[#121121] text-white py-2 px-3 pr-10 focus:outline-none focus:border-primary text-sm">
+<option value="inter">Inter</option>
+<option value="roboto">Roboto</option>
+<option value="poppins">Poppins</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-text-secondary text-sm">Base Size</label>
+<span class="text-xs text-white">16px</span>
+</div>
+<input class="w-full h-1 bg-border-dark rounded-lg appearance-none cursor-pointer" max="20" min="12" type="range" value="16"/>
+</div>
+</div>
+</div>
+<!-- Accordion: Shape -->
+<div class="px-6 py-5 border-b border-b-border-dark">
+<div class="flex items-center justify-between mb-4 group cursor-pointer">
+<h3 class="text-white text-sm font-semibold uppercase tracking-wider">Shape</h3>
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-sm">expand_less</span>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-text-secondary text-sm">Border Radius</label>
+<span class="text-xs text-white">8px</span>
+</div>
+<input class="w-full h-1 bg-border-dark rounded-lg appearance-none cursor-pointer" max="24" min="0" type="range" value="8"/>
+<div class="flex justify-between text-[10px] text-text-secondary mt-1">
+<span>Sharp</span>
+<span>Round</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="mt-auto p-6 bg-[#131221] border-t border-t-border-dark sticky bottom-0">
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 px-4 border border-border-dark bg-transparent hover:bg-white/5 text-white text-sm font-bold transition-all">
+                            Reset
+                        </button>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary hover:bg-primary-dark text-white text-sm font-bold transition-all shadow-lg shadow-primary/20">
+                            Save Changes
+                        </button>
+</div>
+</div>
+</aside>
+<!-- Preview Area (Right Panel) -->
+<main class="flex-1 flex flex-col bg-background-dark relative overflow-hidden">
+<!-- Preview Toolbar -->
+<div class="h-16 border-b border-b-border-dark flex items-center justify-between px-8 bg-[#131221]/50 backdrop-blur-md z-10">
+<div class="flex items-center gap-2">
+<span class="flex h-2 w-2 rounded-full bg-emerald-500"></span>
+<span class="text-sm font-medium text-white">Live Preview</span>
+</div>
+<div class="flex items-center gap-2 bg-panel-dark p-1 rounded-lg border border-border-dark">
+<button class="p-1.5 rounded-md bg-border-dark text-white shadow-sm">
+<span class="material-symbols-outlined text-[18px]">dark_mode</span>
+</button>
+<button class="p-1.5 rounded-md text-text-secondary hover:text-white hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[18px]">light_mode</span>
+</button>
+</div>
+</div>
+<!-- Preview Content Container -->
+<div class="flex-1 overflow-y-auto p-10 flex items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed relative">
+<!-- Abstract Background Elements -->
+<div class="absolute top-10 right-10 w-64 h-64 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-10 left-10 w-96 h-96 bg-purple-900/20 rounded-full blur-[120px] pointer-events-none"></div>
+<!-- Mock Browser Window / App Interface -->
+<div class="w-full max-w-4xl bg-[#0f0e1a] rounded-xl border border-border-dark shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px] relative z-0">
+<!-- Mock Sidebar -->
+<div class="hidden md:flex w-64 flex-col border-r border-r-border-dark bg-[#151425] p-6 gap-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="size-8 rounded-lg bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<span class="text-white font-bold text-lg">Agent UI</span>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+                                    Overview
+                                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:text-white font-medium text-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+                                    Analytics
+                                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:text-white font-medium text-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+                                    Configuration
+                                </a>
+</nav>
+<div class="mt-auto p-4 rounded-xl bg-gradient-to-br from-primary/20 to-transparent border border-primary/10">
+<p class="text-xs text-primary font-bold mb-1">Pro Plan</p>
+<p class="text-[10px] text-text-secondary mb-3">Your team is growing fast.</p>
+<button class="w-full py-1.5 rounded bg-primary text-white text-xs font-bold">Upgrade</button>
+</div>
+</div>
+<!-- Mock Content -->
+<div class="flex-1 flex flex-col bg-[#0f0e1a]">
+<!-- Mock Header -->
+<div class="h-16 border-b border-b-border-dark flex items-center justify-between px-8 bg-[#0f0e1a]">
+<h3 class="text-white font-semibold text-lg">Agent Overview</h3>
+<div class="flex items-center gap-4">
+<button class="relative text-text-secondary hover:text-white">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-red-500 rounded-full border-2 border-[#0f0e1a]"></span>
+</button>
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="User avatar preview" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBU-VxPYhyQGqqJQebipxp7Yb5rT1MT_mdZTUop8hVQExHd_CR4snkImRnSJq9o0GZb0GdcPEIF0DM08j12N7pb3K5JTkrcuLQ1SEHiu923io55Yv5rRpWdHjnvlO8u6zDdi5C6IJNfBh9A9gMTdoW1EPGHt7Jh9RJJeX3YsdF7BJxOGqQVnrDiT9eTpHcv3igRYc4TAp7SGFdJAaToJb9Q1ujLt7ugIlG3xCRs8bmWtL2fKVrVU9-aXhPAR7sZfTgeahbvxiRcEh8");'></div>
+</div>
+</div>
+<!-- Mock Body -->
+<div class="p-8 overflow-y-auto">
+<!-- Stats Row -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+<div class="p-5 rounded-xl bg-[#1A192E] border border-border-dark">
+<div class="text-text-secondary text-xs font-medium uppercase mb-1">Total Conversations</div>
+<div class="text-white text-2xl font-bold">2,405</div>
+<div class="text-emerald-500 text-xs mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +12%
+                                        </div>
+</div>
+<div class="p-5 rounded-xl bg-[#1A192E] border border-border-dark">
+<div class="text-text-secondary text-xs font-medium uppercase mb-1">Avg. Response Time</div>
+<div class="text-white text-2xl font-bold">1.2s</div>
+<div class="text-emerald-500 text-xs mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">bolt</span> Optimal
+                                        </div>
+</div>
+<div class="p-5 rounded-xl bg-[#1A192E] border border-border-dark">
+<div class="text-text-secondary text-xs font-medium uppercase mb-1">Active Sessions</div>
+<div class="text-white text-2xl font-bold">85</div>
+<div class="text-text-secondary text-xs mt-2">Currently online</div>
+</div>
+</div>
+<!-- Form / Settings Section -->
+<div class="rounded-xl border border-border-dark bg-[#1A192E] p-6">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h4 class="text-white font-bold text-base">Model Configuration</h4>
+<p class="text-text-secondary text-sm">Fine tune how your agent responds.</p>
+</div>
+<button class="text-primary hover:text-white text-sm font-medium transition-colors">Documentation</button>
+</div>
+<div class="space-y-5">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<label class="block">
+<span class="text-white text-sm font-medium block mb-2">Agent Name</span>
+<input class="w-full rounded-lg bg-[#121121] border border-border-dark text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder-text-secondary" placeholder="Enter name" type="text" value="Customer Support Bot v2"/>
+</label>
+<label class="block">
+<span class="text-white text-sm font-medium block mb-2">Model Version</span>
+<select class="w-full rounded-lg bg-[#121121] border border-border-dark text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+<option>GPT-4 Turbo</option>
+<option>Claude 3 Opus</option>
+<option>Llama 3</option>
+</select>
+</label>
+</div>
+<label class="block">
+<span class="text-white text-sm font-medium block mb-2">System Prompt</span>
+<textarea class="w-full rounded-lg bg-[#121121] border border-border-dark text-white px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary min-h-[100px]" placeholder="Describe how the AI should behave...">You are a helpful customer support assistant for Hyyve. Be concise and polite.</textarea>
+</label>
+<div class="flex items-center gap-3 pt-2">
+<div class="relative inline-block w-11 h-6 transition duration-200 ease-in-out rounded-full bg-primary">
+<input checked="" class="absolute w-full h-full opacity-0 z-10 cursor-pointer" type="checkbox"/>
+<span class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 ease-in-out transform translate-x-5 shadow-sm"></span>
+</div>
+<span class="text-white text-sm">Enable conversation history</span>
+</div>
+</div>
+<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-t-border-dark/50">
+<button class="px-4 py-2 rounded-lg text-text-secondary hover:text-white text-sm font-medium transition-colors">Cancel</button>
+<button class="px-4 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all">Save Configuration</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

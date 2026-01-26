@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Version Rollout Manager - Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-dark": "#3c35aa",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1e1c33",
+                        "surface-darker": "#131221",
+                        "border-dark": "#2d2b4a",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for checklist if needed */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d2b4a; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex items-center justify-center p-4">
+<!-- Modal Overlay -->
+<div aria-hidden="true" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity"></div>
+<!-- Modal Container -->
+<div class="relative w-full max-w-3xl bg-[#131221] dark:bg-[#131221] rounded-xl shadow-2xl border border-[#2d2b4a] z-50 overflow-hidden flex flex-col max-h-[90vh]">
+<!-- Header -->
+<div class="flex items-start justify-between p-6 border-b border-[#2d2b4a] bg-[#1a182d]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<h2 class="text-white text-xl font-bold tracking-tight">Promote Release</h2>
+<span class="bg-[#2d2b4a] text-primary px-2 py-0.5 rounded text-sm font-mono border border-primary/20">v2.4.0-rc1</span>
+</div>
+<div class="flex items-center gap-2 text-[#9795c6] text-sm">
+<span class="material-symbols-outlined text-base">dns</span>
+<span>Target: Production (us-east-1)</span>
+</div>
+</div>
+<button class="text-[#9795c6] hover:text-white transition-colors rounded-lg p-1 hover:bg-[#2d2b4a]">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Section 1: Pre-flight Checks -->
+<section>
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-white text-sm font-semibold uppercase tracking-wider text-[#9795c6]">Pre-flight Checks</h3>
+<span class="text-emerald-400 text-xs font-medium bg-emerald-400/10 px-2 py-1 rounded border border-emerald-400/20">All Systems Go</span>
+</div>
+<div class="bg-[#1a182d] rounded-lg border border-[#2d2b4a] divide-y divide-[#2d2b4a]">
+<div class="p-3 flex items-center gap-3 hover:bg-[#222038] transition-colors group cursor-default">
+<div class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<div class="flex-1">
+<p class="text-white text-sm font-medium">Regression Suite</p>
+<p class="text-[#9795c6] text-xs">142/142 tests passed (3m 12s)</p>
+</div>
+<a class="text-primary text-xs opacity-0 group-hover:opacity-100 transition-opacity hover:underline" href="#">View Logs</a>
+</div>
+<div class="p-3 flex items-center gap-3 hover:bg-[#222038] transition-colors group cursor-default">
+<div class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<div class="flex-1">
+<p class="text-white text-sm font-medium">Security Scan</p>
+<p class="text-[#9795c6] text-xs">0 critical vulnerabilities, 2 low priority</p>
+</div>
+<a class="text-primary text-xs opacity-0 group-hover:opacity-100 transition-opacity hover:underline" href="#">View Report</a>
+</div>
+<div class="p-3 flex items-center gap-3 hover:bg-[#222038] transition-colors group cursor-default">
+<div class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<div class="flex-1">
+<p class="text-white text-sm font-medium">Soak Period</p>
+<p class="text-[#9795c6] text-xs">48h elapsed successfully in Staging</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Rollout Strategy -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-white text-sm font-semibold uppercase tracking-wider text-[#9795c6]">Deployment Strategy</h3>
+</div>
+<!-- Strategy Selector -->
+<div class="bg-[#1a182d] p-1 rounded-lg flex mb-6 border border-[#2d2b4a]">
+<button class="flex-1 py-2 px-4 rounded bg-primary text-white text-sm font-medium shadow-sm transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base">alt_route</span>
+                        Canary
+                    </button>
+<button class="flex-1 py-2 px-4 rounded text-[#9795c6] hover:text-white hover:bg-[#2d2b4a] text-sm font-medium transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base">swap_horiz</span>
+                        Blue/Green
+                    </button>
+<button class="flex-1 py-2 px-4 rounded text-[#9795c6] hover:text-white hover:bg-[#2d2b4a] text-sm font-medium transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base">rocket_launch</span>
+                        Immediate
+                    </button>
+</div>
+<!-- Visual Timeline -->
+<div class="bg-[#1a182d] rounded-lg border border-[#2d2b4a] p-5">
+<div class="grid grid-cols-[auto_1fr] gap-x-4">
+<!-- Step 1 -->
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center text-primary z-10">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+</div>
+<div class="w-0.5 bg-[#2d2b4a] h-12"></div>
+</div>
+<div class="pb-6 pt-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-white text-sm font-medium">Start Rollout (10% Traffic)</h4>
+<p class="text-[#9795c6] text-xs mt-0.5">Route 10% of production traffic to v2.4.0-rc1</p>
+</div>
+<span class="text-xs font-mono text-[#9795c6] bg-[#2d2b4a] px-2 py-0.5 rounded">Immediate</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-[#2d2b4a] ring-4 ring-[#1a182d] z-10"></div>
+<div class="w-0.5 bg-[#2d2b4a] h-12"></div>
+</div>
+<div class="pb-6 -mt-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-white text-sm font-medium opacity-70">Scale to 25%</h4>
+<p class="text-[#9795c6] text-xs mt-0.5">Increase traffic if error rate &lt; 0.1%</p>
+</div>
+<span class="text-xs font-mono text-[#9795c6] bg-[#2d2b4a] px-2 py-0.5 rounded">Wait 2h</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-[#2d2b4a] ring-4 ring-[#1a182d] z-10"></div>
+<div class="w-0.5 bg-[#2d2b4a] h-12"></div>
+</div>
+<div class="pb-6 -mt-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-white text-sm font-medium opacity-70">Scale to 50%</h4>
+<p class="text-[#9795c6] text-xs mt-0.5">Broad user exposure check</p>
+</div>
+<span class="text-xs font-mono text-[#9795c6] bg-[#2d2b4a] px-2 py-0.5 rounded">Wait 4h</span>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-[#2d2b4a] flex items-center justify-center text-[#9795c6] z-10">
+<span class="material-symbols-outlined text-sm">flag</span>
+</div>
+</div>
+<div class="pt-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-white text-sm font-medium opacity-70">Full Rollout (100%)</h4>
+<p class="text-[#9795c6] text-xs mt-0.5">Complete promotion, retire old version</p>
+</div>
+<span class="text-xs font-mono text-[#9795c6] bg-[#2d2b4a] px-2 py-0.5 rounded">Wait 6h</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Approvals -->
+<section>
+<h3 class="text-white text-sm font-semibold uppercase tracking-wider text-[#9795c6] mb-3">Required Approvals</h3>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[#9795c6] text-lg">alternate_email</span>
+</div>
+<input class="w-full bg-[#1a182d] border border-[#2d2b4a] text-white text-sm rounded-lg focus:ring-1 focus:ring-primary focus:border-primary block w-full pl-10 p-2.5 placeholder-[#5e5c85]" placeholder="Search for release managers or team leads..." type="text"/>
+<div class="absolute right-2 top-2">
+<kbd class="hidden sm:inline-block px-1.5 py-0.5 text-xs font-mono font-medium text-[#9795c6] bg-[#2d2b4a] rounded border border-[#2d2b4a]">Cmd + K</kbd>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-3">
+<!-- Selected Approver Chip -->
+<div class="flex items-center gap-2 bg-[#2d2b4a]/50 border border-[#2d2b4a] rounded-full pl-1 pr-3 py-1">
+<img class="w-6 h-6 rounded-full" data-alt="Avatar of Sarah Connor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4fplfQXXUXClPhnChZLEWOzqXRQjriPdm-a51DdDf4ei1uJoJ6sUVaBJP7ppLSlc0OV_jUmzDs-CL794GydNy5pY9N9LjNl87YzoCUgsDgnlKALorK6tGlD6SoNeLTAnvq261DAcDocKUMTJDjuxRyaK5-kefTklMYDbJ8EAN5xNF6mKoB_43CHvXKO3IeheMai1oMxFTwyyRS6Rknp1_F3Fgn4n0Ak9b6tEA_HzJPWzQFC4ulEDYsBjwF3LjXuzSPp-ArN_1XSI"/>
+<span class="text-white text-xs font-medium">Sarah Connor</span>
+<button class="hover:text-red-400 text-[#9795c6] transition-colors flex items-center">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<div class="p-6 border-t border-[#2d2b4a] bg-[#1a182d] flex justify-between items-center">
+<div class="flex items-center gap-2 text-xs text-[#9795c6]">
+<span class="material-symbols-outlined text-base">info</span>
+<span>This action will trigger pipeline #4829</span>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-lg text-white text-sm font-medium hover:bg-[#2d2b4a] transition-colors border border-transparent">
+                    Cancel
+                </button>
+<button class="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-dark text-white text-sm font-medium transition-colors shadow-lg shadow-primary/20 flex items-center gap-2">
+<span>Promote to Production</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

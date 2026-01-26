@@ -480,6 +480,16 @@ _After validation, only 3 true gaps remain. Others require integration, not new 
 | **Research** | `technical-conversation-recording-research-2026-01-25.md` |
 | **Implementation** | Recording service, Template library UI, Guided replay, Privacy controls |
 
+### ADR-009: AgentOS Runtime Pattern
+| Attribute | Value |
+|-----------|-------|
+| **Status** | ✅ **IMPLEMENTED** |
+| **Context** | Agent service needs production-ready endpoints for execution, sessions, memory, A2A |
+| **Decision** | Use AgentOS wrapper (`agno.os.AgentOS`) instead of raw Agno + custom FastAPI routes |
+| **Rationale** | AgentOS provides 50+ production-ready endpoints automatically with SSE streaming, session management, memory APIs, knowledge base, and A2A protocol |
+| **Implementation** | `AgentOS(agents=[bond, wendy, morgan, artie], teams=[builder_team])` → `agent_os.get_app()` |
+| **Consequences** | No custom `/health`, `/agents/*`, `/sessions/*`, `/memories/*` routes needed; add only Hyyve-specific routes (`/api/v1/*`) on top |
+
 ---
 
 ## 8. Architecture Validation Results

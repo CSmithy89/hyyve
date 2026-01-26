@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Cost Estimation Panel</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-dark": "#3e38b3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#131221",
+                        "border-dark": "#272546",
+                        "border-light": "#383663",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for table if needed */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1f1d35;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #383663;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-card-dark px-6 py-3 lg:px-10">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary flex items-center justify-center">
+<svg fill="none" height="100%" viewbox="0 0 48 48" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Overview</a>
+<a class="text-slate-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Logs</a>
+<a class="text-slate-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Outputs</a>
+<a class="text-white text-sm font-medium leading-normal relative after:content-[''] after:absolute after:-bottom-[22px] after:left-0 after:w-full after:h-[2px] after:bg-primary" href="#">Cost Analysis</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-primary-dark transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Download Report</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-border-light cursor-pointer" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAwZMcQ0TnhT0UkvpSzf5mdqMYWFsEtH33b33KnVOjTgQzi7RTUnOULURxQBub5yYjBWzJKKmNKHMyxhPNU4E6pENdnLVjHssvg5vm7YZQtrBtQKZAYGpBpjGrhPBvv2SEtR593c9PWa3tmPYojMg8BN7-eyCSvs28_6GwhJlGppbCkxIH-HUpnD2mjrH0v5oXkqg6UrzlvkN045B4M8PZ3mn0yLo3GYg6beWsI3deX_9Ar-POfFBm6ZKHUUAyyHOkp-6dGmwGh1eQ");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-[1440px] mx-auto p-6 lg:p-10 flex flex-col gap-8">
+<!-- Breadcrumbs & Headline -->
+<div class="flex flex-col gap-2">
+<div class="flex flex-wrap items-center gap-2 text-sm">
+<a class="text-[#9795c6] hover:text-white transition-colors font-medium" href="#">Workflows</a>
+<span class="text-[#9795c6] material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="text-[#9795c6] hover:text-white transition-colors font-medium" href="#">Run #203</a>
+<span class="text-[#9795c6] material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-white font-medium">Cost Analysis</span>
+</div>
+<div class="flex justify-between items-end">
+<h1 class="text-white tracking-tight text-3xl font-bold leading-tight">Cost Estimation</h1>
+<span class="text-[#9795c6] text-sm hidden sm:block">Last updated: Just now</span>
+</div>
+</div>
+<!-- KPI Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1: Total Cost -->
+<div class="flex flex-col justify-between gap-4 rounded-xl p-6 border border-border-light bg-card-dark">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[#9795c6] text-sm font-medium mb-1">Total Run Cost</p>
+<p class="text-white tracking-tight text-3xl font-bold">$0.42</p>
+</div>
+<div class="p-2 bg-emerald-500/10 rounded-lg">
+<span class="material-symbols-outlined text-emerald-500">attach_money</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-emerald-500/10 text-emerald-500 text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">trending_up</span> 2.4%
+                    </span>
+<p class="text-[#9795c6] text-xs font-normal">from average run</p>
+</div>
+</div>
+<!-- Card 2: Budget Status -->
+<div class="flex flex-col justify-between gap-4 rounded-xl p-6 border border-border-light bg-card-dark">
+<div class="flex items-start justify-between mb-1">
+<div>
+<p class="text-[#9795c6] text-sm font-medium mb-1">Daily Budget Used</p>
+<p class="text-white tracking-tight text-3xl font-bold">$12.50 <span class="text-lg text-[#9795c6] font-normal">/ $50.00</span></p>
+</div>
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 w-full">
+<div class="flex justify-between text-xs">
+<span class="text-white font-medium">25% Used</span>
+<span class="text-[#9795c6]">Remaining: $37.50</span>
+</div>
+<div class="h-2 w-full bg-[#272546] rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 25%"></div>
+</div>
+</div>
+</div>
+<!-- Card 3: Avg Cost -->
+<div class="flex flex-col justify-between gap-4 rounded-xl p-6 border border-border-light bg-card-dark">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[#9795c6] text-sm font-medium mb-1">Avg Cost / Run</p>
+<p class="text-white tracking-tight text-3xl font-bold">$0.38</p>
+</div>
+<div class="p-2 bg-blue-500/10 rounded-lg">
+<span class="material-symbols-outlined text-blue-500">analytics</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-gray-700/30 text-gray-400 text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">remove</span> 0.0%
+                    </span>
+<p class="text-[#9795c6] text-xs font-normal">stable over 7 days</p>
+</div>
+</div>
+</div>
+<!-- Main Dashboard Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- LEFT: Cost Breakdown Table (60-65% width visually on large screens) -->
+<div class="lg:col-span-8 flex flex-col gap-4 rounded-xl border border-border-light bg-card-dark p-6">
+<div class="flex items-center justify-between">
+<h3 class="text-white text-lg font-bold">Node Cost Breakdown</h3>
+<button class="text-primary text-sm font-medium hover:text-primary-dark transition-colors">Export CSV</button>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-border-light text-[#9795c6] text-xs uppercase tracking-wider">
+<th class="py-3 px-2 font-medium">Node Name</th>
+<th class="py-3 px-2 font-medium">Type</th>
+<th class="py-3 px-2 font-medium">Provider &amp; Model</th>
+<th class="py-3 px-2 font-medium text-right">Usage</th>
+<th class="py-3 px-2 font-medium text-right">Cost</th>
+<th class="py-3 px-2 font-medium text-center">Status</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<!-- Row 1 -->
+<tr class="group border-b border-border-dark hover:bg-[#1c1a2e] transition-colors">
+<td class="py-4 px-2 text-white font-medium">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-blue-500/20 flex items-center justify-center text-blue-400">
+<span class="material-symbols-outlined text-lg">psychology</span>
+</div>
+<span>Concept Expansion</span>
+</div>
+</td>
+<td class="py-4 px-2 text-[#9795c6]">LLM</td>
+<td class="py-4 px-2 text-white">
+<div class="flex items-center gap-2">
+<div class="size-5 rounded-full bg-white bg-cover" data-alt="OpenAI Logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArQHJ7yT7lOVz9_Avw95lYD85SiDMpXsUtAfz-DTfmidSDdwakRByt33x5Pq2UaiAnNdPxHFolwj4De3aRPcrBJCoykxqv0_eupKua8_gN9D1Z593BCloEIw02FAWz9R_cRmsIEakcbdnNVJ0JUvl-VFoscngHzACzSe2AMGMFSEaKpFBa2pHCbWwiFZ3vyhHcgnbpHyKZkIDKmFOdyxRlno2pm7iB3WA0B6DEKQWG1SnBI2UBsCR8G7SgPATLX8r42u-1aowjEYY');"></div>
+<span>GPT-4o</span>
+</div>
+</td>
+<td class="py-4 px-2 text-[#9795c6] text-right">850 tkns</td>
+<td class="py-4 px-2 text-white font-bold text-right">$0.03</td>
+<td class="py-4 px-2 text-center">
+<div class="inline-block size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group border-b border-border-dark hover:bg-[#1c1a2e] transition-colors">
+<td class="py-4 px-2 text-white font-medium">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-purple-500/20 flex items-center justify-center text-purple-400">
+<span class="material-symbols-outlined text-lg">image</span>
+</div>
+<span>Scene Generation</span>
+</div>
+</td>
+<td class="py-4 px-2 text-[#9795c6]">Image</td>
+<td class="py-4 px-2 text-white">
+<div class="flex items-center gap-2">
+<div class="size-5 rounded-full bg-gray-800 border border-gray-600 flex items-center justify-center text-[8px] font-bold text-white">FL</div>
+<span>Flux.1 Pro</span>
+</div>
+</td>
+<td class="py-4 px-2 text-[#9795c6] text-right">1 img</td>
+<td class="py-4 px-2 text-white font-bold text-right">$0.04</td>
+<td class="py-4 px-2 text-center">
+<div class="inline-block size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group border-b border-border-dark hover:bg-[#1c1a2e] transition-colors">
+<td class="py-4 px-2 text-white font-medium">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-pink-500/20 flex items-center justify-center text-pink-400">
+<span class="material-symbols-outlined text-lg">videocam</span>
+</div>
+<span>Motion Synthesis</span>
+</div>
+</td>
+<td class="py-4 px-2 text-[#9795c6]">Video</td>
+<td class="py-4 px-2 text-white">
+<div class="flex items-center gap-2">
+<div class="size-5 rounded-full bg-gradient-to-br from-pink-500 to-orange-400"></div>
+<span>Kling AI</span>
+</div>
+</td>
+<td class="py-4 px-2 text-[#9795c6] text-right">5s</td>
+<td class="py-4 px-2 text-white font-bold text-right">$0.25</td>
+<td class="py-4 px-2 text-center">
+<div class="inline-block size-2 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]"></div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-[#1c1a2e] transition-colors">
+<td class="py-4 px-2 text-white font-medium">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-orange-500/20 flex items-center justify-center text-orange-400">
+<span class="material-symbols-outlined text-lg">graphic_eq</span>
+</div>
+<span>Voiceover</span>
+</div>
+</td>
+<td class="py-4 px-2 text-[#9795c6]">Audio</td>
+<td class="py-4 px-2 text-white">
+<div class="flex items-center gap-2">
+<div class="size-5 rounded-full bg-white text-black flex items-center justify-center font-bold text-[10px]">XI</div>
+<span>ElevenLabs</span>
+</div>
+</td>
+<td class="py-4 px-2 text-[#9795c6] text-right">12s</td>
+<td class="py-4 px-2 text-white font-bold text-right">$0.10</td>
+<td class="py-4 px-2 text-center">
+<div class="inline-block size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- RIGHT: Charts & Widgets (40-35% width) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Provider Breakdown Widget -->
+<div class="rounded-xl border border-border-light bg-card-dark p-6 flex flex-col gap-5">
+<h3 class="text-white text-lg font-bold">Provider Distribution</h3>
+<!-- Horizontal Stacked Bar -->
+<div class="flex w-full h-8 rounded-lg overflow-hidden cursor-pointer opacity-90 hover:opacity-100 transition-opacity">
+<div class="h-full bg-pink-500" style="width: 59%;" title="Kling AI: $0.25"></div>
+<div class="h-full bg-orange-400" style="width: 24%;" title="ElevenLabs: $0.10"></div>
+<div class="h-full bg-gray-600" style="width: 9%;" title="Flux: $0.04"></div>
+<div class="h-full bg-blue-500" style="width: 8%;" title="OpenAI: $0.03"></div>
+</div>
+<!-- Legend -->
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-pink-500"></div>
+<span class="text-[#9795c6]">Kling (59%)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-orange-400"></div>
+<span class="text-[#9795c6]">ElevenLabs (24%)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-gray-600"></div>
+<span class="text-[#9795c6]">Flux (9%)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-blue-500"></div>
+<span class="text-[#9795c6]">OpenAI (8%)</span>
+</div>
+</div>
+</div>
+<!-- Smart Suggestion / Optimization Widget -->
+<div class="rounded-xl border border-border-light bg-gradient-to-b from-[#1c1a2e] to-card-dark p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-emerald-500 rotate-12">savings</span>
+</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-emerald-500 text-xl">tips_and_updates</span>
+<h3 class="text-white text-base font-bold">Smart Optimization</h3>
+</div>
+<p class="text-[#9795c6] text-sm mb-4 leading-relaxed">
+                        Switching the video provider for <strong class="text-white">Motion Synthesis</strong> could reduce costs significantly while maintaining resolution.
+                    </p>
+<div class="bg-[#121121] rounded-lg p-3 border border-border-light mb-4 flex items-center justify-between">
+<div class="flex items-center gap-3 opacity-50 line-through">
+<div class="size-4 rounded-full bg-pink-500"></div>
+<span class="text-xs text-white">Kling</span>
+</div>
+<span class="material-symbols-outlined text-[#9795c6] text-sm">arrow_forward</span>
+<div class="flex items-center gap-3">
+<div class="size-4 rounded-full bg-white"></div>
+<span class="text-xs text-white font-bold">Luma Dream</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="bg-emerald-500/10 text-emerald-500 text-xs font-bold px-3 py-1.5 rounded-full border border-emerald-500/20">
+                            Save $0.08 / run
+                        </span>
+<button class="text-xs font-medium text-white hover:underline">Apply Change</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Disclaimer -->
+<footer class="mt-auto border-t border-border-light pt-6 text-center lg:text-left flex flex-col lg:flex-row justify-between items-center gap-4">
+<p class="text-[#9795c6] text-xs">
+                * Cost estimates are based on current provider API pricing and do not include potential volume discounts or surcharge taxes.
+            </p>
+<div class="flex gap-4">
+<a class="text-[#9795c6] text-xs hover:text-white" href="#">Documentation</a>
+<a class="text-[#9795c6] text-xs hover:text-white" href="#">Support</a>
+</div>
+</footer>
+</main>
+</body></html>

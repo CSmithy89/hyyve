@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Export Config &amp; Download Final</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1a192e",
+                        "surface-border": "#272546",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for code block */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a192e;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #272546;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #383663;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white antialiased selection:bg-primary/30 selection:text-white">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-surface-border bg-white dark:bg-background-dark px-10 py-3 shrink-0 z-20">
+<div class="flex items-center gap-4 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-9 hidden md:flex">
+<a class="text-gray-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-gray-900 dark:text-white text-sm font-medium leading-normal" href="#">Modules</a>
+<a class="text-gray-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Deployments</a>
+<a class="text-gray-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</nav>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-gray-200 dark:border-surface-border cursor-pointer" data-alt="User avatar profile picture showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBJwH_eDtllgh2CLzluWwJE_taft9o1F1d-cDx1hhccCoAt71cbdMEU6_0KzQm6kNlW6OQZTAkvNyaucIAWvD2TP5-HSIhHaBBRq7pKolRfT2xazzq61Gzl9Xsfo0aaPjrnWVRRQARVxdP-YanF-fJH0b71Rn0O4BV4WMYBWCBBD79HkItnZXRiWHjq2UUlkxp6l-XFY9hAKsortK9rddof1cV170yxrBeVMBUY7bPcv3jUPeylEmkUGi0CTWLcXXZuzGYvnTMmxpk");'></div>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="flex flex-1 overflow-hidden">
+<main class="flex-1 overflow-y-auto custom-scrollbar">
+<div class="layout-container flex flex-col items-center py-8 px-6 lg:px-20">
+<div class="layout-content-container flex flex-col max-w-[1200px] w-full gap-8">
+<!-- Breadcrumbs & Stepper -->
+<div class="flex flex-col gap-4">
+<div class="flex flex-wrap gap-2 items-center text-sm">
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Modules</a>
+<span class="text-text-secondary">/</span>
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Customer Support Bot</a>
+<span class="text-text-secondary">/</span>
+<span class="text-gray-900 dark:text-white font-medium">Export</span>
+</div>
+<!-- Wizard Progress -->
+<div class="flex items-center w-full max-w-lg gap-4 py-2">
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary border border-primary/30">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<span class="text-sm font-medium text-text-secondary hidden sm:block">Configuration</span>
+</div>
+<div class="h-[1px] flex-1 bg-surface-border"></div>
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary border border-primary/30">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<span class="text-sm font-medium text-text-secondary hidden sm:block">Validation</span>
+</div>
+<div class="h-[1px] flex-1 bg-surface-border"></div>
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center size-8 rounded-full bg-primary text-white shadow-[0_0_15px_rgba(80,72,229,0.4)]">
+<span class="text-sm font-bold">3</span>
+</div>
+<span class="text-sm font-medium text-white hidden sm:block">Finalize</span>
+</div>
+</div>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-gray-900 dark:text-white tracking-tight text-3xl font-bold">Finalize Export</h1>
+<p class="text-text-secondary text-base">Review configuration settings, check dependencies, and download your module package.</p>
+</div>
+<!-- Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Config & Dependencies -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Export Options Card -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-surface-border overflow-hidden">
+<div class="p-5 border-b border-gray-200 dark:border-surface-border">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">tune</span>
+                                            Export Options
+                                        </h3>
+</div>
+<div class="p-5 flex flex-col gap-1">
+<label class="flex items-center gap-3 py-2 cursor-pointer group">
+<input checked="" class="size-5 rounded border-gray-300 dark:border-surface-border/80 bg-gray-50 dark:bg-surface-dark text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none transition-all" type="checkbox"/>
+<span class="text-gray-700 dark:text-gray-200 text-sm font-medium group-hover:text-primary transition-colors">Include Workflow JSON</span>
+</label>
+<label class="flex items-center gap-3 py-2 cursor-pointer group">
+<input checked="" class="size-5 rounded border-gray-300 dark:border-surface-border/80 bg-gray-50 dark:bg-surface-dark text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none transition-all" type="checkbox"/>
+<span class="text-gray-700 dark:text-gray-200 text-sm font-medium group-hover:text-primary transition-colors">Export Custom Nodes</span>
+</label>
+<label class="flex items-center gap-3 py-2 cursor-pointer group">
+<input class="size-5 rounded border-gray-300 dark:border-surface-border/80 bg-gray-50 dark:bg-surface-dark text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none transition-all" type="checkbox"/>
+<span class="text-gray-700 dark:text-gray-200 text-sm font-medium group-hover:text-primary transition-colors">Sanitize Prompts</span>
+</label>
+<label class="flex items-center gap-3 py-2 cursor-pointer group">
+<input checked="" class="size-5 rounded border-gray-300 dark:border-surface-border/80 bg-gray-50 dark:bg-surface-dark text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none transition-all" type="checkbox"/>
+<span class="text-gray-700 dark:text-gray-200 text-sm font-medium group-hover:text-primary transition-colors">Include .env template</span>
+</label>
+</div>
+</div>
+<!-- Dependencies Card -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-surface-border overflow-hidden flex-1">
+<div class="p-5 border-b border-gray-200 dark:border-surface-border flex justify-between items-center">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">deployed_code</span>
+                                            Dependencies Analysis
+                                        </h3>
+<span class="text-xs font-mono px-2 py-1 rounded bg-green-500/10 text-green-500 border border-green-500/20">All Resolved</span>
+</div>
+<div class="divide-y divide-gray-200 dark:divide-surface-border/50">
+<!-- Dependency Item -->
+<div class="px-5 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-mono text-gray-900 dark:text-gray-200">langchain</span>
+<span class="text-xs text-text-secondary">Core orchestration</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-mono text-text-secondary">v0.0.329</span>
+<span class="material-symbols-outlined text-green-500 text-lg">check_circle</span>
+</div>
+</div>
+<!-- Dependency Item -->
+<div class="px-5 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-mono text-gray-900 dark:text-gray-200">openai</span>
+<span class="text-xs text-text-secondary">LLM Provider</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-mono text-text-secondary">v1.3.0</span>
+<span class="material-symbols-outlined text-green-500 text-lg">check_circle</span>
+</div>
+</div>
+<!-- Dependency Item -->
+<div class="px-5 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-mono text-gray-900 dark:text-gray-200">numpy</span>
+<span class="text-xs text-text-secondary">Vector ops</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-mono text-text-secondary">v1.24.3</span>
+<span class="material-symbols-outlined text-green-500 text-lg">check_circle</span>
+</div>
+</div>
+<!-- Dependency Item Warning -->
+<div class="px-5 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors bg-amber-500/5">
+<div class="flex flex-col">
+<span class="text-sm font-mono text-gray-900 dark:text-gray-200">tiktoken</span>
+<span class="text-xs text-text-secondary">Token counting</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-mono text-amber-500">Upgrade rec.</span>
+<span class="material-symbols-outlined text-amber-500 text-lg">warning</span>
+</div>
+</div>
+</div>
+<div class="p-4 bg-gray-50 dark:bg-black/20 border-t border-gray-200 dark:border-surface-border">
+<p class="text-xs text-text-secondary text-center">requirements.txt will be generated automatically.</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Package Preview -->
+<div class="lg:col-span-7 flex flex-col h-full">
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-surface-border overflow-hidden h-full flex flex-col">
+<div class="p-5 border-b border-gray-200 dark:border-surface-border flex justify-between items-center bg-gray-50 dark:bg-[#151425]">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">folder_zip</span>
+                                            Package Preview: customer-support-bot.zip
+                                        </h3>
+<div class="flex gap-2">
+<div class="size-3 rounded-full bg-red-500/20 border border-red-500/50"></div>
+<div class="size-3 rounded-full bg-amber-500/20 border border-amber-500/50"></div>
+<div class="size-3 rounded-full bg-green-500/20 border border-green-500/50"></div>
+</div>
+</div>
+<!-- Code/Tree View -->
+<div class="relative flex-1 bg-[#0d0c18] p-6 font-mono text-sm overflow-hidden flex flex-col">
+<div class="absolute top-0 right-0 p-4 opacity-50 pointer-events-none">
+<span class="text-[8rem] text-white/5 font-bold leading-none select-none">ZIP</span>
+</div>
+<div class="overflow-y-auto custom-scrollbar pr-2 z-10">
+<pre class="text-gray-300 leading-relaxed"><span class="text-primary">customer-support-bot/</span>
+├── <span class="text-amber-300">README.md</span>
+├── <span class="text-amber-300">requirements.txt</span>
+├── <span class="text-amber-300">.env.example</span>
+├── <span class="text-blue-400">src/</span>
+│   ├── <span class="text-gray-400">__init__.py</span>
+│   ├── <span class="text-gray-400">main.py</span>
+│   ├── <span class="text-blue-400">chains/</span>
+│   │   ├── <span class="text-gray-400">__init__.py</span>
+│   │   ├── <span class="text-green-400">support_flow.json</span>  <span class="text-gray-600 dark:text-gray-600">// Workflow Config</span>
+│   │   └── <span class="text-gray-400">router.py</span>
+│   ├── <span class="text-blue-400">prompts/</span>
+│   │   ├── <span class="text-purple-300">system_message.txt</span>
+│   │   └── <span class="text-purple-300">refinement_template.txt</span>
+│   └── <span class="text-blue-400">nodes/</span>
+│       ├── <span class="text-gray-400">__init__.py</span>
+│       ├── <span class="text-gray-400">sentiment_analyzer.py</span>
+│       └── <span class="text-gray-400">ticket_creator.py</span>
+└── <span class="text-blue-400">tests/</span>
+    ├── <span class="text-gray-400">test_flow.py</span>
+    └── <span class="text-gray-400">test_nodes.py</span>
+</pre>
+</div>
+<!-- Code block footer info -->
+<div class="mt-auto pt-6 flex justify-between text-xs text-gray-500 font-sans border-t border-white/5">
+<span>Est. uncompressed size: 4.2 MB</span>
+<span>Generated: Just now</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer Action Bar -->
+<div class="border-t border-gray-200 dark:border-surface-border bg-white dark:bg-surface-dark p-4 lg:px-20 z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.2)]">
+<div class="layout-content-container max-w-[1200px] w-full mx-auto flex justify-between items-center">
+<button class="px-6 py-2.5 rounded-lg border border-gray-300 dark:border-surface-border text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-white/5 transition-all text-sm">
+                        Back to Validation
+                    </button>
+<div class="flex gap-4 items-center">
+<span class="text-xs text-text-secondary hidden sm:inline-block">Ready to package</span>
+<button class="group flex items-center gap-2 px-8 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium shadow-lg shadow-primary/25 transition-all transform active:scale-95 text-sm">
+<span class="material-symbols-outlined group-hover:animate-bounce">download</span>
+                            Download ZIP
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

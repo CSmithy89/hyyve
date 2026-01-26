@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - MCP Server Usage Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#1c1c2e", 
+                        "border-dark": "#2d2d42"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d2d42; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100 antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<aside class="w-64 flex-shrink-0 border-r border-gray-200 dark:border-border-dark bg-white dark:bg-[#161625] flex flex-col justify-between hidden md:flex transition-all">
+<div class="p-6">
+<!-- Brand -->
+<div class="flex items-center gap-3 mb-10">
+<div class="bg-primary/20 p-2 rounded-lg">
+<div class="size-6 bg-primary rounded-md flex items-center justify-center text-white font-bold text-sm">H</div>
+</div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-bold leading-none">Hyyve</h1>
+<p class="text-gray-500 dark:text-gray-400 text-xs font-normal mt-1">AI Platform</p>
+</div>
+</div>
+<!-- Nav Items -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">dns</span>
+<span class="text-sm font-medium">Servers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">receipt_long</span>
+<span class="text-sm font-medium">Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<!-- User Profile -->
+<div class="p-4 border-t border-gray-200 dark:border-border-dark">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDKrOW8vrnJrMgbSZIsnUqk3DoYAs4U-OyRbNc4-908HdjtHq7NuLekXRG4DGvm7MlXQZF1jyPLL0nrnbiCL1HDZW9sU2_0aPNa29rULPSIxAqLH2AsRaQ-URXKf4iLm2PFw7L8kiwraiomrT8LfUfkil0iYOacOV-LSKFgmsLFxOXqaI6tgSGYUpvCA_tF8H5ZG8eoD9PSyhvcCMvOAaYjDDsFauc_mquDwjo-1liKM9SmyXXAytDaaP_5-wIjz1lcqXdbHdT91-U");'></div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-medium text-gray-900 dark:text-white truncate">Alex DeVore</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Lead Engineer</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-y-auto">
+<!-- Top Navigation / Heading Area -->
+<header class="flex flex-col gap-6 px-6 py-8 lg:px-10 sticky top-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm z-10 border-b border-transparent dark:border-border-dark/50">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h2 class="text-3xl font-black tracking-tight text-gray-900 dark:text-white">MCP Server Usage</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Monitor your Model Context Protocol interactions and costs.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 h-10 rounded-lg bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Export Data</span>
+</button>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+<button class="flex h-8 items-center px-4 rounded-full bg-primary text-white text-xs font-semibold shadow-sm transition-transform active:scale-95">Last 24h</button>
+<button class="flex h-8 items-center px-4 rounded-full bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark text-gray-600 dark:text-gray-400 hover:text-primary hover:border-primary/50 text-xs font-medium transition-colors">Last 7 Days</button>
+<button class="flex h-8 items-center px-4 rounded-full bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark text-gray-600 dark:text-gray-400 hover:text-primary hover:border-primary/50 text-xs font-medium transition-colors">Last 30 Days</button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="flex flex-col gap-6 px-6 pb-10 lg:px-10">
+<!-- KPI Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Stat Card 1 -->
+<div class="flex flex-col p-5 rounded-xl bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<span class="flex items-center text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> +15%
+                            </span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Total Tool Calls</p>
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">12,450</h3>
+</div>
+<!-- Stat Card 2 -->
+<div class="flex flex-col p-5 rounded-xl bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 rounded-lg bg-orange-500/10 text-orange-500">
+<span class="material-symbols-outlined">attach_money</span>
+</div>
+<span class="flex items-center text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_down</span> -2%
+                            </span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Estimated Cost</p>
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">$45.20</h3>
+</div>
+<!-- Stat Card 3 -->
+<div class="flex flex-col p-5 rounded-xl bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+<span class="material-symbols-outlined">dns</span>
+</div>
+<span class="flex items-center text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/5 px-2 py-1 rounded-md">
+                                0%
+                            </span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Active Servers</p>
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">8/10</h3>
+</div>
+</div>
+<!-- Middle Section: Chart & Table -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Cost Chart -->
+<div class="flex flex-col p-6 rounded-xl bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Cost Breakdown</h3>
+<span class="text-xs text-gray-500 dark:text-gray-400">By Server ID</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Bar Item -->
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="font-medium text-gray-700 dark:text-gray-300">filesystem-mcp</span>
+<span class="text-gray-500">$27.12 (60%)</span>
+</div>
+<div class="w-full h-2.5 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full group-hover:bg-primary/90 transition-all" style="width: 60%"></div>
+</div>
+</div>
+<!-- Bar Item -->
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="font-medium text-gray-700 dark:text-gray-300">postgres-mcp</span>
+<span class="text-gray-500">$9.04 (20%)</span>
+</div>
+<div class="w-full h-2.5 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary/80 rounded-full group-hover:bg-primary/90 transition-all" style="width: 20%"></div>
+</div>
+</div>
+<!-- Bar Item -->
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="font-medium text-gray-700 dark:text-gray-300">github-mcp</span>
+<span class="text-gray-500">$5.42 (12%)</span>
+</div>
+<div class="w-full h-2.5 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary/60 rounded-full group-hover:bg-primary/90 transition-all" style="width: 12%"></div>
+</div>
+</div>
+<!-- Bar Item -->
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="font-medium text-gray-700 dark:text-gray-300">slack-mcp</span>
+<span class="text-gray-500">$2.26 (5%)</span>
+</div>
+<div class="w-full h-2.5 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary/40 rounded-full group-hover:bg-primary/90 transition-all" style="width: 5%"></div>
+</div>
+</div>
+<!-- Bar Item -->
+<div class="group">
+<div class="flex justify-between text-xs mb-1.5">
+<span class="font-medium text-gray-700 dark:text-gray-300">weather-api</span>
+<span class="text-gray-500">$1.36 (3%)</span>
+</div>
+<div class="w-full h-2.5 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary/20 rounded-full group-hover:bg-primary/90 transition-all" style="width: 3%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Usage Table -->
+<div class="flex flex-col overflow-hidden rounded-xl bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between p-6 pb-4 border-b border-gray-100 dark:border-border-dark/50">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Usage by Server</h3>
+<button class="text-primary text-xs font-semibold hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50 dark:bg-white/5">
+<th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Server</th>
+<th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-right">Calls</th>
+<th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-right">Latency (p95)</th>
+<th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-right">Errors</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 dark:divide-border-dark/50">
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">filesystem-mcp</td>
+<td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">8,432</td>
+<td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">124ms</td>
+<td class="px-6 py-4 text-sm text-emerald-500 text-right">0.01%</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">postgres-mcp</td>
+<td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">2,105</td>
+<td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">45ms</td>
+<td class="px-6 py-4 text-sm text-emerald-500 text-right">0.00%</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">github-mcp</td>
+<td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">1,420</td>
+<td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">320ms</td>
+<td class="px-6 py-4 text-sm text-orange-500 text-right">1.25%</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">slack-mcp</td>
+<td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">350</td>
+<td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">180ms</td>
+<td class="px-6 py-4 text-sm text-emerald-500 text-right">0.10%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Activity Log -->
+<div class="flex flex-col overflow-hidden rounded-xl bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between p-6 pb-4 border-b border-gray-100 dark:border-border-dark/50">
+<div class="flex items-center gap-2">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Activity Log</h3>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">Live</span>
+</div>
+<div class="flex gap-2">
+<input class="h-8 bg-gray-50 dark:bg-background-dark border border-gray-200 dark:border-border-dark rounded-lg px-3 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary w-40 lg:w-64 placeholder-gray-500" placeholder="Search logs..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-border-dark/50">
+<th class="pl-6 pr-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
+<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Timestamp</th>
+<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Server</th>
+<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Tool Name</th>
+<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-right">Duration</th>
+<th class="pl-4 pr-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-right">Details</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 dark:divide-border-dark/50">
+<!-- Log Row 1 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="pl-6 pr-4 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-500 text-[18px]">check_circle</span>
+<span class="text-xs font-medium text-emerald-500">Success</span>
+</div>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">10:42:15 AM</td>
+<td class="px-4 py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-mono text-gray-700 dark:text-gray-300">filesystem-mcp</span>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">read_file</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">120ms</td>
+<td class="pl-4 pr-6 py-3 whitespace-nowrap text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Log Row 2 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="pl-6 pr-4 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-red-500 text-[18px]">cancel</span>
+<span class="text-xs font-medium text-red-500">Error</span>
+</div>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">10:41:58 AM</td>
+<td class="px-4 py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-mono text-gray-700 dark:text-gray-300">postgres-mcp</span>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">query_table</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">450ms</td>
+<td class="pl-4 pr-6 py-3 whitespace-nowrap text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Log Row 3 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="pl-6 pr-4 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-500 text-[18px]">check_circle</span>
+<span class="text-xs font-medium text-emerald-500">Success</span>
+</div>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">10:41:12 AM</td>
+<td class="px-4 py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-mono text-gray-700 dark:text-gray-300">github-mcp</span>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">list_repos</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">890ms</td>
+<td class="pl-4 pr-6 py-3 whitespace-nowrap text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Log Row 4 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="pl-6 pr-4 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-500 text-[18px]">check_circle</span>
+<span class="text-xs font-medium text-emerald-500">Success</span>
+</div>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">10:40:05 AM</td>
+<td class="px-4 py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-mono text-gray-700 dark:text-gray-300">weather-api</span>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">get_forecast</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">210ms</td>
+<td class="pl-4 pr-6 py-3 whitespace-nowrap text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Log Row 5 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<td class="pl-6 pr-4 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-500 text-[18px]">check_circle</span>
+<span class="text-xs font-medium text-emerald-500">Success</span>
+</div>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">10:38:45 AM</td>
+<td class="px-4 py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-mono text-gray-700 dark:text-gray-300">slack-mcp</span>
+</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">send_message</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">85ms</td>
+<td class="pl-4 pr-6 py-3 whitespace-nowrap text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-3 border-t border-gray-200 dark:border-border-dark bg-gray-50 dark:bg-white/5 flex justify-center">
+<button class="text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-white transition-colors">Load more activity</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

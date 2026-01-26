@@ -32,6 +32,16 @@
 # - Stories can be worked in parallel if team capacity allows
 # - SM typically creates next story after previous one is 'done' to incorporate learnings
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+#
+# UI IMPLEMENTATION WORKFLOW (MANDATORY):
+# =======================================
+# For ALL screen/UI work, developers MUST use:
+# 1. Wireframe Map: _bmad-output/planning-artifacts/wireframe-implementation-map.md
+#    - Maps 146 wireframes → routes → stories → visual checklist
+# 2. HTML Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
+#    - Contains exact Tailwind CSS, design tokens, and layout structures
+# 3. Routing Spec: _bmad-output/planning-artifacts/routing-specification.md
+#    - URL paths, route guards, navigation flows
 
 generated: 2026-01-26
 project: Hyyve
@@ -41,34 +51,63 @@ story_location: _bmad-output/implementation-artifacts
 
 development_status:
   # ===========================================
-  # PHASE 0: PROJECT INFRASTRUCTURE (1 Epic)
+  # PHASE 0: PROJECT INFRASTRUCTURE (2 Epics)
   # ===========================================
 
-  epic-0-1: backlog
-  0-1-1-scaffold-turborepo-monorepo-with-nextjs-15: backlog
-  0-1-2-configure-typescript-with-strict-mode: backlog
-  0-1-3-install-core-frontend-dependencies: backlog
-  0-1-4-initialize-shadcn-ui-component-library: backlog
-  0-1-5-configure-supabase-database-client: backlog
-  0-1-6-configure-clerk-authentication: backlog
-  0-1-7-configure-trpc-api-layer: backlog
-  0-1-8-configure-redis-client: backlog
-  0-1-9-configure-langfuse-observability: backlog
-  0-1-10-configure-protocol-stack-copilotkit-ag-ui: backlog
-  0-1-11-configure-stripe-billing: backlog
-  0-1-12-configure-testing-infrastructure: backlog
-  0-1-13-configure-environment-variables-secrets: backlog
-  0-1-14-configure-eslint-prettier-and-git-hooks: backlog
-  0-1-15-configure-ci-cd-pipeline: backlog
-  0-1-16-create-initial-database-schema: backlog
-  0-1-17-configure-agno-agent-framework-python-backend: backlog
-  0-1-18-configure-temporal-workflow-orchestration: backlog
-  0-1-19-configure-anthropic-sdk-for-claude: backlog
-  0-1-20-configure-mcp-model-context-protocol-foundation: backlog
-  0-1-21-configure-resend-email-service: backlog
-  0-1-22-configure-opentelemetry-distributed-tracing: backlog
-  0-1-23-configure-docker-compose-for-local-development: backlog
+  # Epic E0.1: Backend Infrastructure
+
+  epic-0-1: done
+  0-1-1-scaffold-turborepo-monorepo-with-nextjs-15: done
+  0-1-2-configure-typescript-with-strict-mode: done
+  0-1-3-install-core-frontend-dependencies: done
+  0-1-4-initialize-shadcn-ui-component-library: done
+  0-1-5-configure-supabase-database-client: done
+  0-1-6-configure-clerk-authentication: done
+  0-1-7-configure-trpc-api-layer: done
+  0-1-8-configure-redis-client: done
+  0-1-9-configure-langfuse-observability: done
+  0-1-10-configure-protocol-stack-copilotkit-ag-ui: done
+  0-1-11-configure-stripe-billing: done
+  0-1-12-configure-testing-infrastructure: done
+  0-1-13-configure-environment-variables-secrets: done
+  0-1-14-configure-eslint-prettier-and-git-hooks: done
+  0-1-15-configure-ci-cd-pipeline: done
+  0-1-16-create-initial-database-schema: done
+  0-1-17-configure-agno-agent-framework-python-backend: done
+  0-1-18-configure-temporal-workflow-orchestration: done
+  0-1-19-configure-anthropic-sdk-for-claude: done
+  0-1-20-configure-mcp-model-context-protocol-foundation: done
+  0-1-21-configure-resend-email-service: done
+  0-1-22-configure-opentelemetry-distributed-tracing: done
+  0-1-23-configure-docker-compose-for-local-development: done
   epic-0-1-retrospective: optional
+
+  # Epic E0.2: Frontend Foundation & Design System
+  # Purpose: Parallel track to build UI components, layouts, and pages
+  # from Stitch wireframes while backend infrastructure completes.
+  # Can be developed independently using mock data and AG-UI event mocks.
+  #
+  # WIREFRAME REFERENCE (MANDATORY):
+  # - Mapping: _bmad-output/planning-artifacts/wireframe-implementation-map.md
+  # - Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
+  # - All 146 wireframes mapped to routes, stories, and visual fidelity checklist
+  epic-0-2: backlog
+  0-2-1-extract-design-system-from-wireframes: backlog
+  0-2-2-create-shadcn-component-overrides: backlog
+  0-2-3-create-layout-shells-app-builder-auth: backlog
+  0-2-4-create-navigation-components: backlog
+  0-2-5-create-agent-chat-component: backlog
+  0-2-6-create-flow-canvas-base-xyflow: backlog
+  0-2-7-create-ag-ui-mock-provider: backlog
+  0-2-8-implement-auth-pages-clerk-ui: backlog
+  0-2-9-implement-dashboard-and-project-browser: backlog
+  0-2-10-implement-settings-pages: backlog
+  0-2-11-implement-module-builder-ui-shell: backlog
+  0-2-12-implement-chatbot-builder-ui-shell: backlog
+  0-2-13-implement-knowledge-base-ui: backlog
+  0-2-14-implement-observability-dashboard-ui: backlog
+  0-2-15-create-storybook-visual-regression-baseline: backlog
+  epic-0-2-retrospective: optional
 
   # ===========================================
   # PHASE 1: FOUNDATION (17 Epics)

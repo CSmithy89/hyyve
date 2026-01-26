@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Review Interface</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#1c1b2e",
+                        "border-dark": "#272546",
+                        "success": "#10b981",
+                        "danger": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+        
+        /* Timeline line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            bottom: 0;
+            left: 15px;
+            width: 2px;
+            background: #272546;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex-shrink-0 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#272546] bg-white dark:bg-[#131221] px-6 py-3 z-20">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#272546] border border-transparent dark:border-[#383655]">
+<span class="material-symbols-outlined text-slate-400 dark:text-[#9795c6] text-[20px]">search</span>
+<input class="bg-transparent border-none text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-[#9795c6] focus:ring-0 w-64" placeholder="Search ticket or user..."/>
+<div class="flex items-center gap-1">
+<kbd class="hidden sm:inline-block px-1.5 py-0.5 text-xs font-medium text-slate-500 bg-white dark:bg-[#131221] dark:text-slate-400 rounded border border-slate-200 dark:border-slate-700 shadow-sm">⌘</kbd>
+<kbd class="hidden sm:inline-block px-1.5 py-0.5 text-xs font-medium text-slate-500 bg-white dark:bg-[#131221] dark:text-slate-400 rounded border border-slate-200 dark:border-slate-700 shadow-sm">K</kbd>
+</div>
+</div>
+<div class="w-px h-8 bg-slate-200 dark:bg-[#272546]"></div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="text-sm font-semibold dark:text-white">Alex Reviewer</span>
+<span class="text-xs text-slate-500 dark:text-[#9795c6]">Admin</span>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-slate-200 dark:border-[#272546]" data-alt="Reviewer profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBrhJLgiiD1RSCI9-lJ4mkZrmHAAb8r52l938QjwBDTu_NOtOrsD_jf29Rh-BEIkG_zx90HuVA1nvVqBfzRwzo9moOwGaht9WqRD_lFU6p8KPzOS5tqM2uv4DpW5oo53kwq-d8REQrWzrt0jvJBsG5IZB7Q0yNPD5gHDq9m7l2FtyByu_msbb1L-wdLY4zO7TemBfP2xo2GtTL9va2QSkhYJ-tHCai_6mFDVB5eNl2JPlQCsACMqDsBMR5Bg8fVGjAhF1u5ckN2Ga4");'></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col w-64 border-r border-slate-200 dark:border-[#272546] bg-white dark:bg-[#131221] pt-4 pb-4">
+<div class="flex flex-col gap-2 px-3">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-[#9795c6] hover:bg-slate-50 dark:hover:bg-[#1c1b2e] group transition-colors" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:bg-[#272546] dark:text-white" href="#">
+<span class="material-symbols-outlined fill-1">list_alt</span>
+<span class="text-sm font-medium">Review Queue</span>
+<span class="ml-auto bg-primary text-white text-xs font-bold px-2 py-0.5 rounded-full">12</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-[#9795c6] hover:bg-slate-50 dark:hover:bg-[#1c1b2e] group transition-colors" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">bar_chart</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-[#9795c6] hover:bg-slate-50 dark:hover:bg-[#1c1b2e] group transition-colors" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+<div class="mt-auto px-6">
+<div class="p-4 rounded-xl bg-gradient-to-br from-primary/20 to-transparent border border-primary/10">
+<h4 class="text-primary font-bold text-sm mb-1">Queue Status</h4>
+<p class="text-xs text-slate-600 dark:text-slate-400 mb-2">You are in the top 10% of reviewers this week.</p>
+<div class="h-1.5 w-full bg-slate-200 dark:bg-[#272546] rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%] rounded-full"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 relative">
+<!-- Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-4 md:p-8 pb-32"> <!-- Added padding bottom for fixed footer space on mobile if needed -->
+<!-- Breadcrumbs & Header -->
+<div class="mb-6">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-[#9795c6] mb-2">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Queue</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-slate-900 dark:text-white font-medium">RF-2345</span>
+</div>
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div>
+<h1 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Refund Request #RF-2345</h1>
+<div class="flex items-center gap-3 mt-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200 border border-amber-200 dark:border-amber-800">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                    Pending Review
+                                </span>
+<span class="text-slate-500 dark:text-[#9795c6] text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                    Submitted 2 hours ago
+                                </span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-[#272546] border border-slate-200 dark:border-[#383655] rounded hover:bg-slate-50 dark:hover:bg-[#323055] transition-colors">
+                                View Logs
+                            </button>
+<button class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-[#272546] border border-slate-200 dark:border-[#383655] rounded hover:bg-slate-50 dark:hover:bg-[#323055] transition-colors">
+                                Previous Ticket
+                            </button>
+</div>
+</div>
+</div>
+<!-- Split Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Customer Context (Span 7) -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<!-- Customer Profile Card -->
+<div class="bg-white dark:bg-card-dark rounded-xl border border-slate-200 dark:border-[#272546] p-5 shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex gap-4">
+<div class="relative">
+<div class="w-16 h-16 rounded-full bg-cover bg-center border-2 border-white dark:border-[#272546] shadow-md" data-alt="Jane Doe profile image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDG9fn1fnFfspcNIVKsPuG8Ed-1DIhek65xbBEyLsm74GHbOO1zhxn23JaYnKnCk_20n1_HjrPXcb0Z2h0hbeQqmoOuszgwM_cKjaLOZ1ndwzC-67_3JwGspx62z4MT7owKGNvGf82qJTv1-wiFDdS7BCTg2MkbeNVU1v62mFimOyXBbShgwXjWH6WDAqw_7dChpye9UTYcDUQ3tFq3YVj9RSRQLFmWO99P5teDEYltLfD-00l8zDbFwKdDOWPEoWfIPxoSUlsaYvc");'></div>
+<div class="absolute -bottom-1 -right-1 bg-white dark:bg-card-dark p-0.5 rounded-full">
+<div class="bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white dark:border-card-dark">ENT</div>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Jane Doe</h3>
+<p class="text-slate-500 dark:text-[#9795c6] text-sm">Enterprise Plan • jane.doe@company.com</p>
+<div class="flex gap-4 mt-3">
+<div>
+<p class="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold">LTV</p>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">$12,450</p>
+</div>
+<div class="w-px bg-slate-200 dark:bg-[#272546]"></div>
+<div>
+<p class="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold">Account Age</p>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">3 Years</p>
+</div>
+<div class="w-px bg-slate-200 dark:bg-[#272546]"></div>
+<div>
+<p class="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold">Sentiment</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-green-500 text-[16px]">sentiment_satisfied</span>
+<p class="text-sm font-semibold text-green-500">High</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<button class="text-primary text-sm font-medium hover:underline">View CRM Profile</button>
+</div>
+</div>
+<!-- Request Details -->
+<div class="bg-white dark:bg-card-dark rounded-xl border border-slate-200 dark:border-[#272546] p-0 overflow-hidden shadow-sm flex-1 flex flex-col">
+<div class="px-5 py-4 border-b border-slate-200 dark:border-[#272546] flex justify-between items-center bg-slate-50/50 dark:bg-[#222136]">
+<h3 class="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">mail</span>
+                                    Request Message
+                                </h3>
+<span class="text-xs text-slate-400 font-mono">ID: 8990-2311</span>
+</div>
+<div class="p-6 flex-1">
+<p class="text-slate-700 dark:text-slate-300 leading-relaxed text-base">
+                                    Hi Support Team, <br/><br/>
+                                    I recently purchased the annual "Enterprise" plan yesterday (Order #9921), but I realized afterwards that my team only needs the "Pro" features for now. <br/><br/>
+                                    Since it's only been 24 hours, is it possible to switch my subscription to the monthly Pro plan and refund the difference? I intend to keep using Hyyve, just at a different tier for now.
+                                    <br/><br/>
+                                    Thanks,<br/>Jane
+                                </p>
+</div>
+<div class="bg-slate-50 dark:bg-[#1a192b] px-5 py-3 border-t border-slate-200 dark:border-[#272546]">
+<p class="text-xs text-slate-500 dark:text-[#9795c6]">Auto-translated from English (US). Original matches 100%.</p>
+</div>
+</div>
+<!-- History Timeline -->
+<div class="bg-white dark:bg-card-dark rounded-xl border border-slate-200 dark:border-[#272546] p-5 shadow-sm">
+<h3 class="font-semibold text-slate-900 dark:text-white mb-4">Recent History</h3>
+<div class="relative pl-2 timeline-line">
+<div class="relative z-10 flex gap-4 mb-6">
+<div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 border-2 border-white dark:border-card-dark flex items-center justify-center shrink-0 text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[16px]">shopping_cart</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">Plan Upgrade (Enterprise Annual)</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Yesterday • $4,999.00</p>
+</div>
+</div>
+<div class="relative z-10 flex gap-4 mb-6">
+<div class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 border-2 border-white dark:border-card-dark flex items-center justify-center shrink-0 text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">Ticket Resolved (#RF-1102)</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">2 months ago • Technical Issue fixed</p>
+</div>
+</div>
+<div class="relative z-10 flex gap-4">
+<div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 border-2 border-white dark:border-card-dark flex items-center justify-center shrink-0 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">Added 5 new seats</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">3 months ago</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: AI Insight (Span 5) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- AI Recommendation Card -->
+<div class="bg-gradient-to-b from-white to-slate-50 dark:from-[#211f36] dark:to-[#1c1b2e] rounded-xl border border-primary/30 shadow-lg relative overflow-hidden">
+<!-- Decorative glow -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+<div class="p-6 relative z-10">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h3 class="font-bold text-slate-900 dark:text-white">Hyyve AI Analysis</h3>
+</div>
+<div class="bg-primary/20 text-primary dark:bg-primary/30 dark:text-primary-200 text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wide">Beta v2.1</div>
+</div>
+<div class="flex flex-col items-center justify-center py-6">
+<div class="relative w-32 h-32 flex items-center justify-center mb-4">
+<!-- SVG Circular Progress -->
+<svg class="transform -rotate-90 w-32 h-32">
+<circle class="text-slate-200 dark:text-[#272546]" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-success" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-dasharray="351.86" stroke-dashoffset="35" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-black text-slate-900 dark:text-white">94%</span>
+<span class="text-[10px] text-slate-500 uppercase font-bold">Confidence</span>
+</div>
+</div>
+<div class="bg-success/10 border border-success/20 text-green-700 dark:text-green-400 px-6 py-2 rounded-full font-bold flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined">thumb_up</span>
+                                        Suggestion: APPROVE
+                                    </div>
+</div>
+<div class="space-y-3 mt-4">
+<h4 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold mb-2">Key Factors</h4>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-white/50 dark:bg-[#131221]/50 border border-slate-100 dark:border-[#272546]">
+<span class="material-symbols-outlined text-success text-[20px] shrink-0 mt-0.5">check_circle</span>
+<div>
+<p class="text-sm font-medium text-slate-800 dark:text-slate-200">Grace Period Valid</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Request within 7-day refund policy window (24h elapsed).</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-white/50 dark:bg-[#131221]/50 border border-slate-100 dark:border-[#272546]">
+<span class="material-symbols-outlined text-success text-[20px] shrink-0 mt-0.5">check_circle</span>
+<div>
+<p class="text-sm font-medium text-slate-800 dark:text-slate-200">Retention Opportunity</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">User intends to downgrade, not churn. LTV remains high.</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-white/50 dark:bg-[#131221]/50 border border-slate-100 dark:border-[#272546]">
+<span class="material-symbols-outlined text-slate-400 text-[20px] shrink-0 mt-0.5">info</span>
+<div>
+<p class="text-sm font-medium text-slate-800 dark:text-slate-200">Low Fraud Risk</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">IP address matches billing location history.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Policy Reference (Mini Card) -->
+<div class="bg-white dark:bg-card-dark rounded-xl border border-slate-200 dark:border-[#272546] p-4 flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="bg-slate-100 dark:bg-[#272546] p-2 rounded-lg">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">gavel</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-slate-900 dark:text-white">Relevant Policy: Billing 4.2</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">"Refunds permitted for accidental annual upgrades within 48h."</p>
+</div>
+<span class="material-symbols-outlined text-slate-400">open_in_new</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Action Bar -->
+<div class="bg-white dark:bg-[#18172b] border-t border-slate-200 dark:border-[#272546] p-4 lg:px-8 lg:py-5 shadow-2xl z-30">
+<div class="max-w-full mx-auto flex flex-col lg:flex-row gap-6 items-start lg:items-center">
+<!-- Decision Radio Group -->
+<div class="flex gap-4 w-full lg:w-auto">
+<label class="cursor-pointer relative group flex-1 lg:flex-none">
+<input checked="" class="peer sr-only" name="decision" type="radio" value="approve"/>
+<div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-[#272546] bg-slate-50 dark:bg-[#131221] hover:bg-slate-100 dark:hover:bg-[#1c1b2e] peer-checked:border-success peer-checked:bg-success/5 peer-checked:dark:bg-success/10 transition-all w-full lg:w-32 h-24">
+<span class="material-symbols-outlined text-slate-400 peer-checked:text-success mb-1 group-hover:scale-110 transition-transform">check_circle</span>
+<span class="text-sm font-bold text-slate-600 dark:text-slate-300 peer-checked:text-success">Approve</span>
+</div>
+<div class="absolute top-2 right-2 w-2 h-2 bg-success rounded-full opacity-0 peer-checked:opacity-100"></div>
+</label>
+<label class="cursor-pointer relative group flex-1 lg:flex-none">
+<input class="peer sr-only" name="decision" type="radio" value="deny"/>
+<div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-[#272546] bg-slate-50 dark:bg-[#131221] hover:bg-slate-100 dark:hover:bg-[#1c1b2e] peer-checked:border-danger peer-checked:bg-danger/5 peer-checked:dark:bg-danger/10 transition-all w-full lg:w-32 h-24">
+<span class="material-symbols-outlined text-slate-400 peer-checked:text-danger mb-1 group-hover:scale-110 transition-transform">cancel</span>
+<span class="text-sm font-bold text-slate-600 dark:text-slate-300 peer-checked:text-danger">Deny</span>
+</div>
+</label>
+<label class="cursor-pointer relative group flex-1 lg:flex-none">
+<input class="peer sr-only" name="decision" type="radio" value="escalate"/>
+<div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-[#272546] bg-slate-50 dark:bg-[#131221] hover:bg-slate-100 dark:hover:bg-[#1c1b2e] peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:dark:bg-primary/10 transition-all w-full lg:w-32 h-24">
+<span class="material-symbols-outlined text-slate-400 peer-checked:text-primary mb-1 group-hover:scale-110 transition-transform">flag</span>
+<span class="text-sm font-bold text-slate-600 dark:text-slate-300 peer-checked:text-primary">Escalate</span>
+</div>
+</label>
+</div>
+<!-- Reviewer Notes -->
+<div class="flex-1 w-full relative">
+<label class="sr-only" for="notes">Reviewer Notes</label>
+<div class="relative h-24">
+<textarea class="w-full h-full rounded-xl border border-slate-200 dark:border-[#272546] bg-slate-50 dark:bg-[#131221] text-slate-900 dark:text-white p-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent resize-none pl-10" id="notes" placeholder="Add internal notes for the customer support team..."></textarea>
+<span class="material-symbols-outlined absolute top-3 left-3 text-slate-400 text-[20px]">edit_note</span>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="flex flex-col gap-2 w-full lg:w-auto shrink-0">
+<button class="w-full lg:w-48 h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-95">
+<span>Submit Decision</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+<p class="text-[10px] text-center text-slate-400 dark:text-slate-500">
+                            Press <kbd class="font-sans border border-slate-300 dark:border-slate-600 rounded px-1">⌘</kbd> + <kbd class="font-sans border border-slate-300 dark:border-slate-600 rounded px-1">Enter</kbd> to submit
+                        </p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Onboarding Wizard Builder | Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#1c1b32",
+                        "border-dark": "#383663",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-border-dark px-10 py-3 bg-white dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-9 hidden md:flex">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-medium leading-normal" href="#">Modules</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Analytics</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all">
+<span>Publish</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-slate-200 dark:bg-border-dark text-slate-900 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-80 transition-all">
+<span>Save Draft</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-border-dark" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCVRt82zAKTWhPGzWc7-s4rdFK9PHEOfcPnxXLgALEXRUPHYcippmfC7vKHOGIJnBTX_N24TpKeFvtsTD4OFjqfWjUBwlX1hGg26tgqI6qV2wqfEdf9RyKGLm4Nh6W2oRMGT93kO-G-FkMEB85xK5Y4fIc0U_TmBykNvgc0vnpBvlg-5AlJYWbD9aPmyHB7kUN1F56EIFVVKZ7zAYBcKC4U1cteKZvmMKzgKz9yJZua9wPnNPfWtFX83J06zfLB_llujWVrxfoWJSI");'></div>
+</div>
+</header>
+<main class="flex-1 flex flex-col max-w-7xl mx-auto w-full px-4 md:px-10 pb-48">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 py-4">
+<a class="text-slate-500 dark:text-[#9795c6] text-sm font-medium leading-normal hover:underline" href="#">Modules</a>
+<span class="text-slate-400 dark:text-[#9795c6] text-sm font-medium leading-normal">/</span>
+<a class="text-slate-500 dark:text-[#9795c6] text-sm font-medium leading-normal hover:underline" href="#">Neural Network AI</a>
+<span class="text-slate-400 dark:text-[#9795c6] text-sm font-medium leading-normal">/</span>
+<span class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Onboarding Builder</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-3 py-4 mb-4">
+<div class="flex min-w-72 flex-col gap-1">
+<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Onboarding Wizard Builder</h1>
+<p class="text-slate-500 dark:text-[#9795c6] text-base font-normal leading-normal">Design and sequence the user onboarding experience for your AI module.</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg font-bold text-sm border border-primary/20 hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                Add New Step
+            </button>
+</div>
+<!-- Builder Area -->
+<div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
+<div class="flex flex-col gap-4">
+<!-- Step 1: Info (Collapsed) -->
+<details class="flex flex-col rounded-xl border border-slate-200 dark:border-border-dark bg-white dark:bg-card-dark px-6 py-2 group shadow-sm">
+<summary class="flex cursor-pointer items-center justify-between gap-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-grab">drag_indicator</span>
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-tight">Step 1: Introduction</p>
+<span class="text-xs text-primary font-medium uppercase tracking-wider">Information Module</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform">expand_more</span>
+</div>
+</summary>
+<div class="pb-6 pt-2 border-t border-slate-100 dark:border-border-dark mt-2 space-y-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Title</span>
+<input class="form-input bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-lg text-sm text-slate-900 dark:text-white focus:ring-primary" type="text" value="Welcome to Hyyve AI"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Step Type</span>
+<select class="form-select bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-lg text-sm text-slate-900 dark:text-white focus:ring-primary">
+<option selected="">Information Module</option>
+<option>Form Input</option>
+<option>Validation</option>
+</select>
+</label>
+</div>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Description Content</span>
+<textarea class="form-textarea bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-lg text-sm text-slate-900 dark:text-white focus:ring-primary" rows="3">Learn how to configure your first neural node in under 2 minutes.</textarea>
+</label>
+</div>
+</details>
+<!-- Step 2: Form (Open) -->
+<details class="flex flex-col rounded-xl border-2 border-primary bg-white dark:bg-card-dark px-6 py-2 group shadow-lg" open="">
+<summary class="flex cursor-pointer items-center justify-between gap-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-grab">drag_indicator</span>
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-tight">Step 2: API Configuration</p>
+<span class="text-xs text-primary font-medium uppercase tracking-wider">Form Input Module</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform">expand_more</span>
+</div>
+</summary>
+<div class="pb-6 pt-2 border-t border-slate-100 dark:border-border-dark mt-2 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Input Label</span>
+<input class="form-input bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-lg text-sm text-slate-900 dark:text-white focus:ring-primary" type="text" value="Enter your Secret Key"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Input Type</span>
+<select class="form-select bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-lg text-sm text-slate-900 dark:text-white focus:ring-primary">
+<option>Text Field</option>
+<option selected="">Password / Secure</option>
+<option>File Upload</option>
+<option>Checkbox Group</option>
+</select>
+</label>
+</div>
+<div class="flex items-center gap-6 bg-slate-50 dark:bg-background-dark p-4 rounded-lg border border-dashed border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-2">
+<input checked="" class="rounded text-primary focus:ring-primary" id="required" type="checkbox"/>
+<label class="text-sm font-medium" for="required">Required Field</label>
+</div>
+<div class="flex items-center gap-2">
+<input class="rounded text-primary focus:ring-primary" id="validation" type="checkbox"/>
+<label class="text-sm font-medium" for="validation">Real-time Syntax Check</label>
+</div>
+</div>
+</div>
+</details>
+<!-- Step 3: Validation (Collapsed) -->
+<details class="flex flex-col rounded-xl border border-slate-200 dark:border-border-dark bg-white dark:bg-card-dark px-6 py-2 group shadow-sm">
+<summary class="flex cursor-pointer items-center justify-between gap-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-grab">drag_indicator</span>
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-tight">Step 3: Verification</p>
+<span class="text-xs text-primary font-medium uppercase tracking-wider">Validation Module</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform">expand_more</span>
+</div>
+</summary>
+<div class="pb-6 pt-2 border-t border-slate-100 dark:border-border-dark mt-2">
+<p class="text-slate-500 dark:text-[#9795c6] text-sm">Automated logic to verify user inputs before allowing module activation.</p>
+</div>
+</details>
+</div>
+</div>
+</main>
+<!-- Fixed Live Preview Panel -->
+<section class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-background-dark/90 backdrop-blur-xl border-t border-slate-200 dark:border-border-dark p-4 md:p-6 z-[60]">
+<div class="max-w-4xl mx-auto">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<div class="size-2 bg-green-500 rounded-full animate-pulse"></div>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-400">Live Preview</span>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-1 text-slate-500 hover:text-primary transition-colors text-xs font-bold">
+<span class="material-symbols-outlined text-[16px]">desktop_windows</span> Desktop
+                    </button>
+<button class="flex items-center gap-1 text-slate-400 hover:text-primary transition-colors text-xs font-bold">
+<span class="material-symbols-outlined text-[16px]">smartphone</span> Mobile
+                    </button>
+</div>
+</div>
+<!-- Preview Card -->
+<div class="bg-slate-50 dark:bg-card-dark rounded-xl p-8 border border-slate-200 dark:border-border-dark shadow-inner min-h-[220px] flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold mb-2">Step 2: API Configuration</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Enter your Secret Key to link your neural processing unit.</p>
+<div class="max-w-md">
+<input class="w-full bg-white dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-lg p-3 text-sm" disabled="" placeholder="••••••••••••••••" type="password"/>
+<p class="text-[10px] text-slate-400 mt-2 uppercase tracking-wide">Secure encrypted field</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-8">
+<!-- Progress Dots -->
+<div class="flex gap-2">
+<div class="size-2 bg-primary/40 rounded-full"></div>
+<div class="size-2 bg-primary rounded-full shadow-[0_0_8px_rgba(80,72,229,0.5)]"></div>
+<div class="size-2 bg-slate-300 dark:bg-slate-700 rounded-full"></div>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2 rounded-lg text-sm font-bold bg-slate-200 dark:bg-border-dark text-slate-700 dark:text-white">Back</button>
+<button class="px-5 py-2 rounded-lg text-sm font-bold bg-primary text-white">Next</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</body></html>

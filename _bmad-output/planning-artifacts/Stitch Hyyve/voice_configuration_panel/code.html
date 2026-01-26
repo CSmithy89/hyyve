@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voice Configuration Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1a192e",
+                        "border-dark": "#272546",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #272546;
+            border-radius: 20px;
+        }
+        
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            margin-top: -6px; 
+            box-shadow: 0 0 0 2px #5048e5; 
+        }
+        
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #272546;
+            border-radius: 2px;
+        }
+        
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #5048e5;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-base antialiased overflow-hidden">
+<!-- Main Container simulating an app with an overlay -->
+<div class="relative flex h-screen w-full bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&amp;w=2564&amp;auto=format&amp;fit=crop')] bg-cover bg-center">
+<!-- Overlay/Backdrop -->
+<div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm z-0" data-alt="Abstract blurry background of the application"></div>
+<!-- Fake content behind to show context -->
+<div class="relative z-10 flex-1 p-10 hidden lg:block opacity-30 pointer-events-none">
+<div class="h-full w-full border-2 border-dashed border-gray-700 rounded-xl flex items-center justify-center">
+<h1 class="text-4xl font-bold text-gray-600">Main Application Workspace</h1>
+</div>
+</div>
+<!-- Slide-out Panel (Drawer) -->
+<div class="relative z-20 w-full max-w-[500px] bg-[#131221] border-l border-border-dark flex flex-col h-full shadow-2xl ml-auto animate-in slide-in-from-right duration-300">
+<!-- Header -->
+<header class="flex items-center justify-between px-6 py-5 border-b border-border-dark shrink-0">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">graphic_eq</span>
+<h2 class="text-white text-lg font-bold leading-tight">Voice Configuration</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center size-8 rounded-full text-gray-400 hover:text-white hover:bg-surface-dark transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto px-6 py-4 space-y-8">
+<!-- Section: Voice Persona -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-white text-sm font-bold uppercase tracking-wider text-opacity-80">Voice Persona</h3>
+<span class="text-xs text-primary font-medium cursor-pointer hover:underline">Browse Library</span>
+</div>
+<div class="space-y-3">
+<!-- Voice Option 1 (Selected) -->
+<label class="group relative flex items-center gap-4 p-3 rounded-xl border border-primary bg-primary/10 cursor-pointer transition-all">
+<input checked="" class="peer sr-only" name="voice_persona" type="radio"/>
+<div class="relative shrink-0">
+<div class="size-12 rounded-full bg-cover bg-center shadow-inner" data-alt="Portrait of a man smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjqU9_7cf2Tpny0UAZMBkZwAeOb-__ZQ2IW1pGgFRjp0mR-ZRmLVgkNfUZu37fN4UdVdM1glqIqM6eiuhALaCJdNjlLw8LW1_UgTxNWUJTMVzFiVgZPFPnBiiPZJOkn-DGkfIo-YQwEjMhtVZPFpv-9gJWF2lYRdPlqzPSO-VwQTDNK2r6WMRux79G10rtF-VRAEHnaGE5-woZCzDmNmQxgiaQBVYtti2KwQH_7IeOgwVkIK8KDJQmVD3winSAedDL6lJULltiwc0');"></div>
+<div class="absolute -bottom-1 -right-1 bg-background-dark rounded-full p-[2px]">
+<div class="size-4 rounded-full overflow-hidden border border-border-dark" data-alt="US Flag" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDktg-zF_8SzZmBpO47TFUQntItv3GEBCcJIYpbgi-gPaVpcsFTzh2v-g53sp8F1WY5EPVe4-jWbt6OtFPupCWbR8PYUKZUz9tIVr7EDfP7oGinwI5buA4uwXz9CG8BLYOYCzx5xRxCu6bxizv7UIreVKXPDcjdi5VAVW1cKcpjm7aaiplFd5_x5HoSd6v5tdDR3xrokUP5f_RQcBLdvr_ZnG8G_hW7WOJuSlw7IzxihJ-lLbxxExl3Ip7AM7EhOu9aWKd95LguzQM'); background-size: cover; background-position: center;"></div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<p class="text-white font-semibold truncate">James</p>
+<span class="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded uppercase tracking-wider font-bold">Pro</span>
+</div>
+<p class="text-gray-400 text-xs truncate">United States • Deep &amp; Authoritative</p>
+</div>
+<div class="shrink-0 flex items-center gap-3">
+<button class="size-8 flex items-center justify-center rounded-full bg-surface-dark text-white hover:bg-primary hover:text-white transition-colors border border-border-dark group-hover:border-primary/30 z-10" onclick="event.preventDefault();">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+<div class="w-4 flex justify-center">
+<div class="size-2.5 bg-primary rounded-full shadow-[0_0_8px_rgba(80,72,229,0.8)]"></div>
+</div>
+</div>
+</label>
+<!-- Voice Option 2 -->
+<label class="group relative flex items-center gap-4 p-3 rounded-xl border border-border-dark bg-surface-dark hover:border-gray-500 cursor-pointer transition-all">
+<input class="peer sr-only" name="voice_persona" type="radio"/>
+<div class="relative shrink-0">
+<div class="size-12 rounded-full bg-cover bg-center shadow-inner" data-alt="Portrait of a woman smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTlp34LiI2du2Kp1--Y_rhKsMVj7zOD2kQhNg7rHc_pupFv4zvFleMHAy9GWCrdUR5Bj3RlMrEFZynjbzKfnqxQxj1UPFH-PlqPv1pNPWt18kJvxjh8xfDrLzPEeQNDrs2ppK7xbquVmMPe2LRiqXV7TBQaAi6_ASxJKT5RcbQ4L2FrvtFaenJSPPCiFlIajVXf5NWgCgSNuYV7vjS5R6L-0zv3jIg9lxh0PV7nCIOrxjDmMmmi4KD9mPRBsC0zLItxr9lWviLX6U');"></div>
+<div class="absolute -bottom-1 -right-1 bg-background-dark rounded-full p-[2px]">
+<div class="size-4 rounded-full overflow-hidden border border-border-dark" data-alt="UK Flag" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7RuJzt7NtPHk_pFVwvJoeqjaYrcuKYEYLzbb-_a9sszlM0uD7cicSo2rM78ky2fN5duQR9QOtfmcFfqx64VZh63-PptXt3c6UCexgb91TZfU5HxyYrwBd6v0FouNzczP3ica1P9ghNdODZgDqU3BjxPmnqeID5URUhPPMXc9hJUCB2dintjrh6M4mxj2bFVZyrA0ImCSXO2TFTRAlME4sn9fZYEfmzlqUvSxCkKa_qs-m_eBLSu9Hbd0GAEk_1XvCSlMxpRMnGtc'); background-size: cover; background-position: center;"></div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<p class="text-white font-semibold truncate">Allison</p>
+</div>
+<p class="text-gray-400 text-xs truncate">United Kingdom • Soft &amp; Professional</p>
+</div>
+<div class="shrink-0 flex items-center gap-3">
+<button class="size-8 flex items-center justify-center rounded-full bg-background-dark text-gray-300 hover:bg-primary hover:text-white transition-colors border border-border-dark z-10" onclick="event.preventDefault();">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+<div class="w-4 flex justify-center">
+<div class="size-2.5 border-2 border-gray-600 rounded-full"></div>
+</div>
+</div>
+</label>
+<!-- Voice Option 3 -->
+<label class="group relative flex items-center gap-4 p-3 rounded-xl border border-border-dark bg-surface-dark hover:border-gray-500 cursor-pointer transition-all">
+<input class="peer sr-only" name="voice_persona" type="radio"/>
+<div class="relative shrink-0">
+<div class="size-12 rounded-full bg-cover bg-center shadow-inner" data-alt="Portrait of a man with glasses" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6xoytkUig4KTHbifgoO_GLYzFpDt3554MTm0ZGeje3O1cMF6He5_HLIM19ITyH8QV8HTRI2LEPkSTgXfYwVlw_ZPjEKGmkYVWTQ1axpGp2CPN7lk-RI3b9Sc3h3bwEKSzD8ymqA8Fg262z-5-sG9tSK39iqzdnA67oInPvOjnfrzf-va1UlDYW21RTbjdDeysFNbTZZUPx_5lxhZwyaKThsxTsCrJPEqGgCywCIP7sEc8qC2pxK7sXHr5QPPQE0Jwm0I_oAqjpEQ');"></div>
+<div class="absolute -bottom-1 -right-1 bg-background-dark rounded-full p-[2px]">
+<div class="size-4 rounded-full overflow-hidden border border-border-dark" data-alt="Australia Flag" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDnQQuWLSFji0Jm5a3AUNcOAvV7ELvXN_hDP1MZ-R4TdD3b10qs6V675dva0FlsVRhhQ8_A-baCMThphlnsGpqgah72SBRgwOeOpfBWEYg6yCk7W-zGDIj9QN7ktRrcuC9RttbUgjnlT-gYUjdQdmwTAO97Kfw9C90kUA12Ee7z6bBLCF53K0QG-5sWwkl4lhvRVp3jSYmHL-7uckBy9Wjw-MQ0PzZqgoCw2fVxW3f0n1VHVyqgKS420rJxl0Hl_QbxP_MPmvAsuYE'); background-size: cover; background-position: center;"></div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<p class="text-white font-semibold truncate">Davis</p>
+</div>
+<p class="text-gray-400 text-xs truncate">Australia • Casual &amp; Friendly</p>
+</div>
+<div class="shrink-0 flex items-center gap-3">
+<button class="size-8 flex items-center justify-center rounded-full bg-background-dark text-gray-300 hover:bg-primary hover:text-white transition-colors border border-border-dark z-10" onclick="event.preventDefault();">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+<div class="w-4 flex justify-center">
+<div class="size-2.5 border-2 border-gray-600 rounded-full"></div>
+</div>
+</div>
+</label>
+</div>
+</section>
+<!-- Section: Parameters -->
+<section>
+<h3 class="text-white text-sm font-bold uppercase tracking-wider text-opacity-80 mb-6">Synthesis Parameters</h3>
+<div class="space-y-6 bg-surface-dark p-5 rounded-xl border border-border-dark">
+<!-- Speed Slider -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2 text-gray-300">
+<span class="material-symbols-outlined text-lg">speed</span>
+<label class="text-sm font-medium">Speed</label>
+</div>
+<span class="text-xs font-mono bg-background-dark px-2 py-1 rounded text-primary font-bold border border-border-dark">1.0x</span>
+</div>
+<input class="w-full" max="2.0" min="0.5" step="0.1" type="range" value="1.0"/>
+<div class="flex justify-between text-[10px] text-gray-500 font-medium px-1">
+<span>Slow</span>
+<span>Fast</span>
+</div>
+</div>
+<!-- Pitch Slider -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2 text-gray-300">
+<span class="material-symbols-outlined text-lg">tune</span>
+<label class="text-sm font-medium">Pitch</label>
+</div>
+<span class="text-xs font-mono bg-background-dark px-2 py-1 rounded text-primary font-bold border border-border-dark">+0st</span>
+</div>
+<input class="w-full" max="12" min="-12" step="1" type="range" value="0"/>
+</div>
+<!-- Emphasis Slider -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2 text-gray-300">
+<span class="material-symbols-outlined text-lg">record_voice_over</span>
+<label class="text-sm font-medium">Emphasis</label>
+</div>
+<span class="text-xs font-mono bg-background-dark px-2 py-1 rounded text-primary font-bold border border-border-dark">Medium</span>
+</div>
+<input class="w-full" max="5" min="1" step="1" type="range" value="3"/>
+</div>
+</div>
+</section>
+<!-- Section: Speech Recognition -->
+<section>
+<h3 class="text-white text-sm font-bold uppercase tracking-wider text-opacity-80 mb-4">Speech Recognition</h3>
+<div class="grid gap-4">
+<!-- Language Select -->
+<div class="space-y-2">
+<label class="text-sm text-gray-300 font-medium">Language Model</label>
+<div class="relative">
+<select class="w-full bg-surface-dark border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-3 appearance-none pr-10">
+<option>English (United States) - Whisper v3</option>
+<option>English (UK)</option>
+<option>Spanish (International)</option>
+<option>French (France)</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Toggles -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-border-dark bg-surface-dark">
+<div class="flex items-center gap-3">
+<div class="p-1.5 rounded-md bg-background-dark text-gray-400">
+<span class="material-symbols-outlined text-lg">graphic_eq</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm text-white font-medium">Noise Cancellation</span>
+<span class="text-xs text-gray-500">Reduce background static</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg border border-border-dark bg-surface-dark">
+<div class="flex items-center gap-3">
+<div class="p-1.5 rounded-md bg-background-dark text-gray-400">
+<span class="material-symbols-outlined text-lg">format_quote</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm text-white font-medium">Auto-Punctuation</span>
+<span class="text-xs text-gray-500">Insert commas and periods</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer: Test Playground -->
+<div class="p-6 border-t border-border-dark bg-surface-dark shrink-0">
+<div class="flex justify-between items-end mb-3">
+<h3 class="text-white text-sm font-bold">Test Voice</h3>
+<span class="text-xs text-gray-500">140 chars remaining</span>
+</div>
+<div class="relative group">
+<textarea class="w-full h-24 bg-background-dark border border-border-dark rounded-xl p-3 text-sm text-gray-200 focus:ring-1 focus:ring-primary focus:border-primary resize-none placeholder-gray-600 leading-relaxed" placeholder="Type something here to test the voice synthesis...">Hello, I am your new AI assistant. I can help you with scheduling, email management, and more.</textarea>
+<!-- Waveform Graphic Simulation -->
+<div class="absolute bottom-3 right-3 h-6 flex items-end gap-0.5 opacity-50 group-focus-within:opacity-100 transition-opacity">
+<div class="w-1 bg-primary h-2 rounded-full animate-pulse"></div>
+<div class="w-1 bg-primary h-4 rounded-full animate-pulse delay-75"></div>
+<div class="w-1 bg-primary h-3 rounded-full animate-pulse delay-100"></div>
+<div class="w-1 bg-primary h-5 rounded-full animate-pulse delay-150"></div>
+<div class="w-1 bg-primary h-2 rounded-full animate-pulse delay-75"></div>
+</div>
+</div>
+<div class="flex gap-3 mt-4">
+<button class="flex-1 flex items-center justify-center gap-2 h-11 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">play_circle</span>
+                        Generate &amp; Play
+                    </button>
+<button class="flex items-center justify-center gap-2 px-5 h-11 bg-background-dark border border-border-dark hover:bg-gray-800 text-white rounded-lg font-bold text-sm transition-all">
+                        Save Changes
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

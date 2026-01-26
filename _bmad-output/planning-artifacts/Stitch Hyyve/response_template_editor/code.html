@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Response Template Editor - Hyyve</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#131221",
+                        "surface-highlight": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark theme functionality */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #272546;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #363456;
+        }
+        
+        .variable-text {
+            color: #818cf8;
+            background-color: rgba(80, 72, 229, 0.15);
+            padding: 0 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display h-screen flex flex-col overflow-hidden text-slate-900 dark:text-white selection:bg-primary/30">
+<!-- Top Navigation -->
+<header class="flex shrink-0 items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#272546] bg-white dark:bg-surface-dark px-6 py-3 z-20">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve <span class="text-text-secondary font-normal text-sm ml-2">Editor</span></h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-2 text-sm font-medium text-text-secondary">
+<span class="hover:text-white cursor-pointer">Documentation</span>
+<span class="hover:text-white cursor-pointer">Support</span>
+</div>
+<div class="flex gap-2">
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-[#322f54] transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-slate-200 dark:border-[#272546]" data-alt="User avatar with a gradient background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAV07jCI4F4dMi7bKbvIi4gjxjTdvPKJFVnTahcWnmVVlUhhyQbtSvnSbVAvjbZMYw_5CRrx1OXMMJxe5fjA-9O6AvoI7n9ryDCnlX0tA6tQkhgctdP8-Q1izSijOlZ_8bVlSZnIJ_uvnkvNzulqvr2en7GxKof7WsKPdkcQhpEFTzZUAt9V9oKIUgJ-X20PL-dLX7gVb3QszVshB8iShIt27jIgnvOUv01sIaes-pnXSFW-oSHhc08EmxQkS_TkQ1eQT-5p3OkUGQ");'></div>
+</div>
+</div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Sidebar: Templates List -->
+<aside class="flex w-80 flex-col border-r border-slate-200 dark:border-[#272546] bg-white dark:bg-surface-dark shrink-0">
+<div class="p-4 flex flex-col gap-4">
+<!-- Search -->
+<div class="flex w-full items-stretch rounded-lg h-10 bg-slate-100 dark:bg-[#272546]">
+<div class="text-text-secondary flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full bg-transparent border-none text-sm text-slate-900 dark:text-white focus:ring-0 placeholder:text-text-secondary" placeholder="Filter templates..."/>
+</div>
+<!-- Create Button -->
+<button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-10 bg-primary hover:bg-primary/90 text-white gap-2 text-sm font-bold transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Create New Template</span>
+</button>
+</div>
+<!-- List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar px-2 pb-4">
+<div class="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-text-secondary">Onboarding</div>
+<!-- Active Item -->
+<div class="group flex items-center gap-3 rounded-lg bg-primary/10 px-3 py-3 mb-1 cursor-pointer border border-primary/20">
+<div class="flex items-center justify-center rounded-lg bg-primary/20 text-primary shrink-0 size-10">
+<span class="material-symbols-outlined text-[20px]">waving_hand</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-900 dark:text-white text-sm font-semibold truncate">Welcome Message</p>
+<p class="text-primary text-xs truncate">Editing • 2m ago</p>
+</div>
+<span class="material-symbols-outlined text-primary text-[18px]">chevron_right</span>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center gap-3 rounded-lg hover:bg-slate-100 dark:hover:bg-[#272546] px-3 py-3 mb-1 cursor-pointer transition-colors border border-transparent">
+<div class="flex items-center justify-center rounded-lg bg-slate-200 dark:bg-[#272546] text-text-secondary group-hover:text-white shrink-0 size-10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-700 dark:text-slate-200 group-hover:text-white text-sm font-medium truncate">Order Status</p>
+<p class="text-text-secondary text-xs truncate">Active • Yesterday</p>
+</div>
+</div>
+<div class="mt-6 mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-text-secondary">Errors &amp; Fallbacks</div>
+<!-- Inactive Item -->
+<div class="group flex items-center gap-3 rounded-lg hover:bg-slate-100 dark:hover:bg-[#272546] px-3 py-3 mb-1 cursor-pointer transition-colors border border-transparent">
+<div class="flex items-center justify-center rounded-lg bg-slate-200 dark:bg-[#272546] text-text-secondary group-hover:text-white shrink-0 size-10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">error</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-700 dark:text-slate-200 group-hover:text-white text-sm font-medium truncate">Default Fallback</p>
+<p class="text-text-secondary text-xs truncate">Active • 3d ago</p>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center gap-3 rounded-lg hover:bg-slate-100 dark:hover:bg-[#272546] px-3 py-3 mb-1 cursor-pointer transition-colors border border-transparent">
+<div class="flex items-center justify-center rounded-lg bg-slate-200 dark:bg-[#272546] text-text-secondary group-hover:text-white shrink-0 size-10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">support_agent</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-slate-700 dark:text-slate-200 group-hover:text-white text-sm font-medium truncate">Agent Handoff</p>
+<p class="text-text-secondary text-xs truncate">Draft • 5d ago</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center: Editor Workspace -->
+<main class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-background-dark overflow-y-auto custom-scrollbar">
+<!-- Editor Header -->
+<div class="px-8 py-6 border-b border-slate-200 dark:border-[#272546]">
+<div class="flex justify-between items-start gap-4 mb-6">
+<div class="flex-1">
+<label class="block text-xs font-bold text-text-secondary uppercase tracking-wider mb-1">Template Name</label>
+<input class="bg-transparent border-0 border-b border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-0 text-3xl font-bold text-slate-900 dark:text-white p-0 w-full placeholder:text-slate-500" type="text" value="Welcome Message"/>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-lg h-9 px-4 border border-red-500/30 text-red-500 hover:bg-red-500/10 text-sm font-bold transition-colors">
+                            Delete
+                        </button>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-200 dark:bg-[#272546] text-slate-700 dark:text-white hover:bg-slate-300 dark:hover:bg-[#322f54] text-sm font-bold transition-colors">
+                            Duplicate
+                        </button>
+<button class="flex items-center justify-center rounded-lg h-9 px-6 bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25 text-sm font-bold transition-colors">
+                            Save Changes
+                        </button>
+</div>
+</div>
+<!-- Response Type Selector -->
+<div class="flex items-center gap-4">
+<label class="text-sm font-medium text-slate-500 dark:text-text-secondary">Response Type:</label>
+<div class="flex bg-slate-200 dark:bg-[#272546] p-1 rounded-lg">
+<button class="px-4 py-1.5 roundedmd bg-white dark:bg-primary text-slate-900 dark:text-white text-sm font-bold shadow-sm rounded">Text</button>
+<button class="px-4 py-1.5 roundedmd text-slate-600 dark:text-text-secondary hover:text-slate-900 dark:hover:text-white text-sm font-medium transition-colors">Rich Card</button>
+<button class="px-4 py-1.5 roundedmd text-slate-600 dark:text-text-secondary hover:text-slate-900 dark:hover:text-white text-sm font-medium transition-colors">Carousel</button>
+</div>
+</div>
+</div>
+<!-- Editor Content -->
+<div class="flex-1 p-8 flex flex-col gap-6 max-w-4xl mx-auto w-full">
+<!-- Rich Text Editor -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#272546] shadow-sm flex flex-col h-[400px]">
+<!-- Toolbar -->
+<div class="flex items-center justify-between p-3 border-b border-slate-200 dark:border-[#272546]">
+<div class="flex items-center gap-1">
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-[#272546] text-slate-500 dark:text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">format_bold</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-[#272546] text-slate-500 dark:text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">format_italic</span>
+</button>
+<div class="w-px h-4 bg-slate-200 dark:bg-[#272546] mx-2"></div>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-[#272546] text-slate-500 dark:text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">link</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-[#272546] text-slate-500 dark:text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">sentiment_satisfied</span>
+</button>
+</div>
+<!-- Variable Inserter -->
+<div class="flex items-center gap-2">
+<span class="text-xs text-text-secondary font-medium mr-1">Insert Variable:</span>
+<button class="px-2 py-1 rounded bg-primary/10 hover:bg-primary/20 text-primary text-xs font-mono font-medium transition-colors border border-primary/20 cursor-pointer">
+                                {{first_name}}
+                            </button>
+<button class="px-2 py-1 rounded bg-primary/10 hover:bg-primary/20 text-primary text-xs font-mono font-medium transition-colors border border-primary/20 cursor-pointer">
+                                {{order_id}}
+                            </button>
+<button class="px-2 py-1 rounded bg-primary/10 hover:bg-primary/20 text-primary text-xs font-mono font-medium transition-colors border border-primary/20 cursor-pointer">
+                                {{agent_name}}
+                            </button>
+</div>
+</div>
+<!-- Text Area Input -->
+<div class="flex-1 p-4">
+<textarea class="w-full h-full bg-transparent border-none focus:ring-0 text-slate-700 dark:text-slate-200 resize-none font-normal leading-relaxed text-base" spellcheck="false">Hello {{first_name}}! 
+
+Welcome to Hyyve support. How can I help you with your order {{order_id}} today? 
+
+Our AI agent {{agent_name}} is ready to assist you.</textarea>
+</div>
+<div class="px-4 py-2 border-t border-slate-200 dark:border-[#272546] flex justify-end">
+<span class="text-xs text-text-secondary">142 characters</span>
+</div>
+</div>
+<!-- Configuration Cards -->
+<div class="grid grid-cols-1 gap-6">
+<!-- Quick Replies -->
+<div class="p-6 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#272546]">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">reply_all</span>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wide">Quick Replies</h3>
+</div>
+<span class="text-xs text-text-secondary">Suggested responses for the user</span>
+</div>
+<div class="flex flex-wrap gap-3">
+<div class="group flex items-center pl-3 pr-2 py-1.5 rounded-full border border-slate-200 dark:border-[#272546] bg-slate-50 dark:bg-[#1f1d36] text-sm text-slate-700 dark:text-white">
+<span>Check Order Status</span>
+<button class="ml-2 text-text-secondary hover:text-red-400">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<div class="group flex items-center pl-3 pr-2 py-1.5 rounded-full border border-slate-200 dark:border-[#272546] bg-slate-50 dark:bg-[#1f1d36] text-sm text-slate-700 dark:text-white">
+<span>Talk to Human</span>
+<button class="ml-2 text-text-secondary hover:text-red-400">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<button class="flex items-center px-3 py-1.5 rounded-full border border-dashed border-slate-300 dark:border-slate-600 hover:border-primary text-sm text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[16px] mr-1">add</span>
+                                Add Reply
+                            </button>
+</div>
+</div>
+<!-- Metadata -->
+<div class="p-6 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#272546]">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-text-secondary">label</span>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wide">Tags &amp; Metadata</h3>
+</div>
+<div class="flex flex-wrap gap-2">
+<input class="flex-1 bg-transparent border-b border-slate-200 dark:border-[#272546] focus:border-primary px-0 py-2 text-sm focus:ring-0 text-slate-900 dark:text-white" placeholder="Add tags (e.g. #sales, #support)..." type="text"/>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right: Preview Panel -->
+<aside class="w-[400px] border-l border-slate-200 dark:border-[#272546] bg-white dark:bg-surface-dark flex flex-col shrink-0 relative transition-all duration-300">
+<div class="absolute top-1/2 -left-3 size-6 bg-white dark:bg-surface-highlight border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center cursor-pointer shadow-md z-10 text-text-secondary hover:text-white">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</div>
+<div class="p-4 border-b border-slate-200 dark:border-[#272546] flex items-center justify-between">
+<h3 class="font-bold text-slate-900 dark:text-white">Live Preview</h3>
+<div class="flex gap-2">
+<button class="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-[#272546] text-text-secondary"><span class="material-symbols-outlined text-[20px]">smartphone</span></button>
+<button class="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-[#272546] text-text-secondary"><span class="material-symbols-outlined text-[20px]">desktop_windows</span></button>
+</div>
+</div>
+<!-- Simulated Chat Area -->
+<div class="flex-1 bg-slate-100 dark:bg-[#0B0B0F] p-4 flex flex-col overflow-y-auto bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed">
+<div class="text-center text-xs text-text-secondary mb-6 mt-2">Today, 10:23 AM</div>
+<!-- Bot Message -->
+<div class="flex gap-3 mb-6 animate-fade-in-up">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 shrink-0 mt-auto shadow-sm" data-alt="Hyyve bot avatar icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCRV1higWhTo8-dAQFJ7BCwzV4EqytIe3rAMQoIdn9bYBuNWpDefVtwl0j_9IHgqSvn77_88rZHw0Bz-iLUh4H7Y-mHix4-dq_TNlhjoWjVTcuYi7DS9-7I4JNhlAX3XLaSsAWj87huS_am_DqtmVnIkQCcjnwv5gkD1R7v6r6NhtenIqhB7CgXdEsjyJZthUBIj3OmqNG4XQ4VqkDn4BqAk6V4lpZahdwKjMd-8V08uiygct5Zi2hC5e1f7X-6OrY2KUR8-nBiH6c");'></div>
+<div class="flex flex-col gap-1 max-w-[85%]">
+<div class="bg-white dark:bg-surface-highlight p-3.5 rounded-2xl rounded-bl-none text-slate-800 dark:text-slate-100 text-sm leading-relaxed shadow-sm border border-slate-200 dark:border-transparent">
+<p>Hello <span class="font-semibold text-primary">Alex</span>!</p>
+<br/>
+<p>Welcome to Hyyve support. How can I help you with your order <span class="font-mono bg-slate-100 dark:bg-[#1a1930] px-1 rounded text-primary">#ORD-2938</span> today?</p>
+<br/>
+<p>Our AI agent <span class="font-semibold text-primary">Sarah</span> is ready to assist you.</p>
+</div>
+<span class="text-[10px] text-text-secondary ml-1">Just now</span>
+</div>
+</div>
+<!-- Quick Replies in Preview -->
+<div class="flex flex-wrap gap-2 pl-11 mb-8">
+<button class="px-4 py-2 rounded-full border border-primary text-primary bg-primary/5 hover:bg-primary hover:text-white text-sm font-medium transition-all shadow-sm">
+                        Check Order Status
+                     </button>
+<button class="px-4 py-2 rounded-full border border-primary text-primary bg-primary/5 hover:bg-primary hover:text-white text-sm font-medium transition-all shadow-sm">
+                        Talk to Human
+                     </button>
+</div>
+<!-- Simulated User Input Area -->
+<div class="mt-auto">
+<div class="relative">
+<input class="w-full pl-4 pr-12 py-3 rounded-full bg-white dark:bg-surface-highlight border border-slate-200 dark:border-transparent text-sm focus:outline-none shadow-sm cursor-not-allowed opacity-70" disabled="" placeholder="Type a message..." type="text"/>
+<button class="absolute right-2 top-1.5 p-1.5 rounded-full bg-primary text-white flex items-center justify-center opacity-70">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</body></html>

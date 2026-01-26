@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Self-Hosted Setup Wizard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", 
+                        "surface-dark": "#272546",
+                        "border-dark": "#383663",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary/30">
+<div class="relative flex min-h-screen w-full flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#272546] bg-white dark:bg-[#131221] px-6 py-4 z-20">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary flex items-center justify-center">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Nexus AI Setup</h2>
+</div>
+<div class="flex items-center gap-4">
+<a class="text-sm font-medium text-slate-500 dark:text-text-secondary hover:text-primary transition-colors" href="#">Documentation</a>
+<div class="h-8 w-px bg-slate-200 dark:bg-[#272546]"></div>
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-2 ring-primary/20" data-alt="User avatar placeholder with abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD_PXgmRIs33Ji6XmUX_mdmnMdP3waBldz8UdRlpmjNk3y8rg0YgxE2zxxuiWG_L_3JPi2FbyOoHvPlqLbyEhsKA5dY_mXvrWvo3drHzOhXfSBVnEnJ4wKESbOXPCSqxPr1iccTmg2N5v_1gnsvSZP_rK_2TXeRiEaHmGDAvCFjGGHX_4zdQ9NDZkCdnA90vSyRAI9CVCIESG5rDvSSwd2lhTzY69-pp2iBkEzPW29KO0kX3iUWeLCgJ-CnQuEC6ZPtjD0KMwxLvL0");'></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 h-[calc(100vh-73px)] overflow-hidden">
+<!-- Left Panel: Form & Stepper -->
+<div class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar">
+<!-- Stepper Section -->
+<div class="w-full bg-slate-50 dark:bg-[#131221] border-b border-slate-200 dark:border-[#272546] px-8 py-6">
+<div class="max-w-3xl mx-auto">
+<nav aria-label="Progress">
+<ol class="flex items-center" role="list">
+<!-- Step 1: Requirements (Completed) -->
+<li class="relative pr-8 sm:pr-20">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="h-0.5 w-full bg-primary"></div>
+</div>
+<a class="relative flex h-8 w-8 items-center justify-center rounded-full bg-primary hover:bg-primary/90" href="#">
+<span class="material-symbols-outlined text-white text-[18px]">check</span>
+</a>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-primary">Requirements</span>
+</li>
+<!-- Step 2: Infrastructure (Current) -->
+<li class="relative pr-8 sm:pr-20">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="h-0.5 w-full bg-slate-200 dark:bg-[#383663]"></div>
+</div>
+<a aria-current="step" class="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-primary bg-white dark:bg-[#131221]" href="#">
+<span class="h-2.5 w-2.5 rounded-full bg-primary"></span>
+</a>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-bold text-slate-900 dark:text-white">Infrastructure</span>
+</li>
+<!-- Step 3: License -->
+<li class="relative pr-8 sm:pr-20">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="h-0.5 w-full bg-slate-200 dark:bg-[#383663]"></div>
+</div>
+<a class="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-slate-300 dark:border-[#383663] bg-white dark:bg-[#131221] hover:border-gray-400" href="#">
+<span class="text-xs text-slate-500 dark:text-text-secondary">3</span>
+</a>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-slate-500 dark:text-text-secondary">License</span>
+</li>
+<!-- Step 4: Deploy -->
+<li class="relative">
+<a class="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-slate-300 dark:border-[#383663] bg-white dark:bg-[#131221] hover:border-gray-400" href="#">
+<span class="text-xs text-slate-500 dark:text-text-secondary">4</span>
+</a>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-slate-500 dark:text-text-secondary">Deploy</span>
+</li>
+</ol>
+</nav>
+</div>
+</div>
+<!-- Content Container -->
+<div class="flex-1 px-8 py-10">
+<div class="max-w-3xl mx-auto flex flex-col gap-8">
+<!-- Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl font-black leading-tight tracking-[-0.033em]">Configure Infrastructure</h1>
+<p class="text-slate-500 dark:text-text-secondary text-base">Select your deployment environment and configure external dependencies.</p>
+</div>
+<!-- Deployment Type -->
+<section class="flex flex-col gap-4">
+<h3 class="text-lg font-bold leading-tight tracking-[-0.015em]">Deployment Environment</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<label class="cursor-pointer relative flex flex-col gap-4 rounded-xl border border-solid border-slate-200 dark:border-[#383663] bg-white dark:bg-[#131221] p-5 hover:border-primary/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<div class="flex justify-between items-start">
+<div class="p-2 rounded-lg bg-blue-50 dark:bg-[#272546] text-primary">
+<span class="material-symbols-outlined">dock_to_bottom</span>
+</div>
+<input checked="" class="h-5 w-5 border-2 border-[#383663] bg-transparent text-primary focus:ring-primary focus:ring-offset-0" name="deployment_type" type="radio"/>
+</div>
+<div>
+<p class="font-bold text-sm mb-1">Docker Compose</p>
+<p class="text-xs text-slate-500 dark:text-text-secondary leading-normal">Best for single-node deployments, testing, and POCs.</p>
+</div>
+</label>
+<label class="cursor-pointer relative flex flex-col gap-4 rounded-xl border border-solid border-slate-200 dark:border-[#383663] bg-white dark:bg-[#131221] p-5 hover:border-primary/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<div class="flex justify-between items-start">
+<div class="p-2 rounded-lg bg-blue-50 dark:bg-[#272546] text-primary">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<input class="h-5 w-5 border-2 border-[#383663] bg-transparent text-primary focus:ring-primary focus:ring-offset-0" name="deployment_type" type="radio"/>
+</div>
+<div>
+<p class="font-bold text-sm mb-1">Kubernetes</p>
+<p class="text-xs text-slate-500 dark:text-text-secondary leading-normal">Best for scalable, production-grade cluster deployments.</p>
+</div>
+</label>
+</div>
+</section>
+<hr class="border-slate-200 dark:border-[#272546]"/>
+<!-- Database Configuration -->
+<section class="flex flex-col gap-6">
+<h3 class="text-lg font-bold leading-tight tracking-[-0.015em]">Database Configuration</h3>
+<div class="space-y-5">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-white flex items-center gap-2">
+                                        PostgreSQL Connection String
+                                        <span class="material-symbols-outlined text-slate-400 text-[16px] cursor-help" title="Standard connection URI format">info</span>
+</label>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 dark:text-text-secondary pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">database</span>
+</span>
+<input class="block w-full rounded-lg border-slate-200 dark:border-[#383663] bg-white dark:bg-[#1e1c30] pl-10 pr-4 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm" placeholder="postgresql://user:password@localhost:5432/dbname" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-white flex items-center gap-2">
+                                        Redis URL
+                                    </label>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 dark:text-text-secondary pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</span>
+<input class="block w-full rounded-lg border-slate-200 dark:border-[#383663] bg-white dark:bg-[#1e1c30] pl-10 pr-4 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm" placeholder="redis://localhost:6379" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Vector Store Config -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold leading-tight tracking-[-0.015em]">Vector Store</h3>
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">Recommended</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-white">Provider</label>
+<div class="relative">
+<select class="block w-full rounded-lg border-slate-200 dark:border-[#383663] bg-white dark:bg-[#1e1c30] pl-4 pr-10 py-2.5 text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm appearance-none">
+<option>Qdrant (Managed)</option>
+<option>Milvus</option>
+<option>Weaviate</option>
+<option>pgvector</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-white">Collection Name</label>
+<input class="block w-full rounded-lg border-slate-200 dark:border-[#383663] bg-white dark:bg-[#1e1c30] px-4 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm" type="text" value="nexus_vectors_v1"/>
+</div>
+</div>
+<label class="flex items-start gap-3 p-4 rounded-lg border border-slate-200 dark:border-[#383663] bg-slate-50 dark:bg-[#1e1c30]/50">
+<input class="mt-1 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-900 dark:text-white">Enable High Availability</span>
+<span class="text-xs text-slate-500 dark:text-text-secondary mt-1">Deploys vector store replicas across available zones. Requires at least 3 nodes.</span>
+</div>
+</label>
+</section>
+<!-- Actions -->
+<div class="pt-6 mt-4 flex items-center justify-between border-t border-slate-200 dark:border-[#272546]">
+<button class="group flex items-center gap-2 px-6 py-2.5 rounded-lg text-slate-600 dark:text-text-secondary font-semibold hover:bg-slate-100 dark:hover:bg-[#272546] hover:text-slate-900 dark:hover:text-white transition-all" type="button">
+<span class="material-symbols-outlined text-[20px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                                Back
+                            </button>
+<button class="group flex items-center gap-2 px-8 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/20 transition-all" type="button">
+                                Continue to License
+                                <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="h-10"></div> <!-- Spacer -->
+</div>
+</div>
+</div>
+<!-- Right Panel: Code Preview -->
+<div class="hidden lg:flex w-[450px] xl:w-[550px] flex-col border-l border-slate-200 dark:border-[#272546] bg-slate-900">
+<div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-[#0f0e1a]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-[18px]">code</span>
+<span class="text-sm font-semibold text-slate-300">docker-compose.yml</span>
+<span class="text-[10px] font-medium bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded ml-2">LIVE</span>
+</div>
+<button class="text-xs flex items-center gap-1.5 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded transition-colors">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+                        Copy
+                    </button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 font-mono text-sm leading-relaxed text-slate-300 custom-scrollbar relative bg-[#0B0A14]">
+<!-- Line numbers decoration -->
+<div aria-hidden="true" class="absolute left-3 top-6 bottom-0 w-6 flex flex-col text-right text-slate-700 select-none text-xs leading-relaxed gap-0.5">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span>
+</div>
+<div class="pl-8">
+<pre><code><span class="text-pink-400">version:</span> <span class="text-green-400">'3.8'</span>
+
+<span class="text-pink-400">services:</span>
+  <span class="text-blue-400">api-server:</span>
+    <span class="text-pink-400">image:</span> <span class="text-green-400">nexus-ai/api:latest</span>
+    <span class="text-pink-400">ports:</span>
+      - <span class="text-green-400">"8080:8080"</span>
+    <span class="text-pink-400">environment:</span>
+      <span class="text-purple-400">DB_HOST:</span> <span class="text-yellow-200">postgres</span>
+      <span class="text-purple-400">DB_PORT:</span> <span class="text-yellow-200">5432</span>
+      <span class="text-purple-400">REDIS_URL:</span> <span class="text-yellow-200">redis://redis:6379</span>
+      <span class="text-purple-400">VECTOR_STORE:</span> <span class="text-yellow-200">qdrant</span>
+    <span class="text-pink-400">depends_on:</span>
+      - <span class="text-yellow-200">postgres</span>
+      - <span class="text-yellow-200">redis</span>
+      - <span class="text-yellow-200">qdrant</span>
+
+  <span class="text-blue-400">worker:</span>
+    <span class="text-pink-400">image:</span> <span class="text-green-400">nexus-ai/worker:latest</span>
+    <span class="text-pink-400">deploy:</span>
+      <span class="text-pink-400">replicas:</span> <span class="text-yellow-200">2</span>
+    <span class="text-pink-400">environment:</span>
+      <span class="text-purple-400">QUEUE_URL:</span> <span class="text-yellow-200">redis://redis:6379</span>
+      
+  <span class="text-gray-500"># External Services Configured</span>
+  <span class="text-blue-400">qdrant:</span>
+    <span class="text-pink-400">image:</span> <span class="text-green-400">qdrant/qdrant:v1.6.1</span>
+    <span class="text-pink-400">volumes:</span>
+      - <span class="text-green-400">qdrant_data:/qdrant/storage</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(156, 163, 175, 0.3);
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(56, 54, 99, 0.6);
+        }
+    </style>
+</body></html>

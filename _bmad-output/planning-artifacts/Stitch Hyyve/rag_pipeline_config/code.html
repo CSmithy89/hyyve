@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - RAG Pipeline Configuration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "primary-hover": "#4338ca",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "card-dark": "#1c1b2e", // Slightly lighter than background for cards
+              "border-dark": "#2e2c49",
+              "text-secondary": "#9795c6",
+              "success": "#22c55e",
+              "warning": "#eab308",
+              "error": "#ef4444",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"],
+              "mono": ["JetBrains Mono", "monospace"],
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased selection:bg-primary/30">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-border-dark px-10 py-3 bg-white dark:bg-[#131221] sticky top-0 z-50">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg class="h-full w-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Pipelines</a>
+<a class="text-slate-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Evaluations</a>
+<a class="text-slate-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Playground</a>
+<a class="text-slate-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</div>
+<div class="flex gap-3">
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-slate-100 dark:bg-[#272546] hover:bg-slate-200 dark:hover:bg-[#323055] text-slate-900 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-slate-100 dark:bg-[#272546] hover:bg-slate-200 dark:hover:bg-[#323055] text-slate-900 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-primary/20" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWMaq9IwJVWvI2t55xMfXnwfEijsVfA0unluhm_20F2_729HXBf3T0IaOnq8wdc4aHsa4cCuc3U79606Cmr6rmUuhG4-W1q4NsOlbT52QywYXxcRIa4jR4G_bLF-t5RTBzbtIy-faZ4AIjAnJXaaq-JZpe9_ckelbWf3VSTtTrne1yepJCF5lCQ23AqtBg_tJipze0U_5VkePO4R0ikKemfA8B-uSPYTnT17vbrDKXNooZCiUFTJjqmPanB11YE2_YUY_EPVq177E");'></div>
+</div>
+</div>
+</header>
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5 px-4 md:px-10 lg:px-20 xl:px-40">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 gap-6">
+<!-- Breadcrumbs & Header -->
+<div class="flex flex-col gap-4">
+<div class="flex flex-wrap gap-2 items-center text-sm">
+<a class="text-slate-500 dark:text-text-secondary hover:text-primary font-medium" href="#">Project Alpha</a>
+<span class="text-slate-400 dark:text-text-secondary">/</span>
+<a class="text-slate-500 dark:text-text-secondary hover:text-primary font-medium" href="#">RAG Pipelines</a>
+<span class="text-slate-400 dark:text-text-secondary">/</span>
+<span class="text-slate-900 dark:text-white font-medium bg-slate-100 dark:bg-card-dark px-2 py-0.5 rounded">Knowledge_Base_v2</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">RAG Pipeline Configuration</h1>
+<p class="text-slate-500 dark:text-text-secondary text-base font-normal">Manage data ingestion, chunking strategies, and retrieval parameters.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-slate-200 dark:bg-[#272546] text-slate-700 dark:text-white text-sm font-bold hover:bg-slate-300 dark:hover:bg-[#363361] transition-colors">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span>Trigger Sync</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary-hover shadow-lg shadow-primary/25 transition-all">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Save Changes</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Visual Pipeline Flow -->
+<div class="w-full bg-white dark:bg-card-dark rounded-xl border border-gray-200 dark:border-border-dark p-6 shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] gap-4 items-center">
+<!-- Step 1 -->
+<div class="group flex flex-col gap-3 p-4 rounded-lg bg-slate-50 dark:bg-[#232136] hover:ring-1 hover:ring-primary/50 transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-success"></div>
+<div class="flex items-center justify-between">
+<div class="p-2 bg-slate-200 dark:bg-[#32304d] rounded-md text-slate-700 dark:text-white">
+<span class="material-symbols-outlined">database</span>
+</div>
+<span class="text-xs font-mono text-success bg-success/10 px-2 py-1 rounded">Active</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-text-secondary uppercase tracking-wider text-[10px]">Step 1: Ingest</p>
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Data Sources</h3>
+<p class="text-xs text-slate-500 dark:text-text-secondary mt-1">3 Connected (Notion, PDF)</p>
+</div>
+</div>
+<!-- Connector -->
+<div class="hidden md:flex justify-center text-slate-300 dark:text-border-dark">
+<span class="material-symbols-outlined">arrow_forward</span>
+</div>
+<!-- Step 2 -->
+<div class="group flex flex-col gap-3 p-4 rounded-lg bg-slate-50 dark:bg-[#232136] hover:ring-1 hover:ring-primary/50 transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex items-center justify-between">
+<div class="p-2 bg-slate-200 dark:bg-[#32304d] rounded-md text-slate-700 dark:text-white">
+<span class="material-symbols-outlined">content_cut</span>
+</div>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-text-secondary uppercase tracking-wider text-[10px]">Step 2: Process</p>
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Chunking</h3>
+<p class="text-xs text-slate-500 dark:text-text-secondary mt-1 font-mono">RecursiveCharSplitter</p>
+</div>
+</div>
+<!-- Connector -->
+<div class="hidden md:flex justify-center text-slate-300 dark:text-border-dark">
+<span class="material-symbols-outlined">arrow_forward</span>
+</div>
+<!-- Step 3 -->
+<div class="group flex flex-col gap-3 p-4 rounded-lg bg-slate-50 dark:bg-[#232136] hover:ring-1 hover:ring-primary/50 transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex items-center justify-between">
+<div class="p-2 bg-slate-200 dark:bg-[#32304d] rounded-md text-slate-700 dark:text-white">
+<span class="material-symbols-outlined">memory</span>
+</div>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-text-secondary uppercase tracking-wider text-[10px]">Step 3: Embed</p>
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Embedding</h3>
+<p class="text-xs text-slate-500 dark:text-text-secondary mt-1 font-mono">text-embedding-3-small</p>
+</div>
+</div>
+<!-- Connector -->
+<div class="hidden md:flex justify-center text-slate-300 dark:text-border-dark">
+<span class="material-symbols-outlined">arrow_forward</span>
+</div>
+<!-- Step 4 -->
+<div class="group flex flex-col gap-3 p-4 rounded-lg bg-slate-50 dark:bg-[#232136] hover:ring-1 hover:ring-primary/50 transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex items-center justify-between">
+<div class="p-2 bg-slate-200 dark:bg-[#32304d] rounded-md text-slate-700 dark:text-white">
+<span class="material-symbols-outlined">storage</span>
+</div>
+<img alt="Pinecone Logo" class="h-5 w-5 opacity-70 grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh3RmCTNUgMDf-kQkRltVl2hHi0xz2KqlQwNNdECy2onqcINu-y76KxFStPTiXyu5tAgmVOtMOmeu7BPiUGYAsK6rKqRgY5L9RH0NrGyMC49Ff_vWi4eEgAs_kloq6gbPM3bX74hk_KUv04zYpt22oWl-Ea590zTwlS0t32p5blY23bMBZ7Isxn2GpTe8FuC6pLQXQpOcW9u3ZmJz3-7KWr1q8YJntGtLkMcTALUT7Xnmv1s_ZnX43IaOgVNkNhW1MZ_QuEBCV7Y8"/>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-text-secondary uppercase tracking-wider text-[10px]">Step 4: Store</p>
+<h3 class="text-base font-bold text-slate-900 dark:text-white">Vector Index</h3>
+<p class="text-xs text-slate-500 dark:text-text-secondary mt-1 font-mono">production-index-v1</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Configuration Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Retrieval Settings -->
+<div class="bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark rounded-xl p-6 flex flex-col gap-6">
+<div class="flex items-center justify-between border-b border-gray-100 dark:border-border-dark pb-4">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">manage_search</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Retrieval Settings</h3>
+</div>
+<span class="text-xs font-mono text-slate-400 bg-slate-100 dark:bg-black/30 px-2 py-1 rounded">config_v2.json</span>
+</div>
+<div class="space-y-5">
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Search Strategy</label>
+<div class="relative">
+<select class="w-full bg-slate-50 dark:bg-[#131221] border border-gray-200 dark:border-[#383663] text-slate-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 appearance-none">
+<option>Hybrid Search (Sparse + Dense)</option>
+<option>Dense Vector Search Only</option>
+<option>Keyword Search Only (BM25)</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+<p class="text-xs text-slate-500 dark:text-text-secondary">Hybrid search combines semantic understanding with exact keyword matching.</p>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Alpha Weighting</label>
+<span class="text-sm font-mono text-primary font-bold">0.7</span>
+</div>
+<input class="w-full h-2 bg-slate-200 dark:bg-[#383663] rounded-lg appearance-none cursor-pointer accent-primary" max="1" min="0" step="0.1" type="range" value="0.7"/>
+<div class="flex justify-between text-[10px] text-slate-400 uppercase font-bold tracking-wider">
+<span>Keyword (0.0)</span>
+<span>Vector (1.0)</span>
+</div>
+<div class="flex gap-2 items-start bg-blue-50 dark:bg-blue-900/10 p-3 rounded-lg border border-blue-100 dark:border-blue-900/20">
+<span class="material-symbols-outlined text-blue-500 text-[18px] mt-0.5">info</span>
+<p class="text-xs text-blue-700 dark:text-blue-300">Higher vector weight (closer to 1.0) favors semantic meaning over exact keyword matches. Good for conceptual queries.</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Top K Results</label>
+<input class="w-full bg-slate-50 dark:bg-[#131221] border border-gray-200 dark:border-[#383663] text-slate-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 font-mono" type="number" value="5"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Similarity Threshold</label>
+<input class="w-full bg-slate-50 dark:bg-[#131221] border border-gray-200 dark:border-[#383663] text-slate-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 font-mono" step="0.01" type="number" value="0.75"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Vector Database Details -->
+<div class="bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark rounded-xl p-6 flex flex-col gap-6">
+<div class="flex items-center justify-between border-b border-gray-100 dark:border-border-dark pb-4">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-orange-500/10 rounded-lg text-orange-500">
+<span class="material-symbols-outlined">dns</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Vector Database</h3>
+</div>
+<span class="flex items-center gap-1.5 text-xs font-medium text-success bg-success/10 px-2 py-1 rounded border border-success/20">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                    Connected
+                                </span>
+</div>
+<div class="space-y-5">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<span class="text-xs uppercase text-slate-500 dark:text-text-secondary font-bold tracking-wider">Provider</span>
+<p class="text-sm font-medium text-slate-900 dark:text-white flex items-center gap-2">
+                                            Pinecone
+                                        </p>
+</div>
+<div class="space-y-1">
+<span class="text-xs uppercase text-slate-500 dark:text-text-secondary font-bold tracking-wider">Environment</span>
+<p class="text-sm font-medium text-slate-900 dark:text-white font-mono">gcp-starter</p>
+</div>
+<div class="space-y-1">
+<span class="text-xs uppercase text-slate-500 dark:text-text-secondary font-bold tracking-wider">Index Name</span>
+<p class="text-sm font-medium text-slate-900 dark:text-white font-mono">kb-prod-v1</p>
+</div>
+<div class="space-y-1">
+<span class="text-xs uppercase text-slate-500 dark:text-text-secondary font-bold tracking-wider">Metric</span>
+<p class="text-sm font-medium text-slate-900 dark:text-white font-mono">cosine</p>
+</div>
+<div class="space-y-1">
+<span class="text-xs uppercase text-slate-500 dark:text-text-secondary font-bold tracking-wider">Dimensions</span>
+<p class="text-sm font-medium text-slate-900 dark:text-white font-mono">1536</p>
+</div>
+<div class="space-y-1">
+<span class="text-xs uppercase text-slate-500 dark:text-text-secondary font-bold tracking-wider">Total Vectors</span>
+<p class="text-sm font-medium text-slate-900 dark:text-white font-mono">14,205</p>
+</div>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-[#131221] rounded-lg border border-dashed border-gray-300 dark:border-[#383663]">
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">API Key</label>
+<button class="text-xs text-primary hover:text-primary-hover font-medium">Rotate Key</button>
+</div>
+<div class="flex gap-2">
+<input class="w-full bg-slate-100 dark:bg-[#1c1b2e] border border-gray-200 dark:border-[#383663] text-slate-500 text-sm rounded-lg block p-2.5 font-mono" disabled="" readonly="" type="password" value="pk-xxxx-xxxx-xxxx"/>
+<button class="p-2.5 bg-slate-200 dark:bg-[#383663] rounded-lg text-slate-600 dark:text-white hover:bg-slate-300 dark:hover:bg-[#4a4778]">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Processing Status Table -->
+<div class="bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark rounded-xl flex flex-col shadow-sm mb-10 overflow-hidden">
+<div class="flex items-center justify-between p-6 border-b border-gray-100 dark:border-border-dark">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Processing Status</h3>
+<div class="flex gap-3">
+<div class="relative">
+<input class="pl-9 pr-4 py-1.5 h-9 bg-slate-50 dark:bg-[#131221] border border-gray-200 dark:border-[#383663] text-slate-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-64 placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="Search documents..." type="text"/>
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-slate-400 dark:text-slate-500">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</div>
+</div>
+<button class="flex items-center gap-1 px-3 py-1.5 h-9 rounded-lg border border-gray-200 dark:border-[#383663] hover:bg-slate-50 dark:hover:bg-[#383663] text-slate-600 dark:text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                    Filter
+                                </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left">
+<thead class="text-xs text-slate-500 dark:text-text-secondary uppercase bg-slate-50 dark:bg-[#232136] border-b border-gray-200 dark:border-border-dark">
+<tr>
+<th class="px-6 py-4 font-semibold tracking-wider" scope="col">Document Name</th>
+<th class="px-6 py-4 font-semibold tracking-wider" scope="col">Source</th>
+<th class="px-6 py-4 font-semibold tracking-wider" scope="col">Chunks</th>
+<th class="px-6 py-4 font-semibold tracking-wider" scope="col">Status</th>
+<th class="px-6 py-4 font-semibold tracking-wider" scope="col">Last Updated</th>
+<th class="px-6 py-4 font-semibold tracking-wider text-right" scope="col">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 dark:divide-border-dark bg-white dark:bg-card-dark">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-[#232136] transition-colors group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">
+<div class="flex items-center gap-3">
+<div class="bg-red-100 dark:bg-red-900/20 p-1.5 rounded text-red-600 dark:text-red-400">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<span>Q3_Financials.pdf</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-text-secondary">
+                                            Google Drive
+                                        </td>
+<td class="px-6 py-4 font-mono text-slate-600 dark:text-slate-300">
+                                            145
+                                        </td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10 w-fit px-2.5 py-1 rounded-full text-xs font-semibold">
+<span class="material-symbols-outlined text-[14px] animate-spin">sync</span>
+                                                Syncing
+                                            </div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-text-secondary font-mono text-xs">
+                                            45s ago
+                                        </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-[#232136] transition-colors group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">
+<div class="flex items-center gap-3">
+<div class="bg-slate-100 dark:bg-slate-700 p-1.5 rounded text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">markdown</span>
+</div>
+<span>Engineering_Onboarding.md</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-text-secondary">
+                                            Github
+                                        </td>
+<td class="px-6 py-4 font-mono text-slate-600 dark:text-slate-300">
+                                            12
+                                        </td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-success bg-green-50 dark:bg-green-900/10 w-fit px-2.5 py-1 rounded-full text-xs font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                                Success
+                                            </div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-text-secondary font-mono text-xs">
+                                            2m ago
+                                        </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-[#232136] transition-colors group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">
+<div class="flex items-center gap-3">
+<div class="bg-blue-100 dark:bg-blue-900/20 p-1.5 rounded text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">description</span>
+</div>
+<span>Product_Roadmap_2024.docx</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-text-secondary">
+                                            SharePoint
+                                        </td>
+<td class="px-6 py-4 font-mono text-slate-600 dark:text-slate-300">
+                                            0
+                                        </td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-error bg-red-50 dark:bg-red-900/10 w-fit px-2.5 py-1 rounded-full text-xs font-semibold">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                                                Failed
+                                            </div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-text-secondary font-mono text-xs">
+                                            1h ago
+                                        </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-[#232136] transition-colors group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">
+<div class="flex items-center gap-3">
+<div class="bg-orange-100 dark:bg-orange-900/20 p-1.5 rounded text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined text-[20px]">link</span>
+</div>
+<span>Help Center (Zendesk)</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-text-secondary">
+                                            Web Scraper
+                                        </td>
+<td class="px-6 py-4 font-mono text-slate-600 dark:text-slate-300">
+                                            856
+                                        </td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-success bg-green-50 dark:bg-green-900/10 w-fit px-2.5 py-1 rounded-full text-xs font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                                Success
+                                            </div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-text-secondary font-mono text-xs">
+                                            3h ago
+                                        </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Empty State / Load More -->
+<div class="p-4 border-t border-gray-100 dark:border-border-dark flex justify-center">
+<button class="text-sm font-medium text-slate-500 hover:text-primary dark:text-text-secondary dark:hover:text-white transition-colors flex items-center gap-2">
+                                    Load more documents
+                                    <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

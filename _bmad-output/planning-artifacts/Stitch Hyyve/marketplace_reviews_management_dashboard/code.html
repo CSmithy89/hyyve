@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve | Marketplace Reviews Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f111a",
+                        "surface-dark": "#1b1a30",
+                        "border-dark": "#272546",
+                        "text-muted": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-border-dark flex flex-col bg-white dark:bg-background-dark">
+<div class="p-6 flex flex-col gap-8 h-full">
+<div class="flex gap-3 items-center">
+<div class="bg-primary rounded-lg p-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">hive</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">Hyyve</h1>
+<p class="text-text-muted text-xs font-normal">AI Dev Suite</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1 grow">
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-border-dark cursor-pointer text-slate-600 dark:text-text-muted transition-colors">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-border-dark cursor-pointer text-slate-600 dark:text-text-muted transition-colors">
+<span class="material-symbols-outlined">layers</span>
+<p class="text-sm font-medium">Models</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary transition-colors">
+<span class="material-symbols-outlined fill">star</span>
+<p class="text-sm font-bold">Reviews</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-border-dark cursor-pointer text-slate-600 dark:text-text-muted transition-colors">
+<span class="material-symbols-outlined">database</span>
+<p class="text-sm font-medium">Datasets</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-border-dark cursor-pointer text-slate-600 dark:text-text-muted transition-colors">
+<span class="material-symbols-outlined">monitoring</span>
+<p class="text-sm font-medium">Analytics</p>
+</div>
+</nav>
+<div class="flex flex-col gap-1 pt-4 border-t border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-border-dark cursor-pointer text-slate-600 dark:text-text-muted transition-colors">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-border-dark cursor-pointer text-slate-600 dark:text-text-muted transition-colors">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium">Support</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-border-dark px-8 py-4 bg-white dark:bg-background-dark sticky top-0 z-10">
+<div class="flex items-center gap-4 flex-1">
+<label class="flex items-center bg-slate-100 dark:bg-surface-dark rounded-lg px-4 py-2 w-full max-w-md">
+<span class="material-symbols-outlined text-text-muted mr-2" style="font-size: 20px;">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-text-muted text-slate-900 dark:text-white" placeholder="Search reviews, users, or comments..." type="text"/>
+</label>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-surface-dark hover:bg-slate-200 dark:hover:bg-border-dark transition-colors relative">
+<span class="material-symbols-outlined text-slate-600 dark:text-white">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-background-dark"></span>
+</button>
+<div class="h-8 w-px bg-slate-200 dark:border-border-dark"></div>
+<div class="flex items-center gap-3 cursor-pointer">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-slate-900 dark:text-white leading-none">Alex Rivera</p>
+<p class="text-[10px] text-text-muted uppercase tracking-wider font-bold">Admin</p>
+</div>
+<div class="size-9 rounded-full bg-cover bg-center border border-primary/20" data-alt="User profile avatar of Alex Rivera" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxBF_9oriDfhptpGRdh-g4t1YiRqZuvvzUXllimqi6Ccn_m8-uWdUU1rjkM0ce1vhM_rllJv3Aa4ZGoz-RmBSeHvCKnY--gjVcA0x4f7PrC_Sdsr9jUtdBajgjlsl97QXRCF2B8K1nc4TD0WJNMubxT-gLBnbNqFk_xFppGkdAadruWdTu4Ac66mQUWuc7m2_1h36Zz3NYFgWfRcJo4vIlBnF6gn4PYNG6cC2V3B1878xrJa1xGKPr4xfdjk5Yb0edOkztIVkfXsE')"></div>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-8 max-w-7xl mx-auto w-full">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-4 mb-8">
+<div class="flex flex-col gap-1">
+<h2 class="text-slate-900 dark:text-white text-3xl font-black tracking-tight">Marketplace Reviews</h2>
+<p class="text-text-muted text-base">Monitor user feedback and manage your model's reputation.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-surface-dark text-slate-700 dark:text-white rounded-lg font-bold text-sm hover:bg-slate-200 dark:hover:bg-border-dark transition-colors border border-slate-200 dark:border-border-dark">
+<span class="material-symbols-outlined text-lg">download</span>
+                            Export CSV
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-bold text-sm hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">featured_play_list</span>
+                            View Public Page
+                        </button>
+</div>
+</div>
+<!-- Rating Summary Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+<div class="lg:col-span-2 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-6 flex flex-wrap gap-8 items-center shadow-sm">
+<div class="flex flex-col items-center gap-2 border-r border-slate-200 dark:border-border-dark pr-8">
+<p class="text-slate-900 dark:text-white text-6xl font-black tracking-tighter">4.8</p>
+<div class="flex gap-0.5 text-amber-400">
+<span class="material-symbols-outlined fill">star</span>
+<span class="material-symbols-outlined fill">star</span>
+<span class="material-symbols-outlined fill">star</span>
+<span class="material-symbols-outlined fill">star</span>
+<span class="material-symbols-outlined">star_half</span>
+</div>
+<p class="text-text-muted text-sm font-medium">1,240 Total Reviews</p>
+</div>
+<div class="flex-1 grid grid-cols-[24px_1fr_48px] items-center gap-x-4 gap-y-2.5">
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted">5</p>
+<div class="h-2 w-full bg-slate-100 dark:bg-border-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 75%;"></div>
+</div>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted text-right">75%</p>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted">4</p>
+<div class="h-2 w-full bg-slate-100 dark:bg-border-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 15%;"></div>
+</div>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted text-right">15%</p>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted">3</p>
+<div class="h-2 w-full bg-slate-100 dark:bg-border-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 6%;"></div>
+</div>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted text-right">6%</p>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted">2</p>
+<div class="h-2 w-full bg-slate-100 dark:bg-border-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 2%;"></div>
+</div>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted text-right">2%</p>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted">1</p>
+<div class="h-2 w-full bg-slate-100 dark:bg-border-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 2%;"></div>
+</div>
+<p class="text-xs font-bold text-slate-500 dark:text-text-muted text-right">2%</p>
+</div>
+</div>
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">chat_bubble_outline</span>
+<h3 class="text-slate-900 dark:text-white font-bold">Response Rate</h3>
+</div>
+<p class="text-3xl font-black text-slate-900 dark:text-white">92%</p>
+<p class="text-sm text-text-muted mt-1">You responded to 112 out of 121 reviews this month.</p>
+</div>
+<div class="mt-4 pt-4 border-t border-primary/10">
+<p class="text-xs font-bold text-primary uppercase tracking-widest">Efficiency Goal</p>
+<div class="flex items-center justify-between mt-1">
+<p class="text-xs text-text-muted">Target: 95%</p>
+<p class="text-xs text-text-muted">3% remaining</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Tabs & Filters -->
+<div class="flex flex-col sm:flex-row items-center justify-between border-b border-slate-200 dark:border-border-dark mb-6">
+<div class="flex gap-8 overflow-x-auto w-full sm:w-auto no-scrollbar">
+<a class="flex flex-col items-center justify-center border-b-2 border-primary text-slate-900 dark:text-white pb-3 pt-4 px-1" href="#">
+<p class="text-sm font-bold whitespace-nowrap">All Reviews</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-text-muted pb-3 pt-4 px-1 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<div class="flex items-center gap-1.5">
+<p class="text-sm font-bold whitespace-nowrap">Needs Response</p>
+<span class="px-1.5 py-0.5 rounded-full bg-red-500/10 text-red-500 text-[10px] font-black">9</span>
+</div>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-text-muted pb-3 pt-4 px-1 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<p class="text-sm font-bold whitespace-nowrap">Featured</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-text-muted pb-3 pt-4 px-1 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<p class="text-sm font-bold whitespace-nowrap">Reported</p>
+</a>
+</div>
+<div class="flex items-center gap-4 py-3">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark text-xs font-bold text-slate-600 dark:text-text-muted cursor-pointer hover:border-primary transition-all">
+<span class="material-symbols-outlined text-sm">filter_alt</span>
+                            Filter
+                        </div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark text-xs font-bold text-slate-600 dark:text-text-muted cursor-pointer hover:border-primary transition-all">
+                            Sort by: Newest
+                            <span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Reviews List -->
+<div class="flex-1 flex flex-col gap-4">
+<!-- Review Card 1 -->
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="size-12 rounded-full bg-cover bg-center border border-slate-200 dark:border-border-dark" data-alt="Customer avatar for Sarah Johnson" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfWm0R4pBqH9tTnIhTig70wvP8jMZ21Gi7VQlD6ZUl4Aoag3dFUEKlG9Jbtez8iSH6idq8oSLtORV_L_NviiY54b6xdWiHllBmSx06aT0DV4zIgS3N8bHMNeEMQHntD3oL7fBdZTQh96gEYHkkErXbphwI_UxUwe0NzxKWWtdVJK-o9i3TPYXVUlr9zoTzd5j1OGwSyQDz4M7kBAt6Xx6Fa2wfN1hoPcgcWrQrXi6c1_SCowkQJA-D2O5QpjiAT3EwCyM2wlHUqi0')"></div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="text-slate-900 dark:text-white font-bold text-base leading-none">Sarah Johnson</h4>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-black uppercase tracking-wider">
+<span class="material-symbols-outlined text-[12px]">verified</span> Verified Purchase
+                                            </span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+</div>
+<span class="text-text-muted text-[11px] font-medium">• 2 hours ago</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Pin as Featured">
+<span class="material-symbols-outlined">keep</span>
+</button>
+<button class="p-2 text-text-muted hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-border-dark rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<p class="text-slate-700 dark:text-slate-200 text-sm leading-relaxed mb-6">
+                                The latency on the new Vision-Pro model is incredible. I've integrated it into my real-time monitoring dashboard and the performance boost is noticeable. Really impressed with the detailed documentation and the seamless API integration. Keep up the good work!
+                            </p>
+<!-- Inline Reply Box -->
+<div class="flex flex-col gap-3">
+<div class="relative group">
+<textarea class="w-full bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-border-dark rounded-lg p-3 text-sm focus:ring-1 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white placeholder:text-text-muted" placeholder="Write a response..." rows="2"></textarea>
+<div class="absolute bottom-2 right-2 flex gap-2">
+<button class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-md hover:bg-primary/90 transition-colors">Post Response</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Review Card 2 (Already Replied) -->
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="size-12 rounded-full bg-cover bg-center border border-slate-200 dark:border-border-dark" data-alt="Customer avatar for Marcus Chen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDCUobjDs6hJQwHZ7KMxAN5hb77rzoXHlRgwR6RwjLFegL54o_0Q1NvMmFGpXjVMLQcA_CyZ_8C7xWm6uuM8LlKxlOthSDaxzvJ7DgJUVkDY5tblT4106UngAskVlHuOGEQYKPZ1KZiJqWRaQTbaAchs8Bz6rVDHvBaXv9EDJ_DTbj-2ayVxXDya8AIOEA7WorVziZm2IdrYCtEmyDkxg9OYekG06yfTKSmaPsTW9fwLBe_VSXCuQ-UPUopWfMclPscIAyDiDblIcY')"></div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="text-slate-900 dark:text-white font-bold text-base leading-none">Marcus Chen</h4>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 dark:bg-border-dark text-slate-500 dark:text-text-muted text-[10px] font-black uppercase tracking-wider">
+                                                Guest
+                                            </span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+<span class="material-symbols-outlined text-[16px] fill">star</span>
+<span class="material-symbols-outlined text-[16px]">star</span>
+</div>
+<span class="text-text-muted text-[11px] font-medium">• 1 day ago</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-primary bg-primary/10 rounded-lg transition-colors" title="Remove from Featured">
+<span class="material-symbols-outlined fill">keep</span>
+</button>
+<button class="p-2 text-text-muted hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-border-dark rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<p class="text-slate-700 dark:text-slate-200 text-sm leading-relaxed mb-6">
+                                Good model, but I wish there were more examples for Python implementation in the guide. Found a few edge cases where the parsing failed, but managed to work around them.
+                            </p>
+<!-- Response Thread -->
+<div class="pl-4 border-l-2 border-primary/20 space-y-4">
+<div class="flex gap-3">
+<div class="size-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xs">hive</span>
+</div>
+<div class="bg-slate-50 dark:bg-background-dark/50 rounded-lg p-3 flex-1">
+<div class="flex items-center justify-between mb-1">
+<p class="text-xs font-bold text-slate-900 dark:text-white">Hyyve Creator Team <span class="text-[10px] text-primary uppercase ml-1">Official</span></p>
+<p class="text-[10px] text-text-muted">18h ago</p>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-300 leading-normal">
+                                            Thanks for the feedback, Marcus! We're actually updating our Python SDK documentation this week to include the edge cases you mentioned. Feel free to reach out to support if you'd like to share your specific workaround!
+                                        </p>
+<div class="mt-2 flex gap-3">
+<button class="text-[10px] font-bold text-primary hover:underline">Edit</button>
+<button class="text-[10px] font-bold text-text-muted hover:text-red-500 hover:underline">Delete</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<button class="py-3 border-2 border-dashed border-slate-200 dark:border-border-dark rounded-xl text-text-muted text-sm font-bold hover:bg-slate-50 dark:hover:bg-surface-dark transition-all">
+                            Load 25 More Reviews
+                        </button>
+</div>
+<!-- Sidebar: Featured Reviews Management -->
+<aside class="w-full lg:w-80 flex flex-col gap-6">
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-5">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-slate-900 dark:text-white font-bold text-sm">Featured Reviews</h3>
+<span class="text-[10px] font-black bg-primary/20 text-primary px-2 py-0.5 rounded uppercase">2 / 5</span>
+</div>
+<p class="text-xs text-text-muted mb-4">These reviews appear at the top of your public model page.</p>
+<div class="flex flex-col gap-3">
+<!-- Featured Item 1 -->
+<div class="p-3 bg-slate-50 dark:bg-background-dark/50 rounded-lg border border-slate-100 dark:border-border-dark flex gap-3 group">
+<span class="material-symbols-outlined text-text-muted text-lg cursor-grab active:cursor-grabbing">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1 mb-1">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+</div>
+<p class="text-[10px] font-bold text-slate-900 dark:text-white truncate">Marcus Chen</p>
+</div>
+<p class="text-[10px] text-text-muted line-clamp-2 italic">"Good model, but I wish there were more examples for Python..."</p>
+</div>
+<button class="text-text-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<!-- Featured Item 2 -->
+<div class="p-3 bg-slate-50 dark:bg-background-dark/50 rounded-lg border border-slate-100 dark:border-border-dark flex gap-3 group">
+<span class="material-symbols-outlined text-text-muted text-lg cursor-grab active:cursor-grabbing">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1 mb-1">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+<span class="material-symbols-outlined text-[12px] fill">star</span>
+</div>
+<p class="text-[10px] font-bold text-slate-900 dark:text-white truncate">Elena V.</p>
+</div>
+<p class="text-[10px] text-text-muted line-clamp-2 italic">"Absolute game changer for my workflow. The integration was..."</p>
+</div>
+<button class="text-text-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<button class="mt-2 w-full py-2 bg-slate-100 dark:bg-border-dark rounded-lg text-xs font-bold text-slate-600 dark:text-text-muted hover:text-primary transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-sm">add</span> Add Featured Review
+                                </button>
+</div>
+</div>
+<!-- Tip Card -->
+<div class="bg-gradient-to-br from-primary to-[#6366f1] rounded-xl p-5 text-white shadow-xl shadow-primary/20">
+<span class="material-symbols-outlined mb-2">lightbulb</span>
+<h4 class="font-bold text-sm mb-1">Boost Your Reputation</h4>
+<p class="text-xs text-white/80 leading-relaxed mb-4">Users are 40% more likely to purchase models that have creator responses to 4 and 5-star reviews.</p>
+<button class="w-full py-2 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-bold transition-colors">Learn Best Practices</button>
+</div>
+</aside></div>
+</div>
+</main></div>
+</body></html>

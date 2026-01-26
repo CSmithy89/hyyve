@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Widget Customization - Hyyve</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-hover": "#4338ca",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1c1b2e",
+                        "surface-light": "#ffffff",
+                        "border-dark": "#383663",
+                        "border-light": "#e5e7eb",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for code block */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #2d2b42; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4b4868; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #5d5982; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white antialiased overflow-x-hidden transition-colors duration-200">
+<div class="flex flex-col min-h-screen">
+<!-- Header / Breadcrumbs Area -->
+<header class="w-full px-6 py-4 lg:px-12 border-b border-gray-200 dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-50">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex flex-col gap-1">
+<nav class="flex items-center gap-2 text-sm">
+<a class="text-text-secondary hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="text-text-secondary">/</span>
+<a class="text-text-secondary hover:text-primary transition-colors" href="#">Projects</a>
+<span class="text-text-secondary">/</span>
+<span class="font-medium dark:text-white">Widget Customization</span>
+</nav>
+<h1 class="text-xl font-bold tracking-tight dark:text-white">Hyyve Chatbot Widget</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-sm font-medium text-text-secondary bg-transparent border border-gray-300 dark:border-border-dark rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+                        Discard
+                    </button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-hover shadow-lg shadow-primary/25 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                        Save Changes
+                    </button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col lg:flex-row max-w-7xl mx-auto w-full p-6 lg:p-10 gap-8">
+<!-- Left Column: Configuration -->
+<aside class="w-full lg:w-[400px] flex flex-col gap-8 shrink-0">
+<!-- Appearance Section -->
+<section class="flex flex-col gap-5 bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex items-center gap-2 pb-2 border-b border-gray-100 dark:border-white/5">
+<span class="material-symbols-outlined text-primary">palette</span>
+<h2 class="text-lg font-bold">Appearance</h2>
+</div>
+<!-- Avatar Upload -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Bot Avatar</label>
+<div class="flex items-center gap-4">
+<div class="relative group cursor-pointer w-16 h-16 rounded-full bg-gray-100 dark:bg-white/5 border border-dashed border-gray-400 dark:border-border-dark flex items-center justify-center overflow-hidden shrink-0">
+<img alt="AI Bot Avatar Preview" class="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition-opacity" data-alt="Abstract purple geometric avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC6T-XwmolUZsEYWVt7z_Y_9uSShJOyNu-w2a5bMbhjvfPfjyQXoxjp7PRvbILWsXNPWVe9Ds-zxhOxhNGtGWtgzNg_sVuIcWpYQjO1AmxaUMhmre2Ob6J1xF2JS1PSGhD9yvbCul0R0sk4Zlsra4kEJpADwfmtH9BLs4YX8IbwBU4DRmv2G8rFssmylv1Vw5xMgGMVGmoZSRywmk0G8BAPI6ojrwXPJiDeohWhM6aBzDW7KjEq6a0HVAa1kTANi4Ms3P_n9MJ8LI"/>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">upload</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<button class="text-sm font-medium text-primary hover:text-primary-hover text-left">Upload new image</button>
+<p class="text-xs text-text-secondary">Recommended size: 64x64px</p>
+</div>
+</div>
+</div>
+<!-- Brand Color -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Brand Color</label>
+<div class="flex flex-wrap gap-3">
+<label class="size-8 rounded-full cursor-pointer ring-2 ring-offset-2 ring-offset-surface-light dark:ring-offset-surface-dark ring-primary transition-all shadow-sm" style="background-color: #5048e5;">
+<input checked="" class="hidden" name="color" type="radio"/>
+</label>
+<label class="size-8 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-sm" style="background-color: #10b981;">
+<input class="hidden" name="color" type="radio"/>
+</label>
+<label class="size-8 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-sm" style="background-color: #f59e0b;">
+<input class="hidden" name="color" type="radio"/>
+</label>
+<label class="size-8 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-sm" style="background-color: #ef4444;">
+<input class="hidden" name="color" type="radio"/>
+</label>
+<label class="size-8 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-sm" style="background-color: #ec4899;">
+<input class="hidden" name="color" type="radio"/>
+</label>
+</div>
+<div class="relative mt-2">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="text-text-secondary">#</span>
+</div>
+<input class="w-full pl-7 pr-4 py-2.5 bg-gray-50 dark:bg-[#121121] border border-gray-200 dark:border-border-dark rounded-lg text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-gray-500" placeholder="Hex Code" type="text" value="5048e5"/>
+<div class="absolute inset-y-1 right-1 w-8 h-8 rounded bg-primary"></div>
+</div>
+</div>
+<!-- Widget Position -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Position</label>
+<select class="w-full px-4 py-2.5 bg-gray-50 dark:bg-[#121121] border border-gray-200 dark:border-border-dark rounded-lg text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none text-gray-900 dark:text-gray-200">
+<option value="br">Bottom Right</option>
+<option value="bl">Bottom Left</option>
+</select>
+</div>
+</section>
+<!-- Content Section -->
+<section class="flex flex-col gap-5 bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex items-center gap-2 pb-2 border-b border-gray-100 dark:border-white/5">
+<span class="material-symbols-outlined text-primary">chat_bubble</span>
+<h2 class="text-lg font-bold">Content</h2>
+</div>
+<!-- Bot Name -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Bot Name</label>
+<input class="w-full px-4 py-2.5 bg-gray-50 dark:bg-[#121121] border border-gray-200 dark:border-border-dark rounded-lg text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all text-gray-900 dark:text-white" placeholder="e.g. Support Bot" type="text" value="Hyyve Assistant"/>
+</div>
+<!-- Welcome Message -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Welcome Message</label>
+<span class="text-xs text-text-secondary">34/150</span>
+</div>
+<textarea class="w-full px-4 py-3 bg-gray-50 dark:bg-[#121121] border border-gray-200 dark:border-border-dark rounded-lg text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all resize-none h-28 text-gray-900 dark:text-white" placeholder="Enter a greeting message...">Hello! How can I help you today?</textarea>
+</div>
+</section>
+</aside>
+<!-- Right Column: Preview & Deploy -->
+<div class="flex-1 flex flex-col gap-6 min-w-0">
+<!-- Preview Container -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Live Preview</h3>
+<!-- Device Toggles -->
+<div class="bg-gray-200 dark:bg-surface-dark p-1 rounded-lg inline-flex items-center border border-gray-300 dark:border-border-dark">
+<button class="p-1.5 rounded-md bg-white dark:bg-primary text-gray-900 dark:text-white shadow-sm transition-all" title="Desktop">
+<span class="material-symbols-outlined text-[20px]">desktop_windows</span>
+</button>
+<button class="p-1.5 rounded-md text-gray-500 dark:text-text-secondary hover:text-gray-900 dark:hover:text-white transition-all" title="Tablet">
+<span class="material-symbols-outlined text-[20px]">tablet_mac</span>
+</button>
+<button class="p-1.5 rounded-md text-gray-500 dark:text-text-secondary hover:text-gray-900 dark:hover:text-white transition-all" title="Mobile">
+<span class="material-symbols-outlined text-[20px]">smartphone</span>
+</button>
+</div>
+</div>
+<!-- Mock Browser Window -->
+<div class="relative w-full h-[600px] bg-white dark:bg-[#0c0b15] rounded-xl overflow-hidden border border-gray-200 dark:border-border-dark shadow-2xl flex flex-col">
+<!-- Browser Bar -->
+<div class="h-10 bg-gray-100 dark:bg-[#1a1929] border-b border-gray-200 dark:border-border-dark flex items-center px-4 gap-2 shrink-0">
+<div class="size-3 rounded-full bg-red-500/80"></div>
+<div class="size-3 rounded-full bg-yellow-500/80"></div>
+<div class="size-3 rounded-full bg-green-500/80"></div>
+<div class="ml-4 flex-1 max-w-[400px] h-6 bg-gray-200 dark:bg-[#252438] rounded-md mx-auto hidden sm:block"></div>
+</div>
+<!-- Website Content Skeleton -->
+<div class="flex-1 p-8 relative overflow-hidden bg-white dark:bg-[#0f0e1a]">
+<div class="w-full h-full flex flex-col gap-8 opacity-40 select-none pointer-events-none">
+<!-- Hero Skeleton -->
+<div class="w-full h-64 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 dark:from-surface-dark dark:to-[#252438] animate-pulse"></div>
+<div class="flex gap-6">
+<div class="flex-1 h-40 rounded-xl bg-gray-100 dark:bg-surface-dark"></div>
+<div class="flex-1 h-40 rounded-xl bg-gray-100 dark:bg-surface-dark"></div>
+<div class="flex-1 h-40 rounded-xl bg-gray-100 dark:bg-surface-dark"></div>
+</div>
+<div class="w-2/3 h-8 rounded-lg bg-gray-100 dark:bg-surface-dark"></div>
+<div class="flex flex-col gap-3">
+<div class="w-full h-4 rounded bg-gray-100 dark:bg-surface-dark"></div>
+<div class="w-full h-4 rounded bg-gray-100 dark:bg-surface-dark"></div>
+<div class="w-5/6 h-4 rounded bg-gray-100 dark:bg-surface-dark"></div>
+</div>
+</div>
+<!-- THE WIDGET -->
+<div class="absolute bottom-6 right-6 z-10 flex flex-col items-end gap-4">
+<!-- Chat Window -->
+<div class="w-[340px] h-[450px] bg-white dark:bg-surface-dark rounded-2xl shadow-2xl border border-gray-200 dark:border-border-dark flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-500">
+<!-- Widget Header -->
+<div class="bg-primary p-4 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-white/20 flex items-center justify-center overflow-hidden border border-white/20">
+<img alt="Bot Avatar in Preview" class="w-full h-full object-cover" data-alt="Abstract purple geometric avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuXHAuWatrELVYGo1Hv1UByF8_4kF2GlmTGDDxOtduqDefOM-uJt2KUh4g7sbe006hKQ7BOyP41wkVxEmmauO4yZKhzibYXqfTHdvbtj2V80bUTw2c3UU0WHkIE1VvUdR-BHD7t0D3FbxssiTqO8-OwC4-tST05jhUh4K7uVvn4o4gBgwYNpFwaT_I-awNSmb-OK2QtItmIRGWoTJlLBe24L4RibTu_Bjxf1TmxZrpMKkAuYqs3k53gIZxe7dHL0-A7I-37zuyKpQ"/>
+</div>
+<div>
+<p class="text-white font-semibold text-sm">Hyyve Assistant</p>
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-green-400"></span>
+<span class="text-white/80 text-xs">Online</span>
+</div>
+</div>
+</div>
+<button class="text-white/80 hover:text-white">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Widget Body -->
+<div class="flex-1 bg-gray-50 dark:bg-[#151423] p-4 flex flex-col gap-4 overflow-y-auto">
+<div class="text-xs text-center text-gray-400 dark:text-gray-500 my-2">Today</div>
+<!-- Bot Message -->
+<div class="flex items-end gap-2">
+<div class="size-6 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden shrink-0">
+<img alt="Mini Avatar" class="w-full h-full object-cover" data-alt="Abstract purple geometric avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwIz8sbyDimndWuLSJhybZxckkYyMVtVPYDY-QCzzduTZIuZVXdibaOjmHXRPHt0sZufE4gNaGaHc3VL7gM3eim3JRrV1-IiTm0fUMHHu-MkkhvDfdB7ldy1v_P_XTWRRODg5Yjt_LiqfS9iBy_nP2CNKmtg9FU16djKmF7K02-Np2d4hp9gcEcnl_UhS7ZqjMdcdFWimpPpqKWTs5E9HCLOLyoWuEOKza7FGzrUUt1eM8-MWLtObnt7bK6Zxk1cVdUWbpJIT65pM"/>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-gray-100 dark:border-border-dark p-3 rounded-2xl rounded-bl-none shadow-sm max-w-[85%]">
+<p class="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">Hello! How can I help you today?</p>
+</div>
+</div>
+<!-- User Message Example -->
+<div class="flex items-end justify-end gap-2">
+<div class="bg-primary text-white p-3 rounded-2xl rounded-br-none shadow-sm max-w-[85%]">
+<p class="text-sm leading-relaxed">I need help with my API key.</p>
+</div>
+</div>
+</div>
+<!-- Widget Footer -->
+<div class="p-3 bg-white dark:bg-surface-dark border-t border-gray-200 dark:border-border-dark flex items-center gap-2">
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-gray-800 dark:text-white placeholder:text-gray-400" placeholder="Type your message..." type="text"/>
+<button class="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+<!-- Floating Action Button -->
+<button class="size-14 rounded-full bg-primary text-white shadow-lg hover:bg-primary-hover hover:scale-105 transition-all flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">chat_bubble</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Embed Code Section -->
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-gray-200 dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="flex flex-col gap-1">
+<h2 class="text-lg font-bold">Integration Code</h2>
+<p class="text-sm text-text-secondary">Paste this code before the closing <code class="bg-gray-200 dark:bg-white/10 px-1 py-0.5 rounded text-xs">&lt;/body&gt;</code> tag on your website.</p>
+</div>
+<button class="hidden sm:flex items-center gap-2 text-sm font-medium text-primary hover:text-primary-hover px-3 py-1.5 rounded-lg hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+                            Copy Code
+                        </button>
+</div>
+<div class="relative group">
+<div class="absolute right-3 top-3 sm:hidden">
+<button class="p-2 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+</div>
+<pre class="bg-[#0f0e17] text-gray-300 p-4 rounded-lg text-sm font-mono overflow-x-auto custom-scrollbar border border-border-dark shadow-inner"><code>&lt;<span class="text-pink-500">script</span>&gt;
+  <span class="text-blue-400">window</span>.HyyveSettings = {
+    key: <span class="text-green-400">"hy_live_x8293zn29283"</span>,
+    theme: <span class="text-green-400">"#5048e5"</span>,
+    position: <span class="text-green-400">"right"</span>
+  };
+&lt;/<span class="text-pink-500">script</span>&gt;
+&lt;<span class="text-pink-500">script</span> <span class="text-purple-400">async</span> <span class="text-purple-400">src</span>=<span class="text-green-400">"https://cdn.hyyve.ai/widget/v1/loader.js"</span>&gt;&lt;/<span class="text-pink-500">script</span>&gt;</code></pre>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

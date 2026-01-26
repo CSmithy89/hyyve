@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Environment Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-dark": "#3f38b5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121", // Deep dark background
+                        "surface-dark": "#1c1b32", // Slightly lighter for cards
+                        "border-dark": "#383663", // Border color from snippets
+                        "text-secondary": "#9795c6", // Muted text from snippets
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark mode feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #383663; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+        .pipeline-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 2px;
+            background-color: #383663;
+            z-index: 0;
+        }
+        .last-connector::after {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white overflow-hidden selection:bg-primary selection:text-white">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<aside class="hidden w-64 flex-col border-r border-border-dark bg-background-dark lg:flex">
+<div class="flex h-16 items-center gap-3 px-6 py-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="Abstract purple geometric logo gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDiUr_F7FCZOhhiEACEc7BTW-_mzL1ic9I7OWFbAqHRoD5ogSAmAW6BNU_MhANzoSVEt9TmicS-IrN-77V0j9v8jYOPYfHl108_fDX12wbKgCwh7gDLbNI-ZhF2WbE6_rAzeDt1JnXbEeDHNXWya23pZKvIZqZDWFt9fsI8Fv2TD4202hb8nS2Qng0FCB8Rdu520Z6_ghr0kvuDvPrO4XGFunN6DXTgvO94OH7JhbFyVcuZl3BAunhxAXV-IyKGi-TN_I1KVqeyzo0");'>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-white">Hyyve</h1>
+</div>
+<div class="flex flex-1 flex-col justify-between p-4">
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg bg-surface-dark px-3 py-2.5 text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="dashboard">grid_view</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-text-secondary hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span>
+<span class="text-sm font-medium">Models</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-text-secondary hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dataset">dataset</span>
+<span class="text-sm font-medium">Datasets</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-text-secondary hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="deployed_code">deployed_code</span>
+<span class="text-sm font-medium">Deployments</span>
+</a>
+</nav>
+<div class="flex flex-col gap-2">
+<div class="bg-surface-dark/50 rounded-xl p-4 border border-border-dark mb-2">
+<p class="text-xs text-text-secondary mb-2 uppercase font-semibold">Cluster Usage</p>
+<div class="flex justify-between text-sm text-white mb-1">
+<span>CPU</span>
+<span>78%</span>
+</div>
+<div class="w-full bg-background-dark rounded-full h-1.5 mb-3">
+<div class="bg-primary h-1.5 rounded-full" style="width: 78%"></div>
+</div>
+<div class="flex justify-between text-sm text-white mb-1">
+<span>Memory</span>
+<span>42%</span>
+</div>
+<div class="w-full bg-background-dark rounded-full h-1.5">
+<div class="bg-emerald-500 h-1.5 rounded-full" style="width: 42%"></div>
+</div>
+</div>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-text-secondary hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<div class="flex items-center gap-3 px-3 py-2 mt-2 border-t border-border-dark pt-4">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8" data-alt="User profile picture of a woman" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA7LGLtCm7OjFh3JqMvswyFr-mVGBNREuo-eSrIzku5VdyY3kM2YPQRxA2KE0MLEQAZgw0jcLjDWSjdAmwWjSo_4eYEQc537zZw3xgMrK-gv1X2h-S5hdg8TKGB0QHYobyGiKVn8ADPB2dVPMNAAMhIeXoTlFLto9spWxSrO8De75aC0qTpkjBDXHtjOneLlDOFB0tE-VjRWVjvXX_nFz8USvD0-eTEe677PhisWo675NoR51xjyt7M4kGZ97b-MOzuruhLo-qsOhI");'>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-white">Sarah Jenkins</span>
+<span class="text-xs text-text-secondary">DevOps Lead</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex h-full flex-1 flex-col overflow-y-auto bg-background-dark">
+<!-- Top Header -->
+<header class="flex min-h-[80px] w-full flex-col justify-center border-b border-border-dark bg-background-dark px-8 py-4 sticky top-0 z-20 backdrop-blur-md bg-opacity-90">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<a class="hover:text-white transition-colors" href="#">Hyyve</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-white font-medium">Environment Manager</span>
+</div>
+<h1 class="text-2xl font-bold text-white">Dashboard</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex h-10 items-center justify-center gap-2 rounded-lg border border-border-dark bg-surface-dark px-4 text-sm font-medium text-white hover:bg-[#2d2b4e] transition-colors">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+<span>Refresh</span>
+</button>
+<button class="flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-bold text-white shadow-lg shadow-primary/20 hover:bg-primary-dark transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>New Deployment</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-col gap-8 p-8 max-w-[1600px] mx-auto w-full">
+<!-- Environment Cards -->
+<section class="grid grid-cols-1 gap-6 md:grid-cols-3">
+<!-- Production Card (Green) -->
+<div class="group relative flex flex-col justify-between rounded-xl border border-border-dark bg-surface-dark p-6 transition-all hover:border-emerald-500/50 hover:shadow-lg hover:shadow-emerald-500/10">
+<div class="absolute right-6 top-6 h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse"></div>
+<div class="mb-6 flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">Production</h3>
+<p class="text-xs text-emerald-400 font-mono">v12.4.0</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 border-t border-border-dark pt-4">
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Traffic</span>
+<span class="text-xl font-bold text-white">100%</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Uptime</span>
+<span class="text-xl font-bold text-white">99.99%</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Requests</span>
+<span class="text-xl font-bold text-white">14.2k <span class="text-xs text-text-secondary font-normal">/sec</span></span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Health</span>
+<span class="flex items-center gap-1 text-sm font-medium text-emerald-400">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                    Healthy
+                                </span>
+</div>
+</div>
+</div>
+<!-- Staging Card (Amber) -->
+<div class="group relative flex flex-col justify-between rounded-xl border border-border-dark bg-surface-dark p-6 transition-all hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10">
+<div class="mb-6 flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10 text-amber-500">
+<span class="material-symbols-outlined">science</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">Staging</h3>
+<p class="text-xs text-amber-400 font-mono">v12.5.0-rc1</p>
+</div>
+</div>
+<span class="rounded-full bg-amber-500/10 px-2.5 py-0.5 text-xs font-medium text-amber-500 border border-amber-500/20">RC Active</span>
+</div>
+<div class="grid grid-cols-2 gap-4 border-t border-border-dark pt-4">
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Traffic</span>
+<span class="text-xl font-bold text-white">5% <span class="text-sm font-normal text-text-secondary">Canary</span></span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Integration</span>
+<span class="text-xl font-bold text-white">Passing</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Tests</span>
+<span class="text-xl font-bold text-white">452/460</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Status</span>
+<span class="flex items-center gap-1 text-sm font-medium text-amber-400">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                                    Testing
+                                </span>
+</div>
+</div>
+</div>
+<!-- Development Card (Blue) -->
+<div class="group relative flex flex-col justify-between rounded-xl border border-border-dark bg-surface-dark p-6 transition-all hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
+<div class="mb-6 flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+<span class="material-symbols-outlined">code</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white">Development</h3>
+<p class="text-xs text-blue-400 font-mono">feat/transformer-update</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 border-t border-border-dark pt-4">
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Latest Commit</span>
+<span class="text-sm font-mono text-white truncate" title="a7f2910">a7f2910...</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Author</span>
+<div class="flex items-center gap-1.5">
+<div class="size-4 rounded-full bg-cover" data-alt="Small avatar of male developer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD36oETDCLRkh3p5vdpj-T4T9DRN2gOh9bgx6lWhAbQIge9FzX_XJYgpdtNNGfT-ehtFSRTFrHxs5kW7ZXCZHJTZDSCyrP4_UJCQojS3zdkMatf6lC_ryRGmJmQGj5KjtbilbjG2BEEw86B2FbgxJVO19zRi673FA_QSG1BFD4oxLcjmMHt9Xo5_jWU76j1bAQxIw15LpCIoP91DA_58axAsmPrU2q9-KwVtLKRCI42g0uceLwQcFh-eOQZiLYlm_Iq3qvk6K0xhZY");'></div>
+<span class="text-sm text-white">Alex M.</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Build</span>
+<span class="flex items-center gap-1 text-sm font-medium text-emerald-400">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                                    Success
+                                </span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-text-secondary uppercase font-semibold tracking-wider">Deployed</span>
+<span class="text-sm font-medium text-white">5m ago</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Pipeline Visualizer -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold text-white">Active Pipeline</h2>
+<a class="text-sm font-medium text-primary hover:text-primary-dark" href="#">View Full Workflow</a>
+</div>
+<div class="relative w-full overflow-hidden rounded-xl border border-border-dark bg-surface-dark p-8">
+<!-- Connecting Line Background for Desktop -->
+<div class="absolute top-1/2 left-0 h-0.5 w-full -translate-y-1/2 bg-border-dark hidden md:block z-0 px-16"></div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4">
+<!-- Node 1: Dev -->
+<div class="flex flex-col items-center gap-3 bg-surface-dark p-2">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/20 border-2 border-blue-500 text-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+<span class="material-symbols-outlined">code_blocks</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold text-white">Development</span>
+<span class="text-xs text-text-secondary">Branch Active</span>
+</div>
+</div>
+<!-- Connector: CI Build -->
+<div class="flex flex-col items-center gap-1 bg-surface-dark px-4 py-1 rounded-full border border-border-dark">
+<div class="flex items-center gap-2 text-xs font-mono text-emerald-400">
+<span class="material-symbols-outlined text-[14px]">check</span>
+                                    BUILD #8291 PASSED
+                                </div>
+<span class="text-[10px] text-text-secondary">3m 42s</span>
+</div>
+<!-- Node 2: Staging -->
+<div class="flex flex-col items-center gap-3 bg-surface-dark p-2">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/20 border-2 border-amber-500 text-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+<span class="material-symbols-outlined">science</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold text-white">Staging</span>
+<span class="text-xs text-text-secondary">v12.5.0-rc1</span>
+</div>
+</div>
+<!-- Connector: Approval Gate -->
+<div class="flex flex-col items-center gap-1">
+<button class="flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-primary/25 hover:bg-primary-dark transition-transform hover:scale-105">
+<span class="material-symbols-outlined text-[14px]">gavel</span>
+                                    PROMOTE
+                                </button>
+<span class="text-[10px] text-text-secondary">Requires Approval</span>
+</div>
+<!-- Node 3: Production -->
+<div class="flex flex-col items-center gap-3 bg-surface-dark p-2 opacity-50">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-surface-dark border-2 border-dashed border-text-secondary text-text-secondary">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold text-text-secondary">Production</span>
+<span class="text-xs text-text-secondary">Waiting...</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Activity Table -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold text-white">Deployment Activity</h2>
+<div class="flex items-center gap-2 rounded-lg bg-surface-dark p-1 border border-border-dark">
+<button class="px-3 py-1 rounded text-xs font-medium bg-background-dark text-white shadow-sm">All</button>
+<button class="px-3 py-1 rounded text-xs font-medium text-text-secondary hover:text-white">Prod</button>
+<button class="px-3 py-1 rounded text-xs font-medium text-text-secondary hover:text-white">Staging</button>
+</div>
+</div>
+<div class="w-full overflow-hidden rounded-xl border border-border-dark bg-surface-dark">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="border-b border-border-dark bg-[#18172b]">
+<tr>
+<th class="px-6 py-4 font-medium text-text-secondary w-16">Status</th>
+<th class="px-6 py-4 font-medium text-text-secondary">Deployment ID</th>
+<th class="px-6 py-4 font-medium text-text-secondary">Environment</th>
+<th class="px-6 py-4 font-medium text-text-secondary">Version</th>
+<th class="px-6 py-4 font-medium text-text-secondary">Owner</th>
+<th class="px-6 py-4 font-medium text-text-secondary text-right">Time</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-dark">
+<!-- Row 1 -->
+<tr class="group hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center justify-center h-6 w-6 rounded-full bg-emerald-500/20 text-emerald-500">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</td>
+<td class="px-6 py-4 font-mono text-white"># dep-9921</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-md bg-blue-500/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-500/20">Development</span>
+</td>
+<td class="px-6 py-4 text-text-secondary">v12.5.0-beta.2</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover" data-alt="Avatar of Alex" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCp1OPy9g72wyc1-vl-BKqNhTyVoGmfE-E4ChAiDv7woI3E074cxj_qrxIBXkI-LE3R4rLbMZJMAkiY3jFyaGEgbiNnnbivy0owbRYU61WTPIjl9kt8ubrFCmMMWRI_YMn_EVISkk8fQ0bKmuETGGlNdfaHPINhrloJ8gliG0y3eWiAIu8MgIxAfbr5TFMoO2Wir85o85PdtDE0PG0V-YDbzllMuRs5lITaJmq57hMzUhoVNh5B-i3DRnW4qdxf-moMrE63OIRM0Kk");'></div>
+<span class="text-white">Alex M.</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right text-text-secondary">5m ago</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center justify-center h-6 w-6 rounded-full bg-emerald-500/20 text-emerald-500">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</td>
+<td class="px-6 py-4 font-mono text-white"># dep-9918</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-md bg-amber-500/10 px-2 py-1 text-xs font-medium text-amber-400 ring-1 ring-inset ring-amber-500/20">Staging</span>
+</td>
+<td class="px-6 py-4 text-text-secondary">v12.5.0-rc1</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover" data-alt="Avatar of Sarah" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuApYxizXhMlkyw8eBNjR016nH9N0IsuYi24TIt98xuGv4v8NsBTC4ENmkojPPN9T0v3Z-BLh2OuDGVfTBTc8uE3TdfWYE7xWvU5ozwbzapg6OuVhjQZijWmFG_BiC9qa-6cDLEAhtWiJYMtxgPTVFBsE8tvtN2X8ynaSX4iLbpTVZnPKOUUGEMtXSOrSwPn-HP3VMkvnzaoyg6CUkKGCHcYJVbOoCly-5-5JVb8Gi533YbafkzfcrypeIvLKlXUtuJGbOXbuZcm4Qg");'></div>
+<span class="text-white">Sarah Jenkins</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right text-text-secondary">2h ago</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center justify-center h-6 w-6 rounded-full bg-red-500/20 text-red-500">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</div>
+</td>
+<td class="px-6 py-4 font-mono text-white"># dep-9915</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-md bg-amber-500/10 px-2 py-1 text-xs font-medium text-amber-400 ring-1 ring-inset ring-amber-500/20">Staging</span>
+</td>
+<td class="px-6 py-4 text-text-secondary">v12.5.0-rc0</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover" data-alt="Avatar of Mike" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCluYSW9F1NytGC9pZcT_gX1G7sYdL9cO8PP8WRhTba6nbigJ50W3HDTOh-vjNHYNSuAS-nF3dzKPWwOoSWLX8L6LTC5XD7eLFcE7LvTgDZ3duqiiaTrybyVghM63bKCephiphWFxYDGZtc453Aci3UAy_1LpVd-L4BqtYHaUqLIunigD-hFyGk-ZBLp9gxsQraJTRzyRtyzfJaVirbIaGwpHFIIwfhSkbhjId5JM960kLLVjBNE0q88t0LoSq5-NXZlL5azH-pVBs");'></div>
+<span class="text-white">Mike Ross</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right text-text-secondary">4h ago</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center justify-center h-6 w-6 rounded-full bg-emerald-500/20 text-emerald-500">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</td>
+<td class="px-6 py-4 font-mono text-white"># dep-9882</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20">Production</span>
+</td>
+<td class="px-6 py-4 text-text-secondary">v12.4.0</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover" data-alt="Avatar of Emily" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9DHqsEdIpP8yNZp5jkVTKfSplefAkTTiYAo3j277QlwJSHKSRTqp7c-yT7pmywru74VBFkdwXtAJth2AaROGDUkJV7NShPJnZn8_3D5nggGwPPT9WQXIOybh2-ZJNCagR7BrlHdKj6YRO81SroMfHO-xW7IEoxRtOLtnAUM-hmVT8mk3aUHbvvgdAHeJMAdTObT2-TOlzeosVwT-5QLJt9kmaiNny-IYXlfCAOHbCz0oPsgknOgTew9kBKZFptQpfDXOujg-1o3w");'></div>
+<span class="text-white">Emily C.</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right text-text-secondary">1d ago</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="border-t border-border-dark p-4 flex justify-center">
+<button class="text-sm font-medium text-text-secondary hover:text-white transition-colors flex items-center gap-1">
+                                View Full History
+                                <span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

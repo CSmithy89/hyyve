@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Workspace Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#19182d", // Slightly lighter for cards
+              "surface-border": "#272546", 
+              "text-muted": "#9795c6",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Custom scrollbar for dark mode technical look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-surface-border bg-background-dark px-6 py-3 shrink-0">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-64 !h-10">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-muted">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-1 focus:ring-primary border border-surface-border bg-surface-dark focus:border-primary h-full placeholder:text-text-muted px-4 pl-10 text-sm font-normal leading-normal transition-all" placeholder="Search resources..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end items-center gap-6">
+<button class="text-text-muted hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-text-muted hover:text-white transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-surface-border" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBT77D-Shzybuuh4QZ879f3cGEIcGm1X-W-erZja5N9ASi4loIm1ECORmdSNKDmaIM1AfjPt2mnDOquQssQxkzQ_hCYbuIeVLKWHtj45exNIwezqy-YcZiT-PTUjprB18UpXUxod73Wcw1sy6ywoSAc-hzG04GzMImgnM6vvM-w682-D1t4ayN4IlMsnWhlTCjk23ge6K9oaXoOdb1FevqEXHoDzN9Euq-fJarGgpCJ0oy4hYsetZ0LVnCRVUqS3c4HnCoYeRCSkCo");'></div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Side Navigation -->
+<aside class="w-64 bg-background-dark border-r border-surface-border flex flex-col hidden md:flex overflow-y-auto">
+<div class="p-4">
+<div class="flex items-center gap-3 mb-6 p-2 rounded-lg bg-surface-dark border border-surface-border">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-md size-8" data-alt="Acme Corp logo placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBh6Bzt0z-7j5IwbTbw14rIvcA3FiI4_bZNDGdPd2qROJMGiSgxX-RkSfTByD2Jq_DDcR7Y6wznZ0FMIxVa-2s55RZk_lv5kV7Bo6im3YWO0le11zE1JURTzYuvvqTSXYevMDtGhLTQVHnQzRd1QOIjEGags47lgWxJAQ99hGAD1YpET8jqhqd02mF6zXZHtkwCaAwtOrNVOAvHUGl-CPUeNA3V0zR3SrCoQAifvbZNHrCTQ7krQBKVn4k6rFenTrhWLLROWe7coHs");'></div>
+<div class="flex flex-col overflow-hidden">
+<h1 class="text-white text-sm font-medium leading-none truncate">Acme Corp</h1>
+<p class="text-text-muted text-xs font-normal leading-normal truncate mt-1">Enterprise Plan</p>
+</div>
+<span class="material-symbols-outlined text-text-muted text-sm ml-auto">expand_more</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider">Workspace</p>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<p class="text-sm font-medium leading-normal">General</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<p class="text-sm font-medium leading-normal">Members</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+<p class="text-sm font-medium leading-normal">Billing</p>
+</a>
+<div class="my-2 border-t border-surface-border"></div>
+<p class="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider">Developers</p>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">key</span>
+<p class="text-sm font-medium leading-normal">API Keys</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<p class="text-sm font-medium leading-normal">Audit Log</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">webhook</span>
+<p class="text-sm font-medium leading-normal">Webhooks</p>
+</a>
+</div>
+</div>
+<div class="mt-auto p-4 border-t border-surface-border">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-dark hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<p class="text-sm font-medium leading-normal">Sign Out</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto bg-background-dark relative scroll-smooth">
+<div class="max-w-[1000px] mx-auto px-6 py-8 md:px-12 md:py-10 flex flex-col gap-8">
+<!-- Header Section -->
+<div class="flex flex-col gap-4">
+<nav class="flex flex-wrap gap-2 text-sm">
+<a class="text-text-muted hover:text-white transition-colors" href="#">Hyyve</a>
+<span class="text-text-muted">/</span>
+<a class="text-text-muted hover:text-white transition-colors" href="#">Acme Corp</a>
+<span class="text-text-muted">/</span>
+<span class="text-white font-medium">Settings</span>
+</nav>
+<div class="flex flex-wrap justify-between items-end gap-4 border-b border-surface-border pb-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-3xl font-bold leading-tight tracking-tight">Workspace Settings</h1>
+<p class="text-text-muted text-base max-w-xl">Manage your organization profile, default AI configurations, and security policies.</p>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-lg shadow-primary/20 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                             Save Changes
+                        </button>
+</div>
+</div>
+<!-- General Information -->
+<section class="flex flex-col gap-6">
+<h2 class="text-white text-xl font-bold">General Information</h2>
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6 shadow-sm">
+<div class="flex flex-col md:flex-row gap-8">
+<!-- Icon Upload -->
+<div class="flex flex-col gap-3 shrink-0">
+<label class="text-sm font-medium text-text-muted">Workspace Icon</label>
+<div class="group relative size-24 rounded-full bg-background-dark border-2 border-dashed border-surface-border flex items-center justify-center cursor-pointer hover:border-primary transition-colors overflow-hidden">
+<div class="absolute inset-0 bg-center bg-cover opacity-50 group-hover:opacity-30 transition-opacity" data-alt="Current workspace icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAgQknvyM9oODrPYzzrRXl38_9M-HPd5PyqcOGFq-O5SFxZ5Bk759lOJL9s4YjRdlvH2hnjeKTb3Esy57hB7qHyc465A5OoVBMjCaC_uqnUQGduMQEp4TlXckyI5nDmxC33R61y5eZABIvUG4tIarZKsNwCMc_i5K-5xn8h7XM3g9dIXpLvlfahWlzRP6tbf-J2cXDU_9nc1RQBgwsbkCUmyMQTL0m5kaWKsGyrWK0ZcwtVOHbc-SDnfzYL90qoE7Q0v_B8Q5Yd_3A");'></div>
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary z-10">upload</span>
+</div>
+<p class="text-xs text-text-muted text-center">Rec. 64x64px</p>
+</div>
+<!-- Inputs -->
+<div class="flex flex-col gap-5 flex-1 max-w-2xl">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-white">Workspace Name</label>
+<input class="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-2.5 text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-text-muted" type="text" value="Acme Corp AI Team"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-white">Workspace URL</label>
+<div class="flex items-center w-full bg-background-dark border border-surface-border rounded-lg overflow-hidden focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all">
+<span class="pl-4 pr-1 py-2.5 text-text-muted bg-background-dark border-r border-surface-border text-sm select-none">hyyve.ai/</span>
+<input class="flex-1 bg-transparent border-none px-3 py-2.5 text-white focus:ring-0 outline-none placeholder:text-text-muted" type="text" value="acme-corp"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Default AI Settings -->
+<section class="flex flex-col gap-6">
+<h2 class="text-white text-xl font-bold">Default AI Settings</h2>
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-white">Default LLM Provider</label>
+<div class="relative">
+<select class="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-2.5 text-white appearance-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all cursor-pointer">
+<option>OpenAI</option>
+<option>Anthropic</option>
+<option>Google Vertex AI</option>
+<option>Cohere</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-white">Default Model</label>
+<div class="relative">
+<select class="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-2.5 text-white appearance-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all cursor-pointer">
+<option>GPT-4 Turbo</option>
+<option>GPT-4</option>
+<option>GPT-3.5 Turbo</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-4 md:col-span-2 mt-2">
+<div class="flex justify-between items-center">
+<label class="text-sm font-medium text-white">Temperature</label>
+<span class="text-sm font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">0.7</span>
+</div>
+<input class="w-full h-2 bg-background-dark rounded-lg appearance-none cursor-pointer accent-primary hover:accent-primary/80" max="1" min="0" step="0.1" type="range" value="0.7"/>
+<p class="text-xs text-text-muted">Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.</p>
+</div>
+</div>
+</section>
+<!-- Security & Compliance -->
+<section class="flex flex-col gap-6">
+<h2 class="text-white text-xl font-bold">Security Policies</h2>
+<div class="bg-surface-dark border border-surface-border rounded-xl shadow-sm divide-y divide-surface-border">
+<!-- Toggle Item -->
+<div class="p-5 flex items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-sm font-medium">Audit Logging</h3>
+<p class="text-text-muted text-sm">Log all prompts and completions for compliance review.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary border border-surface-border"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="p-5 flex items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-sm font-medium">PII Redaction</h3>
+<p class="text-text-muted text-sm">Automatically detect and redact personally identifiable information.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary border border-surface-border"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="p-5 flex items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-sm font-medium">Enforce 2FA</h3>
+<p class="text-text-muted text-sm">Require two-factor authentication for all workspace members.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary border border-surface-border"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Integrations -->
+<section class="flex flex-col gap-6">
+<h2 class="text-white text-xl font-bold">Integrations</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1: Slack -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6 shadow-sm flex flex-col justify-between h-full gap-4">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-white/10 p-2 rounded-lg flex items-center justify-center size-10">
+<span class="material-symbols-outlined text-white">chat</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-white text-base font-semibold">Slack</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="size-2 rounded-full bg-emerald-500"></span>
+<span class="text-emerald-500 text-xs font-medium">Connected</span>
+</div>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-surface-border"></div>
+</label>
+</div>
+<p class="text-text-muted text-sm">
+                                Receive alerts and notifications in <span class="text-white font-mono bg-background-dark px-1.5 py-0.5 rounded text-xs">#ai-alerts</span>
+</p>
+</div>
+<!-- Card 2: GitHub -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6 shadow-sm flex flex-col justify-between h-full gap-4 opacity-75">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-white/10 p-2 rounded-lg flex items-center justify-center size-10">
+<span class="material-symbols-outlined text-white">code</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-white text-base font-semibold">GitHub</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="size-2 rounded-full bg-text-muted"></span>
+<span class="text-text-muted text-xs font-medium">Disconnected</span>
+</div>
+</div>
+</div>
+<button class="text-xs font-medium bg-background-dark border border-surface-border hover:border-text-muted text-white px-3 py-1.5 rounded-lg transition-colors">
+                                    Connect
+                                </button>
+</div>
+<p class="text-text-muted text-sm">
+                                Sync prompts and manage version control directly from your repositories.
+                            </p>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="flex flex-col gap-6 pb-12">
+<h2 class="text-red-500 text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined">warning</span>
+                        Danger Zone
+                     </h2>
+<div class="border border-red-900/50 bg-red-950/10 rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-base font-semibold">Delete this workspace</h3>
+<p class="text-text-muted text-sm">Once you delete a workspace, there is no going back. Please be certain.</p>
+</div>
+<button class="bg-red-600/10 hover:bg-red-600 hover:text-white text-red-500 border border-red-600/50 font-medium px-4 py-2 rounded-lg transition-all text-sm whitespace-nowrap">
+                            Delete Workspace
+                        </button>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

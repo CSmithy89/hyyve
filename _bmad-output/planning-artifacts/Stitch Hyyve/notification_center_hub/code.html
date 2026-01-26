@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Platform - Notification Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#1e1c36", // Slightly lighter for cards
+              "surface-highlight": "#272546", // Highlight color from examples
+              "text-secondary": "#9795c6",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex">
+<!-- Sidebar -->
+<aside class="w-72 bg-background-dark border-r border-[#272546] flex-shrink-0 flex flex-col h-full hidden md:flex">
+<div class="flex flex-col h-full p-4">
+<!-- Brand -->
+<div class="flex gap-3 mb-8 px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0" data-alt="Abstract geometric purple logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9VgE0nYlqZ1g7cITB-CWtvZzeG8lG-1ly1Io3FTaef2NdmnxJ5yyF7MAL02b4NAdUR2CTXU_Xs2snHKcXTgYj562kQGpTyltOiRUFE5H3EzDS7fTvcjbPrBznLJ-j_07mzaHE5cNGCwxnS85YcJVM32a9fOoKghGMtg7D1mrsLV_YMmakGDADVjoR3R5sB4chJ4TDQXRN6Oi_ivy_fB5Y0Q709wACSV4pxvbCPAi8jZZpzTPNezmVPkhzLmg_1CXOs18qDq4xmjY");'></div>
+<div class="flex flex-col justify-center">
+<h1 class="text-white text-base font-bold leading-none">Hyyve Platform</h1>
+<p class="text-text-secondary text-xs font-normal mt-1">Enterprise Edition</p>
+</div>
+</div>
+<!-- Nav Items -->
+<nav class="flex flex-col gap-2 flex-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-highlight hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px]" data-weight="regular">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-highlight text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px]" data-weight="fill">notifications</span>
+<p class="text-sm font-medium">Notifications</p>
+<span class="ml-auto bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">12</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-highlight hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px]" data-weight="regular">schema</span>
+<p class="text-sm font-medium">Workflows</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-highlight hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px]" data-weight="regular">analytics</span>
+<p class="text-sm font-medium">Analytics</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-highlight hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px]" data-weight="regular">group</span>
+<p class="text-sm font-medium">Team</p>
+</a>
+<div class="my-2 border-t border-[#272546]"></div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-highlight hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px]" data-weight="regular">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</a>
+</nav>
+<!-- Profile -->
+<div class="mt-auto pt-4 border-t border-[#272546]">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface-highlight transition-colors" href="#">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">JD</div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium">John Doe</p>
+<p class="text-text-secondary text-xs">DevOps Engineer</p>
+</div>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-4 md:p-8 lg:px-12">
+<div class="max-w-5xl mx-auto flex flex-col gap-6">
+<!-- Header Section -->
+<header class="flex flex-col gap-6">
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-3xl md:text-4xl font-black tracking-tight">Notification Center</h1>
+<p class="text-text-secondary text-base">Manage your system alerts and messages</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-surface-highlight hover:bg-[#322f59] text-white text-sm font-medium transition-colors border border-transparent hover:border-white/10">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+<span>Mark all as read</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-surface-highlight hover:bg-[#322f59] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex flex-wrap gap-2">
+<button class="group flex h-8 items-center gap-2 rounded-lg bg-primary text-white pl-2 pr-4 text-sm font-medium ring-1 ring-primary">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+                            All Notifications
+                        </button>
+<button class="group flex h-8 items-center gap-2 rounded-lg bg-surface-highlight hover:bg-[#322f59] text-text-secondary hover:text-white pl-2 pr-4 text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-[18px] text-red-400">error</span>
+                            Critical
+                            <span class="ml-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500/20 px-1 text-[10px] text-red-400">3</span>
+</button>
+<button class="group flex h-8 items-center gap-2 rounded-lg bg-surface-highlight hover:bg-[#322f59] text-text-secondary hover:text-white pl-2 pr-4 text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-[18px] text-amber-400">warning</span>
+                            Warning
+                        </button>
+<button class="group flex h-8 items-center gap-2 rounded-lg bg-surface-highlight hover:bg-[#322f59] text-text-secondary hover:text-white pl-2 pr-4 text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-[18px] text-emerald-400">check_circle</span>
+                            Success
+                        </button>
+</div>
+<!-- Bulk Actions Toolbar (Simulated Context) -->
+<div class="flex items-center justify-between bg-surface-highlight/50 rounded-xl px-4 py-2 border border-white/5 backdrop-blur-sm">
+<div class="flex items-center gap-3">
+<input class="rounded border-gray-600 bg-surface-highlight text-primary focus:ring-primary focus:ring-offset-background-dark size-4" type="checkbox"/>
+<span class="text-sm text-text-secondary font-medium">Select All</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-colors" title="Delete Selected">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-colors" title="Archive Selected">
+<span class="material-symbols-outlined text-[20px]">archive</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-colors" title="Mark as Read">
+<span class="material-symbols-outlined text-[20px]">drafts</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Notification Feed -->
+<div class="flex flex-col gap-8 pb-12">
+<!-- Group: Today -->
+<section>
+<h3 class="text-white text-lg font-bold px-1 mb-4 flex items-center gap-2">
+                            Today
+                            <span class="text-xs font-normal text-text-secondary bg-surface-highlight px-2 py-0.5 rounded-full">3 New</span>
+</h3>
+<div class="flex flex-col gap-3">
+<!-- Critical Item -->
+<div class="group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl bg-surface-dark hover:bg-[#252342] border-l-4 border-red-500 transition-all shadow-lg shadow-black/20">
+<div class="absolute right-4 top-4 md:hidden">
+<span class="text-xs text-text-secondary">10:42 AM</span>
+</div>
+<div class="flex items-start gap-4">
+<div class="mt-1 flex items-center justify-center">
+<input class="rounded border-gray-600 bg-surface-highlight text-primary focus:ring-primary focus:ring-offset-background-dark size-4" type="checkbox"/>
+</div>
+<div class="mt-0.5 shrink-0 rounded-full bg-red-500/10 p-2 text-red-500">
+<span class="material-symbols-outlined text-[24px]">database</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-1.5">
+<div class="flex items-start justify-between pr-8 md:pr-0">
+<h4 class="text-base font-semibold text-white">Database Connection Failed</h4>
+<span class="hidden md:block text-xs font-medium text-text-secondary whitespace-nowrap ml-4">10:42 AM</span>
+</div>
+<p class="text-sm text-text-secondary leading-relaxed max-w-2xl">The primary production database cluster (US-East-1) is unresponsive. Automated restart sequence was initiated but failed after 3 attempts. Manual intervention required.</p>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<button class="inline-flex items-center gap-2 text-xs font-bold text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-lg shadow-md shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+                                            Restart Workflow
+                                        </button>
+<button class="inline-flex items-center gap-2 text-xs font-bold text-white bg-surface-highlight hover:bg-[#322f59] px-4 py-2 rounded-lg transition-all border border-transparent hover:border-white/10">
+<span class="material-symbols-outlined text-[16px]">article</span>
+                                            View Error Logs
+                                        </button>
+</div>
+</div>
+<div class="hidden md:flex flex-col items-end justify-start pl-2">
+<button class="text-text-secondary hover:text-white p-1 rounded hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Success Item -->
+<div class="group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl bg-surface-dark hover:bg-[#252342] border-l-4 border-emerald-500 transition-all">
+<div class="absolute right-4 top-4 md:hidden">
+<span class="text-xs text-text-secondary">09:15 AM</span>
+</div>
+<div class="flex items-start gap-4">
+<div class="mt-1 flex items-center justify-center">
+<input class="rounded border-gray-600 bg-surface-highlight text-primary focus:ring-primary focus:ring-offset-background-dark size-4" type="checkbox"/>
+</div>
+<div class="mt-0.5 shrink-0 rounded-full bg-emerald-500/10 p-2 text-emerald-500">
+<span class="material-symbols-outlined text-[24px]">check_circle</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-1.5">
+<div class="flex items-start justify-between pr-8 md:pr-0">
+<h4 class="text-base font-semibold text-white">Q3 Financial Export Completed</h4>
+<span class="hidden md:block text-xs font-medium text-text-secondary whitespace-nowrap ml-4">09:15 AM</span>
+</div>
+<p class="text-sm text-text-secondary leading-relaxed max-w-2xl">Your requested data export for Q3 2023 has been processed successfully. The file is ready for download (24.5 MB).</p>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<button class="inline-flex items-center gap-2 text-xs font-bold text-white bg-surface-highlight hover:bg-[#322f59] px-4 py-2 rounded-lg transition-all border border-emerald-500/30 hover:border-emerald-500/50">
+<span class="material-symbols-outlined text-[16px] text-emerald-400">download</span>
+                                            Download Report
+                                        </button>
+</div>
+</div>
+<div class="hidden md:flex flex-col items-end justify-start pl-2">
+<button class="text-text-secondary hover:text-white p-1 rounded hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Info Item -->
+<div class="group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl bg-surface-dark hover:bg-[#252342] border-l-4 border-primary transition-all">
+<div class="absolute right-4 top-4 md:hidden">
+<span class="text-xs text-text-secondary">08:30 AM</span>
+</div>
+<div class="flex items-start gap-4">
+<div class="mt-1 flex items-center justify-center">
+<input class="rounded border-gray-600 bg-surface-highlight text-primary focus:ring-primary focus:ring-offset-background-dark size-4" type="checkbox"/>
+</div>
+<div class="mt-0.5 shrink-0 rounded-full bg-primary/20 p-2 text-primary">
+<span class="material-symbols-outlined text-[24px]">person_add</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-1.5">
+<div class="flex items-start justify-between pr-8 md:pr-0">
+<h4 class="text-base font-semibold text-white">New Team Member Joined</h4>
+<span class="hidden md:block text-xs font-medium text-text-secondary whitespace-nowrap ml-4">08:30 AM</span>
+</div>
+<p class="text-sm text-text-secondary leading-relaxed max-w-2xl">Sarah Jenkins accepted your invitation to join the 'DevOps' workspace.</p>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<button class="text-xs font-bold text-text-secondary hover:text-white transition-colors">
+                                            View Profile
+                                        </button>
+<span class="text-surface-highlight text-xs">•</span>
+<button class="text-xs font-bold text-text-secondary hover:text-white transition-colors">
+                                            Manage Permissions
+                                        </button>
+</div>
+</div>
+<div class="hidden md:flex flex-col items-end justify-start pl-2">
+<button class="text-text-secondary hover:text-white p-1 rounded hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Group: Yesterday -->
+<section>
+<h3 class="text-white text-lg font-bold px-1 mb-4 flex items-center gap-2">
+                            Yesterday
+                        </h3>
+<div class="flex flex-col gap-3">
+<!-- Warning Item -->
+<div class="group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl bg-surface-dark/60 hover:bg-[#252342] border-l-4 border-amber-500/50 transition-all opacity-90 hover:opacity-100">
+<div class="absolute right-4 top-4 md:hidden">
+<span class="text-xs text-text-secondary">4:00 PM</span>
+</div>
+<div class="flex items-start gap-4">
+<div class="mt-1 flex items-center justify-center">
+<input class="rounded border-gray-600 bg-surface-highlight text-primary focus:ring-primary focus:ring-offset-background-dark size-4" type="checkbox"/>
+</div>
+<div class="mt-0.5 shrink-0 rounded-full bg-amber-500/10 p-2 text-amber-500">
+<span class="material-symbols-outlined text-[24px]">speed</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-1.5">
+<div class="flex items-start justify-between pr-8 md:pr-0">
+<h4 class="text-base font-semibold text-white">API Usage Limit Approaching</h4>
+<span class="hidden md:block text-xs font-medium text-text-secondary whitespace-nowrap ml-4">Yesterday, 4:00 PM</span>
+</div>
+<p class="text-sm text-text-secondary leading-relaxed max-w-2xl">You have consumed 85% of your monthly API request quota (850,000 / 1,000,000 requests). Upgrade your plan to avoid service interruption.</p>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<button class="inline-flex items-center gap-2 text-xs font-bold text-white bg-surface-highlight hover:bg-[#322f59] px-4 py-2 rounded-lg transition-all border border-amber-500/20 hover:border-amber-500/40">
+<span class="material-symbols-outlined text-[16px] text-amber-400">rocket_launch</span>
+                                            Upgrade Plan
+                                        </button>
+</div>
+</div>
+<div class="hidden md:flex flex-col items-end justify-start pl-2">
+<button class="text-text-secondary hover:text-white p-1 rounded hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Info Item (Read) -->
+<div class="group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl bg-surface-dark/40 hover:bg-[#252342] border-l-4 border-gray-600 transition-all opacity-75 hover:opacity-100">
+<div class="absolute right-4 top-4 md:hidden">
+<span class="text-xs text-text-secondary">2:30 PM</span>
+</div>
+<div class="flex items-start gap-4">
+<div class="mt-1 flex items-center justify-center">
+<input class="rounded border-gray-600 bg-surface-highlight text-primary focus:ring-primary focus:ring-offset-background-dark size-4" type="checkbox"/>
+</div>
+<div class="mt-0.5 shrink-0 rounded-full bg-gray-500/20 p-2 text-gray-400">
+<span class="material-symbols-outlined text-[24px]">info</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-1.5">
+<div class="flex items-start justify-between pr-8 md:pr-0">
+<h4 class="text-base font-semibold text-gray-300">System Maintenance Scheduled</h4>
+<span class="hidden md:block text-xs font-medium text-text-secondary whitespace-nowrap ml-4">Yesterday, 2:30 PM</span>
+</div>
+<p class="text-sm text-text-secondary leading-relaxed max-w-2xl">Scheduled maintenance for the Asia-Pacific region will occur on Nov 15th from 2:00 AM to 4:00 AM UTC.</p>
+</div>
+<div class="hidden md:flex flex-col items-end justify-start pl-2">
+<button class="text-text-secondary hover:text-white p-1 rounded hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center pb-10">
+<button class="text-sm font-medium text-text-secondary hover:text-white transition-colors flex items-center gap-2">
+                        Load older notifications
+                        <span class="material-symbols-outlined text-[20px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

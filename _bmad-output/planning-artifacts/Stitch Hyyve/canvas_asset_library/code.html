@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Canvas Asset Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#1c1b32",
+              "border-dark": "#272546",
+              "text-muted": "#9795c6"
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom scrollbar for Webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #383663; 
+        }
+    </style>
+</head>
+<body class="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark font-display text-white overflow-hidden selection:bg-primary/30">
+<!-- Top Navigation -->
+<header class="flex shrink-0 items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark px-6 py-3 z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8 pl-20">
+<a class="text-text-muted hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Projects</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Canvas</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Models</a>
+<a class="text-text-muted hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center text-text-muted hover:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border border-border-dark" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAvcvcytVuLjZCU1p26heXG1y8uSNG-_yTjhDC_kUYz3unaLB7EDMiWoBL0olRYSLMOGdh41OWvOdKo4gA07LzPeTImjT93U_UO_wF1teo7AYyHQQYq2HmDnzpEtW4ZuPnitfjp1nQriUidTq-B4EOBydadULj9CohS0u2O5-Y-MrZ4mn1raSz_hmpIt8ZFOm9bNcTEPIqV2YHVsAiWwTrlvSujLmYmhLxUCD_GSAXy6G9p8hGICHT2L_VR35qlXHaGWCkWh0uYSZA");'></div>
+</div>
+</header>
+<!-- Main Content Wrapper -->
+<div class="flex flex-1 flex-col overflow-hidden relative">
+<!-- Toolbar Header (Sticky) -->
+<div class="shrink-0 flex flex-col border-b border-border-dark bg-background-dark z-10 px-6 pt-6 pb-0 shadow-lg">
+<!-- Page Title Row -->
+<div class="flex flex-wrap justify-between gap-4 mb-6">
+<div class="flex flex-col gap-1">
+<h1 class="text-white text-3xl font-black leading-tight tracking-[-0.033em]">Asset Library</h1>
+<p class="text-text-muted text-sm font-normal">Manage your generated and uploaded media assets for the canvas.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border-dark bg-transparent hover:bg-border-dark text-white text-sm font-medium transition-all group">
+<span class="material-symbols-outlined text-text-muted group-hover:text-white text-[20px]">upload</span>
+                        Upload
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-medium shadow-lg shadow-primary/25 transition-all">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+                        Generate New
+                    </button>
+</div>
+</div>
+<!-- Utilities Row -->
+<div class="flex flex-col xl:flex-row items-end xl:items-center justify-between gap-4 w-full">
+<!-- Tabs -->
+<nav class="flex gap-6 overflow-x-auto w-full xl:w-auto no-scrollbar">
+<a class="flex items-center justify-center border-b-[3px] border-b-primary text-white pb-3 pt-1 px-1 min-w-fit" href="#">
+<span class="text-sm font-bold tracking-[0.015em]">All Assets</span>
+</a>
+<a class="flex items-center justify-center border-b-[3px] border-b-transparent text-text-muted hover:text-white pb-3 pt-1 px-1 min-w-fit transition-colors" href="#">
+<span class="text-sm font-bold tracking-[0.015em]">Generated</span>
+</a>
+<a class="flex items-center justify-center border-b-[3px] border-b-transparent text-text-muted hover:text-white pb-3 pt-1 px-1 min-w-fit transition-colors" href="#">
+<span class="text-sm font-bold tracking-[0.015em]">Uploaded</span>
+</a>
+<!-- Separator -->
+<div class="w-px h-6 bg-border-dark mx-2 self-center hidden sm:block"></div>
+<a class="flex items-center justify-center border-b-[3px] border-b-transparent text-text-muted hover:text-white pb-3 pt-1 px-1 min-w-fit transition-colors" href="#">
+<span class="text-sm font-bold tracking-[0.015em]">Images</span>
+</a>
+<a class="flex items-center justify-center border-b-[3px] border-b-transparent text-text-muted hover:text-white pb-3 pt-1 px-1 min-w-fit transition-colors" href="#">
+<span class="text-sm font-bold tracking-[0.015em]">Videos</span>
+</a>
+<a class="flex items-center justify-center border-b-[3px] border-b-transparent text-text-muted hover:text-white pb-3 pt-1 px-1 min-w-fit transition-colors" href="#">
+<span class="text-sm font-bold tracking-[0.015em]">Audio</span>
+</a>
+</nav>
+<!-- Search & Sort -->
+<div class="flex items-center gap-3 w-full xl:w-auto pb-3">
+<!-- Search -->
+<div class="relative flex-1 xl:w-80 h-10 group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted group-focus-within:text-primary">search</span>
+</div>
+<input class="block w-full h-full pl-10 pr-3 py-2 rounded-lg bg-surface-dark border border-border-dark placeholder-text-muted focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm text-white transition-all" placeholder="Search assets..." type="text"/>
+</div>
+<!-- Sort -->
+<div class="relative w-40 h-10">
+<select class="block w-full h-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-surface-dark border border-border-dark text-white appearance-none cursor-pointer">
+<option>Date Created</option>
+<option>Name (A-Z)</option>
+<option>File Size</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-muted">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+<!-- View Toggle -->
+<div class="flex bg-surface-dark rounded-lg p-1 border border-border-dark h-10 items-center">
+<button class="p-1 rounded hover:bg-border-dark text-white"><span class="material-symbols-outlined text-[20px]">grid_view</span></button>
+<button class="p-1 rounded hover:bg-border-dark text-text-muted"><span class="material-symbols-outlined text-[20px]">list</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Asset Grid (Scrollable) -->
+<div class="flex-1 overflow-y-auto p-6 bg-background-light dark:bg-background-dark">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 pb-24">
+<!-- Card 1: Selected Image -->
+<div class="group relative flex flex-col gap-2 cursor-pointer">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-lg border-2 border-primary bg-surface-dark shadow-[0_0_0_4px_rgba(80,72,229,0.2)]">
+<div class="absolute top-2 left-2 z-10 flex items-center justify-center rounded bg-black/60 p-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-[16px]">image</span>
+</div>
+<img alt="Asset Thumbnail" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Cyberpunk neon city street at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiddkJ8FJ4C5bXu52-BF1gWsDaK-9G-ksO4q1NpB2uKupjJJgoS0L18JvXsHX54vGsG0XZgpLtsCQBoGWUEinG56SYpWpHs5l6MWWdXBWLw28k7qWFj-E96bDqVQX12HufV47N7C4nEEAedezDNgn14QfwPrjXGLhi5F1vCj--T7NRdOpe61kE-59HQGNCboG58dmE8hk_bItfduRbGqUOWu3epYw-3LkK8oOENVCwsKT-YpqtcFvuAIWUB0iQREiww4YYHv5KjZI"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+</div>
+<div class="flex flex-col px-1">
+<p class="text-sm font-medium text-white truncate">Neon Cityscape_v4.png</p>
+<p class="text-xs text-text-muted">2.4 MB • 2 mins ago</p>
+</div>
+</div>
+<!-- Card 2: Video -->
+<div class="group relative flex flex-col gap-2 cursor-pointer">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-transparent bg-surface-dark hover:border-primary/50 transition-all">
+<div class="absolute top-2 left-2 z-10 flex items-center justify-center rounded bg-black/60 p-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-[16px]">videocam</span>
+</div>
+<div class="absolute bottom-2 right-2 z-10 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
+                            00:14
+                        </div>
+<img alt="Asset Thumbnail" class="h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-100" data-alt="Abstract fluid simulation frame" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAkb8PAVlcNEzFdV6176Me4xW06A4luR06PW2EMe2ghq1C1JLVUr6hQ9tCR1YsndASfCoze9H1ND4O-_Zt8tAhCXFRhvV8yYViSMyIjfk5Pd5fn5geDCMAL64sFyh_kVOkVp6Gv0H8pNf3aanYzpNtIqJdGGqolS6SYWQZngfRk7_xeRHKKaxugtbnuU8ll7WvR9rgw30YzkiLXqT_S9qxtgZGe0rLUK0E4ljE5b0IhHn9j8IWvT1o9ZxfKcq3-NSWMa7_OFlNyD0"/>
+<!-- Play Overlay -->
+<div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 bg-black/20">
+<div class="rounded-full bg-white/20 p-2 backdrop-blur-md">
+<span class="material-symbols-outlined text-white">play_arrow</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col px-1">
+<p class="text-sm font-medium text-white/90 truncate">Fluid_Sim_Render.mp4</p>
+<p class="text-xs text-text-muted">14.2 MB • 1 hour ago</p>
+</div>
+</div>
+<!-- Card 3: Audio -->
+<div class="group relative flex flex-col gap-2 cursor-pointer">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-transparent bg-surface-dark hover:border-primary/50 transition-all flex items-center justify-center bg-gradient-to-br from-[#1c1b32] to-[#272546]">
+<div class="absolute top-2 left-2 z-10 flex items-center justify-center rounded bg-black/60 p-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-[16px]">music_note</span>
+</div>
+<div class="absolute bottom-2 right-2 z-10 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
+                            02:30
+                        </div>
+<!-- Waveform visualization placeholder -->
+<div class="flex items-center gap-1 h-8">
+<div class="w-1 bg-primary/40 h-4 rounded-full"></div>
+<div class="w-1 bg-primary/60 h-6 rounded-full"></div>
+<div class="w-1 bg-primary h-8 rounded-full"></div>
+<div class="w-1 bg-primary/80 h-5 rounded-full"></div>
+<div class="w-1 bg-primary/40 h-3 rounded-full"></div>
+</div>
+</div>
+<div class="flex flex-col px-1">
+<p class="text-sm font-medium text-white/90 truncate">Synth_Background.wav</p>
+<p class="text-xs text-text-muted">5.1 MB • 3 hours ago</p>
+</div>
+</div>
+<!-- Card 4: Image -->
+<div class="group relative flex flex-col gap-2 cursor-pointer">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-transparent bg-surface-dark hover:border-primary/50 transition-all">
+<div class="absolute top-2 left-2 z-10 flex items-center justify-center rounded bg-black/60 p-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-[16px]">image</span>
+</div>
+<img alt="Asset Thumbnail" class="h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-100" data-alt="Geometric 3D shapes rendering" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYac8GsBRSrHgMmvNGVwESp5LMsXLCVgSyOXgAcqKCA9UXt8NhcjeqzN6e6NFO0D_b55zqxxfnkKzBNgpnXpqBDWTYRyTkidXPEkfvnPK0RX0sLkh4r5z7t__VWKbRIIvJ-NKwatIN26d4uknrHjxfCMPJXO0IIa6aNbhbBZox_geWNRTZt4eWEbXU50wh1hh3jBCDYHcGqCYVPsbZCsSAJBY1Ti3hRSHFSRaJIl9l9j35aHEcLV8DNLWIFDIgCSr6RL-ACD11zrw"/>
+</div>
+<div class="flex flex-col px-1">
+<p class="text-sm font-medium text-white/90 truncate">Abstract_Shapes_02.png</p>
+<p class="text-xs text-text-muted">1.8 MB • 5 hours ago</p>
+</div>
+</div>
+<!-- Card 5: Image -->
+<div class="group relative flex flex-col gap-2 cursor-pointer">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-transparent bg-surface-dark hover:border-primary/50 transition-all">
+<div class="absolute top-2 left-2 z-10 flex items-center justify-center rounded bg-black/60 p-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-[16px]">image</span>
+</div>
+<img alt="Asset Thumbnail" class="h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-100" data-alt="Futuristic data center interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHVDJwbWRQaB-spiqWV0-QOZvEJKWsIU3nO1eDfGOwD2n6TTOdCIkneHb0Di076j8hKenMapZv9xJshnm548I7Xc7dCANzFUDXUahI-PQT180IvhLyk5HMyIyPt-V_acf2fevZwiIf1gS-jJB-NRaFsTbvbD0DrsySShqd4h9-RUI6pjsFZ8dOnP2BjcoKTKx2oJhz783E8CetVwZm1LOaqkTUH78idOFogvDhC6YklByZFQDPKkdYScbJooVSwXKrmOrgQD1FVnU"/>
+</div>
+<div class="flex flex-col px-1">
+<p class="text-sm font-medium text-white/90 truncate">Server_Room_Blue.jpg</p>
+<p class="text-xs text-text-muted">3.2 MB • 1 day ago</p>
+</div>
+</div>
+<!-- Card 6: Image -->
+<div class="group relative flex flex-col gap-2 cursor-pointer">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-transparent bg-surface-dark hover:border-primary/50 transition-all">
+<div class="absolute top-2 left-2 z-10 flex items-center justify-center rounded bg-black/60 p-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-[16px]">image</span>
+</div>
+<img alt="Asset Thumbnail" class="h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-100" data-alt="Close up of mechanical eye" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQOWyJJI4mRwyruj1gwpBm2oaO45YG9gJI5UhkJvZzFmaAIU0Zn0j2nROju8l2vlbhN4UCZcokP0TVBZOfyVEoD50e72Qy9tHKAWi6DE_KSqCpqzGhEuuHwzfqCbASwk_u85ccjzn3sgR86JfxO9i6zlVr1O9rbfvRyfUCY8HLhNMjTjE1ApFfelN8San_8-VXQTT2NV1Msp_ZkZ1j5zNB1Al_mfNrZkiWCuZa5_Lvw_g0bJvJOTdMj_lWtHbMWuetu9PX5Im7enU"/>
+</div>
+<div class="flex flex-col px-1">
+<p class="text-sm font-medium text-white/90 truncate">Robot_Eye_Detail.png</p>
+<p class="text-xs text-text-muted">4.1 MB • 2 days ago</p>
+</div>
+</div>
+<!-- Card 7: Video -->
+<div class="group relative flex flex-col gap-2 cursor-pointer">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-transparent bg-surface-dark hover:border-primary/50 transition-all">
+<div class="absolute top-2 left-2 z-10 flex items-center justify-center rounded bg-black/60 p-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-white text-[16px]">videocam</span>
+</div>
+<div class="absolute bottom-2 right-2 z-10 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
+                            01:05
+                        </div>
+<img alt="Asset Thumbnail" class="h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-100" data-alt="Code on screen stock footage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuVV-T5BO0xI89OuTDem0-qbSdhX8CtxaAD-eRHhwHXC_a0PF3ngwpT_o6xBbDYxpVTrsHassSBHFhBdPSBf03rmq4a1hbCCXjeNsqATaTjQl0j6D7XF0URebd2oPiFnLtORoU3fF8aFhwl4yZlzw3M7ju6Jqrtl2f3fEEK13HOXg1X980uBwpI0NAbm1D34FdWnvrQWNVq3uHUmOOqFW0Mb5D61seIsoJjnr6DXnucHib6eSxJ-f8riVshbpDshzsz1aetXVssvU"/>
+</div>
+<div class="flex flex-col px-1">
+<p class="text-sm font-medium text-white/90 truncate">Coding_Timelapse.mp4</p>
+<p class="text-xs text-text-muted">28 MB • 3 days ago</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspector Panel (Fixed Bottom Dock) -->
+<div class="shrink-0 z-30 border-t border-border-dark bg-surface-dark shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
+<!-- Resizer Handle (Visual only) -->
+<div class="flex justify-center -mt-3">
+<!-- <div class="h-1 w-16 bg-border-dark rounded-full cursor-ns-resize"></div> -->
+</div>
+<div class="flex flex-col md:flex-row h-64 md:h-48 overflow-hidden">
+<!-- Left: Quick Preview & Basic Info -->
+<div class="w-full md:w-64 p-5 border-b md:border-b-0 md:border-r border-border-dark flex flex-row md:flex-col gap-4 shrink-0 bg-[#151525]">
+<div class="size-20 md:size-24 rounded-lg overflow-hidden shrink-0 border border-border-dark">
+<img alt="Selected Asset" class="h-full w-full object-cover" data-alt="Cyberpunk neon city street at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7mNblVOSlc5gMia2SI_CLUYNUtwdhWQqhBnJ1-avTDWmO-B5MOdqilvMrqQKDIDsugTYMg69w7TA1dtmK9kthhlBQYp4WoBqCF5BdrQsig3eUgokOlZHCCE8brredYt3_Y5hvoPQLBhc1e65ntnRVEJaPmKeRQiRkUKf-1gxPI5PUwV-Wv7hT8UEWwHFW4ziHfTj3yJD4PHd4ocz3vOqD5wmikaUYxm46fblNS7RVpwBX5mWJw__Hyl5r-sLNs4O5rG2KBGUwHX8"/>
+</div>
+<div class="flex flex-col justify-center gap-1 overflow-hidden">
+<h3 class="text-white font-semibold truncate" title="Neon Cityscape_v4.png">Neon Cityscape_v4.png</h3>
+<p class="text-xs text-text-muted">Generated by User</p>
+<div class="flex gap-2 mt-2">
+<button class="text-xs bg-border-dark hover:bg-primary hover:text-white text-text-muted px-2 py-1 rounded transition-colors">Download</button>
+<button class="text-xs bg-border-dark hover:bg-red-900/50 hover:text-red-400 text-text-muted px-2 py-1 rounded transition-colors">Delete</button>
+</div>
+</div>
+</div>
+<!-- Middle: Prompt -->
+<div class="flex-1 p-5 flex flex-col gap-2 overflow-hidden relative group">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold text-text-muted uppercase tracking-wider">Prompt</span>
+<button class="text-xs text-primary hover:text-white transition-colors flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">content_copy</span> Copy</button>
+</div>
+<p class="text-sm text-gray-300 leading-relaxed font-mono overflow-y-auto pr-2 custom-scrollbar">
+                        Neon lights, rain slicked streets, blade runner style, 8k resolution, cinematic lighting, highly detailed, photorealistic, cyberpunk atmosphere, towering skyscrapers with holographic advertisements, blue and purple color palette, volumetric fog.
+                    </p>
+</div>
+<!-- Right: Metadata & Cost -->
+<div class="w-full md:w-80 p-5 border-t md:border-t-0 md:border-l border-border-dark bg-[#151525] shrink-0 overflow-y-auto">
+<span class="text-xs font-bold text-text-muted uppercase tracking-wider block mb-3">Details</span>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 text-sm">
+<div class="flex flex-col">
+<span class="text-[10px] text-text-muted">Model</span>
+<span class="text-white font-medium">Midjourney v5.2</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-text-muted">Dimensions</span>
+<span class="text-white font-mono">1024 x 1024</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-text-muted">Seed</span>
+<span class="text-white font-mono">39281741</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-text-muted">Steps</span>
+<span class="text-white font-mono">30</span>
+</div>
+<div class="flex flex-col col-span-2 mt-1 pt-3 border-t border-border-dark">
+<div class="flex justify-between items-center">
+<span class="text-[10px] text-text-muted">Generation Cost</span>
+<span class="text-white font-bold bg-primary/20 px-2 py-0.5 rounded text-xs">$0.04</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Status Bar -->
+<div class="shrink-0 bg-background-dark border-t border-border-dark px-4 py-1.5 flex justify-between items-center text-[10px] text-text-muted select-none">
+<div class="flex items-center gap-4">
+<span>Hyyve Asset Manager v2.1</span>
+<span class="hidden sm:inline">•</span>
+<span class="hidden sm:inline">Server Status: <span class="text-green-400">● Online</span></span>
+</div>
+<div class="flex items-center gap-3 w-48">
+<span class="whitespace-nowrap">7.5 GB / 10 GB</span>
+<div class="h-1.5 w-full bg-border-dark rounded-full overflow-hidden">
+<div class="h-full w-3/4 bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

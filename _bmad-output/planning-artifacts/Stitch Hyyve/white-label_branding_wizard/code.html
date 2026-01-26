@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>White-Label Branding Wizard | Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0F172A",
+                        "surface-dark": "#1E293B",
+                        "border-dark": "#334155",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col font-display">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-border-dark px-8 py-3 bg-white dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-black leading-tight tracking-tight">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Workspaces</a>
+<a class="text-primary text-sm font-semibold border-b-2 border-primary pb-1" href="#">Branding</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Settings</a>
+</nav>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-border-dark mx-2"></div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-border-dark" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBqtOJs6na01XwpY5fkYeAEYoUEmwWRA9wOJ3l17KwcN_mZYhpfCTdnvptFWSGp4MS4p6y5c2g9aSL5hz5TAFzjDUECB_y2YveH0H1shclHGp_U3-IIml3-LISNKDGd-pipxKf8GmDysZtrlMLAn7dVDgxk9eSLaqLpEoUdcHAHYwSQGfhlAT8Xd2Wgz_azGMB_GhQIpcYyxsqgUVEsPggpFL74a_bOrntno1Tb8AuIMUUwxGUS_WNZX2UC1cpiPnIPeCB4B3mFt28");'></div>
+</div>
+</header>
+<main class="flex flex-1 overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark hidden lg:flex flex-col p-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<p class="text-sm font-medium">Overview</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[20px] fill-1">palette</span>
+<p class="text-sm font-semibold">Appearance</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">language</span>
+<p class="text-sm font-medium">Domain</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<p class="text-sm font-medium">Email</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+<p class="text-sm font-medium">Security</p>
+</div>
+</div>
+</aside>
+<!-- Config Panel (Scrollable) -->
+<section class="flex-1 overflow-y-auto custom-scrollbar bg-slate-50 dark:bg-background-dark">
+<div class="max-w-3xl mx-auto p-8">
+<div class="mb-10">
+<h1 class="text-white text-4xl font-black leading-tight tracking-tight mb-2">Branding Wizard</h1>
+<p class="text-slate-400 text-base">Configure your agency's white-label identity and chat widget theme settings.</p>
+</div>
+<!-- Brand Identity Section -->
+<div class="mb-12">
+<h2 class="text-white text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">id_card</span>
+                        Brand Identity
+                    </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-border-dark">
+<div class="w-full bg-slate-100 dark:bg-background-dark aspect-video rounded-lg flex items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-700 mb-4 cursor-pointer hover:border-primary transition-colors group">
+<div class="text-center">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary text-4xl mb-2">upload_file</span>
+<p class="text-sm text-slate-400">Click to upload logo</p>
+</div>
+</div>
+<p class="text-white text-base font-semibold">Brand Logo</p>
+<p class="text-slate-400 text-xs">Rectangular (512x128px), PNG or SVG</p>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-border-dark">
+<div class="w-full bg-slate-100 dark:bg-background-dark aspect-square rounded-lg flex items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-700 mb-4 cursor-pointer hover:border-primary transition-colors group">
+<div class="text-center">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary text-4xl mb-2">add_photo_alternate</span>
+<p class="text-sm text-slate-400">Upload Icon</p>
+</div>
+</div>
+<p class="text-white text-base font-semibold">Favicon</p>
+<p class="text-slate-400 text-xs">Square (32x32px), ICO or PNG</p>
+</div>
+</div>
+</div>
+<!-- Color Palette Section -->
+<div class="mb-12">
+<h2 class="text-white text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">colorize</span>
+                        Theme Configuration
+                    </h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-300">Primary Color</label>
+<div class="flex items-center gap-2 p-2 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg">
+<div class="size-8 rounded bg-primary"></div>
+<input class="bg-transparent border-none text-sm text-white focus:ring-0 w-full uppercase" type="text" value="#2B6CEE"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-300">Secondary Color</label>
+<div class="flex items-center gap-2 p-2 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg">
+<div class="size-8 rounded bg-indigo-500"></div>
+<input class="bg-transparent border-none text-sm text-white focus:ring-0 w-full uppercase" type="text" value="#6366F1"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-300">Widget BG</label>
+<div class="flex items-center gap-2 p-2 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg">
+<div class="size-8 rounded bg-slate-900 border border-slate-700"></div>
+<input class="bg-transparent border-none text-sm text-white focus:ring-0 w-full uppercase" type="text" value="#0F172A"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-300">Header Text</label>
+<div class="flex items-center gap-2 p-2 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg">
+<div class="size-8 rounded bg-white"></div>
+<input class="bg-transparent border-none text-sm text-white focus:ring-0 w-full uppercase" type="text" value="#FFFFFF"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-300">Chat Bubble</label>
+<div class="flex items-center gap-2 p-2 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg">
+<div class="size-8 rounded bg-slate-800"></div>
+<input class="bg-transparent border-none text-sm text-white focus:ring-0 w-full uppercase" type="text" value="#1E293B"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-300">Link Color</label>
+<div class="flex items-center gap-2 p-2 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg">
+<div class="size-8 rounded bg-sky-400"></div>
+<input class="bg-transparent border-none text-sm text-white focus:ring-0 w-full uppercase" type="text" value="#38BDF8"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Typography Section -->
+<div class="mb-20">
+<h2 class="text-white text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">font_download</span>
+                        Typography
+                    </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-300">Display Font</label>
+<select class="w-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark text-white rounded-lg p-3 text-sm focus:ring-primary focus:border-primary">
+<option>Inter (Default)</option>
+<option>Roboto</option>
+<option>Outfit</option>
+<option>Plus Jakarta Sans</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-slate-300">Base Font Size</label>
+<select class="w-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark text-white rounded-lg p-3 text-sm focus:ring-primary focus:border-primary">
+<option>Small (14px)</option>
+<option selected="">Normal (16px)</option>
+<option>Large (18px)</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Action Bar -->
+<div class="sticky bottom-0 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-t border-slate-200 dark:border-border-dark p-6 flex justify-end gap-4 z-40">
+<button class="px-6 py-2 rounded-lg bg-slate-200 dark:bg-surface-dark text-slate-900 dark:text-white font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                    Cancel
+                </button>
+<button class="px-8 py-2 rounded-lg bg-primary text-white font-bold hover:bg-blue-600 shadow-lg shadow-primary/20 transition-all">
+                    Save &amp; Apply
+                </button>
+</div>
+</section>
+<!-- Live Preview Panel (Fixed) -->
+<section class="hidden xl:flex w-[450px] bg-slate-100 dark:bg-slate-900 border-l border-slate-200 dark:border-border-dark flex-col relative overflow-hidden">
+<div class="p-6 border-b border-slate-200 dark:border-border-dark flex items-center justify-between bg-white dark:bg-surface-dark">
+<span class="text-slate-900 dark:text-white font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-green-500">visibility</span>
+                    Live Preview
+                </span>
+<div class="flex gap-1">
+<div class="size-2 rounded-full bg-slate-600"></div>
+<div class="size-2 rounded-full bg-slate-600"></div>
+<div class="size-2 rounded-full bg-slate-600"></div>
+</div>
+</div>
+<div class="flex-1 flex flex-col p-8 items-center justify-center relative">
+<!-- Mock Desktop Background -->
+<div class="w-full h-full bg-gradient-to-br from-indigo-500/10 to-primary/10 rounded-2xl border border-slate-200 dark:border-border-dark/50 flex flex-col p-6">
+<div class="h-4 w-1/3 bg-slate-300 dark:bg-slate-800 rounded mb-4 opacity-50"></div>
+<div class="h-3 w-1/2 bg-slate-300 dark:bg-slate-800 rounded mb-2 opacity-50"></div>
+<div class="h-3 w-1/4 bg-slate-300 dark:bg-slate-800 rounded mb-12 opacity-50"></div>
+<div class="grid grid-cols-2 gap-4">
+<div class="h-32 bg-slate-200 dark:bg-slate-800/40 rounded-xl opacity-30"></div>
+<div class="h-32 bg-slate-200 dark:bg-slate-800/40 rounded-xl opacity-30"></div>
+</div>
+</div>
+<!-- Chat Widget Preview -->
+<div class="absolute bottom-12 right-12 w-80 h-[480px] bg-slate-950 rounded-2xl shadow-2xl border border-slate-800 flex flex-col overflow-hidden animate-pulse-subtle">
+<!-- Widget Header -->
+<div class="p-4 bg-primary flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-white/20 flex items-center justify-center border border-white/30 overflow-hidden">
+<span class="material-symbols-outlined text-white text-lg">smart_toy</span>
+</div>
+<div>
+<p class="text-xs font-black text-white leading-none">Hyyve AI Assistant</p>
+<p class="text-[10px] text-white/70">Online</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white text-lg">close</span>
+</div>
+<!-- Widget Body -->
+<div class="flex-1 p-4 space-y-4">
+<div class="flex gap-2">
+<div class="size-6 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-slate-500 text-[14px]">smart_toy</span>
+</div>
+<div class="bg-surface-dark p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl border border-slate-800">
+<p class="text-[11px] text-slate-200">Hello! I'm your branded AI assistant. How can I help your agency today?</p>
+</div>
+</div>
+<div class="flex gap-2 flex-row-reverse">
+<div class="size-6 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-[14px]">person</span>
+</div>
+<div class="bg-primary p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl">
+<p class="text-[11px] text-white">Can you show me the pricing plans?</p>
+</div>
+</div>
+</div>
+<!-- Widget Footer -->
+<div class="p-3 border-t border-slate-800 bg-slate-950 flex items-center gap-2">
+<div class="flex-1 h-9 bg-slate-900 border border-slate-800 rounded-lg px-3 flex items-center">
+<p class="text-[10px] text-slate-500">Type a message...</p>
+</div>
+<button class="size-9 rounded-lg bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[18px]">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Floating Indicator -->
+<div class="absolute top-1/2 left-0 -translate-x-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-sm">settings_input_component</span>
+</div>
+</section>
+</main>
+</body></html>

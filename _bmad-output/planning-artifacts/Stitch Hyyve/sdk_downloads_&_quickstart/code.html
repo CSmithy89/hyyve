@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - SDK Downloads &amp; Quickstart</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", 
+                        "card-dark": "#1c1b32",
+                        "border-dark": "#383663",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for code blocks */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c1b32;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #383663;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #5048e5;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen flex-col">
+<!-- Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-[#272546] bg-[#131221]/80 backdrop-blur-md px-10 py-3">
+<div class="flex items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined !text-3xl">hive</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 hidden md:flex">
+<div class="flex items-center gap-9">
+<a class="text-white text-sm font-medium hover:text-primary transition-colors" href="#">Platform</a>
+<a class="text-white text-sm font-medium hover:text-primary transition-colors" href="#">Solutions</a>
+<a class="text-white text-sm font-medium hover:text-primary transition-colors" href="#">Developers</a>
+<a class="text-white text-sm font-medium hover:text-primary transition-colors" href="#">Pricing</a>
+</div>
+<div class="flex gap-2">
+<button class="flex h-10 items-center justify-center rounded-lg px-4 text-white text-sm font-bold hover:bg-[#272546] transition-colors">
+                        Sign In
+                    </button>
+<button class="flex h-10 items-center justify-center rounded-lg bg-primary px-4 text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
+                        Get Started
+                    </button>
+</div>
+</div>
+<button class="md:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-10 py-8 md:py-12 flex flex-col gap-12">
+<!-- Page Header -->
+<div class="flex flex-col gap-4 py-4 animate-fade-in-up">
+<h1 class="text-white text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em]">
+                SDK Downloads
+            </h1>
+<p class="text-text-secondary text-lg font-normal leading-relaxed max-w-2xl">
+                Integrate Hyyve into your application with our official libraries. Install the SDK for your preferred platform and run your first workflow in minutes.
+            </p>
+</div>
+<!-- Backend SDKs Section -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">dns</span>
+<h2 class="text-2xl font-bold tracking-tight">Backend SDKs</h2>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+<!-- Python Card -->
+<div class="flex flex-col gap-6 rounded-xl border border-border-dark bg-card-dark p-6 md:p-8 hover:border-primary/50 transition-colors group">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-[#272546] flex items-center justify-center text-[#fbbf24]">
+<span class="material-symbols-outlined !text-3xl">terminal</span>
+</div>
+<div>
+<h3 class="text-xl font-bold">Python SDK</h3>
+<p class="text-text-secondary text-sm">v2.4.0 • Latest</p>
+</div>
+</div>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<label class="text-xs font-bold uppercase tracking-wider text-text-secondary">Installation</label>
+<div class="flex items-center justify-between rounded-lg bg-[#0e0e1a] px-4 py-3 font-mono text-sm border border-border-dark group-hover:border-primary/30 transition-colors">
+<span class="text-green-400">$ <span class="text-white">pip install hyyve-sdk</span></span>
+<button aria-label="Copy command" class="text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined !text-sm">content_copy</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+<div class="flex flex-col gap-2 rounded-lg bg-[#272546]/30 p-3 border border-border-dark/50">
+<span class="material-symbols-outlined text-primary !text-xl">bolt</span>
+<span class="text-sm font-semibold">Async Support</span>
+</div>
+<div class="flex flex-col gap-2 rounded-lg bg-[#272546]/30 p-3 border border-border-dark/50">
+<span class="material-symbols-outlined text-primary !text-xl">data_object</span>
+<span class="text-sm font-semibold">Type Hints</span>
+</div>
+<div class="flex flex-col gap-2 rounded-lg bg-[#272546]/30 p-3 border border-border-dark/50">
+<span class="material-symbols-outlined text-primary !text-xl">replay</span>
+<span class="text-sm font-semibold">Auto-Retry</span>
+</div>
+</div>
+<button class="mt-auto w-full rounded-lg bg-[#272546] h-10 px-4 text-sm font-bold text-white hover:bg-primary hover:shadow-lg hover:shadow-primary/25 transition-all">
+                        View Documentation
+                    </button>
+</div>
+<!-- Node.js Card -->
+<div class="flex flex-col gap-6 rounded-xl border border-border-dark bg-card-dark p-6 md:p-8 hover:border-primary/50 transition-colors group">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-[#272546] flex items-center justify-center text-[#69d375]">
+<span class="material-symbols-outlined !text-3xl">javascript</span>
+</div>
+<div>
+<h3 class="text-xl font-bold">Node.js SDK</h3>
+<p class="text-text-secondary text-sm">v3.1.2 • LTS</p>
+</div>
+</div>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<label class="text-xs font-bold uppercase tracking-wider text-text-secondary">Installation</label>
+<div class="flex items-center justify-between rounded-lg bg-[#0e0e1a] px-4 py-3 font-mono text-sm border border-border-dark group-hover:border-primary/30 transition-colors">
+<span class="text-green-400">$ <span class="text-white">npm install @hyyve/core</span></span>
+<button aria-label="Copy command" class="text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined !text-sm">content_copy</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+<div class="flex flex-col gap-2 rounded-lg bg-[#272546]/30 p-3 border border-border-dark/50">
+<span class="material-symbols-outlined text-primary !text-xl">integration_instructions</span>
+<span class="text-sm font-semibold">TypeScript</span>
+</div>
+<div class="flex flex-col gap-2 rounded-lg bg-[#272546]/30 p-3 border border-border-dark/50">
+<span class="material-symbols-outlined text-primary !text-xl">sync_alt</span>
+<span class="text-sm font-semibold">Promises</span>
+</div>
+<div class="flex flex-col gap-2 rounded-lg bg-[#272546]/30 p-3 border border-border-dark/50">
+<span class="material-symbols-outlined text-primary !text-xl">package</span>
+<span class="text-sm font-semibold">Lightweight</span>
+</div>
+</div>
+<button class="mt-auto w-full rounded-lg bg-[#272546] h-10 px-4 text-sm font-bold text-white hover:bg-primary hover:shadow-lg hover:shadow-primary/25 transition-all">
+                        View Documentation
+                    </button>
+</div>
+</div>
+</section>
+<!-- Mobile & Other SDKs -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">smartphone</span>
+<h2 class="text-2xl font-bold tracking-tight">Mobile SDKs</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- iOS -->
+<div class="flex flex-col gap-4 rounded-xl border border-border-dark bg-card-dark p-5 hover:bg-[#272546]/40 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white/80">phone_iphone</span>
+<span class="font-bold">iOS SDK</span>
+</div>
+<span class="text-xs bg-[#272546] text-text-secondary px-2 py-1 rounded">v1.2</span>
+</div>
+<div class="bg-[#0e0e1a] rounded p-2 border border-border-dark/50 font-mono text-xs text-text-secondary overflow-hidden truncate">
+                        pod 'HyyveSDK'
+                    </div>
+</div>
+<!-- Android -->
+<div class="flex flex-col gap-4 rounded-xl border border-border-dark bg-card-dark p-5 hover:bg-[#272546]/40 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#3ddc84]">android</span>
+<span class="font-bold">Android SDK</span>
+</div>
+<span class="text-xs bg-[#272546] text-text-secondary px-2 py-1 rounded">v1.0</span>
+</div>
+<div class="bg-[#0e0e1a] rounded p-2 border border-border-dark/50 font-mono text-xs text-text-secondary overflow-hidden truncate">
+                        implementation 'com.hyyve...'
+                    </div>
+</div>
+<!-- Unity (Bonus) -->
+<div class="flex flex-col gap-4 rounded-xl border border-border-dark bg-card-dark p-5 hover:bg-[#272546]/40 transition-colors opacity-75">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white/80">view_in_ar</span>
+<span class="font-bold">Unity</span>
+</div>
+<span class="text-xs bg-[#272546] text-text-secondary px-2 py-1 rounded">Beta</span>
+</div>
+<button class="text-xs font-bold text-primary text-left hover:underline">Request Access</button>
+</div>
+<!-- React Native (Bonus) -->
+<div class="flex flex-col gap-4 rounded-xl border border-border-dark bg-card-dark p-5 hover:bg-[#272546]/40 transition-colors opacity-75">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#61dafb]">crop_original</span>
+<span class="font-bold">React Native</span>
+</div>
+<span class="text-xs bg-[#272546] text-text-secondary px-2 py-1 rounded">Beta</span>
+</div>
+<button class="text-xs font-bold text-primary text-left hover:underline">Request Access</button>
+</div>
+</div>
+</section>
+<!-- Quickstart Guide -->
+<section class="flex flex-col gap-8 rounded-2xl border border-border-dark bg-[#18172b] p-6 md:p-10 mb-20 relative overflow-hidden">
+<!-- Background Decoration -->
+<div class="absolute top-0 right-0 -mr-20 -mt-20 size-96 rounded-full bg-primary/5 blur-[100px]"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+<div class="flex flex-col gap-2">
+<h2 class="text-3xl font-black tracking-tight">Quickstart Guide</h2>
+<p class="text-text-secondary">Follow these steps to integrate Hyyve in under 5 minutes.</p>
+</div>
+<!-- Language Toggle -->
+<div class="flex bg-[#0e0e1a] p-1 rounded-lg border border-border-dark w-fit">
+<button class="px-4 py-2 rounded text-sm font-bold bg-primary text-white shadow-md">Python</button>
+<button class="px-4 py-2 rounded text-sm font-bold text-text-secondary hover:text-white hover:bg-[#272546] transition-colors">Node.js</button>
+</div>
+</div>
+<div class="relative z-10 flex flex-col gap-10 border-l-2 border-border-dark ml-3 pl-8 md:pl-12 py-2">
+<!-- Step 1 -->
+<div class="relative flex flex-col gap-4">
+<div class="absolute -left-[43px] md:-left-[59px] top-0 flex size-8 items-center justify-center rounded-full bg-primary text-white font-bold ring-4 ring-[#18172b]">1</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold">Initialize the Client</h3>
+<p class="text-text-secondary text-sm">Import the library and configure it with your API key from the dashboard.</p>
+</div>
+<div class="w-full rounded-lg border border-border-dark bg-[#0e0e1a] p-4 font-mono text-sm overflow-x-auto custom-scrollbar group">
+<pre><code class="language-python"><span class="text-pink-400">import</span> hyyve
+
+<span class="text-text-secondary"># Initialize with your API Key</span>
+client = hyyve.<span class="text-blue-400">Client</span>(
+    api_key=<span class="text-green-400">"hv_live_..."</span>,
+    environment=<span class="text-green-400">"production"</span>
+)</code></pre>
+<button class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 p-1.5 rounded hover:bg-white/20">
+<span class="material-symbols-outlined !text-sm text-white">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex flex-col gap-4">
+<div class="absolute -left-[43px] md:-left-[59px] top-0 flex size-8 items-center justify-center rounded-full bg-[#272546] text-white font-bold ring-4 ring-[#18172b]">2</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold">Define your Workflow</h3>
+<p class="text-text-secondary text-sm">Create a workflow object defining the parameters and expected output.</p>
+</div>
+<div class="w-full rounded-lg border border-border-dark bg-[#0e0e1a] p-4 font-mono text-sm overflow-x-auto custom-scrollbar group">
+<pre><code class="language-python">workflow = client.workflows.<span class="text-blue-400">create</span>(
+    name=<span class="text-green-400">"data-processing-v1"</span>,
+    timeout=<span class="text-orange-400">300</span>, <span class="text-text-secondary"># seconds</span>
+    retries=<span class="text-orange-400">3</span>
+)</code></pre>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex flex-col gap-4">
+<div class="absolute -left-[43px] md:-left-[59px] top-0 flex size-8 items-center justify-center rounded-full bg-[#272546] text-white font-bold ring-4 ring-[#18172b]">3</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold">Execute and Handle Results</h3>
+<p class="text-text-secondary text-sm">Run the workflow asynchronously and await the results.</p>
+</div>
+<div class="w-full rounded-lg border border-border-dark bg-[#0e0e1a] p-4 font-mono text-sm overflow-x-auto custom-scrollbar group">
+<pre><code class="language-python"><span class="text-pink-400">async def</span> <span class="text-blue-400">main</span>():
+    result = <span class="text-pink-400">await</span> workflow.<span class="text-blue-400">execute</span>({ <span class="text-green-400">"input_id"</span>: <span class="text-orange-400">12345</span> })
+    <span class="text-blue-400">print</span>(f<span class="text-green-400">"Workflow finished: {result.status}"</span>)
+
+<span class="text-text-secondary"># Run the async loop</span>
+hyyve.<span class="text-blue-400">run</span>(main())</code></pre>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

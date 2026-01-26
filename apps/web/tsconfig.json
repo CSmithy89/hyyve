@@ -1,0 +1,19 @@
+{
+  "extends": "@hyyve/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@platform/ui": ["../../packages/@platform/ui/src"],
+      "@platform/ui/*": ["../../packages/@platform/ui/src/*"],
+      "@platform/shared": ["../../packages/@platform/shared/src"],
+      "@platform/shared/*": ["../../packages/@platform/shared/src/*"],
+      "@platform/types": ["../../packages/@platform/types/src"],
+      "@platform/types/*": ["../../packages/@platform/types/src/*"]
+    },
+    "module": "ESNext",
+    "jsx": "preserve"
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

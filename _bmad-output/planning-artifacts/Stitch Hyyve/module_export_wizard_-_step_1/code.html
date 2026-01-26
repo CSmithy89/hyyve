@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Module Export Wizard - Step 1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#1c1b32",
+                        "card-border": "#383663",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #383663;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5;
+        }
+        
+        .card-selection-radio:checked + div {
+            border-color: #5048e5;
+            background-color: rgba(80, 72, 229, 0.15);
+        }
+        
+        .card-selection-radio:checked + div .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .card-selection-radio:focus-visible + div {
+            ring: 2px solid #5048e5;
+            ring-offset: 2px;
+            ring-offset-color: #121121;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased selection:bg-primary/30">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Main Layout -->
+<div class="flex h-full flex-col">
+<!-- Content Container -->
+<main class="flex-1 flex justify-center overflow-y-auto py-8 px-4 md:px-8 lg:px-40">
+<div class="flex flex-col w-full max-w-[960px] gap-8">
+<!-- Header Section -->
+<header class="flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black leading-tight tracking-tight">Export Module</h1>
+<p class="text-text-secondary text-base font-normal">Step 1: Select Format</p>
+</div>
+<!-- Progress Bar -->
+<div class="flex flex-col gap-2 w-full max-w-md">
+<div class="flex justify-between items-center">
+<span class="text-sm font-medium text-white">Step 1 of 3</span>
+<span class="text-xs text-text-secondary">33% completed</span>
+</div>
+<div class="h-2 w-full rounded-full bg-card-border overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500 ease-out" style="width: 33%"></div>
+</div>
+</div>
+</header>
+<!-- Body Content -->
+<section class="flex flex-col gap-6">
+<p class="text-white/90 text-lg font-normal leading-relaxed">
+                        Choose the format you want to export your AI module to. This will determine the code structure and dependencies.
+                    </p>
+<!-- Selection Grid -->
+<form class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="export-form">
+<!-- Card 1: Claude SDK -->
+<label class="relative cursor-pointer group">
+<input checked="" class="peer sr-only card-selection-radio" name="export_format" type="radio" value="claude"/>
+<div class="flex h-full flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-6 transition-all duration-200 hover:border-primary/50 hover:bg-card-dark/80 group-hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined !text-[32px]">smart_toy</span>
+</div>
+<div class="check-icon opacity-0 scale-75 transition-all duration-200 text-primary bg-primary/10 rounded-full p-1">
+<span class="material-symbols-outlined !text-[20px]">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-white">Claude SDK</h3>
+<p class="text-text-secondary text-sm leading-relaxed">Native integration for Anthropic's Claude models via official SDK.</p>
+</div>
+</div>
+</label>
+<!-- Card 2: LangGraph -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only card-selection-radio" name="export_format" type="radio" value="langgraph"/>
+<div class="flex h-full flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-6 transition-all duration-200 hover:border-primary/50 hover:bg-card-dark/80 group-hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined !text-[32px]">hub</span>
+</div>
+<div class="check-icon opacity-0 scale-75 transition-all duration-200 text-primary bg-primary/10 rounded-full p-1">
+<span class="material-symbols-outlined !text-[20px]">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-white">LangGraph</h3>
+<p class="text-text-secondary text-sm leading-relaxed">Stateful, graph-based orchestration optimized for complex LLM flows.</p>
+</div>
+</div>
+</label>
+<!-- Card 3: Agno -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only card-selection-radio" name="export_format" type="radio" value="agno"/>
+<div class="flex h-full flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-6 transition-all duration-200 hover:border-primary/50 hover:bg-card-dark/80 group-hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined !text-[32px]">bolt</span>
+</div>
+<div class="check-icon opacity-0 scale-75 transition-all duration-200 text-primary bg-primary/10 rounded-full p-1">
+<span class="material-symbols-outlined !text-[20px]">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-white">Agno</h3>
+<p class="text-text-secondary text-sm leading-relaxed">Lightweight agentic framework designed for high-performance specialized tasks.</p>
+</div>
+</div>
+</label>
+<!-- Card 4: CrewAI -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only card-selection-radio" name="export_format" type="radio" value="crewai"/>
+<div class="flex h-full flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-6 transition-all duration-200 hover:border-primary/50 hover:bg-card-dark/80 group-hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined !text-[32px]">group_work</span>
+</div>
+<div class="check-icon opacity-0 scale-75 transition-all duration-200 text-primary bg-primary/10 rounded-full p-1">
+<span class="material-symbols-outlined !text-[20px]">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-white">CrewAI</h3>
+<p class="text-text-secondary text-sm leading-relaxed">Role-based autonomous agent orchestration for collaborative workflows.</p>
+</div>
+</div>
+</label>
+<!-- Card 5: JSON Schema -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only card-selection-radio" name="export_format" type="radio" value="json"/>
+<div class="flex h-full flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-6 transition-all duration-200 hover:border-primary/50 hover:bg-card-dark/80 group-hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined !text-[32px]">data_object</span>
+</div>
+<div class="check-icon opacity-0 scale-75 transition-all duration-200 text-primary bg-primary/10 rounded-full p-1">
+<span class="material-symbols-outlined !text-[20px]">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-white">JSON Schema</h3>
+<p class="text-text-secondary text-sm leading-relaxed">Raw configuration data export for custom implementations and portability.</p>
+</div>
+</div>
+</label>
+<!-- Card 6: Python -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only card-selection-radio" name="export_format" type="radio" value="python"/>
+<div class="flex h-full flex-col gap-4 rounded-xl border border-card-border bg-card-dark p-6 transition-all duration-200 hover:border-primary/50 hover:bg-card-dark/80 group-hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined !text-[32px]">terminal</span>
+</div>
+<div class="check-icon opacity-0 scale-75 transition-all duration-200 text-primary bg-primary/10 rounded-full p-1">
+<span class="material-symbols-outlined !text-[20px]">check</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-white">Python Script</h3>
+<p class="text-text-secondary text-sm leading-relaxed">Standard standalone Python script with minimal external dependencies.</p>
+</div>
+</div>
+</label>
+</form>
+</section>
+</div>
+</main>
+<!-- Footer Actions -->
+<footer class="border-t border-card-border bg-background-dark/50 backdrop-blur-sm p-4 md:px-40">
+<div class="max-w-[960px] mx-auto flex justify-between items-center">
+<button class="px-6 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-white/5 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    Cancel
+                </button>
+<button class="px-8 py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/25 transition-all transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#121121] focus:ring-primary">
+                    Next Step
+                </button>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

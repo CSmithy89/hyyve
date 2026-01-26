@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Team &amp; Permissions Management - Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-solid border-slate-200 dark:border-[#272546] bg-white dark:bg-background-dark px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-[#272546]">
+<div class="text-slate-500 dark:text-[#9795c6] flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#9795c6] px-4 pl-2 text-sm font-normal" placeholder="Search members..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-8">
+<a class="text-slate-600 dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Models</a>
+<a class="text-slate-600 dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Datasets</a>
+<a class="text-slate-600 dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Deployments</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary py-1" href="#">Settings</a>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold tracking-[0.015em] hover:bg-opacity-90 transition-all">
+<span>Invite Builder</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-slate-200 dark:border-[#272546]" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSohzwdOTiaTrbAteYgULjlA7rEKHRBDZDvYbc_1vmBlAp7mGOZj1SIfg-ABUgdNZOJCwYcpD89xsrrvNd7tLVuULQjimUBSAQdmywIddGxDLxlRtKozX6ncufY56pr9tfmDznpjbGTm071i5taghong90oECeaf4cPmXT44UZ63XPXz9fTxslPhYkREANUnNoRkMoOdx9ROFLi4thnAsZJ5esdsJZTdHbUwNzVhhT9nTcaN130mPqzdtBQOTOaz6WTkk3v7bugk4");'></div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col max-w-[1024px] flex-1 px-6">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-3 mb-8">
+<div class="flex min-w-72 flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Team &amp; Permissions</h1>
+<p class="text-slate-500 dark:text-[#9795c6] text-base font-normal">Manage team access and granular builder permissions. <span class="text-primary font-semibold">8 of 20</span> seats used.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-200 dark:bg-[#272546] text-slate-900 dark:text-white text-sm font-bold hover:bg-opacity-80 transition-all">
+<span class="material-symbols-outlined text-lg">download</span>
+                            Audit Log
+                        </button>
+</div>
+</div>
+<!-- Section: Team Access Groups -->
+<div class="mb-10">
+<div class="flex items-center gap-2 px-1 mb-4">
+<span class="material-symbols-outlined text-primary">group_work</span>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold tracking-tight">Team Access Groups</h2>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Engineering Accordion -->
+<details class="flex flex-col rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-background-dark overflow-hidden group shadow-sm" open="">
+<summary class="flex cursor-pointer items-center justify-between gap-6 p-5 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-base font-bold">Engineering</p>
+<p class="text-slate-500 dark:text-[#9795c6] text-sm">6 Members</p>
+</div>
+</div>
+<div class="text-slate-400 group-open:rotate-180 transition-transform">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<div class="px-5 pb-5 pt-2 border-t border-slate-100 dark:border-[#383663]">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Permissions</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-500 text-xs font-semibold border border-emerald-500/20">Full API Access</span>
+<span class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-500 text-xs font-semibold border border-emerald-500/20">GPU Clusters</span>
+<span class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-500 text-xs font-semibold border border-emerald-500/20">Model Write</span>
+<span class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-500 text-xs font-semibold border border-emerald-500/20">Inference Logs</span>
+</div>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Active Builders</p>
+<div class="flex -space-x-2">
+<div class="size-8 rounded-full border-2 border-white dark:border-background-dark bg-slate-200 bg-cover" data-alt="Engineer profile 1" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7Tl7Re1RYA9LAsuS3uU2HGszCPOWoMZ79ng-xHU1IG17QDodFBZhClhZCLf6j02bE4esuoqEV5XN81MiEI-gqyiNO8IoOirbfJxbwi_yWZhSHtT5lCOQjpNVCsF9VkT77I5ctHHNluVqt9gUXI2-wvbizNgX9C-tEd0zrmwg4EytCROyAzl7opTikWDttsxoUGAo6YtQSEo6Z964sIwmqg3_DybBqd4v-yMBz2qRIJf9uWWWAKVTQznQfj8urucs12yPCvEbX2QA')"></div>
+<div class="size-8 rounded-full border-2 border-white dark:border-background-dark bg-slate-200 bg-cover" data-alt="Engineer profile 2" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCy-ufGmA3WrmZpk6ui1YniDfV0c-G35tkvjL7hJDNuy4OqEhlGfQ5apm2flKfkHgqKR_98YFqmJxJ9gCo2BzyH24ndUU2C3zxZWEEPC8LzDPDCzNsmzB4_k83CVJJBKKK03QZ-DfQ_Ys9kuVD44-BoocO6ZIn9c5Z2lfEY3sHMHb-Jtfvf3lMnVTPoKJ0IFxu3J3fz1wC6_A2ovB9WTGziBzGjvGOiiEj9m6LNa1SkJBPPOXuYAYCdkAJ55XMcfH5zfb2drV81-fM')"></div>
+<div class="size-8 rounded-full border-2 border-white dark:border-background-dark bg-slate-200 bg-cover" data-alt="Engineer profile 3" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDOEcNR_57HAJ0o-OSSmRP4LzHI8dRvrKBWys_GCAqa-dsjtVEj5yQM9vbMezQe5KdHSu1yTdU8b-LKN_qNFQsSTIMHd3CYk_FRMObh6FMcZ1Q_PpMx4UntjRl0y-ChTDX77ywm-qy7bt3hgN_XcaKezLpZxI9O4KbobFlYllbqKlRFJU6gJ-YAoP2ubP2PXzzwNYDdqcYPFp_Xg2GRA4lmORP-EmAYe5Mvx5GZaUeh_j2iHaQ6naMZfB9KJY18TtB2yQzM2kjAwD0')"></div>
+<div class="size-8 rounded-full border-2 border-white dark:border-background-dark bg-slate-700 flex items-center justify-center text-[10px] text-white font-bold">+3</div>
+</div>
+</div>
+</div>
+</div>
+</details>
+<!-- Marketing Accordion -->
+<details class="flex flex-col rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-background-dark overflow-hidden group shadow-sm">
+<summary class="flex cursor-pointer items-center justify-between gap-6 p-5 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">campaign</span>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-base font-bold">Marketing</p>
+<p class="text-slate-500 dark:text-[#9795c6] text-sm">2 Members</p>
+</div>
+</div>
+<div class="text-slate-400 group-open:rotate-180 transition-transform">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<div class="px-5 pb-5 pt-2 border-t border-slate-100 dark:border-[#383663]">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Permissions</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 rounded bg-amber-500/10 text-amber-500 text-xs font-semibold border border-amber-500/20">Analytics View</span>
+<span class="px-2 py-1 rounded bg-amber-500/10 text-amber-500 text-xs font-semibold border border-amber-500/20">Prompt Library</span>
+<span class="px-2 py-1 rounded bg-amber-500/10 text-amber-500 text-xs font-semibold border border-amber-500/20">Public API (Read)</span>
+</div>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Active Builders</p>
+<div class="flex -space-x-2">
+<div class="size-8 rounded-full border-2 border-white dark:border-background-dark bg-slate-200 bg-cover" data-alt="Marketing profile 1" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBta9g1cjheeA8W_Mfn3rCl0ovNm-I2naDYg-8ae07WkiEBLr8fZeP7Epqs7fGkUnslxYvPAP-qAIQ1kzofmiqQEf8RxluptaL_qCT0w60XqKKDlQPZyX5_YggoFZgTtXuR7mXxxb2V7sTzX6blsxDd_GEWBZUKYV983UDjbMv_-ZbQDOWunYM_4IfuabqEgfwDdHQw96vjmrj8-88zc-ZanQiswlUDuC1629EFPzrl4vIuz5ODaUBAorQrS8mNr5A3keqmrsVZmAI')"></div>
+<div class="size-8 rounded-full border-2 border-white dark:border-background-dark bg-slate-200 bg-cover" data-alt="Marketing profile 2" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAX-t9FVEHfNBJu3CXeA1O8ISgUVHzBLl6aXWeu8NsKG2DiMXREkPvb53KsN91250oORqTW02DlHt5AY51OW9KEoMrLRKLuNkYjqBIH1JRLRNMU0vmGKc77DAx7xyQiuj28-RMNV0ydZSJ9tdL04L5xCRdW6tgkgAKuTOdYWGHZK2Ld0Jb46PgzZco9mHjoremHQqxn7A5MJ62chA6-CaQCjqyvemN__JJL646BXWJd6VUfvUsc_CrpqWdHChPBaXPtfNDltP-wwTo')"></div>
+</div>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<!-- Section: All Members Table -->
+<div class="mb-10">
+<div class="flex items-center justify-between px-1 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">person_search</span>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold tracking-tight">All Members</h2>
+</div>
+<div class="text-sm text-slate-500">Showing 8 of 8 members</div>
+</div>
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-background-dark shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-white/5 border-b border-slate-200 dark:border-[#383663]">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Member</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Role</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Teams</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Last Active</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-[#383663]">
+<!-- Member 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 bg-cover" data-alt="Alex Chen portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCysj7TSi5NjdgpKRiBQwTTUGkIZkhscT5DPxVnhTWa0vl52cBvK9YQefts-UlsiLZDT2gmQaBwqg0XTJWx9HAs3_6_aKgLISiQ-oQ4L8wL6l7fj8ev8khL3nYb6x6bTpypdSH36eX0OHcAwlAmW7OlB_98sZ7sCq_snNupamPr1N-8xVYsXl95-rN8WhY7yx5CqqiJG5rbvO9ZSVYfUEj5d8S_nsJp7u9Hthhiv0P0BLPrs5hLvbJllqUEVMQPh_s8MPOhVG2KeP8')"></div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Alex Chen</p>
+<p class="text-xs text-slate-500">alex@hyyve.ai</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20">Admin</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-1">
+<span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-slate-300 text-[11px] font-medium">Engineering</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">2m ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">settings</span>
+</button>
+</td>
+</tr>
+<!-- Member 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 bg-cover" data-alt="Sarah Smith portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClPZ4isHJ4p74O1_pxMQtO2jn9NsqfalJmxy7OE_AlkFHKtxLLhf8TpaKsYV_bWvzDPR9D_-lhPS8Nf-uMj5GuFjIXzzG_OATSV126nAGwscwC7ZQUtS4MkAJwPLJLK5sPO2afrEzfUCt0kmuLE3W6sYWrTb_aDPLkY0A2AyUr2zGzufZ7vRAaSnkvwXOsyYZ2P9aFxokeUE9kw8C6pcviCE_-SvHsi8vbgoPSMStoNso2x46XCARiAOzWSHkQj-4JN9tNPjlbiGA')"></div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Sarah Smith</p>
+<p class="text-xs text-slate-500">sarah@hyyve.ai</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-widest border border-slate-200 dark:border-slate-700">Builder</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-1">
+<span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-slate-300 text-[11px] font-medium">Marketing</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">1h ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">settings</span>
+</button>
+</td>
+</tr>
+<!-- Member 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 bg-cover" data-alt="Jordan Lee portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC2xB-F11O4aOwDVbxxNSEg_BhThDOhBlIkTCR3nD6uI4kJf-L9DlXF4NV-jn_P9l07Qhiie8YVafeTfjFK_x4sWTw8ZAfdW7co4tj97pJIuRyBE4Sbl-WGVnhmqzZAeEIOMDgSoPhXnl5QJhk7QxCsAXvkGIRyIynD3hs_G0zgDPFM9xH8lKoaavdcx9my-TXXMDausfDRpBai9xSV1txvdcRBXuQfj5KaCwIEEgDEK1Gv4F4rVQEKZ1G2m39IlBr3SG8X1GAgzRI')"></div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Jordan Lee</p>
+<p class="text-xs text-slate-500">jordan@hyyve.ai</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-widest border border-slate-200 dark:border-slate-700">Builder</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-1">
+<span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-slate-300 text-[11px] font-medium">Engineering</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">6h ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">settings</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Section: Pending Invitations -->
+<div class="mb-12">
+<div class="flex items-center gap-2 px-1 mb-4">
+<span class="material-symbols-outlined text-primary">mail</span>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold tracking-tight">Pending Invitations</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Pending Item 1 -->
+<div class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-background-dark shadow-sm">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">david.miller@external.com</p>
+<p class="text-xs text-slate-500">Sent 2 days ago</p>
+</div>
+</div>
+<button class="text-primary text-xs font-bold hover:underline">Resend</button>
+</div>
+<!-- Pending Item 2 -->
+<div class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-[#383663] bg-white dark:bg-background-dark shadow-sm">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">lisa.tran@hyyve.ai</p>
+<p class="text-xs text-slate-500">Sent 4 hours ago</p>
+</div>
+</div>
+<button class="text-primary text-xs font-bold hover:underline">Resend</button>
+</div>
+</div>
+</div>
+<!-- Footer Context -->
+<div class="flex items-center justify-center p-8 border-t border-slate-200 dark:border-[#272546]">
+<p class="text-slate-400 text-xs text-center max-w-lg">
+                        Administrators can revoke access and manage billing seats from the <a class="text-primary hover:underline" href="#">Organization Billing</a> page. Member activity is logged for security compliance.
+                    </p>
+</div>
+</div>
+</main>
+</div>
+</body></html>

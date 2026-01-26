@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Call Recording Playback - Hyyve</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#1c1b32",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for transcript */
+        .transcript-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .transcript-scroll::-webkit-scrollbar-track {
+            background: #1c1b32; 
+        }
+        .transcript-scroll::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        .transcript-scroll::-webkit-scrollbar-thumb:hover {
+            background: #383663; 
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen flex flex-col overflow-hidden">
+<!-- Header -->
+<header class="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-[#131221] px-6 py-3 z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<div class="hidden md:flex items-center gap-6">
+<a class="text-text-secondary hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium" href="#">Calls</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium transition-colors" href="#">Analytics</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium transition-colors" href="#">Settings</a>
+</div>
+<div class="h-6 w-px bg-border-dark mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border border-border-dark" data-alt="User profile picture showing a person smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMxQodTv3wybu40oL7scyJ1uMr6d1HQkun9Z8oHa42Ae4xOdW2Fwjp7s1o42NU-tLw3tVGBY547AYxpALoi_JsvhNrvAHDz9m0GuOXW4KUkRb_1Cpc6WHyZbB7br1O5g7u4AMw9uZXjuCKTerOTu4KhVf93H60fTpIfmDAiIDdHg17tIgFHGQ5dYCkNz3PqNTjdgzoCf52FQn0XHB6ou1mWTMm5CPQ4zbPpyHqz5q8jl56W6NAg97zb_vvlu-nh1fS1X6UVTDXHFI");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden max-w-[1600px] w-full mx-auto">
+<!-- Page Heading & Metadata -->
+<div class="flex-none px-6 py-5 border-b border-border-dark bg-[#131221]">
+<div class="flex flex-col gap-4">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 items-center">
+<a class="text-text-secondary hover:text-white text-sm font-medium" href="#">Home</a>
+<span class="material-symbols-outlined text-text-secondary text-sm">chevron_right</span>
+<a class="text-text-secondary hover:text-white text-sm font-medium" href="#">Calls</a>
+<span class="material-symbols-outlined text-text-secondary text-sm">chevron_right</span>
+<span class="text-white text-sm font-medium">#8920-AC</span>
+</div>
+<!-- Title and Actions -->
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-3xl font-black leading-tight tracking-[-0.02em]">Support Call - Refund Request</h1>
+<div class="flex flex-wrap items-center gap-4 text-text-secondary text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">calendar_today</span> Sep 24, 2023</span>
+<span class="w-1 h-1 rounded-full bg-border-dark"></span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">schedule</span> 14:30 PM</span>
+<span class="w-1 h-1 rounded-full bg-border-dark"></span>
+<span class="text-white font-medium">ID: #8920-AC</span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-card-dark hover:bg-[#2a284a] border border-border-dark text-white text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[20px]">flag</span>
+<span>Flag for Review</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>Export</span>
+</button>
+</div>
+</div>
+<!-- Chips -->
+<div class="flex gap-3 flex-wrap mt-1">
+<div class="flex h-7 items-center justify-center gap-x-2 rounded px-3 bg-green-500/10 border border-green-500/20 text-green-400">
+<span class="text-xs font-bold uppercase tracking-wider">Outcome: Resolved</span>
+</div>
+<div class="flex h-7 items-center justify-center gap-x-2 rounded px-3 bg-blue-500/10 border border-blue-500/20 text-blue-400">
+<span class="text-xs font-bold uppercase tracking-wider">Intent: Refund</span>
+</div>
+<div class="flex h-7 items-center justify-center gap-x-2 rounded px-3 bg-gray-700/50 border border-gray-600 text-gray-300">
+<span class="text-xs font-bold uppercase tracking-wider">Sentiment: Neutral</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Three Column Layout / Dashboard Body -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Call Analysis -->
+<aside class="w-[340px] flex-none flex flex-col bg-card-dark border-r border-border-dark overflow-y-auto hidden lg:flex">
+<div class="p-5 border-b border-border-dark">
+<h2 class="text-white text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                        Call Analysis
+                    </h2>
+<p class="text-text-secondary text-sm mt-1">AI-extracted insights</p>
+</div>
+<div class="p-5 flex flex-col gap-6">
+<!-- Summary Card -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2 text-white font-semibold">
+<span class="material-symbols-outlined text-[20px] text-purple-400">summarize</span>
+                            Summary
+                        </div>
+<div class="p-3 rounded-lg bg-[#151426] border border-border-dark text-sm text-gray-300 leading-relaxed">
+                            Customer called regarding a delayed shipment for Order #ORD-99281. The agent apologized for the inconvenience and successfully processed a full refund to the original payment method.
+                        </div>
+</div>
+<!-- Extracted Entities -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2 text-white font-semibold">
+<span class="material-symbols-outlined text-[20px] text-blue-400">data_object</span>
+                            Entities
+                        </div>
+<div class="grid grid-cols-1 gap-2">
+<div class="flex items-center justify-between p-3 rounded-lg bg-[#151426] border border-border-dark">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[18px]">shopping_cart</span>
+<span class="text-text-secondary text-xs font-medium uppercase">Order ID</span>
+</div>
+<span class="text-white text-sm font-mono">#ORD-99281</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-[#151426] border border-border-dark">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[18px]">mail</span>
+<span class="text-text-secondary text-xs font-medium uppercase">Email</span>
+</div>
+<span class="text-white text-sm">user@example.com</span>
+</div>
+</div>
+</div>
+<!-- Action Items -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2 text-white font-semibold">
+<span class="material-symbols-outlined text-[20px] text-green-400">check_circle</span>
+                            Next Steps
+                        </div>
+<div class="flex flex-col gap-2">
+<div class="flex items-start gap-3 p-2">
+<div class="mt-0.5 text-green-500">
+<span class="material-symbols-outlined text-[18px]">check_box</span>
+</div>
+<span class="text-sm text-gray-300">Refund processed in Stripe</span>
+</div>
+<div class="flex items-start gap-3 p-2">
+<div class="mt-0.5 text-green-500">
+<span class="material-symbols-outlined text-[18px]">check_box</span>
+</div>
+<span class="text-sm text-gray-300">Confirmation email sent</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center Panel: Transcript -->
+<section class="flex-1 flex flex-col bg-background-dark relative min-w-0">
+<!-- Transcript Toolbar -->
+<div class="flex-none h-14 border-b border-border-dark flex items-center justify-between px-6 bg-card-dark/50 backdrop-blur-sm z-10">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="text-sm font-medium">Transcript</span>
+<span class="bg-border-dark text-xs px-1.5 py-0.5 rounded text-white">English (US)</span>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-text-secondary text-[20px] group-focus-within:text-primary transition-colors">search</span>
+<input class="h-9 w-64 bg-[#151426] border border-border-dark rounded-lg pl-9 pr-4 text-sm text-white placeholder-text-secondary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search transcript..." type="text"/>
+</div>
+</div>
+<!-- Transcript Content -->
+<div class="flex-1 overflow-y-auto transcript-scroll p-6 space-y-6 relative">
+<!-- Transcript Item 1 -->
+<div class="flex gap-4 group">
+<div class="flex-none w-16 text-right pt-1">
+<span class="text-xs font-mono text-text-secondary group-hover:text-white transition-colors">00:00</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<span class="text-xs font-bold text-blue-400 uppercase tracking-wide">Agent (Sarah)</span>
+<p class="text-white/80 text-base leading-relaxed">Thank you for calling Hyyve support, this is Sarah. How can I help you today?</p>
+</div>
+</div>
+<!-- Transcript Item 2 (Active) -->
+<div class="flex gap-4 relative group">
+<!-- Active indicator -->
+<div class="absolute -left-6 top-0 bottom-0 w-1 bg-primary rounded-r"></div>
+<div class="flex-none w-16 text-right pt-1">
+<span class="text-xs font-mono text-primary font-bold">00:05</span>
+</div>
+<div class="flex-1 flex flex-col gap-1 p-3 -m-3 rounded-lg bg-primary/10 transition-colors">
+<span class="text-xs font-bold text-purple-400 uppercase tracking-wide">Customer</span>
+<p class="text-white text-base leading-relaxed font-medium">Hi Sarah, I'm checking on my order status. It was supposed to arrive yesterday but I haven't received anything yet.</p>
+</div>
+</div>
+<!-- Transcript Item 3 -->
+<div class="flex gap-4 group">
+<div class="flex-none w-16 text-right pt-1">
+<span class="text-xs font-mono text-text-secondary group-hover:text-white transition-colors">00:14</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<span class="text-xs font-bold text-blue-400 uppercase tracking-wide">Agent (Sarah)</span>
+<p class="text-white/80 text-base leading-relaxed">I apologize for the delay. Let me pull up your account. Could you please provide your order number?</p>
+</div>
+</div>
+<!-- Transcript Item 4 -->
+<div class="flex gap-4 group">
+<div class="flex-none w-16 text-right pt-1">
+<span class="text-xs font-mono text-text-secondary group-hover:text-white transition-colors">00:22</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<span class="text-xs font-bold text-purple-400 uppercase tracking-wide">Customer</span>
+<p class="text-white/80 text-base leading-relaxed">Sure, it's <span class="bg-card-dark border border-border-dark px-1.5 py-0.5 rounded text-white font-mono text-sm">#ORD-99281</span>.</p>
+</div>
+</div>
+<!-- Transcript Item 5 -->
+<div class="flex gap-4 group">
+<div class="flex-none w-16 text-right pt-1">
+<span class="text-xs font-mono text-text-secondary group-hover:text-white transition-colors">00:28</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<span class="text-xs font-bold text-blue-400 uppercase tracking-wide">Agent (Sarah)</span>
+<p class="text-white/80 text-base leading-relaxed">Thank you. I see here that the shipment was delayed at the distribution center. Since it's late, I can process a full refund for you right now.</p>
+</div>
+</div>
+<!-- Transcript Item 6 -->
+<div class="flex gap-4 group">
+<div class="flex-none w-16 text-right pt-1">
+<span class="text-xs font-mono text-text-secondary group-hover:text-white transition-colors">00:35</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<span class="text-xs font-bold text-purple-400 uppercase tracking-wide">Customer</span>
+<p class="text-white/80 text-base leading-relaxed">That would be great, thank you so much.</p>
+</div>
+</div>
+<!-- Padding for bottom scrolling -->
+<div class="h-24"></div>
+</div>
+</section>
+</div>
+<!-- Sticky Audio Player Footer -->
+<footer class="flex-none h-auto min-h-[88px] bg-card-dark border-t border-border-dark p-4 z-30">
+<div class="max-w-6xl mx-auto w-full flex flex-col gap-2">
+<!-- Waveform & Scrubber -->
+<div class="relative h-12 w-full flex items-center group cursor-pointer">
+<!-- Background Waveform (simulated) -->
+<div class="absolute inset-0 flex items-center justify-between gap-0.5 opacity-40">
+<!-- Generating a bunch of bars for waveform look -->
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[20%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[60%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[40%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[70%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[30%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[90%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[50%] rounded-full"></div>
+<div class="w-1 bg-text-secondary h-[80%] rounded-full"></div>
+</div>
+<!-- Progress Overlay (Width = % of progress) -->
+<div class="absolute inset-y-0 left-0 w-[15%] bg-primary/20 backdrop-blur-[1px] rounded-l overflow-hidden border-r-2 border-primary z-10 flex items-center justify-between gap-0.5">
+<!-- Colored Bars matching underlying position -->
+<div class="w-1 bg-primary h-[40%] rounded-full ml-0.5"></div>
+<div class="w-1 bg-primary h-[60%] rounded-full"></div>
+<div class="w-1 bg-primary h-[30%] rounded-full"></div>
+<div class="w-1 bg-primary h-[70%] rounded-full"></div>
+<div class="w-1 bg-primary h-[50%] rounded-full"></div>
+<div class="w-1 bg-primary h-[80%] rounded-full"></div>
+<div class="w-1 bg-primary h-[40%] rounded-full"></div>
+<div class="w-1 bg-primary h-[30%] rounded-full"></div>
+<div class="w-1 bg-primary h-[90%] rounded-full"></div>
+<div class="w-1 bg-primary h-[50%] rounded-full"></div>
+<div class="w-1 bg-primary h-[60%] rounded-full"></div>
+<div class="w-1 bg-primary h-[30%] rounded-full"></div>
+<div class="w-1 bg-primary h-[80%] rounded-full"></div>
+</div>
+<!-- Scrubber Handle Tooltip -->
+<div class="absolute top-0 left-[15%] -translate-x-1/2 -translate-y-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="bg-black text-white text-xs py-1 px-2 rounded shadow-lg font-mono">00:05</div>
+</div>
+</div>
+<!-- Controls -->
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-4 w-32">
+<span class="text-xs font-mono text-white">00:05</span>
+<span class="text-xs font-mono text-text-secondary">/ 03:45</span>
+</div>
+<div class="flex items-center justify-center gap-6">
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">skip_previous</span>
+</button>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[28px]">replay_10</span>
+</button>
+<button class="size-12 rounded-full bg-primary hover:bg-primary/90 text-white flex items-center justify-center shadow-lg shadow-primary/30 transition-all transform hover:scale-105">
+<span class="material-symbols-outlined text-[32px] ml-0.5">play_arrow</span>
+</button>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[28px]">forward_10</span>
+</button>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">skip_next</span>
+</button>
+</div>
+<div class="flex items-center justify-end gap-4 w-32">
+<div class="flex items-center gap-2 group cursor-pointer">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-[20px]">volume_up</span>
+<div class="w-16 h-1 bg-[#383663] rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-white rounded-full"></div>
+</div>
+</div>
+<button class="text-xs font-bold text-text-secondary hover:text-white bg-[#272546] px-2 py-1 rounded transition-colors">
+                            1.0x
+                        </button>
+</div>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - HITL Review Queue</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#1c1b32",
+              "border-dark": "#272546",
+              "text-secondary": "#9795c6",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Side Navigation -->
+<aside class="w-64 flex-shrink-0 flex flex-col border-r border-border-dark bg-[#131221]">
+<div class="p-5 pb-2">
+<div class="flex items-center gap-3">
+<div class="bg-primary/20 flex items-center justify-center rounded-lg size-10 text-primary">
+<span class="material-symbols-outlined text-2xl">hexagon</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-normal">Hyyve</h1>
+<p class="text-text-secondary text-xs font-normal leading-normal">AI Review Platform</p>
+</div>
+</div>
+</div>
+<!-- Main Menu -->
+<div class="flex flex-col gap-1 px-3 py-4 border-b border-border-dark">
+<p class="px-3 text-xs font-semibold text-text-secondary uppercase tracking-wider mb-2">Menu</p>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-border-dark hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:text-white">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-border-dark text-white shadow-sm" href="#">
+<span class="material-symbols-outlined text-2xl">rate_review</span>
+<span class="text-sm font-medium">Review Queue</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-border-dark hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:text-white">analytics</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-secondary hover:bg-border-dark hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:text-white">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+<!-- My Assigned Section -->
+<div class="flex flex-col gap-1 px-3 py-4 flex-1 overflow-y-auto">
+<div class="flex items-center justify-between px-3 mb-2">
+<p class="text-xs font-semibold text-text-secondary uppercase tracking-wider">My Assigned</p>
+<span class="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded">2 Active</span>
+</div>
+<button class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-border-dark/50 transition-colors w-full text-left group">
+<div class="relative size-2 mt-0.5">
+<div class="absolute inset-0 rounded-full bg-emerald-500 animate-pulse"></div>
+<div class="absolute inset-0 rounded-full bg-emerald-500"></div>
+</div>
+<div class="flex flex-col overflow-hidden">
+<span class="text-white text-sm font-medium truncate w-full group-hover:text-primary transition-colors">Refund #4029</span>
+<span class="text-text-secondary text-xs truncate">In Progress</span>
+</div>
+</button>
+<button class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-border-dark/50 transition-colors w-full text-left group">
+<div class="size-2 rounded-full bg-orange-400 mt-0.5"></div>
+<div class="flex flex-col overflow-hidden">
+<span class="text-white text-sm font-medium truncate w-full group-hover:text-primary transition-colors">Flag #3992</span>
+<span class="text-text-secondary text-xs truncate">Escalated</span>
+</div>
+</button>
+</div>
+<!-- User Footer -->
+<div class="p-4 border-t border-border-dark">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-border-dark" data-alt="Profile picture of the logged in user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXi4u1R0EVE9F4Qw3tjPiwX8z4D3gi7ux1Fg1iiC-lo1NbpOxnUBL652GOcB1UwKRDg8hUf9_uINUA-IlLhpQ6bI1ZVUJq7KmXcy6TD0OvpBmaBmodUb_IPdkDroF8xlAZvks90tg4UKgx4vb_3u_ylEAzIJWRjKsmjRZhWPbN5_Y2ihArt5ugfhfZSq2e0jilc6lXfOh24dm3JmOW6yufFue9ZiXyTc-i9UZZl6JbbwxyULQS-1wlRbr2ABAcauaEWiL5DS45QIY");'>
+</div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium leading-none">Sarah Chen</p>
+<p class="text-text-secondary text-xs mt-1">Senior Reviewer</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 bg-background-dark">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark px-8 py-3 bg-[#131221]">
+<div class="flex items-center gap-8 flex-1">
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight hidden md:block">Review Queue</h2>
+<label class="flex flex-col min-w-40 h-10 max-w-lg flex-1">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full group focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+<div class="text-text-secondary flex border-none bg-surface-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-white focus:outline-0 border-none bg-surface-dark h-full placeholder:text-text-secondary px-4 pl-2 text-sm font-normal" placeholder="Search task ID or keywords..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex items-center justify-end gap-4 ml-4">
+<button class="flex items-center justify-center rounded-lg size-10 bg-surface-dark text-text-secondary hover:text-white hover:bg-border-dark transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2.5 right-2.5 size-2 bg-red-500 rounded-full border-2 border-surface-dark"></span>
+</button>
+<button class="flex items-center justify-center rounded-lg size-10 bg-surface-dark text-text-secondary hover:text-white hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 scrollbar-thin scrollbar-thumb-border-dark scrollbar-track-transparent">
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Pending -->
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-border-dark bg-surface-dark relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-white">pending_actions</span>
+</div>
+<div class="flex justify-between items-start z-10">
+<p class="text-text-secondary text-sm font-medium">Pending Reviews</p>
+<span class="flex items-center text-[#0bda68] text-xs font-bold bg-[#0bda68]/10 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span> +12%
+                            </span>
+</div>
+<p class="text-white text-3xl font-bold mt-1 z-10">324</p>
+</div>
+<!-- Urgent -->
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-red-500/30 bg-surface-dark relative overflow-hidden shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl text-red-500">priority_high</span>
+</div>
+<p class="text-text-secondary text-sm font-medium">Urgent Cases</p>
+<p class="text-white text-3xl font-bold mt-1">15</p>
+<p class="text-red-400 text-xs mt-1 font-medium">Requires immediate attention</p>
+</div>
+<!-- Accuracy -->
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-border-dark bg-surface-dark relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl text-primary">model_training</span>
+</div>
+<p class="text-text-secondary text-sm font-medium">AI Model Accuracy</p>
+<p class="text-white text-3xl font-bold mt-1">98%</p>
+<p class="text-text-secondary text-xs mt-1">Based on last 1000 reviews</p>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap gap-3 items-center pb-2">
+<span class="text-text-secondary text-sm font-medium mr-2">Filters:</span>
+<button class="group flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-dark border border-border-dark hover:border-primary/50 pl-4 pr-3 transition-all">
+<p class="text-white text-sm font-medium group-hover:text-primary">Priority: All</p>
+<span class="material-symbols-outlined text-text-secondary text-sm">expand_more</span>
+</button>
+<button class="group flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-dark border border-border-dark hover:border-primary/50 pl-4 pr-3 transition-all">
+<p class="text-white text-sm font-medium group-hover:text-primary">Confidence: &lt; 90%</p>
+<span class="material-symbols-outlined text-text-secondary text-sm">expand_more</span>
+</button>
+<button class="group flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-dark border border-border-dark hover:border-primary/50 pl-4 pr-3 transition-all">
+<p class="text-white text-sm font-medium group-hover:text-primary">Category: All</p>
+<span class="material-symbols-outlined text-text-secondary text-sm">expand_more</span>
+</button>
+<div class="ml-auto flex items-center gap-2">
+<span class="text-text-secondary text-xs">Sort by:</span>
+<select class="bg-surface-dark border-none text-white text-sm font-medium rounded-lg focus:ring-0 cursor-pointer">
+<option>Highest Priority</option>
+<option>Oldest First</option>
+<option>Lowest Confidence</option>
+</select>
+</div>
+</div>
+<!-- Task Cards List -->
+<div class="flex flex-col gap-4">
+<!-- Card 1: Refund Request -->
+<div class="@container w-full">
+<div class="flex flex-col items-stretch justify-start rounded-xl @xl:flex-row @xl:items-start shadow-lg bg-surface-dark border border-border-dark hover:border-primary/30 transition-colors">
+<div class="w-full @xl:w-64 @xl:h-auto h-48 flex-shrink-0 bg-center bg-no-repeat bg-cover rounded-t-xl @xl:rounded-tr-none @xl:rounded-l-xl relative" data-alt="Package sitting on a porch with delivery label visible" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBA_ABXf2DFOhpz9IUCalYPddwLPsNMm5JAFegqtsRWLr6CIqf-X6cWC0cB_P0PPl-AI2UZc2MA1szlUMlubrLaUEuEkSh6JIYe5gClzefd8uln54xUnyzobLmRBoCOz0krxK6HQ0vrjxI5AJ9yW6rEu5hSM-LQFKAxx6uBaF10sWj3MIjShNwiWoy9M1l5gjYPdoObhaj8UDPpgZMWVosUPckDrsSmFN_2CXoPdhiGZM5pbdfnMk-GZWfNcx-steaaytOp1CkjpdM");'>
+<div class="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded">
+                                     IMG-2023-4029.jpg
+                                 </div>
+</div>
+<div class="flex w-full grow flex-col gap-3 p-5">
+<div class="flex flex-wrap items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h3 class="text-white text-lg font-bold leading-tight">Refund Request #4029</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-red-500/20 text-red-400 border border-red-500/20">High Priority</span>
+</div>
+<p class="text-text-secondary text-xs font-normal">Created 2h ago • User ID: 882910 • <span class="text-white">Amazon Integration</span></p>
+</div>
+<div class="flex items-center gap-2 bg-border-dark/50 px-3 py-1.5 rounded-lg border border-border-dark">
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase text-text-secondary font-semibold">AI Confidence</span>
+<span class="text-sm font-bold text-orange-400">45%</span>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-orange-400/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-400 text-sm">warning</span>
+</div>
+</div>
+</div>
+<div class="bg-background-dark/50 rounded-lg p-3 border border-border-dark/50">
+<p class="text-text-secondary text-sm leading-relaxed">
+<span class="text-primary font-medium">Customer Claim:</span> "The item never arrived, but tracking shows delivered. I checked with neighbors and nobody has it. Requesting full refund."
+                                    </p>
+<div class="mt-2 flex gap-2">
+<span class="text-xs bg-border-dark text-text-secondary px-2 py-1 rounded">Missing Item</span>
+<span class="text-xs bg-border-dark text-text-secondary px-2 py-1 rounded">Geo-tag Mismatch</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 mt-1 pt-3 border-t border-border-dark/50">
+<p class="text-text-secondary text-xs mr-auto">Requires manual verification of delivery photo geo-tags.</p>
+<button class="px-4 py-2 text-sm font-medium text-white hover:bg-border-dark rounded-lg transition-colors">Flag</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-lg">person_add</span>
+                                        Assign to Me
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Toxic Speech -->
+<div class="@container w-full">
+<div class="flex flex-col items-stretch justify-start rounded-xl @xl:flex-row @xl:items-start shadow-lg bg-surface-dark border border-border-dark hover:border-primary/30 transition-colors">
+<!-- Text based card, no image, shows text snippet visual -->
+<div class="w-full @xl:w-64 flex-shrink-0 bg-background-dark p-6 rounded-t-xl @xl:rounded-tr-none @xl:rounded-l-xl flex items-center justify-center border-b @xl:border-b-0 @xl:border-r border-border-dark">
+<span class="material-symbols-outlined text-6xl text-text-secondary/30">forum</span>
+</div>
+<div class="flex w-full grow flex-col gap-3 p-5">
+<div class="flex flex-wrap items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h3 class="text-white text-lg font-bold leading-tight">Toxic Speech Flag #9921</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-yellow-500/20 text-yellow-400 border border-yellow-500/20">Medium Priority</span>
+</div>
+<p class="text-text-secondary text-xs font-normal">Created 45m ago • User ID: 11029 • <span class="text-white">Community Forum</span></p>
+</div>
+<div class="flex items-center gap-2 bg-border-dark/50 px-3 py-1.5 rounded-lg border border-border-dark">
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase text-text-secondary font-semibold">AI Confidence</span>
+<span class="text-sm font-bold text-emerald-400">89%</span>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-emerald-400/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-emerald-400 text-sm">check_circle</span>
+</div>
+</div>
+</div>
+<div class="bg-background-dark/50 rounded-lg p-3 border border-border-dark/50">
+<p class="text-text-secondary text-sm leading-relaxed italic">
+                                        "This product is absolute garbage and anyone who buys it is an idiot. You guys are scammers..."
+                                    </p>
+<div class="mt-2 flex gap-2">
+<span class="text-xs bg-red-500/10 text-red-400 border border-red-500/10 px-2 py-1 rounded">Harassment</span>
+<span class="text-xs bg-red-500/10 text-red-400 border border-red-500/10 px-2 py-1 rounded">Profanity</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 mt-1 pt-3 border-t border-border-dark/50">
+<p class="text-text-secondary text-xs mr-auto">System recommends: <span class="text-white font-medium">Suspend User (3 Days)</span></p>
+<button class="px-4 py-2 text-sm font-medium text-white hover:bg-border-dark rounded-lg transition-colors">Ignore</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-lg">gavel</span>
+                                        Review &amp; Act
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Image Moderation -->
+<div class="@container w-full">
+<div class="flex flex-col items-stretch justify-start rounded-xl @xl:flex-row @xl:items-start shadow-lg bg-surface-dark border border-border-dark hover:border-primary/30 transition-colors">
+<div class="w-full @xl:w-64 @xl:h-auto h-48 flex-shrink-0 bg-center bg-no-repeat bg-cover rounded-t-xl @xl:rounded-tr-none @xl:rounded-l-xl relative grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500" data-alt="Blurred abstract pattern representing potentially sensitive content" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCRedDmu9NidmnHSLVoKKejV2ofnnivySbLWemjSdUDJO5-rr9ZJKU5MIzDHRz_S7OzX6fyaSOMW6Km054mveZlMIFEq2K_AIhXfYoP4R0LmsofzEhVuF7yvuYmHV-slfagt7oHOWLHguNvzlb_k1viGd_JGm-mO7XglKfrob25vtDZGs8IEMqb7w77DvBrhZiAGqNvS_OKlAMwczezSFBPrk3RgA8DoifwEgIP848qKfum5OxxRsGkLAPUNGN7Pc0sGWdKulsgrEQ");'>
+<div class="absolute inset-0 flex items-center justify-center bg-black/40">
+<span class="flex items-center gap-1 bg-black/80 text-white text-xs px-2 py-1 rounded backdrop-blur-md">
+<span class="material-symbols-outlined text-sm">visibility_off</span> Sensitive Content
+                                     </span>
+</div>
+</div>
+<div class="flex w-full grow flex-col gap-3 p-5">
+<div class="flex flex-wrap items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h3 class="text-white text-lg font-bold leading-tight">Image Moderation #8832</h3>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-500/20 text-slate-400 border border-slate-500/20">Low Priority</span>
+</div>
+<p class="text-text-secondary text-xs font-normal">Created 5h ago • User ID: 55921 • <span class="text-white">Profile Uploads</span></p>
+</div>
+<div class="flex items-center gap-2 bg-border-dark/50 px-3 py-1.5 rounded-lg border border-border-dark">
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase text-text-secondary font-semibold">AI Confidence</span>
+<span class="text-sm font-bold text-emerald-400">92%</span>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-emerald-400/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-emerald-400 text-sm">auto_fix_high</span>
+</div>
+</div>
+</div>
+<div class="bg-background-dark/50 rounded-lg p-3 border border-border-dark/50">
+<p class="text-text-secondary text-sm">
+                                        Flagged for potential copyright violation. Image matches registered trademark database entry #44021 (TechCorp Logo).
+                                    </p>
+</div>
+<div class="flex items-center justify-end gap-3 mt-1 pt-3 border-t border-border-dark/50">
+<p class="text-text-secondary text-xs mr-auto">Auto-reject in 24h if no action taken.</p>
+<button class="px-4 py-2 text-sm font-medium text-white hover:bg-border-dark rounded-lg transition-colors">Safe</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-lg">person_add</span>
+                                        Assign to Me
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Hint -->
+<div class="flex justify-center py-4 text-text-secondary text-xs">
+<p>Pro Tip: Press <span class="px-1.5 py-0.5 bg-border-dark rounded text-white font-mono">J</span> and <span class="px-1.5 py-0.5 bg-border-dark rounded text-white font-mono">K</span> to navigate between tasks.</p>
+</div>
+</main>
+</div>
+</div>
+</body></html>

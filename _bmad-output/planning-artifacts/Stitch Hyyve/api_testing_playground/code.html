@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>API Testing Playground - Hyyve Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", 
+                        "surface-dark": "#1c1b32",
+                        "border-dark": "#272546",
+                        "border-light": "#383663",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #383663; 
+        }
+        
+        .code-syntax-key { color: #9cdcfe; }
+        .code-syntax-string { color: #ce9178; }
+        .code-syntax-number { color: #b5cea8; }
+        .code-syntax-boolean { color: #569cd6; }
+        .code-syntax-null { color: #569cd6; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark px-6 py-3 bg-[#131221]">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve Platform</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="hidden md:flex gap-2">
+<button class="flex size-9 cursor-pointer items-center justify-center rounded-lg bg-surface-dark hover:bg-border-light text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<button class="flex size-9 cursor-pointer items-center justify-center rounded-lg bg-surface-dark hover:bg-border-light text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border border-border-light" data-alt="User profile avatar gradient" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden relative">
+<!-- Header & Request Bar -->
+<div class="flex-none px-6 py-5 border-b border-border-dark bg-[#131221] z-10 shadow-lg shadow-black/20">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+<div>
+<h1 class="text-white text-2xl font-bold leading-tight tracking-tight">API Testing Playground</h1>
+<p class="text-text-secondary text-sm mt-1">Interactive request builder and response viewer.</p>
+</div>
+<div class="flex gap-2">
+<button class="text-text-secondary hover:text-white text-sm font-medium flex items-center gap-1 px-3 py-1.5 rounded bg-surface-dark hover:bg-border-light transition-colors">
+<span class="material-symbols-outlined text-base">folder_open</span>
+                        Load Collection
+                    </button>
+<button class="text-text-secondary hover:text-white text-sm font-medium flex items-center gap-1 px-3 py-1.5 rounded bg-surface-dark hover:bg-border-light transition-colors">
+<span class="material-symbols-outlined text-base">save</span>
+                        Save Request
+                    </button>
+</div>
+</div>
+<!-- Request Bar -->
+<div class="flex flex-col md:flex-row gap-2">
+<div class="flex-none min-w-[120px]">
+<div class="relative">
+<select class="appearance-none w-full bg-surface-dark border border-border-light rounded-lg h-12 px-4 pr-10 text-white font-mono font-medium focus:outline-none focus:border-primary transition-colors cursor-pointer">
+<option class="text-blue-400" value="GET">GET</option>
+<option class="text-green-400" value="POST">POST</option>
+<option class="text-orange-400" value="PUT">PUT</option>
+<option class="text-red-400" value="DELETE">DELETE</option>
+<option class="text-yellow-400" value="PATCH">PATCH</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex-1 relative group">
+<input class="w-full bg-surface-dark border border-border-light rounded-lg h-12 px-4 text-white font-mono placeholder:text-text-secondary/50 focus:outline-none focus:border-primary transition-colors" placeholder="Enter request URL" type="text" value="https://api.hyyve.io/v1/users/12345/details"/>
+</div>
+<button class="flex-none bg-primary hover:bg-[#433cc7] text-white font-bold h-12 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-lg shadow-primary/25">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>Send</span>
+</button>
+</div>
+</div>
+<!-- Workspace Split Pane -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Pane: Request Editor -->
+<div class="w-1/2 flex flex-col border-r border-border-dark bg-[#131221]">
+<!-- Tabs -->
+<div class="flex border-b border-border-dark px-2 bg-[#171626]">
+<button class="px-4 py-3 text-sm font-medium text-white border-b-2 border-primary">Body</button>
+<button class="px-4 py-3 text-sm font-medium text-text-secondary hover:text-white border-b-2 border-transparent hover:border-border-light transition-colors">Headers <span class="ml-1 text-xs bg-surface-dark px-1.5 rounded-full text-text-secondary">3</span></button>
+<button class="px-4 py-3 text-sm font-medium text-text-secondary hover:text-white border-b-2 border-transparent hover:border-border-light transition-colors">Params</button>
+<button class="px-4 py-3 text-sm font-medium text-text-secondary hover:text-white border-b-2 border-transparent hover:border-border-light transition-colors">Auth</button>
+</div>
+<!-- Editor Toolbar -->
+<div class="flex items-center justify-between px-4 py-2 bg-[#171626] border-b border-border-dark/50">
+<span class="text-xs font-mono text-text-secondary">application/json</span>
+<div class="flex gap-2">
+<button class="text-xs text-primary hover:text-white transition-colors">Prettify</button>
+<button class="text-xs text-text-secondary hover:text-white transition-colors" title="Copy as cURL">Copy cURL</button>
+<button class="text-xs text-text-secondary hover:text-white transition-colors" title="Copy as Python">Copy Python</button>
+</div>
+</div>
+<!-- Code Editor Area -->
+<div class="flex-1 relative group">
+<textarea class="absolute inset-0 w-full h-full bg-surface-dark text-white font-mono text-sm p-4 resize-none focus:outline-none focus:ring-1 focus:ring-border-light border-none leading-relaxed" spellcheck="false">{
+  "user_id": 12345,
+  "action": "update_profile",
+  "payload": {
+    "status": "active",
+    "role": "admin",
+    "preferences": {
+        "theme": "dark",
+        "notifications": true
+    }
+  }
+}</textarea>
+</div>
+</div>
+<!-- Right Pane: Response Viewer -->
+<div class="w-1/2 flex flex-col bg-[#0f0e1a]">
+<!-- Response Meta -->
+<div class="flex items-center justify-between px-6 py-3 border-b border-border-dark bg-[#131221]">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-text-secondary uppercase tracking-wider">Status</span>
+<span class="text-sm font-bold text-green-400 bg-green-400/10 px-2 py-0.5 rounded">200 OK</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-text-secondary uppercase tracking-wider">Time</span>
+<span class="text-sm font-medium text-white">145ms</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-text-secondary uppercase tracking-wider">Size</span>
+<span class="text-sm font-medium text-white">1.2KB</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="text-text-secondary hover:text-white p-1 rounded hover:bg-surface-dark transition-colors">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="text-text-secondary hover:text-white p-1 rounded hover:bg-surface-dark transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+<!-- Response Body -->
+<div class="flex-1 overflow-auto p-6 font-mono text-sm leading-relaxed">
+<pre><code><span class="text-text-secondary">{</span>
+  <span class="code-syntax-key">"success"</span>: <span class="code-syntax-boolean">true</span>,
+  <span class="code-syntax-key">"timestamp"</span>: <span class="code-syntax-string">"2023-10-24T14:32:00Z"</span>,
+  <span class="code-syntax-key">"data"</span>: <span class="text-text-secondary">{</span>
+    <span class="code-syntax-key">"id"</span>: <span class="code-syntax-string">"usr_892301"</span>,
+    <span class="code-syntax-key">"email"</span>: <span class="code-syntax-string">"alex.dev@hyyve.io"</span>,
+    <span class="code-syntax-key">"api_keys_active"</span>: <span class="code-syntax-number">4</span>,
+    <span class="code-syntax-key">"recent_logs"</span>: <span class="text-text-secondary">[</span>
+      <span class="text-text-secondary">{</span> <span class="code-syntax-key">"id"</span>: <span class="code-syntax-number">1</span>, <span class="code-syntax-key">"event"</span>: <span class="code-syntax-string">"login_success"</span> <span class="text-text-secondary">}</span>,
+      <span class="text-text-secondary">{</span> <span class="code-syntax-key">"id"</span>: <span class="code-syntax-number">2</span>, <span class="code-syntax-key">"event"</span>: <span class="code-syntax-string">"token_refresh"</span> <span class="text-text-secondary">}</span>
+    <span class="text-text-secondary">]</span>
+  <span class="text-text-secondary">}</span>
+<span class="text-text-secondary">}</span></code></pre>
+</div>
+</div>
+</div>
+<!-- Bottom Drawer: History -->
+<div class="flex-none h-48 border-t border-border-dark bg-[#131221] flex flex-col">
+<div class="flex items-center justify-between px-6 py-2 border-b border-border-dark bg-[#171626]">
+<h3 class="text-xs font-bold text-text-secondary uppercase tracking-wider">Request History</h3>
+<button class="text-xs text-text-secondary hover:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">delete</span>
+                    Clear All
+                </button>
+</div>
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-[#171626] text-xs uppercase text-text-secondary font-semibold sticky top-0">
+<tr>
+<th class="px-6 py-2 w-24">Method</th>
+<th class="px-6 py-2">Endpoint</th>
+<th class="px-6 py-2 w-32">Status</th>
+<th class="px-6 py-2 w-32">Time</th>
+<th class="px-6 py-2 w-20 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-sm font-mono divide-y divide-border-dark">
+<tr class="hover:bg-surface-dark/50 cursor-pointer transition-colors group">
+<td class="px-6 py-2"><span class="text-green-400 font-bold">POST</span></td>
+<td class="px-6 py-2 text-white truncate max-w-md">/v1/users/12345/details</td>
+<td class="px-6 py-2"><span class="text-green-400">200 OK</span></td>
+<td class="px-6 py-2 text-text-secondary">145ms</td>
+<td class="px-6 py-2 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[18px]">replay</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-dark/50 cursor-pointer transition-colors group">
+<td class="px-6 py-2"><span class="text-blue-400 font-bold">GET</span></td>
+<td class="px-6 py-2 text-white truncate max-w-md">/v1/analytics/daily</td>
+<td class="px-6 py-2"><span class="text-green-400">200 OK</span></td>
+<td class="px-6 py-2 text-text-secondary">320ms</td>
+<td class="px-6 py-2 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[18px]">replay</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-dark/50 cursor-pointer transition-colors group">
+<td class="px-6 py-2"><span class="text-red-400 font-bold">DEL</span></td>
+<td class="px-6 py-2 text-white truncate max-w-md">/v1/projects/temp-882</td>
+<td class="px-6 py-2"><span class="text-yellow-400">403 Forbidden</span></td>
+<td class="px-6 py-2 text-text-secondary">85ms</td>
+<td class="px-6 py-2 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[18px]">replay</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-dark/50 cursor-pointer transition-colors group">
+<td class="px-6 py-2"><span class="text-blue-400 font-bold">GET</span></td>
+<td class="px-6 py-2 text-white truncate max-w-md">/v1/auth/session</td>
+<td class="px-6 py-2"><span class="text-green-400">200 OK</span></td>
+<td class="px-6 py-2 text-text-secondary">45ms</td>
+<td class="px-6 py-2 text-right">
+<button class="text-text-secondary hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[18px]">replay</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</body></html>

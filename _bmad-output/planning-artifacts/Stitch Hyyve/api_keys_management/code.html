@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - API Keys Management</title>
+<!-- Fonts and Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221",
+                        "surface-dark": "#1e1c34",
+                        "surface-light": "#ffffff",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#272546] bg-background-light dark:bg-[#131221]/80 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-text-secondary hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-text-secondary hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Deployments</a>
+<a class="text-primary text-sm font-medium leading-normal" href="#">Settings</a>
+<a class="text-slate-600 dark:text-text-secondary hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Docs</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
+<span class="truncate">Profile</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-primary/20" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAM5xiv85RCFQUkKxBhl4MbxApoWDfXxpmggWKuxxKfjdDhoFzlILy8Q-o5CpoFm5hAMUlTupKh_ZrCH9p_xqNHTQWI5jdPXqzQS5eLMLofQCqVawSD7-u8Hz6a6OXW66kBPMR0-M7e1NUYSygMDjFWBhJAllh7XXbuNiNRHaB5Wi-LWY55Y-SSFxypywn5WeqBEy_pkOSpBHxkmHsHKgSKQktoRiWhi9KzQh2e2i7Zgr6jkh88k20rMhtqpE9uhADkOZR91nTR8Z8");'></div>
+</div>
+</div>
+</header>
+<main class="layout-container flex h-full grow flex-col w-full max-w-[1040px] mx-auto px-4 sm:px-8 py-8">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 pb-4">
+<a class="text-slate-500 dark:text-[#9795c6] text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+<span class="text-slate-400 dark:text-[#5d5a88] text-sm font-medium">/</span>
+<span class="text-slate-900 dark:text-white text-sm font-medium">API Keys</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">API Keys Management</h1>
+<p class="text-slate-500 dark:text-text-secondary text-base font-normal">Manage access tokens for the Hyyve AI Engine.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-medium py-2.5 px-4 rounded-lg shadow-lg shadow-primary/20 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Create New Key</span>
+</button>
+</div>
+<!-- Security Warning Banner -->
+<div class="mb-10 rounded-xl border border-amber-500/30 bg-amber-500/10 dark:bg-amber-900/20 p-4 flex gap-4 items-start">
+<div class="bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-full p-2 shrink-0">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-amber-700 dark:text-amber-400 font-bold text-sm">Security Alert</h3>
+<p class="text-amber-800/80 dark:text-amber-200/80 text-sm">Your secret API keys are sensitive credentials. Treat them like passwords. Do not commit them to version control. We only display your secret key once upon creation.</p>
+</div>
+</div>
+<!-- Existing Keys List -->
+<div class="flex flex-col gap-6 mb-12">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Active Keys</h3>
+<!-- Card 1: Production -->
+<div class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-6 shadow-sm hover:border-primary/50 transition-all relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
+<div class="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+<div class="flex flex-col gap-1 min-w-[200px]">
+<div class="flex items-center gap-3">
+<span class="font-bold text-slate-900 dark:text-white text-lg">Production-01</span>
+<span class="bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-bold px-2 py-0.5 rounded-full border border-green-500/20">Active</span>
+</div>
+<span class="text-xs text-slate-400 dark:text-text-secondary flex items-center gap-1">
+                             Created on Oct 24, 2023
+                        </span>
+</div>
+<div class="flex-1 w-full md:w-auto">
+<div class="flex items-center gap-2 bg-slate-100 dark:bg-[#131221] border border-slate-200 dark:border-border-dark rounded-lg p-2 max-w-md w-full">
+<span class="font-mono text-slate-500 dark:text-slate-400 text-sm truncate select-all px-2 flex-1">sk-live-••••••••••••••••••••••••X9z2</span>
+<button class="text-slate-400 hover:text-primary transition-colors p-1" title="Copy Key">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+<div class="mt-2 text-xs text-slate-500 dark:text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">history</span>
+                            Last used: 2 mins ago
+                        </div>
+</div>
+<div class="flex items-center gap-4 self-end md:self-center">
+<div class="flex gap-2">
+<span class="bg-slate-100 dark:bg-[#2c2a4a] text-slate-600 dark:text-slate-300 text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-700/50">Models: Read/Write</span>
+<span class="bg-slate-100 dark:bg-[#2c2a4a] text-slate-600 dark:text-slate-300 text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-700/50">Inference: Full</span>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Development -->
+<div class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl p-6 shadow-sm hover:border-primary/50 transition-all relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+<div class="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+<div class="flex flex-col gap-1 min-w-[200px]">
+<div class="flex items-center gap-3">
+<span class="font-bold text-slate-900 dark:text-white text-lg">Development-Test</span>
+<span class="bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-bold px-2 py-0.5 rounded-full border border-green-500/20">Active</span>
+</div>
+<span class="text-xs text-slate-400 dark:text-text-secondary flex items-center gap-1">
+                             Created on Nov 02, 2023
+                        </span>
+</div>
+<div class="flex-1 w-full md:w-auto">
+<div class="flex items-center gap-2 bg-slate-100 dark:bg-[#131221] border border-slate-200 dark:border-border-dark rounded-lg p-2 max-w-md w-full">
+<span class="font-mono text-slate-500 dark:text-slate-400 text-sm truncate select-all px-2 flex-1">sk-test-••••••••••••••••••••••••B7k1</span>
+<button class="text-slate-400 hover:text-primary transition-colors p-1" title="Copy Key">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+<div class="mt-2 text-xs text-slate-500 dark:text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">history</span>
+                            Last used: 4 days ago
+                        </div>
+</div>
+<div class="flex items-center gap-4 self-end md:self-center">
+<div class="flex gap-2">
+<span class="bg-slate-100 dark:bg-[#2c2a4a] text-slate-600 dark:text-slate-300 text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-700/50">Analytics: Read</span>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Create New Key Form -->
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden shadow-lg shadow-black/5">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-border-dark bg-slate-50 dark:bg-[#23213d]">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Generate New API Key</h3>
+</div>
+<div class="p-6 flex flex-col gap-6">
+<!-- Name Input -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Key Name</label>
+<input class="w-full bg-slate-50 dark:bg-[#131221] border border-slate-300 dark:border-border-dark rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow" placeholder="e.g., CI/CD Pipeline Key" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Permissions -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Permissions Scope</label>
+<div class="flex flex-col gap-2 p-4 bg-slate-50 dark:bg-[#131221] rounded-lg border border-slate-200 dark:border-border-dark">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input checked="" class="peer h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+</div>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Models (Read/Write)</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+</div>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Fine-tuning</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+</div>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Analytics Data</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+</div>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Billing &amp; Usage</span>
+</label>
+</div>
+</div>
+<!-- IP Restriction -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">IP Whitelist (Optional)</label>
+<span class="text-xs text-slate-400">CIDR notation supported</span>
+</div>
+<div class="flex gap-2">
+<input class="flex-1 bg-slate-50 dark:bg-[#131221] border border-slate-300 dark:border-border-dark rounded-lg px-4 py-2 text-sm font-mono text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="192.168.1.1/32" type="text"/>
+<button class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                                Add
+                             </button>
+</div>
+<div class="flex flex-wrap gap-2 mt-2">
+<div class="bg-primary/10 border border-primary/20 text-primary text-xs font-mono px-2 py-1 rounded flex items-center gap-1">
+                                10.0.0.45
+                                <button class="hover:text-red-500"><span class="material-symbols-outlined text-[12px]">close</span></button>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-200 dark:border-border-dark flex justify-end gap-3">
+<button class="px-5 py-2.5 rounded-lg text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">Cancel</button>
+<button class="px-5 py-2.5 rounded-lg text-sm font-bold bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all">Generate Key</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

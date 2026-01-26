@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Intent Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1c1b32",
+                        "border-dark": "#383663",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-dark text-white font-display overflow-hidden antialiased selection:bg-primary selection:text-white">
+<!-- Main Container simulating the app background behind the modal -->
+<div class="relative flex h-screen w-full flex-col overflow-hidden bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&amp;w=2564&amp;auto=format&amp;fit=crop')] bg-cover bg-center" data-alt="Abstract dark blue digital grid background">
+<!-- Backdrop Blur Overlay -->
+<div class="absolute inset-0 bg-[#0b0a15]/80 backdrop-blur-sm z-10"></div>
+<!-- Modal Overlay -->
+<div class="relative z-20 flex h-full w-full items-center justify-center p-4 sm:p-6 lg:p-8">
+<!-- Modal Content -->
+<div class="flex flex-col w-full max-w-5xl max-h-full bg-[#131221] rounded-xl border border-border-dark shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="flex items-start justify-between border-b border-border-dark p-6 bg-[#131221]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+<h2 class="text-white tracking-tight text-2xl font-bold leading-tight">Edit Intent: order_status</h2>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-normal pl-11">Triggered when a user asks about the location or status of an existing shipment.</p>
+</div>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body (Scrollable) -->
+<div class="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+<!-- Top Configuration Row -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Inputs -->
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">Intent Name</span>
+<input class="flex w-full rounded-lg border border-border-dark bg-surface-dark px-4 h-11 text-white placeholder:text-text-secondary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all" value="order_status"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">Context</span>
+<select class="flex w-full rounded-lg border border-border-dark bg-surface-dark px-4 h-11 text-white focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all appearance-none cursor-pointer">
+<option>Global</option>
+<option>Ordering Flow</option>
+<option>Support Flow</option>
+</select>
+</label>
+<label class="flex flex-col gap-2 md:col-span-2">
+<span class="text-white text-sm font-medium">Description</span>
+<textarea class="flex w-full resize-none rounded-lg border border-border-dark bg-surface-dark px-4 py-3 text-white placeholder:text-text-secondary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all h-20" placeholder="Describe what this intent does...">Check status of an order using order ID.</textarea>
+</label>
+</div>
+<!-- Status Card -->
+<div class="lg:col-span-4 h-full">
+<div class="flex flex-col justify-between gap-4 rounded-lg border border-border-dark bg-[#1a192e] p-5 h-full">
+<div class="flex flex-col gap-1">
+<p class="text-white text-base font-bold leading-tight">Intent Status</p>
+<p class="text-text-secondary text-sm leading-normal">Enable/disable in production.</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-medium text-white">Active</span>
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-primary p-0.5 justify-end transition-colors">
+<div class="h-[24px] w-[24px] rounded-full bg-white shadow-sm"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="h-px bg-border-dark w-full"></div>
+<!-- Training Phrases Section -->
+<div class="flex flex-col gap-4">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Training Phrases</h3>
+<button class="group flex items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/50 px-4 py-2 transition-all">
+<span class="material-symbols-outlined text-primary text-sm group-hover:scale-110 transition-transform">auto_awesome</span>
+<span class="text-primary text-sm font-bold tracking-wide">AI Generate</span>
+</button>
+</div>
+<div class="rounded-lg border border-border-dark bg-[#131221] overflow-hidden">
+<!-- Add Phrase Input -->
+<div class="flex items-center gap-3 border-b border-border-dark p-3 bg-surface-dark/50">
+<span class="material-symbols-outlined text-text-secondary">add</span>
+<input class="bg-transparent border-none w-full text-white placeholder:text-text-secondary focus:ring-0 focus:outline-none h-full" placeholder="Add a user expression..." type="text"/>
+</div>
+<!-- Phrases List -->
+<div class="flex flex-col divide-y divide-border-dark">
+<!-- Item 1 -->
+<div class="group flex items-center justify-between p-4 hover:bg-surface-dark/30 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary text-lg">format_quote</span>
+<span class="text-white text-sm">Where is my package?</span>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 hover:text-red-400 transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group flex items-center justify-between p-4 hover:bg-surface-dark/30 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary text-lg">format_quote</span>
+<span class="text-white text-sm">
+                                            Track order <span class="inline-flex items-center rounded bg-primary px-1.5 py-0.5 text-xs font-medium text-white ring-1 ring-inset ring-primary/20" title="Entity: order_id">12345</span>
+</span>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 hover:text-red-400 transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group flex items-center justify-between p-4 hover:bg-surface-dark/30 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary text-lg">format_quote</span>
+<span class="text-white text-sm">
+                                            Status of shipment <span class="inline-flex items-center rounded bg-primary px-1.5 py-0.5 text-xs font-medium text-white ring-1 ring-inset ring-primary/20" title="Entity: order_id">AB-99</span> please
+                                        </span>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 hover:text-red-400 transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark/20 p-2 text-center text-xs text-text-secondary border-t border-border-dark">
+                                Showing 3 of 12 phrases
+                            </div>
+</div>
+</div>
+<div class="h-px bg-border-dark w-full"></div>
+<!-- Two Column Layout: Entities & Response -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Entities Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Entities to Extract</h3>
+<button class="text-primary text-sm font-bold hover:text-primary/80">+ Add Entity</button>
+</div>
+<div class="overflow-hidden rounded-lg border border-border-dark">
+<table class="w-full text-left text-sm">
+<thead class="bg-surface-dark text-text-secondary font-medium">
+<tr>
+<th class="px-4 py-3 font-medium">Parameter</th>
+<th class="px-4 py-3 font-medium">Entity Type</th>
+<th class="px-4 py-3 font-medium text-center">Required</th>
+<th class="px-4 py-3 font-medium text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-dark bg-[#131221]">
+<tr>
+<td class="px-4 py-3 font-mono text-primary">order_id</td>
+<td class="px-4 py-3 text-text-secondary">@sys.number</td>
+<td class="px-4 py-3 text-center">
+<input checked="" class="rounded border-border-dark bg-surface-dark text-primary focus:ring-primary focus:ring-offset-0 h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-4 py-3 text-right">
+<button class="text-text-secondary hover:text-white"><span class="material-symbols-outlined text-lg">more_vert</span></button>
+</td>
+</tr>
+<tr>
+<td class="px-4 py-3 font-mono text-white">email</td>
+<td class="px-4 py-3 text-text-secondary">@sys.email</td>
+<td class="px-4 py-3 text-center">
+<input class="rounded border-border-dark bg-surface-dark text-primary focus:ring-primary focus:ring-offset-0 h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-4 py-3 text-right">
+<button class="text-text-secondary hover:text-white"><span class="material-symbols-outlined text-lg">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Response Section -->
+<div class="flex flex-col gap-4">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Default Response</h3>
+<div class="relative flex flex-col rounded-lg border border-border-dark bg-surface-dark overflow-hidden flex-1 min-h-[160px]">
+<div class="flex items-center gap-2 border-b border-border-dark px-3 py-2 bg-[#1a192e]">
+<span class="text-xs font-mono text-text-secondary">TEXT</span>
+<div class="flex-1"></div>
+<button class="text-xs text-primary font-medium hover:underline">Insert Variable</button>
+</div>
+<textarea class="w-full flex-1 resize-none bg-transparent p-4 text-sm font-mono text-white placeholder:text-text-secondary focus:outline-none" spellcheck="false">I can help with that. Let me look up order {{order_id}} for you. 
+
+One moment please...</textarea>
+<div class="absolute bottom-2 right-2 flex gap-1">
+<span class="bg-[#131221] text-text-secondary text-[10px] px-2 py-1 rounded border border-border-dark">Markdown supported</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="flex items-center justify-end gap-3 border-t border-border-dark bg-[#1c1b32] p-6">
+<button class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center rounded-lg px-4 text-sm font-bold leading-normal text-text-secondary hover:text-white transition-colors hover:bg-white/5">
+                        Cancel
+                    </button>
+<button class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center rounded-lg bg-primary px-6 text-sm font-bold leading-normal text-white shadow-[0_4px_14px_0_rgb(80,72,229,0.39)] hover:bg-primary/90 hover:shadow-[0_6px_20px_rgba(80,72,229,0.23)] transition-all">
+                        Save Intent
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<style>
+        /* Custom scrollbar for the modal body */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #131221;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #383663;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #5048e5;
+        }
+    </style>
+</body></html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Template Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0F172A", // Slate 900 as requested
+                        "surface-dark": "#1E293B", // Slate 800 for cards/inputs
+                        "border-dark": "#334155", // Slate 700
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for horizontal chips */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white overflow-x-hidden">
+<div class="flex min-h-screen w-full">
+<!-- Sidebar -->
+<aside class="hidden lg:flex flex-col w-72 bg-background-dark border-r border-border-dark fixed h-full z-10">
+<div class="flex items-center gap-3 p-6 border-b border-border-dark/50">
+<div class="size-10 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/20">
+                H
+            </div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-tight">Hyyve</h1>
+<p class="text-slate-400 text-xs font-normal">AI Platform</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 p-4 flex-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-surface-dark hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-white transition-colors">home</span>
+<span class="text-sm font-medium">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-surface-dark hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-white transition-colors">folder</span>
+<span class="text-sm font-medium">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary border border-primary/20" href="#">
+<span class="material-symbols-outlined fill-1">grid_view</span>
+<span class="text-sm font-medium">Templates</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-surface-dark hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-white transition-colors">book_2</span>
+<span class="text-sm font-medium">Resources</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-surface-dark hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-white transition-colors">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+<div class="p-4 border-t border-border-dark/50">
+<div class="flex items-center gap-3 px-4 py-3 rounded-lg bg-surface-dark border border-border-dark cursor-pointer hover:border-primary/50 transition-colors">
+<div class="size-8 rounded-full bg-slate-600 bg-cover bg-center" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCXHDGfT267oyIygRuLVy9aYoixe6KISTLRipEybRG1cKiXn2Lyi83QVzn3dRIp0mZWdh20j3nKNh9oG8YKOwM4FYFljMx5-6bnErHHL-SNZOjCCKxQSkv7MfwW-2ShQQC_BzewmkIJXEj307HO-QmktnXZAIJlNQTi103ddGfad8VSE4loQfwcPYyZCbL-unRRdpZoZpYgwhnARS74EPXYBWRZOrzjDEZ6Sr_UUv3gyhjo7SJc1nb9INRu9guBCZvltrIC8SuEA7w');"></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-white">Alex Morgan</p>
+<p class="text-xs text-slate-400">Pro Plan</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 lg:ml-72 bg-background-dark min-h-screen flex flex-col">
+<div class="max-w-7xl mx-auto w-full px-6 py-8 md:px-10 md:py-10">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black tracking-tight text-white">Template Library</h1>
+<p class="text-slate-400 text-lg">Explore pre-built assets to accelerate your AI development.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-primary/50 transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Create New
+                    </button>
+</div>
+</div>
+<!-- Search and Filter Bar -->
+<div class="sticky top-0 z-20 bg-background-dark/80 backdrop-blur-md py-4 -mx-6 px-6 md:-mx-10 md:px-10 border-b border-white/5 mb-8">
+<div class="flex flex-col gap-4">
+<div class="flex gap-4 w-full">
+<label class="relative flex-1 group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full h-12 pl-12 pr-4 rounded-lg bg-surface-dark border border-border-dark text-white placeholder-slate-500 focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search for chatbots, voice modules, or workflows..." type="text"/>
+</label>
+<button class="hidden md:flex items-center justify-center w-12 h-12 rounded-lg bg-surface-dark border border-border-dark text-slate-400 hover:text-white hover:border-slate-500 transition-colors">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+<!-- Category Chips -->
+<div class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+<button class="flex items-center px-4 py-1.5 rounded-full bg-primary text-white text-sm font-medium shadow-lg shadow-primary/20 transition-transform active:scale-95 whitespace-nowrap">
+                            All
+                        </button>
+<button class="flex items-center px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-slate-500 transition-colors text-sm font-medium whitespace-nowrap">
+                            Chatbot
+                        </button>
+<button class="flex items-center px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-slate-500 transition-colors text-sm font-medium whitespace-nowrap">
+                            Module
+                        </button>
+<button class="flex items-center px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-slate-500 transition-colors text-sm font-medium whitespace-nowrap">
+                            Voice
+                        </button>
+<button class="flex items-center px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-slate-500 transition-colors text-sm font-medium whitespace-nowrap">
+                            Canvas
+                        </button>
+<button class="flex items-center px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-slate-500 transition-colors text-sm font-medium whitespace-nowrap">
+                            Image Gen
+                        </button>
+<button class="flex items-center px-4 py-1.5 rounded-full bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-slate-500 transition-colors text-sm font-medium whitespace-nowrap">
+                            Data Processing
+                        </button>
+</div>
+</div>
+</div>
+<!-- Featured Section -->
+<section class="mb-12">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">star</span>
+                        Featured Templates
+                    </h2>
+<a class="text-sm font-medium text-primary hover:text-primary/80" href="#">View all</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group flex flex-col bg-surface-dark rounded-xl border border-border-dark overflow-hidden hover:border-primary/50 transition-all hover:shadow-xl hover:shadow-primary/5">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Futuristic AI interface visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtAyU7nChGEXmdN19qW9o9ixl090YbXQyILccPzWD74txqKM4k4pxnXGzAPnxMqLsVoFEWIg_iZXzJqsIRbrypVsko4OrrxZc2FVe97zOz0-u00yK1GKM7YxN5vDGqaOEDaYfBJfdjGBIGGt8lpoqjOM7CdO-9XF0MJvVi3EAW84FRKquFlHKGBNJP-th-pcOBa_dfga88XUW2iwOKXE4hcXg0MUkrXC4xuPGdYQO9VLQPLuWYJT0_7D_I4UCfcUWr6j-gskYQjD4"/>
+<div class="absolute top-3 right-3 z-20">
+<span class="px-2.5 py-1 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-semibold backdrop-blur-sm">Chatbot</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-start justify-between mb-2">
+<h3 class="text-lg font-bold text-white group-hover:text-primary transition-colors">Customer Support Bot</h3>
+</div>
+<p class="text-slate-400 text-sm mb-4 line-clamp-2">A pre-trained conversational agent designed for Tier 1 customer inquiries with sentiment analysis.</p>
+<div class="flex items-center gap-4 mb-6">
+<div class="flex items-center text-amber-400 text-sm font-medium">
+<span class="material-symbols-outlined text-[18px] mr-1 fill-1">star</span>
+                                    4.8
+                                    <span class="text-slate-500 ml-1 font-normal">(124)</span>
+</div>
+<div class="text-slate-500 text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 5m setup
+                                </div>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="px-4 py-2 rounded-lg border border-border-dark text-slate-300 text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors">Preview</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">Use Template</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col bg-surface-dark rounded-xl border border-border-dark overflow-hidden hover:border-primary/50 transition-all hover:shadow-xl hover:shadow-primary/5">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Abstract sound wave visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgPwDQxQePJLl32FPLDoUFOeQqCdQdAPyQJNHxLpXcFYNMKb-iAQx_oLqg2OebpVJx2ND1Nd62my_tA-lTeD0a8BtN2T8NtSw6iPcYVh5qwxYUZMvbGIJi0agt7Apv_zbYTaEa45IHp1cf1mhZdqMn-ghJ3pZuG7G7VZ0DiE7iDhhy7i40Gc51RGFlJMKPVdh4yIWprsF629e5PrW4DnyzjyX572VrRbsuONV2pcQEviUq4q55tHvovaQMTfxf_1sWu2XCBtL8XEE"/>
+<div class="absolute top-3 right-3 z-20">
+<span class="px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-semibold backdrop-blur-sm">Voice</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-start justify-between mb-2">
+<h3 class="text-lg font-bold text-white group-hover:text-primary transition-colors">Sales Outreach Voice</h3>
+</div>
+<p class="text-slate-400 text-sm mb-4 line-clamp-2">Natural sounding voice model optimized for persuasive sales scripts and cold calling scenarios.</p>
+<div class="flex items-center gap-4 mb-6">
+<div class="flex items-center text-amber-400 text-sm font-medium">
+<span class="material-symbols-outlined text-[18px] mr-1 fill-1">star</span>
+                                    4.5
+                                    <span class="text-slate-500 ml-1 font-normal">(89)</span>
+</div>
+<div class="text-slate-500 text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Instant
+                                </div>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="px-4 py-2 rounded-lg border border-border-dark text-slate-300 text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors">Preview</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">Use Template</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col bg-surface-dark rounded-xl border border-border-dark overflow-hidden hover:border-primary/50 transition-all hover:shadow-xl hover:shadow-primary/5">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-60 z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Data analytics dashboard graphic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5MeSgZs32ean4-kFMoCjgedQfXYsVxaEFmqvZydReuY5WAUOyuG4EB5DdmOkA43onYTE_U7U9CjKwr9FT8nSHNsDxyRp3JYdZor3wPGbORyDuTpItaorHz_IcgjgF1BMyy7-i5ykZ_Nkzv6PoRaKUnGoFALYhI5tvYaCvWxOAm7zlOZrU5jEsUJ7BJjxQ4aI8WxP0h5tPMgR5tv64-uq_D1-L3D-hzpq7qFX0c8rkjbz96fI1YP3uOMRnsR5R7K6IZyZE302rY8k"/>
+<div class="absolute top-3 right-3 z-20">
+<span class="px-2.5 py-1 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-semibold backdrop-blur-sm">Module</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-start justify-between mb-2">
+<h3 class="text-lg font-bold text-white group-hover:text-primary transition-colors">Data Cleaning Pipeline</h3>
+</div>
+<p class="text-slate-400 text-sm mb-4 line-clamp-2">Automated workflow for sanitizing large datasets, removing duplicates, and normalizing formats.</p>
+<div class="flex items-center gap-4 mb-6">
+<div class="flex items-center text-amber-400 text-sm font-medium">
+<span class="material-symbols-outlined text-[18px] mr-1 fill-1">star</span>
+                                    4.9
+                                    <span class="text-slate-500 ml-1 font-normal">(210)</span>
+</div>
+<div class="text-slate-500 text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 10m setup
+                                </div>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="px-4 py-2 rounded-lg border border-border-dark text-slate-300 text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors">Preview</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">Use Template</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Grid Layout for Recently Used & My Templates -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
+<!-- Recently Used -->
+<section class="xl:col-span-2">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">history</span>
+                            Recently Used
+                        </h2>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Recent Item 1 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface-dark border border-border-dark hover:border-slate-500 transition-colors cursor-pointer group">
+<div class="size-12 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 border border-indigo-500/20 group-hover:bg-indigo-500/20 transition-colors">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-white font-medium truncate group-hover:text-primary transition-colors">HR Onboarding Assistant</h4>
+<p class="text-slate-500 text-sm truncate">Last edited 2 hours ago</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 rounded bg-slate-800 text-slate-400 text-xs font-medium border border-slate-700">Chatbot</span>
+<button class="size-8 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Recent Item 2 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface-dark border border-border-dark hover:border-slate-500 transition-colors cursor-pointer group">
+<div class="size-12 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 border border-pink-500/20 group-hover:bg-pink-500/20 transition-colors">
+<span class="material-symbols-outlined">image</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-white font-medium truncate group-hover:text-primary transition-colors">Product Concept Generator</h4>
+<p class="text-slate-500 text-sm truncate">Last edited yesterday</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 rounded bg-slate-800 text-slate-400 text-xs font-medium border border-slate-700">Image Gen</span>
+<button class="size-8 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- My Templates -->
+<section class="xl:col-span-1">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">folder_open</span>
+                            My Templates
+                        </h2>
+<a class="text-sm font-medium text-primary hover:text-primary/80" href="#">View all</a>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Create New Placeholder -->
+<button class="flex flex-col items-center justify-center gap-2 p-6 rounded-xl border-2 border-dashed border-border-dark hover:border-primary/50 hover:bg-surface-dark/50 transition-all group h-full min-h-[100px]">
+<div class="size-10 rounded-full bg-surface-dark flex items-center justify-center text-slate-400 group-hover:text-primary group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined">add</span>
+</div>
+<p class="text-slate-400 text-sm font-medium group-hover:text-white">Create your first template</p>
+</button>
+<!-- Saved Template 1 -->
+<div class="p-4 rounded-xl bg-surface-dark border border-border-dark hover:border-slate-500 transition-colors cursor-pointer group">
+<div class="flex items-center justify-between mb-2">
+<span class="material-symbols-outlined text-emerald-400 bg-emerald-500/10 p-1.5 rounded-md">record_voice_over</span>
+<span class="material-symbols-outlined text-slate-600 hover:text-white cursor-pointer text-[20px]">more_horiz</span>
+</div>
+<h4 class="text-white font-medium mb-1 group-hover:text-primary transition-colors">Podcast Intro Voice</h4>
+<p class="text-slate-500 text-xs">Custom voice clone v1.2</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</body></html>

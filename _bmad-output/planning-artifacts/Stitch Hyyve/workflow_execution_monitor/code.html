@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Workflow Execution Monitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "panel-dark": "#131221", 
+                        "panel-light": "#ffffff",
+                        "surface-dark": "#1f2937",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for log stream */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background-color: #374151;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden flex flex-col h-screen">
+<!-- Top Navigation -->
+<header class="flex-none border-b border-solid border-slate-200 dark:border-[#272546] bg-white dark:bg-panel-dark px-6 py-3 z-20">
+<div class="flex items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+<div class="h-6 w-px bg-slate-200 dark:bg-[#383663] mx-2"></div>
+<nav class="flex items-center gap-6">
+<a class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-primary" href="#">Workflows</a>
+<a class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px] mr-2">stop</span>
+<span class="truncate">Stop Execution</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-[#272546] dark:hover:bg-[#322f59] text-slate-900 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors border border-transparent dark:border-[#383663]">
+<span class="material-symbols-outlined text-[18px] mr-2">replay</span>
+<span class="truncate">Rerun</span>
+</button>
+<button class="flex items-center justify-center rounded-lg size-9 bg-slate-100 hover:bg-slate-200 dark:bg-[#272546] dark:hover:bg-[#322f59] text-slate-900 dark:text-white border border-transparent dark:border-[#383663] transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<div class="ml-2 flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-[#383663]">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-purple-400" data-alt="User Avatar Gradient"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Header (Run Context) -->
+<div class="flex-none bg-white dark:bg-panel-dark border-b border-solid border-slate-200 dark:border-[#272546] px-6 py-4">
+<div class="flex flex-wrap justify-between items-end gap-3">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<h1 class="text-2xl font-bold leading-tight tracking-tight">Sentiment Analysis Pipeline</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20 animate-pulse">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                        Running
+                    </span>
+</div>
+<p class="text-slate-500 dark:text-[#9795c6] text-sm font-normal">Run ID: <span class="font-mono text-slate-700 dark:text-slate-300">8823-AF</span> • Started by <span class="text-slate-700 dark:text-slate-300">Alex M.</span> • 2 mins ago</p>
+</div>
+<div>
+<button class="flex items-center justify-center rounded-lg h-8 px-3 bg-slate-100 dark:bg-[#272546] text-slate-700 dark:text-white text-xs font-medium border border-slate-200 dark:border-[#383663] hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-[16px] mr-1.5">tune</span>
+                    View Configuration
+                </button>
+</div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<main class="flex-1 overflow-hidden p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 min-h-0">
+<!-- Left Panel: Timeline (Span 3) -->
+<section class="lg:col-span-3 flex flex-col bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#272546] overflow-hidden shadow-sm flex-1 min-h-0">
+<div class="p-4 border-b border-slate-200 dark:border-[#383663] bg-slate-50 dark:bg-[#1a222e]">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Execution Steps</h3>
+</div>
+<div class="flex-1 overflow-y-auto p-4 scrollbar-thin">
+<div class="grid grid-cols-[24px_1fr] gap-x-4">
+<!-- Step 1: Completed -->
+<div class="flex flex-col items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-emerald-500 text-[20px]">check_circle</span>
+<div class="w-[1px] bg-slate-200 dark:bg-[#383663] h-full grow min-h-[30px]"></div>
+</div>
+<div class="flex flex-col pb-6">
+<p class="text-sm font-medium leading-normal text-slate-900 dark:text-white">Data Ingestion</p>
+<p class="text-xs text-slate-500 dark:text-[#9795c6]">Completed - 200ms</p>
+</div>
+<!-- Step 2: Running -->
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary animate-spin text-[20px]">progress_activity</span>
+<div class="w-[1px] bg-slate-200 dark:bg-[#383663] h-full grow min-h-[30px]"></div>
+</div>
+<div class="flex flex-col pb-6">
+<p class="text-sm font-medium leading-normal text-primary">LLM Processing</p>
+<p class="text-xs text-slate-500 dark:text-[#9795c6]">Running... - 4.2s</p>
+<div class="mt-2 w-full bg-slate-200 dark:bg-[#383663] rounded-full h-1">
+<div class="bg-primary h-1 rounded-full w-[45%]"></div>
+</div>
+</div>
+<!-- Step 3: Pending -->
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-[20px]">radio_button_unchecked</span>
+<div class="w-[1px] bg-slate-200 dark:bg-[#383663] h-full grow min-h-[30px]"></div>
+</div>
+<div class="flex flex-col pb-6">
+<p class="text-sm font-medium leading-normal text-slate-400 dark:text-slate-500">Sentiment Analysis</p>
+<p class="text-xs text-slate-400 dark:text-slate-600">Pending</p>
+</div>
+<!-- Step 4: Pending -->
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-[20px]">radio_button_unchecked</span>
+<div class="w-[1px] bg-slate-200 dark:bg-[#383663] h-full grow min-h-[30px]"></div>
+</div>
+<div class="flex flex-col pb-6">
+<p class="text-sm font-medium leading-normal text-slate-400 dark:text-slate-500">Database Write</p>
+<p class="text-xs text-slate-400 dark:text-slate-600">Pending</p>
+</div>
+<!-- Step 5: Pending -->
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 text-[20px]">radio_button_unchecked</span>
+</div>
+<div class="flex flex-col">
+<p class="text-sm font-medium leading-normal text-slate-400 dark:text-slate-500">Webhook Notification</p>
+<p class="text-xs text-slate-400 dark:text-slate-600">Pending</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Center Panel: Visualization (Span 6) -->
+<section class="lg:col-span-6 flex flex-col bg-slate-900 rounded-xl overflow-hidden relative border border-slate-200 dark:border-[#272546] shadow-sm group">
+<!-- Toolbar Overlay -->
+<div class="absolute top-4 left-4 z-10 flex gap-2">
+<div class="bg-[#1f2937]/90 backdrop-blur border border-[#383663] rounded-lg p-1 flex items-center gap-1 shadow-xl">
+<button class="p-1.5 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+<button class="p-1.5 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<div class="w-px h-4 bg-[#383663] mx-1"></div>
+<button class="p-1.5 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+</button>
+</div>
+</div>
+<div class="absolute top-4 right-4 z-10">
+<div class="bg-primary/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2 border border-white/10">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+</span>
+                    LIVE VIEW
+                 </div>
+</div>
+<!-- Graph Visualization Placeholder -->
+<div class="w-full h-full bg-[#0f1116] relative overflow-hidden" data-alt="Abstract dark node graph diagram with connected nodes and glowing edges" style="background-image: radial-gradient(#272546 1px, transparent 1px); background-size: 20px 20px;">
+<!-- Simulated Nodes -->
+<!-- Node 1 -->
+<div class="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-48 bg-[#1f2937] border border-emerald-500/50 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)] p-3">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-emerald-500 text-[18px]">database</span>
+<span class="text-xs font-bold text-white">Data Ingestion</span>
+</div>
+<div class="text-[10px] text-slate-400 font-mono">Status: OK</div>
+</div>
+<!-- Connection Line -->
+<div class="absolute top-[28%] left-[32%] w-24 h-[2px] bg-emerald-500/30 origin-left rotate-12"></div>
+<!-- Node 2 (Active) -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 bg-[#1f2937] border-2 border-primary rounded-lg shadow-[0_0_30px_rgba(80,72,229,0.3)] p-4 z-10">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">psychology</span>
+<span class="text-xs font-bold text-white">LLM Processing</span>
+</div>
+<span class="material-symbols-outlined text-primary animate-spin text-[16px]">progress_activity</span>
+</div>
+<div class="w-full bg-[#131221] rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full w-[60%] animate-pulse"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] text-slate-400 font-mono">
+<span>tokens: 402</span>
+<span>temp: 0.7</span>
+</div>
+</div>
+<!-- Connection Line -->
+<div class="absolute top-[52%] left-[62%] w-24 h-[2px] bg-slate-700 origin-left -rotate-6"></div>
+<!-- Node 3 (Pending) -->
+<div class="absolute top-2/3 left-3/4 -translate-x-1/2 -translate-y-1/2 w-48 bg-[#1f2937] border border-slate-700 rounded-lg opacity-60 p-3">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-slate-500 text-[18px]">table_chart</span>
+<span class="text-xs font-bold text-white">Database Write</span>
+</div>
+<div class="text-[10px] text-slate-500 font-mono">Pending...</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Logs (Span 3) -->
+<section class="lg:col-span-3 flex flex-col bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#272546] overflow-hidden shadow-sm flex-1 min-h-0">
+<!-- Tabs -->
+<div class="flex border-b border-slate-200 dark:border-[#383663] bg-slate-50 dark:bg-[#1a222e]">
+<button class="flex-1 py-3 text-xs font-bold text-primary border-b-2 border-primary bg-white dark:bg-[#1f2937]">INFO</button>
+<button class="flex-1 py-3 text-xs font-bold text-slate-500 dark:text-[#9795c6] hover:text-slate-800 dark:hover:text-white transition-colors border-b-2 border-transparent">ERROR</button>
+<button class="flex-1 py-3 text-xs font-bold text-slate-500 dark:text-[#9795c6] hover:text-slate-800 dark:hover:text-white transition-colors border-b-2 border-transparent">DEBUG</button>
+<button class="flex-1 py-3 text-xs font-bold text-slate-500 dark:text-[#9795c6] hover:text-slate-800 dark:hover:text-white transition-colors border-b-2 border-transparent">OUTPUT</button>
+</div>
+<!-- Toolbar -->
+<div class="flex items-center justify-between px-3 py-2 border-b border-slate-200 dark:border-[#383663] bg-white dark:bg-[#1f2937]">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-[16px]">search</span>
+<input class="bg-slate-100 dark:bg-[#131221] border-none rounded text-xs py-1 pl-8 pr-2 w-32 text-slate-900 dark:text-white focus:ring-1 focus:ring-primary placeholder:text-slate-400" placeholder="Filter logs..." type="text"/>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+<!-- Log Stream -->
+<div class="flex-1 overflow-y-auto p-4 bg-[#0f1115] font-mono text-xs leading-relaxed scrollbar-thin">
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:01]</span>
+<span class="text-blue-400">INFO</span>
+<span class="text-slate-300">Pipeline initialized run_id=8823</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:01]</span>
+<span class="text-blue-400">INFO</span>
+<span class="text-slate-300">Fetching data from S3 bucket 'raw-inputs'...</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:01]</span>
+<span class="text-purple-400">DEBUG</span>
+<span class="text-slate-400">S3 Key: /daily_dump/2023-10-27.csv</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:02]</span>
+<span class="text-blue-400">INFO</span>
+<span class="text-slate-300">Data ingestion complete. Rows: 15,000</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:02]</span>
+<span class="text-blue-400">INFO</span>
+<span class="text-slate-300">Starting LLM Processing Node...</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:02]</span>
+<span class="text-purple-400">DEBUG</span>
+<span class="text-slate-400">Loading prompt template 'sentiment_v2'</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:03]</span>
+<span class="text-blue-400">INFO</span>
+<span class="text-slate-300">Context loaded (4096 tokens).</span>
+</div>
+<div class="flex gap-2 mb-1">
+<span class="text-slate-500">[10:42:03]</span>
+<span class="text-yellow-400">WARN</span>
+<span class="text-slate-300">Token usage nearing limit for tier Free.</span>
+</div>
+<div class="flex gap-2 mb-1 animate-pulse">
+<span class="text-slate-500">[10:42:05]</span>
+<span class="text-purple-400">DEBUG</span>
+<span class="text-slate-400">Streaming response from OpenAI API...</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Metrics Bar -->
+<footer class="flex-none bg-white dark:bg-panel-dark border-t border-slate-200 dark:border-[#272546] px-6 py-3">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex gap-6">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 dark:text-[#9795c6] tracking-wider">Duration</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-[18px]">timer</span>
+<span class="text-lg font-mono font-medium text-slate-900 dark:text-white">00:05s</span>
+</div>
+</div>
+<div class="w-px h-10 bg-slate-200 dark:bg-[#383663]"></div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 dark:text-[#9795c6] tracking-wider">Token Usage</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-[18px]">generating_tokens</span>
+<span class="text-lg font-mono font-medium text-slate-900 dark:text-white">1,240</span>
+<span class="text-xs text-slate-400">(Prompt: 800 / Compl: 440)</span>
+</div>
+</div>
+<div class="w-px h-10 bg-slate-200 dark:bg-[#383663]"></div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-slate-400 dark:text-[#9795c6] tracking-wider">Est. Cost</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-[18px]">attach_money</span>
+<span class="text-lg font-mono font-medium text-slate-900 dark:text-white">$0.004</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-400">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span>System All Systems Operational</span>
+</div>
+</div>
+</footer>
+</body></html>

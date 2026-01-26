@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Test Builder</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-hover": "#4338ca",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", 
+                        "card-dark": "#1c1b32",
+                        "border-dark": "#272546",
+                        "input-border": "#383663",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #383663; 
+        }
+    </style>
+</head>
+<body class="relative flex h-full min-h-screen w-full flex-col bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-[#131221]/95 backdrop-blur-sm px-10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Projects</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Agents</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Tests</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-border-dark" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuASW71ZjeV9fI5V8effdxhObKTK5u0K0I4jH4UnP2s3K8AwCUUJSMgkt-TzJprE3SZIjXNo2wVxVr0uVI-nMGe0EMqTdu4QJvayDE-LOJiLyVShktXECKAKTpLgGYyBGkpx8ZtZnjAmyqPlnt32oeQCx6P_oHluXnWwb3BIEniVx8wkHrmAh7YULdmo-PQMmEAwx0PiRLGNfu3VnuovdQLIJ7fP2X4J_A7YL7_9b3G7I3HMyYTBTHer_tQcadFiN1nvtnV5POBgR2Q");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center w-full py-8 px-4 pb-32">
+<div class="w-full max-w-[800px] flex flex-col gap-8">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 px-1">
+<a class="text-text-secondary text-sm font-medium hover:text-white transition-colors" href="#">Projects</a>
+<span class="text-text-secondary text-sm font-medium">/</span>
+<a class="text-text-secondary text-sm font-medium hover:text-white transition-colors" href="#">Flight Bot v2</a>
+<span class="text-text-secondary text-sm font-medium">/</span>
+<span class="text-white text-sm font-medium">New Test Case</span>
+</div>
+<!-- Header & Configuration -->
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-3xl font-bold leading-tight tracking-tight">Test Case Builder</h1>
+<p class="text-text-secondary text-sm">Define the conversation flow and assertions for your AI agent.</p>
+</div>
+</div>
+<!-- Configuration Card -->
+<div class="bg-card-dark border border-border-dark rounded-xl p-6 shadow-sm">
+<h3 class="text-white text-base font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+                        Configuration
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col gap-2">
+<span class="text-text-secondary text-xs font-semibold uppercase tracking-wider">Test Case Name</span>
+<input class="w-full bg-[#131221] border border-input-border rounded-lg px-4 py-3 text-white placeholder-text-secondary/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm" placeholder="e.g., Booking Flow - Happy Path" type="text" value="Booking Flow - Happy Path"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-text-secondary text-xs font-semibold uppercase tracking-wider">Test Suite</span>
+<div class="relative">
+<select class="w-full bg-[#131221] border border-input-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary appearance-none transition-all text-sm cursor-pointer">
+<option>Regression Suite A</option>
+<option>Smoke Tests</option>
+<option>New Features</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none text-lg">expand_more</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Visual Flow Builder -->
+<div class="flex flex-col items-center w-full mt-4">
+<!-- Step 1: User Input -->
+<div class="group relative w-full bg-card-dark border border-border-dark rounded-xl p-0 shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:border-primary/50 transition-colors">
+<!-- Card Header -->
+<div class="flex items-center justify-between p-4 border-b border-border-dark bg-[#22213a] rounded-t-xl">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded bg-blue-500/10 text-blue-400">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</div>
+<span class="text-white font-medium text-sm">User Input</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-text-secondary hover:text-white transition-colors p-1 rounded hover:bg-white/5">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</button>
+</div>
+</div>
+<!-- Card Body -->
+<div class="p-5">
+<label class="block">
+<span class="text-text-secondary text-xs mb-2 block">Prompt Message</span>
+<textarea class="w-full min-h-[80px] bg-[#131221] border border-input-border rounded-lg p-3 text-white text-sm focus:outline-none focus:border-primary resize-none font-mono">I want to book a flight to NYC</textarea>
+</label>
+</div>
+</div>
+<!-- Connector -->
+<div class="h-10 w-0.5 bg-border-dark my-1 relative">
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 text-border-dark">
+<span class="material-symbols-outlined text-[20px] -mb-2">keyboard_arrow_down</span>
+</div>
+</div>
+<!-- Step 2: Assert Intent -->
+<div class="group relative w-full bg-card-dark border border-border-dark rounded-xl p-0 shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:border-primary/50 transition-colors">
+<div class="flex items-center justify-between p-4 border-b border-border-dark bg-[#22213a] rounded-t-xl">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded bg-purple-500/10 text-purple-400">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<span class="text-white font-medium text-sm">Assert Intent</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-text-secondary hover:text-white transition-colors p-1 rounded hover:bg-white/5">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</button>
+<button class="text-text-secondary hover:text-red-400 transition-colors p-1 rounded hover:bg-white/5">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="block">
+<span class="text-text-secondary text-xs mb-2 block">Expected Intent ID</span>
+<div class="relative">
+<input class="w-full bg-[#131221] border border-input-border rounded-lg px-3 py-2 text-white text-sm font-mono focus:outline-none focus:border-primary" type="text" value="flight_booking"/>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 bg-green-500/20 text-green-400 text-[10px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wide">Valid</div>
+</div>
+</label>
+<label class="block">
+<span class="text-text-secondary text-xs mb-2 block">Confidence Threshold</span>
+<div class="flex items-center gap-3 h-[38px]">
+<input class="flex-1 h-1 bg-border-dark rounded-lg appearance-none cursor-pointer [&amp;::-webkit-slider-thumb]:appearance-none [&amp;::-webkit-slider-thumb]:w-3 [&amp;::-webkit-slider-thumb]:h-3 [&amp;::-webkit-slider-thumb]:bg-primary [&amp;::-webkit-slider-thumb]:rounded-full" max="1" min="0" step="0.1" type="range" value="0.8"/>
+<span class="text-white font-mono text-sm bg-[#131221] px-2 py-1 rounded border border-input-border">&gt; 0.8</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Connector -->
+<div class="h-10 w-0.5 bg-border-dark my-1 relative">
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 text-border-dark">
+<span class="material-symbols-outlined text-[20px] -mb-2">keyboard_arrow_down</span>
+</div>
+</div>
+<!-- Step 3: Assert Response -->
+<div class="group relative w-full bg-card-dark border border-border-dark rounded-xl p-0 shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:border-primary/50 transition-colors">
+<div class="flex items-center justify-between p-4 border-b border-border-dark bg-[#22213a] rounded-t-xl">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded bg-teal-500/10 text-teal-400">
+<span class="material-symbols-outlined text-[20px]">fact_check</span>
+</div>
+<span class="text-white font-medium text-sm">Assert Response</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-text-secondary hover:text-white transition-colors p-1 rounded hover:bg-white/5">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</button>
+<button class="text-text-secondary hover:text-red-400 transition-colors p-1 rounded hover:bg-white/5">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4">
+<div class="flex gap-2">
+<select class="bg-[#131221] border border-input-border rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-primary w-32">
+<option>Contains</option>
+<option>Equals</option>
+<option>Starts With</option>
+</select>
+<input class="flex-1 bg-[#131221] border border-input-border rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-primary font-mono" type="text" value="What dates are you flying?"/>
+</div>
+<div class="flex items-center gap-2">
+<label class="inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-9 h-5 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-xs text-text-secondary">Case Sensitive</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Add Step Button -->
+<div class="h-10 w-0.5 bg-border-dark relative"></div>
+<button class="group flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-card-dark border border-dashed border-text-secondary/40 text-text-secondary hover:border-primary hover:text-primary transition-all shadow-sm hover:shadow-md">
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:rotate-90">add_circle</span>
+<span class="text-sm font-medium">Add Step</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer Action Bar -->
+<div class="fixed bottom-0 left-0 w-full bg-[#1c1b32]/95 backdrop-blur border-t border-border-dark p-4 z-40">
+<div class="max-w-[960px] mx-auto flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 text-sm text-text-secondary">
+<span class="flex size-2 rounded-full bg-green-500"></span>
+                    Auto-saved 2m ago
+                </div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-transparent border border-border-dark text-white text-sm font-medium hover:bg-white/5 hover:border-text-secondary transition-all">
+<span class="material-symbols-outlined text-[20px]">play_circle</span>
+                    Run Dry Test
+                </button>
+<button class="flex items-center gap-2 px-6 py-2 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary-hover hover:shadow-primary/40 transition-all">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                    Save Test Case
+                </button>
+</div>
+</div>
+</div>
+</body></html>

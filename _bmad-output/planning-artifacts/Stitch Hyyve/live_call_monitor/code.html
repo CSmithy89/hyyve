@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Call Monitor - Hyyve</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1e1c30",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for chat area */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-default::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scrollbar-default::-webkit-scrollbar-track {
+            background: #1e1c30; 
+        }
+        .scrollbar-default::-webkit-scrollbar-thumb {
+            background: #3b385e; 
+            border-radius: 3px;
+        }
+        .scrollbar-default::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#272546] bg-surface-light dark:bg-background-dark px-6 py-3 z-20">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Hyyve</h2>
+<div class="h-6 w-px bg-slate-200 dark:bg-[#272546] mx-2"></div>
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm">
+<a class="text-slate-500 dark:text-[#9795c6] hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="text-slate-400 dark:text-[#5d5b83]">/</span>
+<a class="text-slate-500 dark:text-[#9795c6] hover:text-primary transition-colors" href="#">Live Calls</a>
+<span class="text-slate-400 dark:text-[#5d5b83]">/</span>
+<span class="text-slate-900 dark:text-white font-medium">Session #8392</span>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-500 dark:text-[#9795c6] hover:bg-slate-100 dark:hover:bg-[#272546] rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-[#9795c6] hover:bg-slate-100 dark:hover:bg-[#272546] rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border-2 border-slate-200 dark:border-[#272546]" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANGLqvs4CLG_EPBKBcybRtp4q8Y9DjAEMRgUibH117vqFhrfJ1eXs0nA7DUPyVHXRJ7Undp8CD_JrcxTtGzQT99rZsQWM0eiWycbo_73yfdxmbYxCwAhtgYyP_11qboeEnq9A7TX4CuC7WP52XC3K7eUNNwoRkmfE8iDutfscAmZhu15gMeNkOL06XycPmxaqsYszzTrGYDqCLMTgYtSi4_J1oWeB20Xh8VpizlI0g3I-i176TJ_DcibhWHYVn_unBF2C_EX7byek");'>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-h-0 relative">
+<!-- Dashboard Heading / Info Bar -->
+<div class="flex-none px-6 py-5 bg-surface-light dark:bg-background-dark border-b border-slate-200 dark:border-[#272546]">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<h1 class="text-2xl font-black leading-tight tracking-tight">Session #8392</h1>
+<span class="px-3 py-1 bg-red-500/10 text-red-500 rounded-full text-xs font-bold border border-red-500/20 flex items-center gap-2 animate-pulse-slow">
+<span class="size-2 bg-red-500 rounded-full animate-pulse"></span>
+                            LIVE CALL
+                        </span>
+</div>
+<p class="text-slate-500 dark:text-[#9795c6] text-sm font-medium">Customer: Alice Bowman (ID: 9948-221)</p>
+</div>
+<div class="flex items-center gap-6">
+<!-- Timer -->
+<div class="flex items-center gap-2 bg-slate-100 dark:bg-[#1e1c30] rounded-lg p-2 pr-4 border border-slate-200 dark:border-[#272546]">
+<div class="p-2 bg-slate-200 dark:bg-[#272546] rounded text-slate-500 dark:text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">timer</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-slate-500 dark:text-[#9795c6] font-bold tracking-wider">Duration</span>
+<span class="text-lg font-mono font-bold leading-none text-slate-900 dark:text-white">04:23</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Split View Content -->
+<div class="flex-1 flex min-h-0 overflow-hidden">
+<!-- Left Panel: Logic Flow (1/3) -->
+<div class="w-1/3 min-w-[320px] bg-surface-light dark:bg-[#131221] border-r border-slate-200 dark:border-[#272546] flex flex-col">
+<div class="p-4 border-b border-slate-200 dark:border-[#272546] bg-slate-50/50 dark:bg-[#181728]">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Conversational Logic</h3>
+</div>
+<div class="flex-1 overflow-y-auto scrollbar-default p-6">
+<div class="relative pl-4 border-l-2 border-slate-200 dark:border-[#272546] space-y-8">
+<!-- Step 1: Completed -->
+<div class="relative pl-6 group">
+<div class="absolute -left-[9px] top-1 size-4 rounded-full bg-green-500 ring-4 ring-surface-light dark:ring-[#131221] flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white font-bold">check</span>
+</div>
+<div class="opacity-50 group-hover:opacity-80 transition-opacity">
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Call Started</h4>
+<p class="text-xs text-slate-500 dark:text-[#9795c6] mt-1">Trigger: Incoming Call</p>
+</div>
+</div>
+<!-- Step 2: Completed -->
+<div class="relative pl-6 group">
+<div class="absolute -left-[9px] top-1 size-4 rounded-full bg-green-500 ring-4 ring-surface-light dark:ring-[#131221] flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white font-bold">check</span>
+</div>
+<div class="opacity-50 group-hover:opacity-80 transition-opacity">
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Greeting &amp; Intro</h4>
+<p class="text-xs text-slate-500 dark:text-[#9795c6] mt-1">Node: #Greet_01</p>
+</div>
+</div>
+<!-- Step 3: Completed -->
+<div class="relative pl-6 group">
+<div class="absolute -left-[9px] top-1 size-4 rounded-full bg-green-500 ring-4 ring-surface-light dark:ring-[#131221] flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white font-bold">check</span>
+</div>
+<div class="bg-slate-100 dark:bg-[#1e1c30] rounded-lg p-3 border border-slate-200 dark:border-[#272546] opacity-60">
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Intent Classification</h4>
+<span class="text-[10px] bg-slate-200 dark:bg-[#272546] px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400">0.98 Conf</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-[#9795c6]">Detected: <span class="text-slate-700 dark:text-slate-300 font-mono">order_status</span></p>
+</div>
+</div>
+<!-- Step 4: ACTIVE -->
+<div class="relative pl-6">
+<!-- Glowing Active Dot -->
+<div class="absolute -left-[11px] top-4 size-5 rounded-full bg-primary border-[3px] border-surface-light dark:border-[#131221] shadow-[0_0_15px_rgba(80,72,229,0.6)] z-10 animate-pulse"></div>
+<!-- Active Card -->
+<div class="bg-primary/10 dark:bg-[#1e1c30] rounded-xl p-4 border border-primary/30 shadow-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-4xl text-primary">database</span>
+</div>
+<div class="flex items-center justify-between mb-3 relative z-10">
+<h4 class="text-base font-bold text-primary dark:text-white">Retrieve Order Data</h4>
+<span class="flex items-center gap-1 text-[10px] font-bold text-primary bg-primary/20 px-2 py-1 rounded-full animate-pulse">
+                                        RUNNING
+                                    </span>
+</div>
+<div class="space-y-2 relative z-10">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-500 dark:text-[#9795c6]">Action:</span>
+<span class="font-mono text-slate-700 dark:text-slate-300">GET /api/orders/status</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-500 dark:text-[#9795c6]">Latency:</span>
+<span class="font-mono text-slate-700 dark:text-slate-300">Waiting...</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-[#272546] h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-primary h-full w-2/3 animate-[shimmer_1.5s_infinite] bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent)]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 5: Pending -->
+<div class="relative pl-6 opacity-40">
+<div class="absolute -left-[7px] top-1 size-3 rounded-full bg-slate-300 dark:bg-[#272546] ring-4 ring-surface-light dark:ring-[#131221]"></div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Generate Response</h4>
+<p class="text-xs text-slate-500 dark:text-[#9795c6] mt-1">Model: GPT-4o-mini</p>
+</div>
+<!-- Step 6: Pending -->
+<div class="relative pl-6 opacity-40">
+<div class="absolute -left-[7px] top-1 size-3 rounded-full bg-slate-300 dark:bg-[#272546] ring-4 ring-surface-light dark:ring-[#131221]"></div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Call Wrap-up</h4>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Transcript (2/3) -->
+<div class="flex-1 bg-white dark:bg-[#0f0e1a] flex flex-col relative">
+<div class="p-4 border-b border-slate-200 dark:border-[#272546] bg-white/95 dark:bg-[#0f0e1a]/95 backdrop-blur z-10 flex justify-between items-center shadow-sm">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-[#9795c6]">Live Transcript</h3>
+<div class="flex items-center gap-2">
+<span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
+<span class="text-xs text-green-500 font-medium">Synced</span>
+</div>
+</div>
+<!-- Chat Messages -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-default">
+<!-- Bot Message -->
+<div class="flex gap-4 max-w-3xl">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-lg">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-900 dark:text-white">Hyyve Bot</span>
+<span class="text-[10px] text-slate-400">10:42:05 AM</span>
+</div>
+<div class="bg-slate-100 dark:bg-[#1e1c30] p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 dark:text-slate-200 leading-relaxed shadow-sm">
+                                Hello! Thank you for calling Hyyve Support. My name is Nova. How can I assist you today?
+                            </div>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex flex-row-reverse gap-4 max-w-3xl ml-auto">
+<div class="size-8 rounded-full bg-indigo-500 flex items-center justify-center shrink-0 text-white shadow-md" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+<span class="material-symbols-outlined text-lg">person</span>
+</div>
+<div class="flex flex-col gap-1 items-end">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-slate-400">10:42:12 AM</span>
+<span class="text-xs font-bold text-slate-900 dark:text-white">Alice Bowman</span>
+</div>
+<div class="bg-primary p-4 rounded-2xl rounded-tr-none text-sm text-white leading-relaxed shadow-md">
+                                Hi, I'm checking on the status of an order I placed last week. It hasn't arrived yet.
+                            </div>
+</div>
+</div>
+<!-- Bot Message -->
+<div class="flex gap-4 max-w-3xl">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-lg">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-900 dark:text-white">Hyyve Bot</span>
+<span class="text-[10px] text-slate-400">10:42:15 AM</span>
+</div>
+<div class="bg-slate-100 dark:bg-[#1e1c30] p-4 rounded-2xl rounded-tl-none text-sm text-slate-700 dark:text-slate-200 leading-relaxed shadow-sm">
+                                I can definitely help you with that. Could you please provide your Order ID? It usually starts with 'HY'.
+                            </div>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex flex-row-reverse gap-4 max-w-3xl ml-auto">
+<div class="size-8 rounded-full bg-indigo-500 flex items-center justify-center shrink-0 text-white shadow-md" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+<span class="material-symbols-outlined text-lg">person</span>
+</div>
+<div class="flex flex-col gap-1 items-end">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-slate-400">10:42:28 AM</span>
+<span class="text-xs font-bold text-slate-900 dark:text-white">Alice Bowman</span>
+</div>
+<div class="bg-primary p-4 rounded-2xl rounded-tr-none text-sm text-white leading-relaxed shadow-md">
+                                Sure, it's HY-8829-XJ.
+                            </div>
+</div>
+</div>
+<!-- Processing Indicator -->
+<div class="flex gap-4 max-w-3xl opacity-70">
+<div class="size-8 rounded-full bg-transparent flex items-center justify-center shrink-0">
+<!-- Empty spacer to align -->
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 ml-1">
+<span class="size-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+<span class="size-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+<span class="size-1.5 bg-slate-400 rounded-full animate-bounce"></span>
+<span class="text-xs text-slate-400 ml-2">Bot is thinking...</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Analysis Overlay (Bottom of Chat) -->
+<div class="p-4 bg-surface-light dark:bg-[#131221] border-t border-slate-200 dark:border-[#272546]">
+<div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+<!-- Sentiment Analysis -->
+<div class="flex-1 w-full lg:w-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-slate-500 dark:text-[#9795c6] uppercase tracking-wider">Live Sentiment</span>
+<span class="text-xs font-medium text-emerald-400">Neutral-Positive</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">sentiment_dissatisfied</span>
+<div class="flex-1 h-2 bg-slate-200 dark:bg-[#272546] rounded-full overflow-hidden flex">
+<!-- Negative -->
+<div class="bg-red-500/30 h-full w-[15%]"></div>
+<!-- Neutral -->
+<div class="bg-slate-400/30 h-full w-[20%]"></div>
+<!-- Positive -->
+<div class="bg-emerald-500 h-full w-[65%] relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-0.5 h-3 bg-white shadow-sm"></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-emerald-500 text-lg">sentiment_satisfied</span>
+</div>
+</div>
+<!-- Divider -->
+<div class="hidden lg:block w-px h-10 bg-slate-200 dark:bg-[#272546]"></div>
+<!-- Call Controls -->
+<div class="flex items-center gap-3 w-full lg:w-auto justify-end">
+<button class="flex items-center justify-center size-10 rounded-lg bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-[#322f54] transition-colors border border-slate-200 dark:border-transparent group" title="Mute">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">mic_off</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-lg bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-[#322f54] transition-colors border border-slate-200 dark:border-transparent group" title="Hold Call">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">pause</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-lg bg-slate-100 dark:bg-[#272546] text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-[#322f54] transition-colors border border-slate-200 dark:border-transparent group" title="Add Note">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">edit_note</span>
+</button>
+<div class="w-px h-6 bg-slate-200 dark:bg-[#272546] mx-1"></div>
+<button class="flex items-center gap-2 px-5 h-10 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium transition-all shadow-lg shadow-red-900/20 active:translate-y-0.5">
+<span class="material-symbols-outlined text-lg">call_end</span>
+<span>End Call</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

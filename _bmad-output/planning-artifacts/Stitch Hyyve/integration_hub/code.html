@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Integration Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "card-dark": "#1e1c30",
+                        "border-dark": "#272546",
+                        "text-muted": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-solid border-slate-200 dark:border-border-dark bg-white/80 dark:bg-[#131221]/95 backdrop-blur-md px-6 py-3 w-full">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary flex items-center justify-center bg-primary/20 rounded-lg">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">Integration Hub</h2>
+</div>
+<div class="hidden md:flex relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px]">search</span>
+</div>
+<input class="block w-full min-w-[320px] p-2 pl-10 text-sm rounded-lg bg-slate-100 dark:bg-border-dark border-transparent focus:border-primary focus:ring-primary placeholder:text-text-muted" placeholder="Search integrations, webhooks..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex items-center justify-center gap-2 px-4 h-10 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Connection</span>
+</button>
+<div class="relative size-10 rounded-full overflow-hidden border border-border-dark cursor-pointer">
+<img alt="User profile avatar" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyIUUstGsHVTL5ziBy0bKFvUXNawv5eEzJFh6VgeRnoHlt3IgZNIsh2tR0rXIWott2cUPPnebqsuGhHeHGHa0gQvdJ5McsN4WRcTHZ7d7irxVjrl3ZOTkO6t18_ZDDdSYyE-J8ibO-azbLxPrFKsT6Opr0u_rZLf536t62bm_aFr3qztbXTxHW-xcpBZIJnk6PrAD2TD4a1nRZaYT8NG8f5oRex_lwp4oFGphtp2H7wVle5DBzm3C91ZEp55qQLqVsrLYT-Tlbjpw"/>
+</div>
+</div>
+</header>
+<main class="layout-container flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 py-8 gap-10">
+<!-- Section: Connected Integrations Grid -->
+<section class="flex flex-col gap-5">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-2xl font-bold tracking-tight mb-1">Connected Integrations</h2>
+<p class="text-text-muted text-sm">Manage your active third-party connections and monitor their status.</p>
+</div>
+<button class="text-sm font-medium text-primary hover:text-white transition-colors">View All</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Salesforce (Active/Selected Style) -->
+<div class="group relative flex flex-col p-5 bg-card-dark rounded-xl border-2 border-primary shadow-lg shadow-primary/10 cursor-pointer transition-all hover:translate-y-[-2px]">
+<div class="absolute top-4 right-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
+<span class="size-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                            Active
+                        </span>
+</div>
+<div class="size-12 rounded-lg bg-white p-2 mb-4">
+<img alt="Salesforce logo icon" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaNV-m9vlWikdQFXaJvmHdHKLmqeYD7QW2iLopYjpx8C0iYOqUIzA6lJqqLVLXqbNLMtIWdBwSDyueTquJAEttPxylSWLjt0QYDFIWAbbDy3AYwqm-EXAKOcYsOgYwdCTPr6CbO4QzNMSvsW8LeEyXQnLuAMaVFoCmCZ7CLYbTeGSJP4we94Iw44nB0UzKi5GikL7Y1pwRuRYKl8xohjJx-RWV_hiRDNNPExg55py9LvrUi0P162yjpi_PxPTKsLElieeQbhZGq2o"/>
+</div>
+<h3 class="font-bold text-lg mb-1">Salesforce</h3>
+<p class="text-text-muted text-sm mb-4 line-clamp-2">CRM data sync for leads and contacts.</p>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-white/5">
+<span class="text-xs text-text-muted">Last sync: 2m ago</span>
+<span class="material-symbols-outlined text-primary">settings</span>
+</div>
+</div>
+<!-- Card 2: Slack -->
+<div class="group relative flex flex-col p-5 bg-card-dark rounded-xl border border-border-dark hover:border-slate-600 cursor-pointer transition-all hover:translate-y-[-2px]">
+<div class="absolute top-4 right-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
+<span class="size-1.5 rounded-full bg-green-400"></span>
+                            Active
+                        </span>
+</div>
+<div class="size-12 rounded-lg bg-white p-2 mb-4">
+<img alt="Slack logo icon" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBohIkrABGBzu7k0090ov-8KjVdNBxdeDgjpsa-KiYjsZgacXzwTiXTqomKSfC39FGxWbvuMKGXfhhv7Lp1z9f9RBkAHLZP_BxrtD9sOEzQtgUQd8C9KzxdYJZTWIgzdI4mxShC-xZNJjBcCPAm5hnwCYivY4q140XeMVS2eOqvVYT-iri4ltCLw6ykeVtKiip_ywlksjDXy5XReEy33k3VB_LL4G50O5CeD5kTId4tmbhBhDpgYc7ncoYQ3pMtx2Dt9BbB_KuXpmI"/>
+</div>
+<h3 class="font-bold text-lg mb-1">Slack</h3>
+<p class="text-text-muted text-sm mb-4 line-clamp-2">Team notifications and alerts bot.</p>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-white/5">
+<span class="text-xs text-text-muted">Last sync: 1h ago</span>
+<span class="material-symbols-outlined text-text-muted group-hover:text-white transition-colors">more_horiz</span>
+</div>
+</div>
+<!-- Card 3: HubSpot (Error) -->
+<div class="group relative flex flex-col p-5 bg-card-dark rounded-xl border border-border-dark hover:border-slate-600 cursor-pointer transition-all hover:translate-y-[-2px]">
+<div class="absolute top-4 right-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                            Error
+                        </span>
+</div>
+<div class="size-12 rounded-lg bg-white p-2 mb-4">
+<img alt="HubSpot logo icon" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARQnv51Xf1O8KwmnfeiPEbVSNn2V7a2D8vEJ_cRk9qK59TO9wJ04Wpk-lqxXRp2TJC7dNTERx0OzBoWg5BGivX1EhzypGFWSHh3nq8jnDRLaGEqjx61Uh5jqUO6UYrNQOi5V16XLrf3Xa82eGO369wH4D56aKk0N9mMgE3GnfFhFNqvOJ09kk76E7_v6W2XAROv-2MoOEyuSUr2OMwRTpvozFDMm0yWPst23QbTLtkpKO_IixveQ5Ju0RbRtNJC0KStU5JsXhs3uI"/>
+</div>
+<h3 class="font-bold text-lg mb-1">HubSpot</h3>
+<p class="text-text-muted text-sm mb-4 line-clamp-2">Marketing automation workflows.</p>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-white/5">
+<span class="text-xs text-red-400">Auth Token Expired</span>
+<span class="material-symbols-outlined text-text-muted group-hover:text-white transition-colors">more_horiz</span>
+</div>
+</div>
+<!-- Card 4: Jira -->
+<div class="group relative flex flex-col p-5 bg-card-dark rounded-xl border border-border-dark hover:border-slate-600 cursor-pointer transition-all hover:translate-y-[-2px]">
+<div class="absolute top-4 right-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+<span class="material-symbols-outlined text-[14px] animate-spin">sync</span>
+                            Syncing
+                        </span>
+</div>
+<div class="size-12 rounded-lg bg-white p-2 mb-4">
+<img alt="Jira logo icon" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNyrI4mgYbky3zV142nvKTcplb9JTicv12J2fAL8Htfd0F0rFpm8WHYyYdFQRUDm9Q2alhqgwQz96ggUNQW8GHXM65NpaBpPX2gAPa1-DIE1_v-J0eX0IUebhJYnb9UF80Y4NfoMQuOem3rVEBFDTSIXZ8-1e78uhNNOMYFq5VKwivTl7j9Y-d_m9q6I1CSgOMhrTSlpZX3KBDEZ0Zs3kvs73fLINZinwJdVACCLxxgd5CmRjdJWpYpG865metRmRRygNuebLLx3U"/>
+</div>
+<h3 class="font-bold text-lg mb-1">Jira</h3>
+<p class="text-text-muted text-sm mb-4 line-clamp-2">Issue tracking and project management.</p>
+<div class="mt-auto flex items-center justify-between pt-4 border-t border-white/5">
+<span class="text-xs text-text-muted">Syncing tickets...</span>
+<span class="material-symbols-outlined text-text-muted group-hover:text-white transition-colors">more_horiz</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Salesforce Detail Configuration (Expanded View) -->
+<section class="flex flex-col rounded-xl bg-card-dark border border-border-dark overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+<!-- Detail Header -->
+<div class="p-6 border-b border-border-dark flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/5">
+<div class="flex items-center gap-4">
+<div class="bg-white p-2 rounded-lg size-14 shadow-sm">
+<img alt="Salesforce logo detail" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDco6zIF-OM1M3e6IVpVvYZUgu9ElW-9heBXuCvE-LBLTxneAOlUcVZW3kCEXJbOH81K0-kxLt30eyqW6PA3dRW53ggyz90Wv7B5QNZdeyp9jTR7bL-T3abrn1uSTANKoc6ku8KTHaF--2mCph48PydThWzR-T9koGD-ga4W4KJacnh5OciQVieWPzxMY-TMRVaAevdUA07PW1SFXiUQbIgxpagp_uKoQ0P9qkjfk3cYRZLlnswARUJsa4gUM5OkTAuaNM2uGN-puY"/>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white flex items-center gap-3">
+                            Corp Salesforce
+                            <span class="px-2 py-0.5 rounded text-xs bg-slate-700 text-slate-300 font-normal">ID: sf-8829-x99</span>
+</h3>
+<div class="flex items-center gap-3 text-sm text-text-muted mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">person</span> admin@company.com</span>
+<span class="text-slate-600">•</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> Last sync: 2 mins ago</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded-lg border border-border-dark text-white hover:bg-white/5 text-sm font-medium">Test Connection</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 text-sm font-medium shadow-lg shadow-primary/25">Sync Now</button>
+</div>
+</div>
+<div class="grid lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-border-dark">
+<!-- Permissions List -->
+<div class="p-6 lg:col-span-1">
+<h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4 opacity-80">Permissions Scope</h4>
+<div class="space-y-3">
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 cursor-pointer transition-colors group">
+<input checked="" class="mt-1 rounded border-slate-600 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+<div>
+<p class="text-sm font-medium text-white group-hover:text-primary transition-colors">Read Contacts</p>
+<p class="text-xs text-text-muted mt-0.5">Allows access to view contact details.</p>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 cursor-pointer transition-colors group">
+<input checked="" class="mt-1 rounded border-slate-600 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+<div>
+<p class="text-sm font-medium text-white group-hover:text-primary transition-colors">Write Leads</p>
+<p class="text-xs text-text-muted mt-0.5">Create and update sales leads.</p>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 cursor-pointer transition-colors group">
+<input class="mt-1 rounded border-slate-600 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+<div>
+<p class="text-sm font-medium text-white group-hover:text-primary transition-colors">Manage Opportunities</p>
+<p class="text-xs text-text-muted mt-0.5">Full access to opportunity pipeline.</p>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 cursor-pointer transition-colors group">
+<input class="mt-1 rounded border-slate-600 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+<div>
+<p class="text-sm font-medium text-white group-hover:text-primary transition-colors">Export Analytics</p>
+<p class="text-xs text-text-muted mt-0.5">Allow downloading of report data.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Data Mapping Table -->
+<div class="p-6 lg:col-span-2 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-sm font-bold text-white uppercase tracking-wider opacity-80">Field Mapping Configuration</h4>
+<button class="text-xs text-primary hover:text-white flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[14px]">add_circle</span> Add Field
+                        </button>
+</div>
+<div class="overflow-x-auto rounded-lg border border-border-dark">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-white/5 border-b border-border-dark">
+<th class="p-3 text-xs font-medium text-text-muted uppercase w-[40%]">Source Field (App)</th>
+<th class="p-3 text-xs font-medium text-text-muted uppercase w-[20%] text-center">Sync Direction</th>
+<th class="p-3 text-xs font-medium text-text-muted uppercase w-[40%]">Target Field (Salesforce)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-dark text-sm">
+<tr class="bg-card-dark hover:bg-white/[0.02]">
+<td class="p-3 font-mono text-slate-300">User.Email</td>
+<td class="p-3 text-center">
+<span class="material-symbols-outlined text-primary text-lg rotate-90 sm:rotate-0">sync_alt</span>
+</td>
+<td class="p-3 font-mono text-slate-300">Contact.Email</td>
+</tr>
+<tr class="bg-white/[0.02] hover:bg-white/[0.04]">
+<td class="p-3 font-mono text-slate-300">User.FullName</td>
+<td class="p-3 text-center">
+<span class="material-symbols-outlined text-primary text-lg rotate-90 sm:rotate-0">arrow_forward</span>
+</td>
+<td class="p-3 font-mono text-slate-300">Contact.Name</td>
+</tr>
+<tr class="bg-card-dark hover:bg-white/[0.02]">
+<td class="p-3 font-mono text-slate-300">Company.Revenue</td>
+<td class="p-3 text-center">
+<span class="material-symbols-outlined text-text-muted text-lg rotate-90 sm:rotate-0 opacity-50">arrow_back</span>
+</td>
+<td class="p-3 font-mono text-slate-300">Account.AnnualRevenue</td>
+</tr>
+<tr class="bg-white/[0.02] hover:bg-white/[0.04]">
+<td class="p-3 font-mono text-slate-300">Lead.Status</td>
+<td class="p-3 text-center">
+<span class="material-symbols-outlined text-primary text-lg rotate-90 sm:rotate-0">sync_alt</span>
+</td>
+<td class="p-3 font-mono text-slate-300">Lead.CurrentStatus</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Available Integrations Gallery -->
+<section>
+<h2 class="text-xl font-bold tracking-tight mb-5">Available Integrations</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+<!-- GitHub -->
+<div class="flex flex-col items-center justify-center gap-3 p-4 bg-card-dark rounded-xl border border-border-dark hover:border-slate-500 transition-colors group text-center">
+<div class="size-10 bg-white p-1.5 rounded-lg shadow-sm group-hover:scale-110 transition-transform">
+<img alt="GitHub logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkMZdL9p1Ea_IGZhNr8gmqFJL7SYxEVdPWz-r0kq1VdDDjEjs7uOVa4rhTE0qjNqQr2BUR_hSI1RsQyjMksi5aQTv6LB3O0n90J-VLa7hWQjU8CASxVSYD1okG1tQumpW4AnqiunCjsh2CnfHH8dawbul7p6QgRdfei7NmOgKb1khqOAYMZBEWyYGXWgeDBz7kvVTUFP14QXJ6TXfWyPre-z7ZYwfRpl9qvkMpkfMJs1avcqjjIKbwPyGXaRS_eqABCkyEOGW3BPo"/>
+</div>
+<div>
+<h4 class="font-bold text-sm">GitHub</h4>
+<p class="text-xs text-text-muted">Code Repo</p>
+</div>
+<button class="w-full mt-1 py-1.5 text-xs font-bold bg-white/5 hover:bg-primary hover:text-white rounded border border-white/10 transition-colors text-text-muted">Connect</button>
+</div>
+<!-- Zendesk -->
+<div class="flex flex-col items-center justify-center gap-3 p-4 bg-card-dark rounded-xl border border-border-dark hover:border-slate-500 transition-colors group text-center">
+<div class="size-10 bg-white p-1.5 rounded-lg shadow-sm group-hover:scale-110 transition-transform">
+<img alt="Zendesk logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASrT8tbnKsgvOUVlAVmN0MikJ4DbEfxl-Wuqtga2iwXEQowhRQkak9Y5P6fXLnZ40BQqnOdiafjxaoD7wyzBcd48_r6oI22FJUv5d3DxPrgCflyWr-LfcwLYjJS0RiVQibjbFwc_6cRp9HRruEXvcnVgJuf4yF9Ovg5yCSqOFlU8HQwI_a2hYs0t9tw0tHWF1XXd84Gl87L-6iOdJLP838t49pBg6UYgzXWTxipUMIcTKpxWBlL-ZHxWfb6EvSGmdshv-JFw0-e4M"/>
+</div>
+<div>
+<h4 class="font-bold text-sm">Zendesk</h4>
+<p class="text-xs text-text-muted">Support</p>
+</div>
+<button class="w-full mt-1 py-1.5 text-xs font-bold bg-white/5 hover:bg-primary hover:text-white rounded border border-white/10 transition-colors text-text-muted">Connect</button>
+</div>
+<!-- Intercom -->
+<div class="flex flex-col items-center justify-center gap-3 p-4 bg-card-dark rounded-xl border border-border-dark hover:border-slate-500 transition-colors group text-center">
+<div class="size-10 bg-white p-1.5 rounded-lg shadow-sm group-hover:scale-110 transition-transform">
+<img alt="Intercom logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFOB7-xiDq4MWTBYw5_tJtJP3iCJLDXMU57qLKQosL5Q7kL3gwocIfc83GjF7zYcjRytgY-zbHVzj3sffh-ZOzkO4XeHiYe0Rf3VG4ceW_IUxr9hGJlLlAzv6SH90RjhxSP_yYb1rUZ2zs7gES9kc4lih65PeXcOQGoXKxwZu9f8fGVq_iPw6F_akp5PNt7Qh7u53yzHe_qGqC6HE_wXwNG-xCDtzSZy2SyI9EuJjkrfsdGoTYMbLVpK82wuQlqHNaxZeUT-4_DR0"/>
+</div>
+<div>
+<h4 class="font-bold text-sm">Intercom</h4>
+<p class="text-xs text-text-muted">Chat</p>
+</div>
+<button class="w-full mt-1 py-1.5 text-xs font-bold bg-white/5 hover:bg-primary hover:text-white rounded border border-white/10 transition-colors text-text-muted">Connect</button>
+</div>
+<!-- Trello -->
+<div class="flex flex-col items-center justify-center gap-3 p-4 bg-card-dark rounded-xl border border-border-dark hover:border-slate-500 transition-colors group text-center">
+<div class="size-10 bg-white p-1.5 rounded-lg shadow-sm group-hover:scale-110 transition-transform">
+<img alt="Trello logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpGrihrAIWwWBgee7qNBitc0Aei_iP6D36GSxzJiSttBOoVqMA-K78RK76uQTm4S-7bQrrLSQ-Nsp50Zbn4pdSWmDQyiwfEHGdAUfxJclQ7FxsfCSkqPWsfz8iUZ3AOdULT8QoAgLlOb9pRZiDTi04iTnp0TNpf0_JIHh5H0d-KjdKjBt2Y3yu-NusTrsUwR_KDsTnJIKQ5G8oLSnpYGh4PcOuocIKTK5C6SDTDEim8wnqVtJ4DUqElIDLurkA2kQB1B8iI6jpgYM"/>
+</div>
+<div>
+<h4 class="font-bold text-sm">Trello</h4>
+<p class="text-xs text-text-muted">Tasks</p>
+</div>
+<button class="w-full mt-1 py-1.5 text-xs font-bold bg-white/5 hover:bg-primary hover:text-white rounded border border-white/10 transition-colors text-text-muted">Connect</button>
+</div>
+<!-- Dropbox -->
+<div class="flex flex-col items-center justify-center gap-3 p-4 bg-card-dark rounded-xl border border-border-dark hover:border-slate-500 transition-colors group text-center">
+<div class="size-10 bg-white p-1.5 rounded-lg shadow-sm group-hover:scale-110 transition-transform">
+<img alt="Dropbox logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXhzbH5MNXcVJe-8ADZT5AklRe9eCD3Zjwrld6l-tQZJOFegOhz2SJ80ANVQ5uDi2Sg1N5g7U_D3OCPTVjm62y6GVWie_YcGj14Gj0UdHIya7dmFUkXrDaEAC4s6HikXpIROsgABpDJCnp7HvtcBsMODle9_jaqZ7X6oxBvJ24VvfR4BwCCr1FvnuNMn3OvV0IxvLPZjQQ9_vTx7gs3_nDiabLhnwAyg6E9rxDVGNyYFMzlWn9y7EdFDjtNUkYZVpdcf33IWrBzME"/>
+</div>
+<div>
+<h4 class="font-bold text-sm">Dropbox</h4>
+<p class="text-xs text-text-muted">Storage</p>
+</div>
+<button class="w-full mt-1 py-1.5 text-xs font-bold bg-white/5 hover:bg-primary hover:text-white rounded border border-white/10 transition-colors text-text-muted">Connect</button>
+</div>
+<!-- Mailchimp -->
+<div class="flex flex-col items-center justify-center gap-3 p-4 bg-card-dark rounded-xl border border-border-dark hover:border-slate-500 transition-colors group text-center">
+<div class="size-10 bg-white p-1.5 rounded-lg shadow-sm group-hover:scale-110 transition-transform">
+<img alt="Mailchimp logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_jRwy4J11q4hhgRJg9M7gRH7J4ziRypjnjFA5oIKV9H47GuWWSFM9O71jA6u4rgc0qT75DCJ3aCjIjSbjI2irCoUSKrtBWRVV8B_7AR4ATsqtNMah7ha5Lf1SYkYfNOGbMQBqgYeS5hBPXiU74iE363EjaKLuOF9k5tYvDT3kDrTCX_-B26rSozjePFy1FqbC_BRPF0AbxfM8s5JQmLoXwPEXi49Xqcbpt0B_UCPk18iBU2w-iszJKODhSWr_UMV8fsnGO1q31A4"/>
+</div>
+<div>
+<h4 class="font-bold text-sm">Mailchimp</h4>
+<p class="text-xs text-text-muted">Marketing</p>
+</div>
+<button class="w-full mt-1 py-1.5 text-xs font-bold bg-white/5 hover:bg-primary hover:text-white rounded border border-white/10 transition-colors text-text-muted">Connect</button>
+</div>
+</div>
+</section>
+<!-- Section: Integration Health Panel -->
+<section class="mt-4 pt-8 border-t border-border-dark">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-green-400">ecg_heart</span>
+<h2 class="text-lg font-bold">Integration Health</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Metric 1: Salesforce API -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="text-sm font-medium text-slate-300">Salesforce API Uptime</span>
+<span class="text-sm font-bold text-green-400">99.9%</span>
+</div>
+<div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-green-500 rounded-full w-[99.9%]"></div>
+</div>
+<div class="flex justify-between text-xs text-text-muted">
+<span>Last 30 days</span>
+<span>Latency: 45ms</span>
+</div>
+</div>
+<!-- Metric 2: Slack Webhooks -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="text-sm font-medium text-slate-300">Slack Webhooks Uptime</span>
+<span class="text-sm font-bold text-yellow-400">98.5%</span>
+</div>
+<div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-yellow-500 rounded-full w-[98.5%]"></div>
+</div>
+<div class="flex justify-between text-xs text-text-muted">
+<span>Last 30 days</span>
+<span>Latency: 120ms</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="mt-20 py-8 border-t border-border-dark bg-[#0b0c15]">
+<div class="layout-container mx-auto px-6 text-center text-text-muted text-sm">
+            © 2024 Integration Hub Platform. All rights reserved.
+        </div>
+</footer>
+</body></html>

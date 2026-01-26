@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - MFA Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1c1b32",
+                        "surface-border": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col">
+<!-- Navbar -->
+<header class="w-full border-b border-gray-200 dark:border-surface-border bg-white dark:bg-background-dark px-6 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-4 text-gray-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">Hyyve</h2>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-gray-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-gray-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Deployments</a>
+<a class="text-primary dark:text-white text-sm font-medium" href="#">Settings</a>
+<a class="text-gray-600 dark:text-text-secondary hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Support</a>
+</nav>
+<div class="flex items-center gap-3 pl-6 border-l border-gray-200 dark:border-surface-border">
+<span class="text-xs text-gray-500 dark:text-text-secondary hidden sm:block">jane@hyyve.ai</span>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-primary/20" data-alt="User profile avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCMQihGozArjdgz1_cRiJauBwnTbkhbIcOG5PoMJNTiVlVtEZQYiTzs-ZOvDPRfJrUSa7hvBBvHLY1ALfg7dkvxaqk_AkwbV2RJxuH50-4TteLfg2PN6ue6znFNoRYznxYx48vPESxy-jO9bY1OUKeUETF1eqH5w1El2DtEFpQoNeRUhM4rVoqS8pT6cBnsSRrsP9bppGqiIZI5Nc4CVsez4jbZBVFMnIdmtp5yRZA4f-I2LRYhHbHTI5wVb-FC6d4R27L7qOVdz-I");'></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex justify-center py-10 px-4 sm:px-6">
+<div class="w-full max-w-4xl flex flex-col gap-8">
+<!-- Page Header -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-primary mb-1">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<a class="text-sm font-medium hover:underline" href="#">Back to Security Settings</a>
+</div>
+<h1 class="text-gray-900 dark:text-white text-3xl font-bold leading-tight">Enable Two-Factor Authentication</h1>
+<p class="text-gray-500 dark:text-text-secondary text-base">Secure your account by setting up an authenticator app like Google Authenticator or Authy.</p>
+</div>
+<!-- Content Card -->
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-surface-border rounded-xl p-6 md:p-10 shadow-sm flex flex-col md:flex-row gap-10">
+<!-- Left Column: Scan / Key -->
+<div class="flex-1 flex flex-col gap-6 border-b md:border-b-0 md:border-r border-gray-200 dark:border-surface-border pb-8 md:pb-0 md:pr-10">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">1</div>
+<h3 class="text-gray-900 dark:text-white font-semibold text-lg">Scan QR Code</h3>
+</div>
+<p class="text-sm text-gray-500 dark:text-text-secondary">Open your authenticator app and scan the image below.</p>
+<div class="bg-white p-4 rounded-lg w-fit border border-gray-200 self-start">
+<img alt="QR Code for MFA setup" class="size-36 md:size-40" data-alt="QR Code pattern for scanning" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH7cA_qf-oCjKRXTQRODNrHYNngZDNhzz2B-WHVh4kOkLOrfRvABRjCsjTnZkZOS8cy4VG6VB4vDfgtbj0PYIQa7xQ0iMB6Yvkdh0xy7mQ-i73BkQgw598ERPW9yHKaJxDTdT9TtaoElg2Y7eHCEdcrKHjIv6asd3VzKhUqa7GshqdEpgajdcdnC5hsxlJ9LPnKfUEcdM-y02DqTBB9k_5qtMrbYGludGW_gBl1T8bCC2uKOi9_gbWrF64H7UMe9vny4Pmi4uWGkc"/>
+</div>
+<div class="flex flex-col gap-2 mt-2">
+<label class="text-sm font-medium text-gray-700 dark:text-white">Unable to scan? Use this setup key:</label>
+<div class="flex w-full items-stretch rounded-lg shadow-sm">
+<input class="font-mono tracking-wider flex-1 rounded-l-lg border border-r-0 border-gray-300 dark:border-surface-border bg-gray-50 dark:bg-background-dark text-gray-900 dark:text-white h-12 px-4 focus:ring-1 focus:ring-primary focus:border-primary text-sm" readonly="" value="JBSW Y3DP EHPK 3PXP"/>
+<button aria-label="Copy code" class="flex items-center justify-center px-4 rounded-r-lg border border-l-0 border-gray-300 dark:border-surface-border bg-gray-100 dark:bg-surface-border/50 hover:bg-gray-200 dark:hover:bg-surface-border text-gray-600 dark:text-text-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Verify -->
+<div class="flex-1 flex flex-col gap-6">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">2</div>
+<h3 class="text-gray-900 dark:text-white font-semibold text-lg">Verify Code</h3>
+</div>
+<p class="text-sm text-gray-500 dark:text-text-secondary">Enter the 6-digit verification code generated by your app.</p>
+<div class="flex gap-2 sm:gap-3 py-2">
+<!-- Individual OTP Inputs -->
+<input class="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold bg-gray-50 dark:bg-background-dark border border-gray-300 dark:border-surface-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 dark:text-white outline-none transition-all" maxlength="1" placeholder="-" type="text"/>
+<input class="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold bg-gray-50 dark:bg-background-dark border border-gray-300 dark:border-surface-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 dark:text-white outline-none transition-all" maxlength="1" placeholder="-" type="text"/>
+<input class="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold bg-gray-50 dark:bg-background-dark border border-gray-300 dark:border-surface-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 dark:text-white outline-none transition-all" maxlength="1" placeholder="-" type="text"/>
+<div class="flex items-center justify-center text-gray-400">-</div>
+<input class="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold bg-gray-50 dark:bg-background-dark border border-gray-300 dark:border-surface-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 dark:text-white outline-none transition-all" maxlength="1" placeholder="-" type="text"/>
+<input class="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold bg-gray-50 dark:bg-background-dark border border-gray-300 dark:border-surface-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 dark:text-white outline-none transition-all" maxlength="1" placeholder="-" type="text"/>
+<input class="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold bg-gray-50 dark:bg-background-dark border border-gray-300 dark:border-surface-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 dark:text-white outline-none transition-all" maxlength="1" placeholder="-" type="text"/>
+</div>
+<div class="mt-4 flex flex-col gap-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2">
+<span>Verify &amp; Enable</span>
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</button>
+<div class="flex items-center justify-between">
+<button class="text-sm text-gray-500 dark:text-text-secondary hover:text-gray-900 dark:hover:text-white font-medium transition-colors">
+                                I'll do this later
+                            </button>
+<div class="flex items-center gap-1.5 text-xs text-primary font-medium bg-primary/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]">timer</span>
+<span>04:59</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+<div class="bg-primary/5 border border-primary/10 rounded-lg p-4 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">lock</span>
+<div>
+<h4 class="text-sm font-semibold text-gray-900 dark:text-white">Why do I need this?</h4>
+<p class="text-xs text-gray-500 dark:text-text-secondary mt-1">MFA adds a layer of protection to your Hyyve account. Even if your password is stolen, your account remains secure.</p>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-surface-border rounded-lg p-4 flex items-start gap-3">
+<span class="material-symbols-outlined text-gray-400 dark:text-text-secondary mt-0.5">help</span>
+<div>
+<h4 class="text-sm font-semibold text-gray-900 dark:text-white">Having trouble?</h4>
+<p class="text-xs text-gray-500 dark:text-text-secondary mt-1">Contact our <a class="text-primary hover:underline" href="#">support team</a> if you are unable to scan the code or verify your device.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

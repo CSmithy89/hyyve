@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve Form Builder</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1c1b2e",
+                        "border-dark": "#272546",
+                        "text-secondary": "#9795c6"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark theme feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #383663; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+        
+        /* Hide number input arrows */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-[#131221] px-6 py-3 z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<svg fill="none" height="24" viewbox="0 0 48 48" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-6">
+<a class="text-text-secondary hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Projects</a>
+<a class="text-text-secondary hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Integrations</a>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border border-border-dark" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDN8IPLwp9dBO-ttUURgHNZqfU5xaKsSXGhDEakrvuLiNf4y0dQR9kuHfP1t0JEeEPeWdIO-TBrbj24Lj82ErekLAGOEfEqcvaFyxg8VFO5_pQare3E3kCy5ZBlBehqzjotda0Tnj42G4aJVj5C4GF93TDNrLXzchp3r4Ui8NzFFB3eGjcdDPtzU5fIxMmArkkKrunEq8IviyDsQ97reG6osUBQA4_msB7bP4LvpWzjPlE-rAWJ1xpj_FxCrGdfFvAu-8fS3IfNMf4");'></div>
+</div>
+</header>
+<!-- Sub-header / Toolbar -->
+<div class="flex-none flex items-center justify-between border-b border-border-dark bg-[#131221] px-6 py-3 z-10">
+<div class="flex items-center gap-4">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2">
+<a class="text-text-secondary hover:text-white text-sm font-medium" href="#">Projects</a>
+<span class="text-text-secondary text-sm font-medium">/</span>
+<span class="text-white text-sm font-medium">Form Builder</span>
+</div>
+<div class="h-5 w-px bg-border-dark mx-2"></div>
+<!-- Form Title Edit -->
+<div class="flex items-center gap-2 group cursor-pointer">
+<h1 class="text-lg font-semibold text-white">Contact Us Form</h1>
+<span class="material-symbols-outlined text-text-secondary text-[16px] group-hover:text-white transition-colors">edit</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-transparent border border-border-dark hover:bg-border-dark transition-colors text-white text-sm font-medium gap-2">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span>Preview</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold gap-2 shadow-[0_0_15px_rgba(80,72,229,0.3)]">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Save Form</span>
+</button>
+</div>
+</div>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Sidebar: Component Palette -->
+<aside class="w-[280px] flex-none border-r border-border-dark bg-[#131221] flex flex-col">
+<div class="p-4 border-b border-border-dark">
+<h3 class="text-white text-sm font-semibold mb-3">Components</h3>
+<!-- Search Bar -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full p-2 pl-10 text-sm text-white border border-border-dark rounded-lg bg-surface-dark focus:ring-primary focus:border-primary placeholder-text-secondary" placeholder="Search fields..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-3">
+<!-- Accordion: Basic Fields -->
+<details class="group" open="">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-white font-medium list-none select-none">
+<span class="text-sm">Basic Fields</span>
+<span class="material-symbols-outlined text-text-secondary transition group-open:rotate-180 text-[20px]">expand_more</span>
+</summary>
+<div class="grid grid-cols-2 gap-2 pt-2 pb-4">
+<!-- Draggable Item -->
+<div class="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-border-dark bg-surface-dark hover:border-primary hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-all group/item">
+<span class="material-symbols-outlined text-text-secondary group-hover/item:text-primary text-[24px]">text_fields</span>
+<span class="text-xs text-text-secondary font-medium">Text</span>
+</div>
+<!-- Draggable Item -->
+<div class="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-border-dark bg-surface-dark hover:border-primary hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-all group/item">
+<span class="material-symbols-outlined text-text-secondary group-hover/item:text-primary text-[24px]">123</span>
+<span class="text-xs text-text-secondary font-medium">Number</span>
+</div>
+<!-- Draggable Item -->
+<div class="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-border-dark bg-surface-dark hover:border-primary hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-all group/item">
+<span class="material-symbols-outlined text-text-secondary group-hover/item:text-primary text-[24px]">mail</span>
+<span class="text-xs text-text-secondary font-medium">Email</span>
+</div>
+<!-- Draggable Item -->
+<div class="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-border-dark bg-surface-dark hover:border-primary hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-all group/item">
+<span class="material-symbols-outlined text-text-secondary group-hover/item:text-primary text-[24px]">check_box</span>
+<span class="text-xs text-text-secondary font-medium">Checkbox</span>
+</div>
+<!-- Draggable Item -->
+<div class="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-border-dark bg-surface-dark hover:border-primary hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-all group/item">
+<span class="material-symbols-outlined text-text-secondary group-hover/item:text-primary text-[24px]">arrow_drop_down_circle</span>
+<span class="text-xs text-text-secondary font-medium">Select</span>
+</div>
+<!-- Draggable Item -->
+<div class="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-border-dark bg-surface-dark hover:border-primary hover:bg-[#272546] cursor-grab active:cursor-grabbing transition-all group/item">
+<span class="material-symbols-outlined text-text-secondary group-hover/item:text-primary text-[24px]">calendar_today</span>
+<span class="text-xs text-text-secondary font-medium">Date</span>
+</div>
+</div>
+</details>
+<!-- Accordion: AI Modules -->
+<details class="group" open="">
+<summary class="flex cursor-pointer items-center justify-between py-2 text-white font-medium list-none select-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">smart_toy</span>
+<span class="text-sm">AI Modules</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary transition group-open:rotate-180 text-[20px]">expand_more</span>
+</summary>
+<div class="flex flex-col gap-2 pt-2 pb-4">
+<div class="flex items-center gap-3 p-3 rounded-lg border border-border-dark bg-surface-dark hover:border-primary cursor-grab active:cursor-grabbing group/ai">
+<span class="material-symbols-outlined text-text-secondary group-hover/ai:text-primary">psychology</span>
+<div class="flex flex-col">
+<span class="text-sm text-white font-medium">Sentiment Analysis</span>
+<span class="text-[10px] text-text-secondary">Detects mood of input</span>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-border-dark bg-surface-dark hover:border-primary cursor-grab active:cursor-grabbing group/ai">
+<span class="material-symbols-outlined text-text-secondary group-hover/ai:text-primary">translate</span>
+<div class="flex flex-col">
+<span class="text-sm text-white font-medium">Auto-Translate</span>
+<span class="text-[10px] text-text-secondary">Detects &amp; translates lang</span>
+</div>
+</div>
+</div>
+</details>
+</div>
+</aside>
+<!-- Center Canvas: Form Builder -->
+<section class="flex-1 bg-[#0b0a15] relative overflow-y-auto flex flex-col items-center py-12 px-8">
+<!-- Background Grid Pattern Hint -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#383663 1px, transparent 1px); background-size: 20px 20px;"></div>
+<!-- The Form Paper -->
+<div class="w-full max-w-2xl bg-[#1c1b2e] rounded-xl shadow-2xl border border-border-dark min-h-[600px] flex flex-col relative z-10">
+<!-- Form Header -->
+<div class="p-8 border-b border-border-dark/50">
+<h2 class="text-3xl font-bold text-white mb-2">Contact Us</h2>
+<p class="text-text-secondary">We'd love to hear from you. Please fill out the form below.</p>
+</div>
+<!-- Form Body -->
+<div class="flex-1 p-8 flex flex-col gap-6">
+<!-- Field 1: Name -->
+<div class="group relative rounded-lg border border-transparent hover:border-border-dark/80 p-4 -mx-4 transition-all">
+<div class="absolute right-4 top-4 hidden group-hover:flex gap-2 bg-surface-dark border border-border-dark rounded-md p-1 shadow-lg z-10">
+<button class="p-1 hover:text-primary text-text-secondary"><span class="material-symbols-outlined text-[18px]">content_copy</span></button>
+<button class="p-1 hover:text-red-500 text-text-secondary"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+<div class="w-px h-4 bg-border-dark my-auto"></div>
+<button class="p-1 cursor-grab text-text-secondary"><span class="material-symbols-outlined text-[18px]">drag_indicator</span></button>
+</div>
+<label class="block text-sm font-medium text-white mb-2">Full Name</label>
+<input class="w-full bg-[#131221] border border-border-dark rounded-lg px-4 py-2.5 text-white placeholder-text-secondary focus:ring-0 focus:border-primary" placeholder="e.g. John Doe" type="text"/>
+</div>
+<!-- Field 2: Email (ACTIVE/SELECTED) -->
+<div class="group relative rounded-lg border-2 border-primary bg-primary/5 p-4 -mx-4 transition-all">
+<!-- Drag Handle / Actions for Active State -->
+<div class="absolute -right-[1px] -top-9 flex gap-1 bg-primary rounded-t-md px-2 py-1 shadow-lg z-10">
+<span class="text-xs font-bold text-white uppercase tracking-wider mr-2 self-center">Email Field</span>
+<button class="text-white/80 hover:text-white"><span class="material-symbols-outlined text-[16px]">content_copy</span></button>
+<button class="text-white/80 hover:text-white"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+<button class="text-white/80 hover:text-white cursor-grab"><span class="material-symbols-outlined text-[16px]">drag_indicator</span></button>
+</div>
+<label class="block text-sm font-medium text-white mb-2">Email Address <span class="text-red-500">*</span></label>
+<input class="w-full bg-[#131221] border border-border-dark rounded-lg px-4 py-2.5 text-white placeholder-text-secondary focus:ring-0 focus:border-primary" placeholder="you@company.com" type="email" value=""/>
+<p class="mt-1.5 text-xs text-text-secondary">We'll never share your email with anyone else.</p>
+</div>
+<!-- Drop Zone Indicator -->
+<div class="h-1 w-full bg-primary rounded-full my-1 opacity-0 group-hover:opacity-100 transition-opacity relative">
+<div class="absolute left-1/2 -top-3 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-0.5 rounded-full">Drop Here</div>
+</div>
+<!-- Field 3: Textarea -->
+<div class="group relative rounded-lg border border-transparent hover:border-border-dark/80 p-4 -mx-4 transition-all">
+<div class="absolute right-4 top-4 hidden group-hover:flex gap-2 bg-surface-dark border border-border-dark rounded-md p-1 shadow-lg z-10">
+<button class="p-1 hover:text-primary text-text-secondary"><span class="material-symbols-outlined text-[18px]">content_copy</span></button>
+<button class="p-1 hover:text-red-500 text-text-secondary"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+<div class="w-px h-4 bg-border-dark my-auto"></div>
+<button class="p-1 cursor-grab text-text-secondary"><span class="material-symbols-outlined text-[18px]">drag_indicator</span></button>
+</div>
+<label class="block text-sm font-medium text-white mb-2">How can we help?</label>
+<textarea class="w-full bg-[#131221] border border-border-dark rounded-lg px-4 py-2.5 text-white placeholder-text-secondary focus:ring-0 focus:border-primary resize-none" placeholder="Tell us about your project..." rows="4"></textarea>
+</div>
+<!-- Submit Button -->
+<div class="mt-4 pt-4 border-t border-border-dark/50">
+<button class="w-full bg-white text-black font-semibold py-2.5 rounded-lg hover:bg-gray-100 transition-colors">Submit Request</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Properties Panel -->
+<aside class="w-[320px] flex-none border-l border-border-dark bg-[#131221] flex flex-col">
+<!-- Panel Header -->
+<div class="p-5 border-b border-border-dark flex items-center justify-between">
+<h3 class="text-white font-semibold">Properties</h3>
+<span class="text-xs bg-primary/20 text-primary px-2 py-1 rounded border border-primary/30">Email Input</span>
+</div>
+<!-- Panel Content -->
+<div class="flex-1 overflow-y-auto p-5 space-y-6">
+<!-- AI Suggestion Block -->
+<div class="bg-gradient-to-br from-primary/20 to-purple-600/10 border border-primary/30 rounded-lg p-3">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">auto_awesome</span>
+<div>
+<p class="text-xs font-medium text-white mb-1">AI Suggestion</p>
+<p class="text-[11px] text-text-secondary leading-relaxed">Consider enabling "Real-time Validation" for better data quality on corporate emails.</p>
+<button class="mt-2 text-[10px] bg-primary text-white px-2 py-1 rounded font-medium hover:bg-primary/90">Apply Setting</button>
+</div>
+</div>
+</div>
+<!-- General Settings -->
+<div class="space-y-4">
+<h4 class="text-xs font-bold text-text-secondary uppercase tracking-wider">General</h4>
+<!-- Label Input -->
+<div>
+<label class="block text-sm text-white mb-1.5">Label</label>
+<input class="w-full bg-surface-dark border border-border-dark rounded-md px-3 py-2 text-sm text-white focus:ring-1 focus:ring-primary focus:border-primary transition-colors" type="text" value="Email Address"/>
+</div>
+<!-- Placeholder Input -->
+<div>
+<label class="block text-sm text-white mb-1.5">Placeholder</label>
+<input class="w-full bg-surface-dark border border-border-dark rounded-md px-3 py-2 text-sm text-white focus:ring-1 focus:ring-primary focus:border-primary transition-colors" type="text" value="you@company.com"/>
+</div>
+<!-- Helper Text Input -->
+<div>
+<label class="block text-sm text-white mb-1.5">Helper Text</label>
+<input class="w-full bg-surface-dark border border-border-dark rounded-md px-3 py-2 text-sm text-white focus:ring-1 focus:ring-primary focus:border-primary transition-colors" type="text" value="We'll never share your email with anyone else."/>
+</div>
+</div>
+<hr class="border-border-dark"/>
+<!-- Validation Settings -->
+<div class="space-y-4">
+<h4 class="text-xs font-bold text-text-secondary uppercase tracking-wider">Validation</h4>
+<!-- Required Toggle -->
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-sm text-white">Required Field</span>
+<span class="text-xs text-text-secondary">Users must fill this out</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-[#272546] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Unique Toggle -->
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-sm text-white">Unique Answer</span>
+<span class="text-xs text-text-secondary">No duplicate submissions</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-[#272546] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<hr class="border-border-dark"/>
+<!-- Advanced Settings -->
+<div class="space-y-4">
+<h4 class="text-xs font-bold text-text-secondary uppercase tracking-wider">Advanced</h4>
+<div>
+<label class="block text-sm text-white mb-1.5">Custom CSS Class</label>
+<input class="w-full bg-surface-dark border border-border-dark rounded-md px-3 py-2 text-sm text-white focus:ring-1 focus:ring-primary focus:border-primary transition-colors" placeholder="e.g. custom-email-input" type="text"/>
+</div>
+</div>
+</div>
+<!-- Panel Footer -->
+<div class="p-4 border-t border-border-dark bg-surface-dark/50">
+<button class="w-full flex items-center justify-center gap-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 py-2 rounded-lg transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+                    Remove Field
+                </button>
+</div>
+</aside>
+</main>
+</body></html>

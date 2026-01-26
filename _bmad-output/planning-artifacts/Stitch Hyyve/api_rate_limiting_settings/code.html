@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - API Rate Limiting</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#1e1c36", // A slightly lighter shade for cards
+                        "border-dark": "#2d2a4a", // Border color
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for dark mode feeling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121121; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d2a4a; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<div class="w-64 flex-shrink-0 flex flex-col border-r border-border-dark bg-[#131221]">
+<div class="flex flex-col h-full p-4">
+<div class="flex gap-3 mb-8 px-2 mt-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-lg shadow-primary/20" data-alt="Hyyve abstract geometric logo icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDI2m9nbZ_ke4LLWqwlTwst5z6Y2xNjWJ-K5OcJYJoNkNuZOU9aKKjjv3239xIYUZyR00T3l38akSTxVXU7TclO5zxxlDjxKuphBVExRdfBsS4cHAZL2cfW0zxqOsqQsHdD6tvfPTsVhhKBP1H9pj95Z8IWpmiMSzUjsJVwLM7AlP7IVfmaae5fwZexYsP0VfYXXYtq-ni4RTZN8NIauhaPY8VdJB_9piPqod7j5WU3ft23RlJ2a61seaHjXzn83aFxfZPBCs4vfq8");'></div>
+<div class="flex flex-col justify-center">
+<h1 class="text-white text-base font-bold leading-tight tracking-tight">Hyyve</h1>
+<p class="text-[#9795c6] text-xs font-normal">Dev Platform</p>
+</div>
+</div>
+<div class="flex flex-col gap-1 flex-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9795c6] hover:bg-white/5 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">home</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9795c6] hover:bg-white/5 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">bar_chart</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9795c6] hover:bg-white/5 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">vpn_key</span>
+<span class="text-sm font-medium">API Keys</span>
+</a>
+<div class="flex flex-col gap-1 mt-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-[24px] fill-current">settings</span>
+<span class="text-sm font-bold">Settings</span>
+</a>
+<!-- Submenu items -->
+<div class="pl-11 pr-3 flex flex-col gap-1">
+<a class="text-white text-sm py-1.5 font-medium" href="#">Rate Limiting</a>
+<a class="text-[#9795c6] hover:text-white text-sm py-1.5 font-medium transition-colors" href="#">Webhooks</a>
+<a class="text-[#9795c6] hover:text-white text-sm py-1.5 font-medium transition-colors" href="#">Team</a>
+</div>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9795c6] hover:bg-white/5 hover:text-white transition-colors group mt-1" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">menu_book</span>
+<span class="text-sm font-medium">Documentation</span>
+</a>
+</div>
+<div class="mt-auto pt-4 border-t border-border-dark">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9795c6] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">logout</span>
+<span class="text-sm font-medium">Log Out</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col overflow-hidden h-full">
+<!-- TopNavBar -->
+<header class="h-16 flex items-center justify-between border-b border-border-dark bg-[#131221] px-6 shrink-0 z-10">
+<div class="flex items-center gap-4 text-white">
+<div class="flex items-center text-[#9795c6]">
+<span class="material-symbols-outlined text-[20px]">search</span>
+<input class="bg-transparent border-none text-sm text-white placeholder-[#9795c6] focus:ring-0 w-64" placeholder="Search settings, docs, or projects..."/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-[#9795c6] hover:text-white transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-primary rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 pl-6 border-l border-border-dark">
+<div class="flex flex-col items-end">
+<span class="text-sm font-medium text-white">Alex Morgan</span>
+<span class="text-xs text-[#9795c6]">Admin</span>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-border-dark" data-alt="User profile avatar photo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAyKKJNx16dOHf40mbFRe_OY5pJXHgKBP50-Cdpnqx3D7HB-U4xp8AqRlov5Pcv_KJNmvgc4vUIeU69ww3WmRo-BTkW4R503wAvuht7rHfq5HzYWRyWWC_REXb8PKcX1_IA95wZAo-ksvLk8PjJWEvoQT5tsSBp-rx4S9RiRZb5mXANQ4N2uP4MDfCkj0wkKzvPfN-h0KP3_hbI07HF4_R-mZhfnJzC_EB5X_Rm8U_WjRQ56cwQ8Z5nvRf7Gg5GeMzMmT-5RRdzEKg");'></div>
+</div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark p-6 lg:px-12 pb-20">
+<div class="max-w-6xl mx-auto flex flex-col gap-8">
+<!-- Breadcrumbs & Heading -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2 text-sm">
+<a class="text-[#9795c6] hover:text-white transition-colors" href="#">Projects</a>
+<span class="text-[#5d5b85] material-symbols-outlined text-xs">chevron_right</span>
+<a class="text-[#9795c6] hover:text-white transition-colors" href="#">Hyyve AI</a>
+<span class="text-[#5d5b85] material-symbols-outlined text-xs">chevron_right</span>
+<a class="text-[#9795c6] hover:text-white transition-colors" href="#">Settings</a>
+<span class="text-[#5d5b85] material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-white font-medium">Rate Limiting</span>
+</div>
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div>
+<h1 class="text-3xl font-bold text-white tracking-tight mb-2">API Rate Limiting</h1>
+<p class="text-[#9795c6]">Configure traffic control for <code class="bg-[#272546] px-1.5 py-0.5 rounded text-primary font-mono text-sm">v1/completions</code> endpoint</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded-lg bg-[#272546] hover:bg-[#35325e] text-white text-sm font-medium transition-colors border border-border-dark">
+                                Discard
+                            </button>
+<button class="px-4 py-2 rounded-lg bg-primary hover:bg-[#433bc8] text-white text-sm font-bold shadow-lg shadow-primary/25 transition-all">
+                                Apply Changes
+                            </button>
+</div>
+</div>
+</div>
+<!-- Global Limits Card -->
+<section class="rounded-xl border border-border-dark bg-surface-dark overflow-hidden">
+<div class="px-6 py-4 border-b border-border-dark flex justify-between items-center bg-[#252342]">
+<h2 class="text-lg font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">public</span>
+                            Global Limits
+                        </h2>
+<label class="inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-[#9795c6]">Enabled</span>
+</label>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<label class="block mb-2 text-sm font-medium text-[#9795c6]">Requests per Minute (RPM)</label>
+<div class="relative">
+<input class="bg-[#131221] border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 pl-10 placeholder-[#5d5b85]" placeholder="e.g. 10000" type="number" value="5000"/>
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-[#5d5b85]">
+<span class="material-symbols-outlined text-[18px]">speed</span>
+</div>
+</div>
+<p class="mt-2 text-xs text-[#5d5b85]">Maximum requests allowed from any source within a 60-second window.</p>
+</div>
+<div>
+<label class="block mb-2 text-sm font-medium text-[#9795c6]">Requests per Day</label>
+<div class="relative">
+<input class="bg-[#131221] border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 pl-10 placeholder-[#5d5b85]" placeholder="e.g. 1000000" type="number" value="100000"/>
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-[#5d5b85]">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+</div>
+</div>
+<p class="mt-2 text-xs text-[#5d5b85]">Daily hard cap reset at 00:00 UTC.</p>
+</div>
+</div>
+</section>
+<!-- Two Column Layout: Tier Limits & Response Config -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Tier-Based Limits (Takes up 2 cols) -->
+<div class="lg:col-span-2 flex flex-col gap-4">
+<section class="rounded-xl border border-border-dark bg-surface-dark flex-1">
+<div class="px-6 py-4 border-b border-border-dark flex justify-between items-center bg-[#252342]">
+<div>
+<h2 class="text-lg font-bold text-white">Tier-Based Limits</h2>
+<p class="text-xs text-[#9795c6]">Override global limits based on subscriber plan.</p>
+</div>
+<button class="flex items-center gap-1 text-xs font-bold text-primary hover:text-white transition-colors uppercase tracking-wide">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                    Add Tier
+                                </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-[#9795c6]">
+<thead class="text-xs text-[#5d5b85] uppercase bg-[#1d1b33] border-b border-border-dark">
+<tr>
+<th class="px-6 py-3" scope="col">Tier Name</th>
+<th class="px-6 py-3" scope="col">Req/Min</th>
+<th class="px-6 py-3" scope="col">Burst Capacity <span class="material-symbols-outlined align-middle text-[14px] cursor-help" title="Token bucket overflow allowance">help</span></th>
+<th class="px-6 py-3 text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-dark">
+<tr class="bg-surface-dark hover:bg-[#252342] transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-2">
+<div class="size-2 rounded-full bg-slate-500"></div>
+                                                Free
+                                            </td>
+<td class="px-6 py-4">60</td>
+<td class="px-6 py-4 text-[#5d5b85] italic">None</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-white mr-2"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="text-[#9795c6] hover:text-red-400"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+<tr class="bg-surface-dark hover:bg-[#252342] transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-2">
+<div class="size-2 rounded-full bg-primary"></div>
+                                                Pro
+                                            </td>
+<td class="px-6 py-4">1,000</td>
+<td class="px-6 py-4">100</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-white mr-2"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="text-[#9795c6] hover:text-red-400"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+<tr class="bg-surface-dark hover:bg-[#252342] transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-2">
+<div class="size-2 rounded-full bg-emerald-500"></div>
+                                                Enterprise
+                                            </td>
+<td class="px-6 py-4 text-emerald-400 font-mono">Unlimited</td>
+<td class="px-6 py-4 text-emerald-400 font-mono">∞</td>
+<td class="px-6 py-4 text-right">
+<button class="text-[#9795c6] hover:text-white mr-2"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="text-[#9795c6] hover:text-red-400"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Response Configuration (Takes up 1 col) -->
+<div class="flex flex-col gap-4">
+<section class="rounded-xl border border-border-dark bg-surface-dark h-full flex flex-col">
+<div class="px-6 py-4 border-b border-border-dark bg-[#252342]">
+<h2 class="text-lg font-bold text-white">Response Config</h2>
+<p class="text-xs text-[#9795c6]">Customize the 429 Error experience.</p>
+</div>
+<div class="p-6 flex flex-col gap-6 flex-1">
+<div>
+<label class="block mb-2 text-sm font-medium text-[#9795c6]">Error Message</label>
+<input class="bg-[#131221] border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" type="text" value="Too Many Requests"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="block text-sm font-medium text-[#9795c6]">JSON Preview</label>
+<span class="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded font-mono">Status: 429</span>
+</div>
+<div class="bg-[#0b0a14] rounded-lg p-4 font-mono text-sm border border-border-dark relative group">
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-[#5d5b85] hover:text-white"><span class="material-symbols-outlined text-[16px]">content_copy</span></button>
+</div>
+<pre><code class="text-emerald-400">{</code>
+  <code class="text-purple-400">"error"</code>: <code class="text-amber-300">"Too Many Requests"</code>,
+  <code class="text-purple-400">"status"</code>: <code class="text-blue-400">429</code>,
+  <code class="text-purple-400">"retry_after"</code>: <code class="text-blue-400">58</code>,
+  <code class="text-purple-400">"context"</code>: {
+    <code class="text-purple-400">"limit"</code>: <code class="text-blue-400">1000</code>,
+    <code class="text-purple-400">"remaining"</code>: <code class="text-blue-400">0</code>
+  }
+<code class="text-emerald-400">}</code></pre>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-border-dark">
+<label class="inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-[#9795c6]">Include Headers</span>
+</label>
+<p class="text-xs text-[#5d5b85] mt-1 ml-12">Sends <code>X-RateLimit-Limit</code> and <code>X-RateLimit-Remaining</code></p>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer-like info -->
+<div class="text-center py-6 text-sm text-[#5d5b85]">
+<p>Changes take up to 30 seconds to propagate globally across Hyyve Edge Network.</p>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

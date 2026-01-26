@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Agency Client Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .form-input:focus {
+            border-color: #5048e5 !important;
+            box-shadow: 0 0 0 1px #5048e5 !important;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-white min-h-screen font-display">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#272546] px-10 py-3 bg-background-light dark:bg-background-dark">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em] dark:text-white">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-[#9795c6] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Clients</a>
+<a class="text-[#9795c6] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Templates</a>
+<a class="text-[#9795c6] hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-[#383663]" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrb6yGDNq8ctCOM2t3siGOZYX37TLEutjwPedzuBnZvExAY8Iu5jVkMoNBtzk9Z1K8ymwRhnkZW3EOwpm0qda0ctz2F6NRB1wjL-iWlUJzvNwvvqvv-xtfhmRAg3gTRcv06iqs9BO8pyC2ltCqWg9xpDG20dLSWKXWOd3I1HfTZIaLgjZ8mcOcvLceOeXiLfvB_cMaNyPGAN22Lndf3XSfy8TcbFTjEl5aHCY09ohV4Oh-aka6ksDfQ2cW1FyddjOddBczSzPWPtQ");'></div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-6 py-8">
+<!-- Progress Bar Section -->
+<div class="mb-10 max-w-4xl">
+<div class="flex flex-col gap-3">
+<div class="flex gap-6 justify-between items-end">
+<div>
+<h1 class="text-white tracking-light text-[32px] font-bold leading-tight">Agency Client Onboarding</h1>
+<p class="text-[#9795c6] text-base mt-1">Step 2 of 4: Plan &amp; Company Info</p>
+</div>
+<p class="text-primary text-lg font-bold">50% Complete</p>
+</div>
+<div class="rounded-full bg-[#383663] h-2.5 w-full mt-2">
+<div class="h-2.5 rounded-full bg-primary" style="width: 50%;"></div>
+</div>
+<p class="text-[#9795c6] text-sm font-normal leading-normal italic">Next: Integration Setup &amp; API Key Management</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Side: Forms and Plan Selection -->
+<div class="lg:col-span-2 space-y-12">
+<!-- Section 1: Company Info -->
+<section>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">corporate_fare</span>
+<h3 class="text-white text-xl font-semibold">Client Company &amp; Contact Information</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#1c1b32] p-6 rounded-xl border border-[#383663]">
+<label class="flex flex-col gap-2">
+<p class="text-[#9795c6] text-sm font-medium">Company Name</p>
+<input class="form-input w-full rounded-lg text-white border border-[#383663] bg-[#121121] h-12 placeholder:text-[#4e4b7e] px-4 text-base" placeholder="e.g. Acme AI Corp"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-[#9795c6] text-sm font-medium">Website URL</p>
+<input class="form-input w-full rounded-lg text-white border border-[#383663] bg-[#121121] h-12 placeholder:text-[#4e4b7e] px-4 text-base" placeholder="https://example.com"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-[#9795c6] text-sm font-medium">Primary Contact Name</p>
+<input class="form-input w-full rounded-lg text-white border border-[#383663] bg-[#121121] h-12 placeholder:text-[#4e4b7e] px-4 text-base" placeholder="John Doe"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-[#9795c6] text-sm font-medium">Email Address</p>
+<input class="form-input w-full rounded-lg text-white border border-[#383663] bg-[#121121] h-12 placeholder:text-[#4e4b7e] px-4 text-base" placeholder="john@company.com"/>
+</label>
+</div>
+</section>
+<!-- Section 2: Subscription Plans -->
+<section>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">layers</span>
+<h3 class="text-white text-xl font-semibold">Select Subscription Plan</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Starter Plan -->
+<div class="relative flex flex-col p-6 rounded-xl border border-[#383663] bg-[#1c1b32] hover:border-primary/50 cursor-pointer transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-white font-bold text-lg">Starter</h4>
+<p class="text-[#9795c6] text-xs">For small startups</p>
+</div>
+<input class="w-5 h-5 text-primary bg-[#121121] border-[#383663] focus:ring-primary" name="plan" type="radio"/>
+</div>
+<div class="mb-6">
+<span class="text-3xl font-bold text-white">$149</span>
+<span class="text-[#9795c6] text-sm">/mo</span>
+</div>
+<ul class="space-y-3 mb-6 flex-1">
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    Up to 5 Projects
+                                </li>
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    10k AI Tokens
+                                </li>
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    Standard Support
+                                </li>
+</ul>
+</div>
+<!-- Pro Plan (Selected) -->
+<div class="relative flex flex-col p-6 rounded-xl border-2 border-primary bg-[#1c1b32] shadow-lg shadow-primary/10">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full tracking-wider uppercase">Most Popular</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-white font-bold text-lg">Professional</h4>
+<p class="text-[#9795c6] text-xs">Best for agencies</p>
+</div>
+<input checked="" class="w-5 h-5 text-primary bg-[#121121] border-[#383663] focus:ring-primary" name="plan" type="radio"/>
+</div>
+<div class="mb-6">
+<span class="text-3xl font-bold text-white">$399</span>
+<span class="text-[#9795c6] text-sm">/mo</span>
+</div>
+<ul class="space-y-3 mb-6 flex-1">
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    Unlimited Projects
+                                </li>
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    100k AI Tokens
+                                </li>
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    Custom AI Models
+                                </li>
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    Priority Support
+                                </li>
+</ul>
+</div>
+<!-- Enterprise Plan -->
+<div class="relative flex flex-col p-6 rounded-xl border border-[#383663] bg-[#1c1b32] hover:border-primary/50 cursor-pointer transition-all">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-white font-bold text-lg">Enterprise</h4>
+<p class="text-[#9795c6] text-xs">Scale without limits</p>
+</div>
+<input class="w-5 h-5 text-primary bg-[#121121] border-[#383663] focus:ring-primary" name="plan" type="radio"/>
+</div>
+<div class="mb-6">
+<span class="text-3xl font-bold text-white">$899</span>
+<span class="text-[#9795c6] text-sm">/mo</span>
+</div>
+<ul class="space-y-3 mb-6 flex-1">
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    Custom Governance
+                                </li>
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    1M+ AI Tokens
+                                </li>
+<li class="flex items-center gap-2 text-sm text-[#d1d0e5]">
+<span class="material-symbols-outlined text-xs text-primary">check_circle</span>
+                                    Dedicated Manager
+                                </li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Side: Billing Summary & Checklist -->
+<div class="space-y-6">
+<!-- Billing Options & Margin -->
+<div class="bg-[#1c1b32] rounded-xl border border-[#383663] overflow-hidden">
+<div class="p-6 border-b border-[#383663] bg-[#232240]">
+<h3 class="text-white font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">payments</span>
+                            Billing Overview
+                        </h3>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-center text-sm">
+<span class="text-[#9795c6]">Hyyve Base Price</span>
+<span class="text-white font-medium">$399.00</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-[#9795c6]">Agency Margin (15%)</span>
+<span class="text-green-400 font-medium">+$59.85</span>
+</div>
+<div class="pt-4 border-t border-[#383663] flex justify-between items-center">
+<span class="text-white font-bold">Total Client Bill</span>
+<span class="text-primary font-bold text-xl">$458.85</span>
+</div>
+<div class="bg-[#121121] p-3 rounded-lg border border-[#383663] mt-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm">info</span>
+<p class="text-xs text-[#9795c6]">Margin auto-calculation enabled</p>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-full h-1.5 bg-[#383663] rounded-lg appearance-none cursor-pointer accent-primary" type="range" value="15"/>
+<span class="text-xs font-bold text-white">15%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Initial Setup Checklist -->
+<div class="bg-[#1c1b32] rounded-xl border border-[#383663]">
+<div class="p-6 border-b border-[#383663] bg-[#232240]">
+<h3 class="text-white font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">checklist</span>
+                            Setup Checklist
+                        </h3>
+</div>
+<div class="p-6 space-y-4">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input checked="" class="rounded border-[#383663] bg-[#121121] text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="text-sm text-[#d1d0e5] group-hover:text-white line-through opacity-60 transition-all">Verify Agency Email</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="rounded border-[#383663] bg-[#121121] text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="text-sm text-[#d1d0e5] group-hover:text-white transition-all">Upload Client Logo</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="rounded border-[#383663] bg-[#121121] text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="text-sm text-[#d1d0e5] group-hover:text-white transition-all">Assign Project Manager</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="rounded border-[#383663] bg-[#121121] text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="text-sm text-[#d1d0e5] group-hover:text-white transition-all">Configure White-label Domain</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Actions -->
+<div class="mt-12 pt-8 border-t border-[#383663] flex justify-between items-center">
+<button class="px-6 py-3 rounded-lg border border-[#383663] text-white hover:bg-[#1c1b32] transition-colors flex items-center gap-2 font-medium">
+<span class="material-symbols-outlined">arrow_back</span>
+                Back to Step 1
+            </button>
+<div class="flex gap-4">
+<button class="px-6 py-3 rounded-lg text-[#9795c6] hover:text-white transition-colors font-medium">
+                    Save Draft
+                </button>
+<button class="px-8 py-3 rounded-lg bg-primary text-white hover:bg-opacity-90 transition-all font-bold flex items-center gap-2 shadow-lg shadow-primary/20">
+                    Continue to Integrations
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Visual Background Element -->
+<div class="fixed top-0 right-0 -z-10 opacity-20 pointer-events-none">
+<div class="w-[800px] h-[800px] rounded-full bg-primary blur-[160px] translate-x-1/2 -translate-y-1/2"></div>
+</div>
+</body></html>

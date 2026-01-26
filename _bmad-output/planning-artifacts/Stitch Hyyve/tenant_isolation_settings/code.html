@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tenant Isolation Settings - Hyyve</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-hover": "#4338ca",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131221", // Matching example BG
+                        "surface-dark": "#1c1b2e", // Slightly lighter than bg
+                        "surface-highlight": "#272546", // Matching example accents
+                        "text-muted": "#9795c6", // Matching example text
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark theme matching */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131221; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #272546; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5048e5; 
+        }
+        
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #5048e5;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #5048e5;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden selection:bg-primary/30">
+<div class="flex h-screen w-full">
+<!-- Side Navigation -->
+<aside class="hidden w-64 flex-col border-r border-[#272546] bg-[#131221] lg:flex">
+<div class="flex h-16 items-center px-6 border-b border-[#272546]">
+<div class="flex items-center gap-2 text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+</div>
+<div class="flex flex-1 flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex flex-col px-2">
+<p class="text-text-muted text-xs font-semibold uppercase tracking-wider">Admin Console</p>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-highlight hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-highlight hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">group</span>
+<p class="text-sm font-medium leading-normal">Tenants</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-highlight text-white" href="#">
+<span class="material-symbols-outlined text-[24px] text-primary">verified_user</span>
+<p class="text-sm font-medium leading-normal">Governance</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-highlight hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">database</span>
+<p class="text-sm font-medium leading-normal">Resources</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:bg-surface-highlight hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-2 border-t border-[#272546] pt-4">
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:text-white cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">help</span>
+<p class="text-sm font-medium">Support</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-muted hover:text-white cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">logout</span>
+<p class="text-sm font-medium">Log out</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Area -->
+<main class="flex flex-1 flex-col overflow-hidden bg-background-dark">
+<!-- Top Header -->
+<header class="flex h-16 items-center justify-between border-b border-[#272546] bg-[#131221] px-8">
+<!-- Breadcrumbs (Mobile only, or duplicate for context) -->
+<div class="flex items-center gap-2 text-sm text-text-muted">
+<span class="material-symbols-outlined text-[20px] lg:hidden">menu</span>
+<span class="hidden lg:inline">Governance</span>
+<span class="hidden lg:inline">/</span>
+<span class="hidden lg:inline">Tenant Settings</span>
+</div>
+<div class="flex flex-1 justify-end gap-4">
+<div class="relative w-full max-w-md hidden md:block">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="material-symbols-outlined text-text-muted text-[20px]">search</span>
+</div>
+<input class="block w-full rounded-lg border-none bg-surface-highlight py-2 pl-10 pr-3 text-sm text-white placeholder-text-muted focus:ring-2 focus:ring-primary" placeholder="Search tenants, policies, or logs..." type="text"/>
+</div>
+<button class="flex items-center justify-center rounded-lg bg-surface-highlight p-2 text-white hover:bg-[#33305b]">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="h-9 w-9 overflow-hidden rounded-full border border-surface-highlight bg-cover bg-center" data-alt="User avatar showing a smiling person" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC4eFZm4F7bAz5Bwn87Z1o1D3WRzfDZydT2VirlISY_lCQEmBJO7U4MC4NShpM_P2CvMK55BBeI5PENAvmMGD-swlGO9mixdb-4mPpcDo4PtQKYKBQv74CJ47hiHato8v3xyorVgMMX-XJKYh0jCfvHHZJvW6qz6vmDnEgoXX9MrzJfcBQItiVUueP83uincy6RudLdI0hQJQwIsB_qmyqcEDQANJijbktf-No1vbZD6D4NZnR4pv1nGPq3pwA90nvfWbPAESmow3M');"></div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-4 lg:p-10">
+<div class="mx-auto flex max-w-[1080px] flex-col gap-8">
+<!-- Page Header & Actions -->
+<div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+<div class="flex flex-col gap-2">
+<!-- Breadcrumb styled context -->
+<div class="flex items-center gap-2 text-sm font-medium text-text-muted">
+<a class="hover:text-white" href="#">Governance</a>
+<span>/</span>
+<a class="hover:text-white" href="#">Tenant Settings</a>
+<span>/</span>
+<span class="text-white">Isolation Policy</span>
+</div>
+<h1 class="text-3xl font-bold text-white tracking-tight">Tenant Isolation Policy: Acme Corp</h1>
+<p class="max-w-2xl text-text-muted">Configure security boundaries, resource limits, and compliance settings for this tenant workspace. Changes may take up to 5 minutes to propagate.</p>
+</div>
+<button class="flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                            Save Changes
+                        </button>
+</div>
+<!-- Section 1: Data Sovereignty (Isolation Level) -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-[#272546] pb-2">
+<h2 class="text-xl font-bold text-white">Data Sovereignty</h2>
+<span class="rounded-full bg-surface-highlight px-2 py-1 text-xs font-medium text-text-muted">Mandatory</span>
+</div>
+<div class="grid gap-6 md:grid-cols-2">
+<!-- Option 1: Logical -->
+<label class="group relative flex cursor-pointer flex-col gap-4 rounded-xl border-2 border-transparent bg-surface-dark p-6 transition-all hover:bg-[#23213a] has-[:checked]:border-primary has-[:checked]:bg-[#1c1b2e]">
+<input class="peer sr-only" name="isolation-level" type="radio"/>
+<div class="flex items-start justify-between">
+<div class="rounded-lg bg-[#272546] p-3 text-text-muted group-hover:text-white peer-checked:bg-primary/20 peer-checked:text-primary transition-colors">
+<span class="material-symbols-outlined text-[32px]">hub</span>
+</div>
+<div class="h-6 w-6 rounded-full border-2 border-text-muted peer-checked:border-primary peer-checked:bg-primary"></div>
+</div>
+<div>
+<h3 class="mb-1 text-lg font-bold text-white">Logical Isolation</h3>
+<p class="text-sm text-text-muted">Shared infrastructure with strict Row-Level Security (RLS). Cost-effective for standard workloads.</p>
+</div>
+<div class="mt-2 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-[#272546] px-2 py-1 text-xs font-medium text-text-muted">Shared DB</span>
+<span class="inline-flex items-center rounded-md bg-[#272546] px-2 py-1 text-xs font-medium text-text-muted">Multi-tenant VPC</span>
+</div>
+</label>
+<!-- Option 2: Full (Selected) -->
+<label class="group relative flex cursor-pointer flex-col gap-4 rounded-xl border-2 border-primary bg-surface-dark p-6 shadow-[0_0_20px_rgba(80,72,229,0.1)] transition-all hover:bg-[#23213a] has-[:checked]:border-primary has-[:checked]:bg-[#1c1b2e]">
+<input checked="" class="peer sr-only" name="isolation-level" type="radio"/>
+<div class="flex items-start justify-between">
+<div class="rounded-lg bg-primary/20 p-3 text-primary transition-colors">
+<span class="material-symbols-outlined text-[32px]">lock_person</span>
+</div>
+<div class="flex items-center justify-center h-6 w-6 rounded-full border-2 border-primary bg-primary">
+<span class="material-symbols-outlined text-[16px] text-white">check</span>
+</div>
+</div>
+<div>
+<h3 class="mb-1 text-lg font-bold text-white">Full Isolation</h3>
+<p class="text-sm text-text-muted">Dedicated infrastructure for maximum compliance. Physical separation of data and compute resources.</p>
+</div>
+<div class="mt-2 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary border border-primary/20">Dedicated DB</span>
+<span class="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary border border-primary/20">Private VPC</span>
+</div>
+</label>
+</div>
+</section>
+<!-- Section 2: Resource Quotas -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-[#272546] pb-2">
+<h2 class="text-xl font-bold text-white">Resource Quotas</h2>
+<button class="text-sm font-medium text-primary hover:text-primary-hover">Edit Limits</button>
+</div>
+<div class="grid gap-4 md:grid-cols-3">
+<!-- Card 1: GPU -->
+<div class="flex flex-col gap-3 rounded-xl bg-surface-dark p-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted">memory</span>
+<span class="text-sm font-medium text-text-muted">GPU (H100)</span>
+</div>
+<span class="text-xs font-bold text-white bg-green-500/10 text-green-400 px-2 py-0.5 rounded">Healthy</span>
+</div>
+<div class="flex items-end justify-between">
+<span class="text-2xl font-bold text-white">12</span>
+<span class="text-sm font-medium text-text-muted mb-1">/ 16 Allocated</span>
+</div>
+<div class="h-2 w-full overflow-hidden rounded-full bg-[#272546]">
+<div class="h-full w-3/4 rounded-full bg-primary"></div>
+</div>
+</div>
+<!-- Card 2: Vector Storage -->
+<div class="flex flex-col gap-3 rounded-xl bg-surface-dark p-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted">database</span>
+<span class="text-sm font-medium text-text-muted">Vector Storage</span>
+</div>
+<span class="text-xs font-bold text-white bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded">Warning</span>
+</div>
+<div class="flex items-end justify-between">
+<span class="text-2xl font-bold text-white">850 <span class="text-sm font-normal text-text-muted">GB</span></span>
+<span class="text-sm font-medium text-text-muted mb-1">/ 1 TB</span>
+</div>
+<div class="h-2 w-full overflow-hidden rounded-full bg-[#272546]">
+<div class="h-full w-[85%] rounded-full bg-yellow-500"></div>
+</div>
+</div>
+<!-- Card 3: API Calls -->
+<div class="flex flex-col gap-3 rounded-xl bg-surface-dark p-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted">api</span>
+<span class="text-sm font-medium text-text-muted">API Requests</span>
+</div>
+<span class="text-xs font-bold text-white bg-green-500/10 text-green-400 px-2 py-0.5 rounded">Healthy</span>
+</div>
+<div class="flex items-end justify-between">
+<span class="text-2xl font-bold text-white">1.2M</span>
+<span class="text-sm font-medium text-text-muted mb-1">/ 5M Monthly</span>
+</div>
+<div class="h-2 w-full overflow-hidden rounded-full bg-[#272546]">
+<div class="h-full w-[24%] rounded-full bg-purple-500"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Perimeter & Compliance (Split Grid) -->
+<div class="grid gap-8 lg:grid-cols-2">
+<!-- Perimeter Control -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-[#272546] pb-2">
+<h2 class="text-xl font-bold text-white">Perimeter Control</h2>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-surface-dark p-1">
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-4 hover:bg-[#23213a] rounded-lg transition-colors">
+<div class="flex flex-col">
+<span class="font-medium text-white">Cross-Tenant Model Sharing</span>
+<span class="text-sm text-text-muted">Allow this tenant to share fine-tuned models.</span>
+</div>
+<label class="relative inline-flex cursor-pointer items-center" for="toggle-sharing">
+<input class="peer sr-only" id="toggle-sharing" type="checkbox"/>
+<div class="h-6 w-11 rounded-full bg-[#272546] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-4 hover:bg-[#23213a] rounded-lg transition-colors">
+<div class="flex flex-col">
+<span class="font-medium text-white">Public API Access</span>
+<span class="text-sm text-text-muted">Enable public endpoints for inference.</span>
+</div>
+<label class="relative inline-flex cursor-pointer items-center" for="toggle-api">
+<input checked="" class="peer sr-only" id="toggle-api" type="checkbox"/>
+<div class="h-6 w-11 rounded-full bg-[#272546] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-4 hover:bg-[#23213a] rounded-lg transition-colors">
+<div class="flex flex-col">
+<span class="font-medium text-white">IP Whitelisting</span>
+<span class="text-sm text-text-muted">Restrict access to specific IP ranges.</span>
+</div>
+<label class="relative inline-flex cursor-pointer items-center" for="toggle-ip">
+<input class="peer sr-only" id="toggle-ip" type="checkbox"/>
+<div class="h-6 w-11 rounded-full bg-[#272546] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Compliance -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-[#272546] pb-2">
+<h2 class="text-xl font-bold text-white">Compliance &amp; Security</h2>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-surface-dark p-1">
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-4 hover:bg-[#23213a] rounded-lg transition-colors">
+<div class="flex flex-col">
+<span class="font-medium text-white">Enforce MFA</span>
+<span class="text-sm text-text-muted">Require 2FA for all workspace members.</span>
+</div>
+<label class="relative inline-flex cursor-pointer items-center" for="toggle-mfa">
+<input checked="" class="peer sr-only" id="toggle-mfa" type="checkbox"/>
+<div class="h-6 w-11 rounded-full bg-[#272546] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-4 hover:bg-[#23213a] rounded-lg transition-colors">
+<div class="flex flex-col">
+<span class="font-medium text-white">Immutable Audit Logs (7 Years)</span>
+<span class="text-sm text-text-muted">Retain logs for compliance audits.</span>
+</div>
+<label class="relative inline-flex cursor-pointer items-center" for="toggle-logs">
+<input checked="" class="peer sr-only" id="toggle-logs" type="checkbox"/>
+<div class="h-6 w-11 rounded-full bg-[#272546] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-4 hover:bg-[#23213a] rounded-lg transition-colors">
+<div class="flex flex-col">
+<span class="font-medium text-white">HIPAA Compliance Mode</span>
+<span class="text-sm text-text-muted">Enforce stricter data handling rules.</span>
+</div>
+<label class="relative inline-flex cursor-pointer items-center" for="toggle-hipaa">
+<input class="peer sr-only" id="toggle-hipaa" type="checkbox"/>
+<div class="h-6 w-11 rounded-full bg-[#272546] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary peer-checked:bg-primary after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+</div>
+</section>
+</div>
+<!-- Section 4: Audit Logs -->
+<section class="flex flex-col gap-4 mb-8">
+<div class="flex items-center justify-between border-b border-[#272546] pb-2">
+<h2 class="text-xl font-bold text-white">Recent Security Audit</h2>
+<a class="text-sm font-medium text-primary hover:text-primary-hover" href="#">View All Logs</a>
+</div>
+<div class="overflow-hidden rounded-xl border border-[#272546] bg-surface-dark">
+<table class="w-full text-left text-sm text-text-muted">
+<thead class="bg-[#272546] text-xs uppercase text-white">
+<tr>
+<th class="px-6 py-3 font-semibold" scope="col">Event</th>
+<th class="px-6 py-3 font-semibold" scope="col">Actor</th>
+<th class="px-6 py-3 font-semibold" scope="col">Date</th>
+<th class="px-6 py-3 font-semibold text-right" scope="col">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#272546]">
+<tr class="hover:bg-[#23213a] transition-colors">
+<td class="px-6 py-4 font-medium text-white">Changed Isolation Level to Full</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-500 bg-cover bg-center" data-alt="Avatar of admin user" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCHVNoYJBAAHvu_xwRkgEv3PnGt5cAZd6sC5M3FwkHFNoGA-LSYekKzeDFCqK--deZCEpvhxOR1yiA3Lfou72X846rMbh4uR-cStS0scX2Zi5wH__2tkY7vcb66D_1pf2YZavPj96GhyeLjGbwvmC99n6XFsSdcckB42gEVe7uTzfqZdP0MjcrrvCUPyOQsAJJ3o5hktGmODcLr5TnMen6Z3id4OZs6gyfn0yqS6cO-CCProvyg-IAF2aeEI8SHwcN_71sha1mChk8');"></div>
+<span>admin@hyyve.io</span>
+</td>
+<td class="px-6 py-4">Oct 24, 2023 14:32</td>
+<td class="px-6 py-4 text-right">
+<span class="inline-flex items-center rounded-full bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">Success</span>
+</td>
+</tr>
+<tr class="hover:bg-[#23213a] transition-colors">
+<td class="px-6 py-4 font-medium text-white">Updated MFA Policy</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-500 bg-cover bg-center" data-alt="Avatar of system user" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCzoRgi1dq5vUvhDkcbChZqgAxL0IEaq77xNRKKOzx_TMiUMC95GU7QGTSXRb2oE-qN5HBAnLGtCRaBBRtbii7RuwAP_S7PDrHRJ9Gi7aLHbK4hquddb3P5KyQOTg35VOlKRlPyrWfwuBdnzZSkDEZZwj_9ot33jdkuigYeq2femWQDwWiccaIK3Xl3Ls-dRlqoIQ_HFHrc-RvNpI-j_xPOxfFMS73LbFgZl88nTUOqcmmsxwh3hxG8bFGFB0bgRbUhbAsxUhaCRAQ');"></div>
+<span>system</span>
+</td>
+<td class="px-6 py-4">Oct 24, 2023 10:15</td>
+<td class="px-6 py-4 text-right">
+<span class="inline-flex items-center rounded-full bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">Success</span>
+</td>
+</tr>
+<tr class="hover:bg-[#23213a] transition-colors">
+<td class="px-6 py-4 font-medium text-white">Failed Login Attempt (Brute Force)</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-red-400">warning</span>
+<span>192.168.1.45</span>
+</td>
+<td class="px-6 py-4">Oct 23, 2023 23:40</td>
+<td class="px-6 py-4 text-right">
+<span class="inline-flex items-center rounded-full bg-red-500/10 px-2 py-1 text-xs font-medium text-red-400 ring-1 ring-inset ring-red-500/20">Blocked</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</body></html>

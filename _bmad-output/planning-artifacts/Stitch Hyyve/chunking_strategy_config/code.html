@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chunking Strategy Config - Hyyve</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-dark": "#131221",
+                        "surface-highlight": "#272546",
+                        "border-color": "#383663",
+                        "text-secondary": "#9795c6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>/* Custom range slider styling for webkit */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    margin-top: -8px;
+    /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3)
+    }
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: #383663;
+    border-radius: 2px
+    }
+/* Custom styling for checked radio cards to simulate active state */
+input[type="radio"]:checked + div {
+    border-color: #5048e5;
+    background-color: rgba(80, 72, 229, 0.1)
+    }
+input[type="radio"]:checked + div .radio-circle {
+    border-color: #5048e5;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBdMtk4z1cezTE5otovvMwp8dacvs6GnKpEMgnO3rkwIBsxfGjiCwGKhMPOUgPijDUSAi007nmpmNOMMKCC1CXnqS-M2i4ymuuWOlJ4eZR3g-Up9sSEMmyt-NNzGtzBF88Luj7_zWKzF3EL8ndeWf0ZDVv4PWvzwYjj-02YPqlrnWswCmTk32B6sqKVoCoqqOdqF7-wUMi6oWGvSKj_derPJ3hrxGhGcgLqYT0K-i4bzuJu8Q3mxNeLgWyQAdRbO_rihhGq_lSiCv8)
+    }</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root">
+<!-- Top Navigation -->
+<div class="border-b border-solid border-border-color bg-surface-dark px-4 lg:px-10 py-3">
+<div class="mx-auto flex max-w-7xl items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<!-- Replaced with Material Symbol for consistency, though SVG was provided -->
+<span class="material-symbols-outlined text-3xl">deployed_code</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<!-- Search Bar -->
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-text-secondary flex border-none bg-surface-highlight items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-surface-highlight focus:border-none h-full placeholder:text-text-secondary px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex items-center gap-4 lg:gap-8">
+<div class="hidden lg:flex items-center gap-9">
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Pipelines</a>
+<a class="text-white text-sm font-medium leading-normal" href="#">Data Sources</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-surface-highlight text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-lg size-10 bg-surface-highlight text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-border-color" data-alt="User profile avatar gradient" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+</div>
+</div>
+</div>
+<!-- Main Content Layout -->
+<div class="flex flex-1 justify-center py-8 px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col max-w-[960px] flex-1 gap-8">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 items-center text-sm">
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Home</a>
+<span class="text-text-secondary">/</span>
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Pipelines</a>
+<span class="text-text-secondary">/</span>
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Text Processing</a>
+<span class="text-text-secondary">/</span>
+<span class="text-white font-medium">Chunking Strategy</span>
+</div>
+<!-- Page Header -->
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Chunking Strategy Config</h1>
+<p class="text-text-secondary text-base font-normal max-w-2xl">Configure how your documents are split into chunks for vector embedding. These settings directly impact retrieval accuracy and context window usage.</p>
+</div>
+<!-- Section 1: Method Selection -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-border-color pb-2">
+<h3 class="text-white text-lg font-bold">Chunking Method</h3>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-white" title="Learn more about chunking strategies">info</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Card 1 -->
+<label class="cursor-pointer group relative">
+<input checked="" class="peer sr-only" name="chunking_method" type="radio"/>
+<div class="flex flex-col h-full rounded-xl border border-border-color bg-surface-highlight/30 p-5 transition-all hover:border-primary/50">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<p class="text-white font-bold">Recursive Character</p>
+</div>
+<div class="radio-circle size-5 rounded-full border-2 border-border-color bg-transparent"></div>
+</div>
+<p class="text-text-secondary text-sm leading-relaxed">Splits by characters recursively. Tries to keep paragraphs and sentences together.</p>
+<div class="mt-4 inline-flex self-start rounded bg-primary/20 px-2 py-1 text-xs font-semibold text-primary">Best for RAG</div>
+</div>
+</label>
+<!-- Card 2 -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="chunking_method" type="radio"/>
+<div class="flex flex-col h-full rounded-xl border border-border-color bg-surface-highlight/30 p-5 transition-all hover:border-primary/50">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white">notes</span>
+<p class="text-white font-bold">Sentence Split</p>
+</div>
+<div class="radio-circle size-5 rounded-full border-2 border-border-color bg-transparent"></div>
+</div>
+<p class="text-text-secondary text-sm leading-relaxed">Respects sentence boundaries. Good for maintaining semantic completeness of statements.</p>
+</div>
+</label>
+<!-- Card 3 -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="chunking_method" type="radio"/>
+<div class="flex flex-col h-full rounded-xl border border-border-color bg-surface-highlight/30 p-5 transition-all hover:border-primary/50">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white">hub</span>
+<p class="text-white font-bold">Semantic Chunking</p>
+</div>
+<div class="radio-circle size-5 rounded-full border-2 border-border-color bg-transparent"></div>
+</div>
+<p class="text-text-secondary text-sm leading-relaxed">Uses embeddings to determine semantic breaks between topics. Computationally heavier.</p>
+</div>
+</label>
+<!-- Card 4 -->
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="chunking_method" type="radio"/>
+<div class="flex flex-col h-full rounded-xl border border-border-color bg-surface-highlight/30 p-5 transition-all hover:border-primary/50">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white">grid_4x4</span>
+<p class="text-white font-bold">Fixed Size</p>
+</div>
+<div class="radio-circle size-5 rounded-full border-2 border-border-color bg-transparent"></div>
+</div>
+<p class="text-text-secondary text-sm leading-relaxed">Hard split by exact token count. Simple and fast, but may break context mid-sentence.</p>
+</div>
+</label>
+</div>
+</section>
+<!-- Section 2: Global Parameters -->
+<section class="flex flex-col gap-6 p-6 rounded-xl border border-border-color bg-surface-highlight/20">
+<h3 class="text-white text-lg font-bold border-b border-border-color pb-2">Global Parameters</h3>
+<!-- Chunk Size Slider -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<label class="text-white font-medium flex items-center gap-2">
+                                Chunk Size (tokens)
+                                <span class="material-symbols-outlined text-text-secondary text-sm cursor-help" title="Maximum number of tokens per chunk">help</span>
+</label>
+<span class="text-primary font-mono text-sm font-bold">Max: 4096</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex-1 h-6 flex items-center">
+<input class="w-full h-2 bg-border-color rounded-lg appearance-none cursor-pointer accent-primary" max="4096" min="128" type="range" value="1024"/>
+</div>
+<div class="relative w-24">
+<input class="w-full bg-surface-highlight border border-border-color rounded-lg py-2 px-3 text-white text-right font-mono focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" type="number" value="1024"/>
+</div>
+</div>
+<p class="text-xs text-text-secondary">Target size for each text chunk. Larger chunks capture more context but dilute semantic meaning.</p>
+</div>
+<!-- Chunk Overlap Slider -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<label class="text-white font-medium flex items-center gap-2">
+                                Chunk Overlap (tokens)
+                                <span class="material-symbols-outlined text-text-secondary text-sm cursor-help" title="Overlap between consecutive chunks">help</span>
+</label>
+<span class="text-primary font-mono text-sm font-bold">Recommended: 10-15%</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex-1 h-6 flex items-center">
+<input class="w-full h-2 bg-border-color rounded-lg appearance-none cursor-pointer accent-primary" max="500" min="0" type="range" value="100"/>
+</div>
+<div class="relative w-24">
+<input class="w-full bg-surface-highlight border border-border-color rounded-lg py-2 px-3 text-white text-right font-mono focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" type="number" value="100"/>
+</div>
+</div>
+<p class="text-xs text-text-secondary">Amount of text shared between adjacent chunks to maintain context continuity.</p>
+</div>
+</section>
+<!-- Section 3: File-Type Overrides -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-white text-lg font-bold">File-Type Overrides</h3>
+<button class="flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-lg">add</span>
+                            Add Rule
+                         </button>
+</div>
+<div class="w-full overflow-hidden rounded-lg border border-border-color">
+<table class="w-full text-left text-sm">
+<thead class="bg-surface-highlight text-text-secondary font-medium uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4">File Type</th>
+<th class="px-6 py-4">Parsing Strategy</th>
+<th class="px-6 py-4">Separators / Config</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-color bg-surface-highlight/10">
+<!-- Markdown Row -->
+<tr class="group hover:bg-surface-highlight/30 transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary">markdown</span>
+                                        Markdown
+                                    </td>
+<td class="px-6 py-4 text-text-secondary">Heading Split</td>
+<td class="px-6 py-4">
+<code class="rounded bg-surface-dark border border-border-color px-2 py-1 font-mono text-xs text-primary">##, ###, \n\n</code>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-text-secondary hover:text-white"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 text-text-secondary hover:text-red-400"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- PDF Row -->
+<tr class="group hover:bg-surface-highlight/30 transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary">picture_as_pdf</span>
+                                        PDF
+                                    </td>
+<td class="px-6 py-4 text-text-secondary">Layout Analysis</td>
+<td class="px-6 py-4">
+<span class="text-text-secondary text-xs">Preserve Tables: <span class="text-white">Yes</span></span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-text-secondary hover:text-white"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 text-text-secondary hover:text-red-400"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- JSON Row -->
+<tr class="group hover:bg-surface-highlight/30 transition-colors">
+<td class="px-6 py-4 font-medium text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary">data_object</span>
+                                        JSON
+                                    </td>
+<td class="px-6 py-4 text-text-secondary">Key-Value Depth</td>
+<td class="px-6 py-4">
+<code class="rounded bg-surface-dark border border-border-color px-2 py-1 font-mono text-xs text-primary">max_depth: 2</code>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-text-secondary hover:text-white"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1 text-text-secondary hover:text-red-400"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Action Bar -->
+<div class="sticky bottom-0 -mx-6 bg-background-dark/80 backdrop-blur-md px-6 py-4 border-t border-border-color flex justify-end gap-4 mt-8 z-10">
+<button class="px-6 py-2.5 rounded-lg border border-border-color bg-surface-highlight text-white font-medium hover:bg-surface-highlight/80 transition-colors">
+                        Reset Defaults
+                    </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-all shadow-[0_0_15px_rgba(80,72,229,0.3)]">
+                        Save Configuration
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hyyve - Advanced Voice Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+              "surface-dark": "#1d1c2e",
+              "border-dark": "#2e2c49",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden min-h-screen flex flex-col">
+<!-- Top Navbar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-border-dark px-6 py-3 bg-white dark:bg-[#131221] z-10 sticky top-0">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Hyyve</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<div class="flex items-center gap-9 hidden md:flex">
+<a class="text-slate-500 dark:text-gray-400 hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-gray-400 hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Projects</a>
+<a class="text-primary text-sm font-medium leading-normal" href="#">Settings</a>
+<a class="text-slate-500 dark:text-gray-400 hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Docs</a>
+</div>
+<div class="flex gap-2">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Save Changes</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-slate-200 dark:bg-border-dark hover:bg-slate-300 dark:hover:bg-[#3a375e] transition-colors text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Reset Defaults</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-primary/20" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDTGWejiZDJvZsrbzP7MZaD8NYC256a4FLdl1Qo3eW10sIYqCD4tT20ytUUeM72RogrI2Ymo-YG4x5bgfzHAYya0Z9HxZiOiBawzQvDMQ6t9tv64XbleeETlnGT79T41nHnteetlXflbunC0KKpHNaRAH6lOdPfB8XHk3iPzCrWiECu51LV2VumLSp1n9AcdtZNQcUnUMKFd63MwEFQXCeZaAAjoPZ6S6TH0NomrhPYvYEz6H1jXZFh_xY1r-4EmvSCRPYgAs6A0gw");'></div>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="layout-container flex h-full grow flex-col max-w-7xl mx-auto w-full px-4 lg:px-8 pb-20">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 py-6 items-center">
+<a class="text-slate-500 dark:text-[#9795c6] text-sm font-medium hover:underline" href="#">Project Alpha</a>
+<span class="material-symbols-outlined text-slate-400 dark:text-[#9795c6] text-sm">chevron_right</span>
+<a class="text-slate-500 dark:text-[#9795c6] text-sm font-medium hover:underline" href="#">Settings</a>
+<span class="material-symbols-outlined text-slate-400 dark:text-[#9795c6] text-sm">chevron_right</span>
+<span class="text-slate-900 dark:text-white text-sm font-medium">Voice Configuration</span>
+</div>
+<!-- Page Heading & Latency Chart -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<div class="col-span-1 lg:col-span-2 flex flex-col justify-center">
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-tight mb-2">Advanced Voice Configuration</h1>
+<p class="text-slate-500 dark:text-[#9795c6] text-base font-normal leading-normal max-w-2xl">
+                    Fine-tune your audio processing pipeline for optimal latency and accuracy. Adjust STT, VAD, and TTS parameters in real-time.
+                </p>
+</div>
+<!-- Latency Optimization Card -->
+<div class="col-span-1 bg-white dark:bg-surface-dark rounded-xl p-5 border border-slate-200 dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="text-slate-500 dark:text-gray-400 text-xs font-semibold uppercase tracking-wider">Total Latency</p>
+<div class="flex items-baseline gap-2 mt-1">
+<p class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">185ms</p>
+<span class="text-emerald-500 text-sm font-medium flex items-center">
+<span class="material-symbols-outlined text-sm mr-0.5">trending_down</span>
+                                -15ms
+                            </span>
+</div>
+</div>
+<div class="px-2 py-1 rounded bg-slate-100 dark:bg-white/5 text-xs font-medium text-slate-500 dark:text-gray-400 border border-slate-200 dark:border-white/10">
+                        Target: 200ms
+                    </div>
+</div>
+<!-- Latency Breakdown Bar -->
+<div class="flex h-4 w-full rounded-full overflow-hidden mt-3 bg-slate-100 dark:bg-black/40">
+<div class="bg-blue-500 h-full" style="width: 30%" title="STT: 55ms"></div> <!-- STT -->
+<div class="bg-purple-500 h-full" style="width: 45%" title="LLM: 83ms"></div> <!-- LLM -->
+<div class="bg-pink-500 h-full" style="width: 25%" title="TTS: 47ms"></div> <!-- TTS -->
+</div>
+<div class="flex justify-between mt-2 text-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+<span class="text-slate-600 dark:text-gray-400 font-medium">STT (55ms)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-purple-500"></span>
+<span class="text-slate-600 dark:text-gray-400 font-medium">LLM (83ms)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-pink-500"></span>
+<span class="text-slate-600 dark:text-gray-400 font-medium">TTS (47ms)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Settings -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Section: Speech-to-Text -->
+<section class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-border-dark flex justify-between items-center bg-slate-50/50 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-blue-500">graphic_eq</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold">Speech-to-Text (STT)</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-slate-500 dark:text-gray-400">Provider:</span>
+<select class="bg-slate-100 dark:bg-[#131221] border-none text-slate-900 dark:text-white text-xs font-medium rounded px-2 py-1.5 focus:ring-1 focus:ring-primary cursor-pointer">
+<option>Deepgram Nova-2</option>
+<option>Whisper V3</option>
+<option>Google Speech</option>
+</select>
+</div>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Keyword Boosting -->
+<div class="md:col-span-2">
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200">Keyword Boosting</label>
+<span class="material-symbols-outlined text-slate-400 text-sm cursor-help" title="Increase the likelihood of specific words being recognized">info</span>
+</div>
+<div class="bg-slate-100 dark:bg-[#131221] rounded-lg p-3 border border-slate-200 dark:border-border-dark min-h-[80px] flex flex-wrap gap-2">
+<div class="bg-primary/20 text-primary border border-primary/30 px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
+                                    Hyyve: 2.0
+                                    <button class="hover:text-white hover:bg-primary/50 rounded-full w-4 h-4 flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-[10px]">close</span></button>
+</div>
+<div class="bg-primary/20 text-primary border border-primary/30 px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
+                                    API Key: 1.5
+                                    <button class="hover:text-white hover:bg-primary/50 rounded-full w-4 h-4 flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-[10px]">close</span></button>
+</div>
+<input class="bg-transparent border-none text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:ring-0 grow min-w-[200px]" placeholder="Type phrase + boost (e.g. 'Login: 1.5') and press Enter..." type="text"/>
+</div>
+</div>
+<!-- Language & Endpointing -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200">Language Detection</label>
+</div>
+<label class="inline-flex items-center cursor-pointer group">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-slate-600 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-white">Auto-detect</span>
+</label>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200">Endpointing Threshold</label>
+<span class="text-xs text-primary font-bold">500ms</span>
+</div>
+<input class="w-full h-2 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary" max="2000" min="100" type="range" value="500"/>
+<div class="flex justify-between mt-1 text-[10px] text-slate-400 dark:text-gray-500 font-medium">
+<span>100ms</span>
+<span>2000ms</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: VAD -->
+<section class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-border-dark flex justify-between items-center bg-slate-50/50 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-purple-500">audiotrack</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold">Voice Activity Detection (VAD)</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-purple-400/10 px-2 py-1 text-xs font-medium text-purple-400 ring-1 ring-inset ring-purple-400/20">Silero VAD</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex items-center justify-between mb-6">
+<div class="flex flex-col">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200 mb-1">Sensitivity Threshold</label>
+<span class="text-xs text-slate-500 dark:text-gray-500">Adjust when the system considers audio as speech.</span>
+</div>
+<div class="flex items-center gap-3 bg-slate-100 dark:bg-[#131221] px-3 py-1.5 rounded-lg border border-slate-200 dark:border-border-dark">
+<span class="text-xs font-bold text-slate-700 dark:text-white">0.6</span>
+<div class="h-4 w-[1px] bg-slate-300 dark:bg-gray-700"></div>
+<span class="material-symbols-outlined text-amber-500 text-sm" title="High sensitivity might pick up background noise">warning</span>
+</div>
+</div>
+<!-- Waveform Visualizer Placeholder -->
+<div class="relative h-24 w-full bg-[#131221] rounded-lg border border-border-dark mb-4 overflow-hidden group">
+<!-- Grid lines -->
+<div class="absolute inset-0 grid grid-cols-12 gap-0 opacity-20 pointer-events-none">
+<div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div><div class="border-r border-gray-600"></div>
+</div>
+<!-- Static Waveform -->
+<div class="absolute inset-0 flex items-center justify-center px-4">
+<div class="w-1 bg-purple-500/30 h-3 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500/40 h-5 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500/60 h-8 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500/80 h-4 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500 h-10 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500 h-14 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500 h-8 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500/80 h-6 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500/60 h-4 mx-px rounded-full"></div>
+<div class="w-1 bg-purple-500/40 h-2 mx-px rounded-full"></div>
+<!-- Drag Handle Line -->
+<div class="absolute top-0 bottom-0 left-[60%] w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] cursor-col-resize z-10">
+<div class="absolute top-0 -translate-x-1/2 bg-white text-black text-[9px] font-bold px-1 rounded-sm">TH</div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/80 pointer-events-none" style="left: 60%"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<label class="inline-flex items-center cursor-pointer group">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+<span class="ms-2 text-sm text-slate-600 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-white">Interruption Handling</span>
+</label>
+<label class="inline-flex items-center cursor-pointer group">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+<span class="ms-2 text-sm text-slate-600 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-white">Padding Filter</span>
+</label>
+</div>
+</div>
+</section>
+<!-- Section: Text-to-Speech -->
+<section class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-border-dark flex justify-between items-center bg-slate-50/50 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-pink-500">record_voice_over</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold">Text-to-Speech (TTS)</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-slate-500 dark:text-gray-400">Provider:</span>
+<div class="flex items-center gap-2 px-2 py-1 bg-slate-100 dark:bg-[#131221] rounded border border-slate-200 dark:border-border-dark">
+<div class="w-4 h-4 rounded-full bg-indigo-500 flex items-center justify-center text-[8px] font-bold text-white">C</div>
+<span class="text-xs font-bold text-slate-900 dark:text-white">Cartesia</span>
+</div>
+</div>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Voice Selection -->
+<div class="md:col-span-2 flex items-end gap-4">
+<div class="flex-grow">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200 mb-2 block">Voice Model</label>
+<div class="relative">
+<select class="w-full bg-slate-100 dark:bg-[#131221] border border-slate-200 dark:border-border-dark text-slate-900 dark:text-white text-sm rounded-lg px-4 py-2.5 focus:ring-1 focus:ring-primary focus:border-primary appearance-none">
+<option>British Narrator (Deep, Calm)</option>
+<option>American News (Fast, Neutral)</option>
+<option>Sales Agent (Enthusiastic)</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<button class="flex-none h-[42px] w-[42px] flex items-center justify-center bg-primary rounded-lg text-white hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+<!-- Sliders -->
+<div class="space-y-6">
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200">Stability</label>
+<span class="text-xs bg-slate-100 dark:bg-white/10 px-1.5 py-0.5 rounded text-slate-600 dark:text-white font-mono">0.50</span>
+</div>
+<input class="w-full h-2 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="50"/>
+<p class="mt-1 text-xs text-slate-500 dark:text-gray-500">More variable <span class="float-right">More stable</span></p>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200">Similarity Boost</label>
+<span class="text-xs bg-slate-100 dark:bg-white/10 px-1.5 py-0.5 rounded text-slate-600 dark:text-white font-mono">0.75</span>
+</div>
+<input class="w-full h-2 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="75"/>
+<p class="mt-1 text-xs text-slate-500 dark:text-gray-500">Low <span class="float-right">High</span></p>
+</div>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200">Style Exaggeration</label>
+<span class="text-xs bg-slate-100 dark:bg-white/10 px-1.5 py-0.5 rounded text-slate-600 dark:text-white font-mono">0.00</span>
+</div>
+<input class="w-full h-2 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="0"/>
+<p class="mt-1 text-xs text-slate-500 dark:text-gray-500">None <span class="float-right">High</span></p>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-200">Speed</label>
+<span class="text-xs bg-slate-100 dark:bg-white/10 px-1.5 py-0.5 rounded text-slate-600 dark:text-white font-mono">1.0x</span>
+</div>
+<input class="w-full h-2 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary" max="200" min="50" type="range" value="100"/>
+<p class="mt-1 text-xs text-slate-500 dark:text-gray-500">0.5x <span class="float-right">2.0x</span></p>
+</div>
+</div>
+<div class="md:col-span-2 pt-4 border-t border-slate-200 dark:border-border-dark flex gap-6">
+<div class="flex items-center gap-3">
+<label class="text-sm text-slate-600 dark:text-gray-400">Format:</label>
+<div class="flex rounded-md bg-slate-100 dark:bg-black/30 p-1">
+<button class="px-3 py-1 text-xs font-medium rounded bg-white dark:bg-primary text-slate-900 dark:text-white shadow-sm">MP3</button>
+<button class="px-3 py-1 text-xs font-medium rounded text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white">Opus</button>
+<button class="px-3 py-1 text-xs font-medium rounded text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white">PCM</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<label class="text-sm text-slate-600 dark:text-gray-400">Sample Rate:</label>
+<select class="bg-transparent text-sm font-medium text-slate-900 dark:text-white border-none focus:ring-0 p-0 cursor-pointer">
+<option>44100 Hz</option>
+<option>24000 Hz</option>
+<option>16000 Hz</option>
+</select>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Quick Info & Testing -->
+<div class="lg:col-span-4 flex flex-col gap-6 sticky top-24">
+<!-- Quick Guides -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-border-dark p-5">
+<h3 class="text-slate-900 dark:text-white font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-400">lightbulb</span>
+                        Optimization Tips
+                    </h3>
+<ul class="space-y-3">
+<li class="flex gap-3 text-sm text-slate-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-primary text-base shrink-0 mt-0.5">check_circle</span>
+<span>Reducing VAD padding can shave off 50-100ms of latency.</span>
+</li>
+<li class="flex gap-3 text-sm text-slate-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-primary text-base shrink-0 mt-0.5">check_circle</span>
+<span>For 'Sales Agent' voice, keep stability &gt; 0.6 to avoid emotional drift.</span>
+</li>
+<li class="flex gap-3 text-sm text-slate-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-primary text-base shrink-0 mt-0.5">check_circle</span>
+<span>Use Opus format for lower bandwidth consumption on mobile.</span>
+</li>
+</ul>
+</div>
+<!-- Test Playground -->
+<div class="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-[#1e1c30] dark:to-[#131221] rounded-xl border border-slate-200 dark:border-primary/20 shadow-xl overflow-hidden flex flex-col h-[400px]">
+<div class="p-4 border-b border-white/10 flex justify-between items-center">
+<h3 class="text-white font-bold text-sm">Test Playground</h3>
+<span class="inline-flex items-center rounded-full bg-green-400/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-400/20">
+<span class="w-1.5 h-1.5 rounded-full bg-green-400 mr-1.5 animate-pulse"></span>
+                            Ready
+                        </span>
+</div>
+<!-- Chat Log -->
+<div class="flex-1 p-4 overflow-y-auto space-y-4 font-mono text-xs">
+<div class="flex flex-col gap-1 opacity-60">
+<span class="text-primary font-bold">SYSTEM</span>
+<span class="text-gray-300">Initialized voice pipeline v2.4.1</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-blue-400 font-bold">USER (Microphone)</span>
+<span class="text-white">"Can you reset my password?"</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-pink-400 font-bold">AI (Cartesia)</span>
+<span class="text-white">"Sure, I've sent a reset link to your email."</span>
+<span class="text-[10px] text-gray-500">Latency: 185ms</span>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 bg-black/20 backdrop-blur-sm border-t border-white/5">
+<div class="flex gap-2">
+<button class="bg-red-500 hover:bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all shadow-lg shadow-red-500/20">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<input class="bg-white/5 border border-white/10 rounded-lg flex-1 text-sm text-white px-3 focus:ring-1 focus:ring-primary focus:border-primary placeholder-gray-500" placeholder="Or type to test TTS..." type="text"/>
+<button class="text-gray-400 hover:text-white p-2">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
