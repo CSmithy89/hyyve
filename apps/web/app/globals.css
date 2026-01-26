@@ -16,7 +16,7 @@
 
 /* shadcn/ui CSS Variables - Neutral base color */
 :root {
-  --radius: 0.625rem;
+  --radius: 0.25rem; /* 4px - matches wireframe DEFAULT border radius */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -51,37 +51,54 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  /* Hyyve brand colors - converted from hex to oklch
+   * #131221 (background-dark) -> oklch(0.15 0.025 280)
+   * #5048e5 (primary) -> oklch(0.52 0.21 275)
+   * #1c1a2e (panel-dark) -> oklch(0.19 0.03 280)
+   * #272546 (border-dark) -> oklch(0.24 0.05 275)
+   * #9795c6 (text-secondary) -> oklch(0.68 0.06 280)
+   * #3e38b3 (primary-dark) -> oklch(0.42 0.18 275)
+   */
+  --background: oklch(0.15 0.025 280); /* #131221 - Hyyve background-dark */
+  --foreground: oklch(0.985 0 0); /* White text */
+  --card: oklch(0.19 0.03 280); /* #1c1a2e - Hyyve panel-dark */
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.19 0.03 280); /* #1c1a2e - Hyyve panel-dark */
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: oklch(0.52 0.21 275); /* #5048e5 - Hyyve primary purple */
+  --primary-foreground: oklch(0.985 0 0); /* White text on primary */
+  --secondary: oklch(0.24 0.04 280); /* Slightly lighter than background */
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --muted: oklch(0.24 0.04 280);
+  --muted-foreground: oklch(0.68 0.06 280); /* #9795c6 - Hyyve text-secondary */
+  --accent: oklch(0.42 0.18 275); /* #3e38b3 - Hyyve primary-dark */
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
+  --destructive: oklch(0.704 0.191 22.216); /* Keep standard red */
+  --border: oklch(0.24 0.05 275); /* #272546 - Hyyve border-dark */
+  --input: oklch(0.19 0.03 280); /* #1c1a2e - Hyyve panel-dark */
+  --ring: oklch(0.52 0.21 275); /* Match primary for focus rings */
+  --chart-1: oklch(0.52 0.21 275); /* Hyyve primary */
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.19 0.03 280); /* #1c1a2e - Hyyve panel-dark */
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.52 0.21 275); /* #5048e5 - Hyyve primary */
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: oklch(0.24 0.04 280);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: oklch(0.24 0.05 275); /* #272546 - Hyyve border-dark */
+  --sidebar-ring: oklch(0.52 0.21 275); /* Match primary */
+
+  /* Hyyve-specific CSS variables for direct hex access */
+  --hyyve-primary: #5048e5;
+  --hyyve-primary-dark: #3e38b3;
+  --hyyve-background-dark: #131221;
+  --hyyve-panel-dark: #1c1a2e;
+  --hyyve-border-dark: #272546;
+  --hyyve-text-secondary: #9795c6;
+  --hyyve-canvas-dark: #0f1115;
 }
 
 @theme inline {
@@ -143,33 +160,33 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: var(--hyyve-background-dark, #131221);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
+  background: var(--hyyve-border-dark, #272546);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary));
+  background: var(--hyyve-primary, #5048e5);
 }
 
-/* Dot Grid Pattern for Canvas */
+/* Dot Grid Pattern for Canvas - matches wireframe exactly */
 .bg-dot-grid {
-  background-image: radial-gradient(hsl(var(--muted-foreground) / 0.3) 1px, transparent 1px);
+  background-image: radial-gradient(#374151 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-/* Workflow connection lines */
+/* Workflow connection lines - matches wireframe exactly */
 .connection-line {
   fill: none;
-  stroke: hsl(var(--primary));
+  stroke: var(--hyyve-primary, #5048e5);
   stroke-width: 2px;
   stroke-dasharray: 1000;
   stroke-dashoffset: 0;
   animation: dash 5s linear infinite;
-  filter: drop-shadow(0 0 3px hsl(var(--primary) / 0.4));
+  filter: drop-shadow(0 0 3px rgba(80, 72, 229, 0.4));
 }
 
 @keyframes dash {
