@@ -98,7 +98,12 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       setIsVerifying(true);
     } catch (error) {
       console.error('Sign-up failed:', error);
-      setGeneralError('Failed to create account');
+      const clerkError = error as { errors?: { message?: string }[]; message?: string };
+      const message =
+        clerkError.errors?.[0]?.message ||
+        clerkError.message ||
+        'Failed to create account';
+      setGeneralError(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -143,19 +148,27 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   };
 
   return (
-    <div className="flex flex-col w-full bg-[#1c1b32] rounded-2xl border border-[#383663] shadow-2xl p-8 sm:p-10 text-white">
+    <div
+      data-testid="registration-card"
+      className="flex flex-col w-full bg-[#1c1b32] rounded-2xl border border-[#383663] shadow-2xl p-8 sm:p-10 text-white"
+    >
       <div className="flex flex-col items-center justify-center gap-4 mb-8">
-        <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center shadow-lg shadow-primary/25">
+        <div
+          data-testid="hyyve-logo"
+          className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center shadow-lg shadow-primary/25"
+        >
           <span className="material-symbols-outlined text-white text-[32px]">hive</span>
         </div>
         <div className="text-center">
           <h1 className="text-2xl font-bold tracking-tight">Create your account</h1>
-          <p className="text-sm text-[#9795c6]">Join Hyyve and start building today</p>
+          <p className="text-sm text-[#9795c6]">Start building with Hyyve</p>
         </div>
       </div>
 
       <div className="mb-8">
-        <RegistrationStepper currentStep={0} steps={registrationSteps} />
+        <div data-testid="registration-stepper">
+          <RegistrationStepper currentStep={0} steps={registrationSteps} />
+        </div>
       </div>
 
       {generalError && (
@@ -251,6 +264,13 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               placeholder="name@company.com"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
+              onBlur={() => {
+                const emailResult = validateEmail(email);
+                setErrors((prev) => ({
+                  ...prev,
+                  email: emailResult.isValid ? undefined : emailResult.error,
+                }));
+              }}
               disabled={isSubmitting}
               aria-describedby={errors.email ? 'register-email-error' : undefined}
               aria-invalid={!!errors.email}
@@ -261,7 +281,12 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               )}
             />
             {errors.email && (
-              <p id="register-email-error" role="alert" className="text-xs text-red-300">
+              <p
+                id="register-email-error"
+                data-testid="email-error"
+                role="alert"
+                className="text-xs text-red-300"
+              >
                 {errors.email}
               </p>
             )}
@@ -291,6 +316,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               <button
                 type="button"
                 aria-label="Toggle password visibility"
+                data-testid="password-visibility-toggle"
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#9795c6] hover:text-white transition-colors"
               >
@@ -298,7 +324,12 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               </button>
             </div>
             {errors.password && (
-              <p id="register-password-error" role="alert" className="text-xs text-red-300">
+              <p
+                id="register-password-error"
+                data-testid="password-error"
+                role="alert"
+                className="text-xs text-red-300"
+              >
                 {errors.password}
               </p>
             )}

@@ -8,9 +8,9 @@ export default function RegisterPage() {
       <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-      <div className="relative w-full max-w-[480px] px-4 py-8">
+      <main role="main" className="relative w-full max-w-[480px] px-4 py-8">
         <RegistrationForm />
-      </div>
+      </main>
     </div>
   );
 }
