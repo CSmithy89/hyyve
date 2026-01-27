@@ -6,9 +6,6 @@
  * These tests verify that canvas components are properly created
  * with correct structure, styling, and TypeScript interfaces.
  *
- * TDD RED PHASE: These tests MUST fail initially as canvas components
- * do not exist yet. The green phase will implement the components.
- *
  * Acceptance Criteria Coverage:
  * - AC1: FlowCanvas with dot grid background
  * - AC2: Zoom controls (zoom in/out/fit)
@@ -20,37 +17,18 @@
  * - AC8: Handle components for connections
  * - AC9: Canvas state with Zustand
  * - AC10: Undo/redo infrastructure
- *
- * Test Strategy:
- * 1. File existence tests - verify component files are created
- * 2. Export tests - verify components are properly exported
- * 3. Structure tests - verify correct Tailwind classes
- * 4. Interface tests - verify TypeScript types are exported
  */
 
 import { describe, it, expect, beforeAll } from 'vitest';
-import * as fs from 'fs';
-import * as path from 'path';
+import { fileExists, safeReadFile } from '../support/file-helpers';
 
 // =============================================================================
 // PATH CONSTANTS
 // =============================================================================
 
-const CANVAS_DIR = path.resolve(__dirname, '../../components/canvas');
-const FLOW_CANVAS_PATH = path.join(CANVAS_DIR, 'FlowCanvas.tsx');
-const CANVAS_CONTROLS_PATH = path.join(CANVAS_DIR, 'CanvasControls.tsx');
-const NODE_WRAPPER_PATH = path.join(CANVAS_DIR, 'NodeWrapper.tsx');
-const CUSTOM_EDGE_PATH = path.join(CANVAS_DIR, 'CustomEdge.tsx');
-const HANDLE_PATH = path.join(CANVAS_DIR, 'Handle.tsx');
-const INDEX_PATH = path.join(CANVAS_DIR, 'index.ts');
-
-const STORES_DIR = path.resolve(__dirname, '../../lib/stores');
-const CANVAS_STORE_PATH = path.join(STORES_DIR, 'canvas-store.ts');
-
-const HOOKS_DIR = path.resolve(__dirname, '../../hooks');
-const CANVAS_HISTORY_PATH = path.join(HOOKS_DIR, 'useCanvasHistory.ts');
-
-const GLOBALS_CSS_PATH = path.resolve(__dirname, '../../app/globals.css');
+const CANVAS_DIR = 'components/canvas';
+const STORES_DIR = 'lib/stores';
+const HOOKS_DIR = 'hooks';
 
 // =============================================================================
 // EXPECTED VALUES FROM STORY ACCEPTANCE CRITERIA
@@ -85,43 +63,43 @@ const EXPECTED_CLASSES = {
 describe('Story 0-2-6: Flow Canvas Components - File Structure', () => {
   describe('Canvas Directory', () => {
     it('should have canvas directory created', () => {
-      expect(fs.existsSync(CANVAS_DIR)).toBe(true);
+      expect(fileExists(CANVAS_DIR)).toBe(true);
     });
   });
 
   describe('Component Files', () => {
     it('should have FlowCanvas.tsx file', () => {
-      expect(fs.existsSync(FLOW_CANVAS_PATH)).toBe(true);
+      expect(fileExists(`${CANVAS_DIR}/FlowCanvas.tsx`)).toBe(true);
     });
 
     it('should have CanvasControls.tsx file', () => {
-      expect(fs.existsSync(CANVAS_CONTROLS_PATH)).toBe(true);
+      expect(fileExists(`${CANVAS_DIR}/CanvasControls.tsx`)).toBe(true);
     });
 
     it('should have NodeWrapper.tsx file', () => {
-      expect(fs.existsSync(NODE_WRAPPER_PATH)).toBe(true);
+      expect(fileExists(`${CANVAS_DIR}/NodeWrapper.tsx`)).toBe(true);
     });
 
     it('should have CustomEdge.tsx file', () => {
-      expect(fs.existsSync(CUSTOM_EDGE_PATH)).toBe(true);
+      expect(fileExists(`${CANVAS_DIR}/CustomEdge.tsx`)).toBe(true);
     });
 
     it('should have Handle.tsx file', () => {
-      expect(fs.existsSync(HANDLE_PATH)).toBe(true);
+      expect(fileExists(`${CANVAS_DIR}/Handle.tsx`)).toBe(true);
     });
 
     it('should have index.ts barrel export file', () => {
-      expect(fs.existsSync(INDEX_PATH)).toBe(true);
+      expect(fileExists(`${CANVAS_DIR}/index.ts`)).toBe(true);
     });
   });
 
   describe('Store and Hooks Files', () => {
     it('should have canvas-store.ts file', () => {
-      expect(fs.existsSync(CANVAS_STORE_PATH)).toBe(true);
+      expect(fileExists(`${STORES_DIR}/canvas-store.ts`)).toBe(true);
     });
 
     it('should have useCanvasHistory.ts hook file', () => {
-      expect(fs.existsSync(CANVAS_HISTORY_PATH)).toBe(true);
+      expect(fileExists(`${HOOKS_DIR}/useCanvasHistory.ts`)).toBe(true);
     });
   });
 });
@@ -131,12 +109,10 @@ describe('Story 0-2-6: Flow Canvas Components - File Structure', () => {
 // =============================================================================
 
 describe('AC1: FlowCanvas with Dot Grid Background', () => {
-  let flowCanvasContent: string;
+  let flowCanvasContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(FLOW_CANVAS_PATH)) {
-      flowCanvasContent = fs.readFileSync(FLOW_CANVAS_PATH, 'utf-8');
-    }
+    flowCanvasContent = safeReadFile(`${CANVAS_DIR}/FlowCanvas.tsx`);
   });
 
   it('should be a client component', () => {
@@ -169,12 +145,10 @@ describe('AC1: FlowCanvas with Dot Grid Background', () => {
 // =============================================================================
 
 describe('AC2: Zoom Controls', () => {
-  let canvasControlsContent: string;
+  let canvasControlsContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(CANVAS_CONTROLS_PATH)) {
-      canvasControlsContent = fs.readFileSync(CANVAS_CONTROLS_PATH, 'utf-8');
-    }
+    canvasControlsContent = safeReadFile(`${CANVAS_DIR}/CanvasControls.tsx`);
   });
 
   it('should be a client component', () => {
@@ -215,30 +189,26 @@ describe('AC2: Zoom Controls', () => {
 // =============================================================================
 
 describe('AC3: Minimap Component', () => {
-  let flowCanvasContent: string;
-  let canvasControlsContent: string;
+  let flowCanvasContent = '';
+  let canvasControlsContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(FLOW_CANVAS_PATH)) {
-      flowCanvasContent = fs.readFileSync(FLOW_CANVAS_PATH, 'utf-8');
-    }
-    if (fs.existsSync(CANVAS_CONTROLS_PATH)) {
-      canvasControlsContent = fs.readFileSync(CANVAS_CONTROLS_PATH, 'utf-8');
-    }
+    flowCanvasContent = safeReadFile(`${CANVAS_DIR}/FlowCanvas.tsx`);
+    canvasControlsContent = safeReadFile(`${CANVAS_DIR}/CanvasControls.tsx`);
   });
 
   it('should import MiniMap from @xyflow/react', () => {
-    const combinedContent = (flowCanvasContent || '') + (canvasControlsContent || '');
+    const combinedContent = flowCanvasContent + canvasControlsContent;
     expect(combinedContent).toMatch(/MiniMap|minimap/i);
   });
 
   it('should render MiniMap component', () => {
-    const combinedContent = (flowCanvasContent || '') + (canvasControlsContent || '');
+    const combinedContent = flowCanvasContent + canvasControlsContent;
     expect(combinedContent).toMatch(/<MiniMap|MiniMap/);
   });
 
   it('should style MiniMap with dark theme', () => {
-    const combinedContent = (flowCanvasContent || '') + (canvasControlsContent || '');
+    const combinedContent = flowCanvasContent + canvasControlsContent;
     expect(combinedContent).toMatch(/maskColor|nodeColor|style/);
   });
 });
@@ -248,21 +218,17 @@ describe('AC3: Minimap Component', () => {
 // =============================================================================
 
 describe('AC4: Pan and Zoom Interactions', () => {
-  let flowCanvasContent: string;
+  let flowCanvasContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(FLOW_CANVAS_PATH)) {
-      flowCanvasContent = fs.readFileSync(FLOW_CANVAS_PATH, 'utf-8');
-    }
+    flowCanvasContent = safeReadFile(`${CANVAS_DIR}/FlowCanvas.tsx`);
   });
 
   it('should enable panning', () => {
-    // ReactFlow has panOnDrag by default or explicitly set
     expect(flowCanvasContent).toMatch(/panOnDrag|panOnScroll|ReactFlow/);
   });
 
   it('should enable zooming', () => {
-    // ReactFlow has zoomOnScroll by default or explicitly set
     expect(flowCanvasContent).toMatch(/zoomOnScroll|zoomOnPinch|ReactFlow/);
   });
 
@@ -276,16 +242,12 @@ describe('AC4: Pan and Zoom Interactions', () => {
 // =============================================================================
 
 describe('AC5: Connection Lines with Animation', () => {
-  let customEdgeContent: string;
-  let flowCanvasContent: string;
+  let customEdgeContent = '';
+  let flowCanvasContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(CUSTOM_EDGE_PATH)) {
-      customEdgeContent = fs.readFileSync(CUSTOM_EDGE_PATH, 'utf-8');
-    }
-    if (fs.existsSync(FLOW_CANVAS_PATH)) {
-      flowCanvasContent = fs.readFileSync(FLOW_CANVAS_PATH, 'utf-8');
-    }
+    customEdgeContent = safeReadFile(`${CANVAS_DIR}/CustomEdge.tsx`);
+    flowCanvasContent = safeReadFile(`${CANVAS_DIR}/FlowCanvas.tsx`);
   });
 
   it('should import edge utilities from @xyflow/react', () => {
@@ -310,12 +272,10 @@ describe('AC5: Connection Lines with Animation', () => {
 // =============================================================================
 
 describe('AC6: NodeWrapper with Colored Top Border', () => {
-  let nodeWrapperContent: string;
+  let nodeWrapperContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(NODE_WRAPPER_PATH)) {
-      nodeWrapperContent = fs.readFileSync(NODE_WRAPPER_PATH, 'utf-8');
-    }
+    nodeWrapperContent = safeReadFile(`${CANVAS_DIR}/NodeWrapper.tsx`);
   });
 
   it('should be a client component', () => {
@@ -331,7 +291,6 @@ describe('AC6: NodeWrapper with Colored Top Border', () => {
   });
 
   it('should have colored top border element', () => {
-    // Top border with gradient or solid color
     expect(nodeWrapperContent).toMatch(/h-2|border-t|rounded-t/);
   });
 
@@ -357,12 +316,10 @@ describe('AC6: NodeWrapper with Colored Top Border', () => {
 // =============================================================================
 
 describe('AC7: CustomEdge with Animated Dash', () => {
-  let customEdgeContent: string;
+  let customEdgeContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(CUSTOM_EDGE_PATH)) {
-      customEdgeContent = fs.readFileSync(CUSTOM_EDGE_PATH, 'utf-8');
-    }
+    customEdgeContent = safeReadFile(`${CANVAS_DIR}/CustomEdge.tsx`);
   });
 
   it('should be a client component', () => {
@@ -391,12 +348,10 @@ describe('AC7: CustomEdge with Animated Dash', () => {
 // =============================================================================
 
 describe('AC8: Handle Components', () => {
-  let handleContent: string;
+  let handleContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(HANDLE_PATH)) {
-      handleContent = fs.readFileSync(HANDLE_PATH, 'utf-8');
-    }
+    handleContent = safeReadFile(`${CANVAS_DIR}/Handle.tsx`);
   });
 
   it('should be a client component', () => {
@@ -437,12 +392,10 @@ describe('AC8: Handle Components', () => {
 // =============================================================================
 
 describe('AC9: Canvas State with Zustand', () => {
-  let canvasStoreContent: string;
+  let canvasStoreContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(CANVAS_STORE_PATH)) {
-      canvasStoreContent = fs.readFileSync(CANVAS_STORE_PATH, 'utf-8');
-    }
+    canvasStoreContent = safeReadFile(`${STORES_DIR}/canvas-store.ts`);
   });
 
   it('should import from zustand', () => {
@@ -487,40 +440,36 @@ describe('AC9: Canvas State with Zustand', () => {
 // =============================================================================
 
 describe('AC10: Undo/Redo Infrastructure', () => {
-  let canvasHistoryContent: string;
-  let canvasStoreContent: string;
+  let canvasHistoryContent = '';
+  let canvasStoreContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(CANVAS_HISTORY_PATH)) {
-      canvasHistoryContent = fs.readFileSync(CANVAS_HISTORY_PATH, 'utf-8');
-    }
-    if (fs.existsSync(CANVAS_STORE_PATH)) {
-      canvasStoreContent = fs.readFileSync(CANVAS_STORE_PATH, 'utf-8');
-    }
+    canvasHistoryContent = safeReadFile(`${HOOKS_DIR}/useCanvasHistory.ts`);
+    canvasStoreContent = safeReadFile(`${STORES_DIR}/canvas-store.ts`);
   });
 
   it('should have history hook or store integration', () => {
-    const combinedContent = (canvasHistoryContent || '') + (canvasStoreContent || '');
+    const combinedContent = canvasHistoryContent + canvasStoreContent;
     expect(combinedContent).toMatch(/history|History|past|future/i);
   });
 
   it('should have undo action', () => {
-    const combinedContent = (canvasHistoryContent || '') + (canvasStoreContent || '');
+    const combinedContent = canvasHistoryContent + canvasStoreContent;
     expect(combinedContent).toContain('undo');
   });
 
   it('should have redo action', () => {
-    const combinedContent = (canvasHistoryContent || '') + (canvasStoreContent || '');
+    const combinedContent = canvasHistoryContent + canvasStoreContent;
     expect(combinedContent).toContain('redo');
   });
 
   it('should have canUndo selector or check', () => {
-    const combinedContent = (canvasHistoryContent || '') + (canvasStoreContent || '');
+    const combinedContent = canvasHistoryContent + canvasStoreContent;
     expect(combinedContent).toMatch(/canUndo|past\.length/i);
   });
 
   it('should have canRedo selector or check', () => {
-    const combinedContent = (canvasHistoryContent || '') + (canvasStoreContent || '');
+    const combinedContent = canvasHistoryContent + canvasStoreContent;
     expect(combinedContent).toMatch(/canRedo|future\.length/i);
   });
 });
@@ -530,12 +479,10 @@ describe('AC10: Undo/Redo Infrastructure', () => {
 // =============================================================================
 
 describe('Dot Grid Pattern in globals.css', () => {
-  let globalsCssContent: string;
+  let globalsCssContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(GLOBALS_CSS_PATH)) {
-      globalsCssContent = fs.readFileSync(GLOBALS_CSS_PATH, 'utf-8');
-    }
+    globalsCssContent = safeReadFile('app/globals.css');
   });
 
   it('should have bg-dot-grid class defined', () => {
@@ -552,12 +499,10 @@ describe('Dot Grid Pattern in globals.css', () => {
 // =============================================================================
 
 describe('Module Exports', () => {
-  let indexContent: string;
+  let indexContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(INDEX_PATH)) {
-      indexContent = fs.readFileSync(INDEX_PATH, 'utf-8');
-    }
+    indexContent = safeReadFile(`${CANVAS_DIR}/index.ts`);
   });
 
   it('should export FlowCanvas component', () => {
@@ -586,12 +531,10 @@ describe('Module Exports', () => {
 // =============================================================================
 
 describe('FlowCanvas Composition', () => {
-  let flowCanvasContent: string;
+  let flowCanvasContent = '';
 
   beforeAll(() => {
-    if (fs.existsSync(FLOW_CANVAS_PATH)) {
-      flowCanvasContent = fs.readFileSync(FLOW_CANVAS_PATH, 'utf-8');
-    }
+    flowCanvasContent = safeReadFile(`${CANVAS_DIR}/FlowCanvas.tsx`);
   });
 
   it('should import CanvasControls', () => {

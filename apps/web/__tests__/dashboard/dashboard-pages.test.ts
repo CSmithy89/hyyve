@@ -11,81 +11,66 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import * as fs from 'fs';
-import * as path from 'path';
+import { fileExists, safeReadFile } from '../support/file-helpers';
 
 // =============================================================================
 // FILE EXISTENCE TESTS
 // =============================================================================
 
 describe('Story 0-2-9: Dashboard Pages - File Structure', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('Dashboard Page Files', () => {
     it('should have dashboard page at app/(app)/dashboard/page.tsx', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/page.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/dashboard/page.tsx')).toBe(true);
     });
 
     it('should have dashboard loading state', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/loading.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/dashboard/loading.tsx')).toBe(true);
     });
 
     it('should have dashboard error boundary', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/error.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/dashboard/error.tsx')).toBe(true);
     });
   });
 
   describe('Projects Page Files', () => {
     it('should have projects page at app/(app)/dashboard/projects/page.tsx', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/projects/page.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/dashboard/projects/page.tsx')).toBe(true);
     });
 
     it('should have projects loading state', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/projects/loading.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/dashboard/projects/loading.tsx')).toBe(true);
     });
 
     it('should have projects error boundary', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/projects/error.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/dashboard/projects/error.tsx')).toBe(true);
     });
   });
 
   describe('Dashboard Component Files', () => {
     it('should have QuickActionCard component', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/QuickActionCard.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/dashboard/QuickActionCard.tsx')).toBe(true);
     });
 
     it('should have ProjectCard component', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/ProjectCard.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/dashboard/ProjectCard.tsx')).toBe(true);
     });
 
     it('should have UsageWidget component', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/UsageWidget.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/dashboard/UsageWidget.tsx')).toBe(true);
     });
 
     it('should have ActivityFeed component', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/ActivityFeed.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/dashboard/ActivityFeed.tsx')).toBe(true);
     });
 
     it('should have component index for barrel exports', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/index.ts');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/dashboard/index.ts')).toBe(true);
     });
   });
 
   describe('Mock Data Files', () => {
     it('should have dashboard mock data', () => {
-      const filePath = path.join(WEB_APP_PATH, 'lib/mock-data/dashboard.ts');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('lib/mock-data/dashboard.ts')).toBe(true);
     });
   });
 });
@@ -95,16 +80,11 @@ describe('Story 0-2-9: Dashboard Pages - File Structure', () => {
 // =============================================================================
 
 describe('Story 0-2-9: Dashboard Page Content', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('AC1: Dashboard at /dashboard', () => {
-    let dashboardContent: string;
+    let dashboardContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/page.tsx');
-      if (fs.existsSync(filePath)) {
-        dashboardContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      dashboardContent = safeReadFile('app/(app)/dashboard/page.tsx');
     });
 
     it('should include welcome message component', () => {
@@ -129,13 +109,10 @@ describe('Story 0-2-9: Dashboard Page Content', () => {
   });
 
   describe('AC2: Project Browser at /dashboard/projects', () => {
-    let projectsContent: string;
+    let projectsContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/projects/page.tsx');
-      if (fs.existsSync(filePath)) {
-        projectsContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      projectsContent = safeReadFile('app/(app)/dashboard/projects/page.tsx');
     });
 
     it('should have grid/list view toggle', () => {
@@ -161,16 +138,11 @@ describe('Story 0-2-9: Dashboard Page Content', () => {
 // =============================================================================
 
 describe('Story 0-2-9: Dashboard Components', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('QuickActionCard Component', () => {
-    let componentContent: string;
+    let componentContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/QuickActionCard.tsx');
-      if (fs.existsSync(filePath)) {
-        componentContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      componentContent = safeReadFile('components/dashboard/QuickActionCard.tsx');
     });
 
     it('should export QuickActionCard component', () => {
@@ -191,13 +163,10 @@ describe('Story 0-2-9: Dashboard Components', () => {
   });
 
   describe('ProjectCard Component', () => {
-    let componentContent: string;
+    let componentContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/ProjectCard.tsx');
-      if (fs.existsSync(filePath)) {
-        componentContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      componentContent = safeReadFile('components/dashboard/ProjectCard.tsx');
     });
 
     it('should export ProjectCard component', () => {
@@ -214,13 +183,10 @@ describe('Story 0-2-9: Dashboard Components', () => {
   });
 
   describe('UsageWidget Component', () => {
-    let componentContent: string;
+    let componentContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/UsageWidget.tsx');
-      if (fs.existsSync(filePath)) {
-        componentContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      componentContent = safeReadFile('components/dashboard/UsageWidget.tsx');
     });
 
     it('should export UsageWidget component', () => {
@@ -241,13 +207,10 @@ describe('Story 0-2-9: Dashboard Components', () => {
   });
 
   describe('ActivityFeed Component', () => {
-    let componentContent: string;
+    let componentContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'components/dashboard/ActivityFeed.tsx');
-      if (fs.existsSync(filePath)) {
-        componentContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      componentContent = safeReadFile('components/dashboard/ActivityFeed.tsx');
     });
 
     it('should export ActivityFeed component', () => {
@@ -269,16 +232,11 @@ describe('Story 0-2-9: Dashboard Components', () => {
 // =============================================================================
 
 describe('Story 0-2-9: Mock Data', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('Dashboard Mock Data', () => {
-    let mockDataContent: string;
+    let mockDataContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'lib/mock-data/dashboard.ts');
-      if (fs.existsSync(filePath)) {
-        mockDataContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      mockDataContent = safeReadFile('lib/mock-data/dashboard.ts');
     });
 
     it('should export quick actions data', () => {
@@ -304,24 +262,14 @@ describe('Story 0-2-9: Mock Data', () => {
 // =============================================================================
 
 describe('Story 0-2-9: Design Consistency (AC3)', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   it('should use Hyyve design tokens in dashboard page', () => {
-    const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/page.tsx');
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      // Check for Tailwind classes matching Hyyve tokens
-      expect(content).toMatch(/bg-|text-|border-|rounded-/);
-    }
+    const content = safeReadFile('app/(app)/dashboard/page.tsx');
+    expect(content).toMatch(/bg-|text-|border-|rounded-/);
   });
 
   it('should use Material Symbols icons', () => {
-    const filePath = path.join(WEB_APP_PATH, 'components/dashboard/QuickActionCard.tsx');
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      // Check for Material Symbols or lucide icons
-      expect(content).toMatch(/material-symbols|lucide|icon/i);
-    }
+    const content = safeReadFile('components/dashboard/QuickActionCard.tsx');
+    expect(content).toMatch(/material-symbols|lucide|icon/i);
   });
 });
 
@@ -330,33 +278,22 @@ describe('Story 0-2-9: Design Consistency (AC3)', () => {
 // =============================================================================
 
 describe('Story 0-2-9: Loading and Error States', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('Dashboard Loading State', () => {
     it('should have skeleton components in loading state', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/loading.tsx');
-      if (fs.existsSync(filePath)) {
-        const content = fs.readFileSync(filePath, 'utf-8');
-        expect(content).toMatch(/Skeleton/);
-      }
+      const content = safeReadFile('app/(app)/dashboard/loading.tsx');
+      expect(content).toMatch(/Skeleton/);
     });
   });
 
   describe('Dashboard Error State', () => {
     it('should be a client component for error boundary', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/error.tsx');
-      if (fs.existsSync(filePath)) {
-        const content = fs.readFileSync(filePath, 'utf-8');
-        expect(content).toMatch(/['"]use client['"]/);
-      }
+      const content = safeReadFile('app/(app)/dashboard/error.tsx');
+      expect(content).toMatch(/['"]use client['"]/);
     });
 
     it('should have reset functionality', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/dashboard/error.tsx');
-      if (fs.existsSync(filePath)) {
-        const content = fs.readFileSync(filePath, 'utf-8');
-        expect(content).toMatch(/reset/);
-      }
+      const content = safeReadFile('app/(app)/dashboard/error.tsx');
+      expect(content).toMatch(/reset/);
     });
   });
 });
@@ -366,16 +303,11 @@ describe('Story 0-2-9: Loading and Error States', () => {
 // =============================================================================
 
 describe('Story 0-2-9: Component Exports', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   it('should export all dashboard components from index', () => {
-    const filePath = path.join(WEB_APP_PATH, 'components/dashboard/index.ts');
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      expect(content).toMatch(/export.*QuickActionCard/);
-      expect(content).toMatch(/export.*ProjectCard/);
-      expect(content).toMatch(/export.*UsageWidget/);
-      expect(content).toMatch(/export.*ActivityFeed/);
-    }
+    const content = safeReadFile('components/dashboard/index.ts');
+    expect(content).toMatch(/export.*QuickActionCard/);
+    expect(content).toMatch(/export.*ProjectCard/);
+    expect(content).toMatch(/export.*UsageWidget/);
+    expect(content).toMatch(/export.*ActivityFeed/);
   });
 });

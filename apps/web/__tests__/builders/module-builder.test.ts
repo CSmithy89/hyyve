@@ -13,59 +13,48 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import * as fs from 'fs';
-import * as path from 'path';
+import { fileExists, safeReadFile } from '../support/file-helpers';
 
 // =============================================================================
 // FILE EXISTENCE TESTS
 // =============================================================================
 
 describe('Story 0-2-11: Module Builder - File Structure', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('Module Builder Page Files', () => {
     it('should have module builder page at app/(app)/builders/module/[id]/page.tsx', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/builders/module/[id]/page.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/builders/module/[id]/page.tsx')).toBe(true);
     });
 
     it('should have module builder layout', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/builders/module/[id]/layout.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/builders/module/[id]/layout.tsx')).toBe(true);
     });
 
     it('should have module builder loading state', () => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/builders/module/[id]/loading.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('app/(app)/builders/module/[id]/loading.tsx')).toBe(true);
     });
   });
 
   describe('Module Builder Component Files', () => {
     it('should have ModuleBuilderHeader component', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/builders/module/ModuleBuilderHeader.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/builders/module/ModuleBuilderHeader.tsx')).toBe(true);
     });
 
     it('should have KnowledgeBasePanel component', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/builders/module/KnowledgeBasePanel.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/builders/module/KnowledgeBasePanel.tsx')).toBe(true);
     });
 
     it('should have WorkflowNodes component', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/builders/module/WorkflowNodes.tsx');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/builders/module/WorkflowNodes.tsx')).toBe(true);
     });
 
     it('should have component index for barrel exports', () => {
-      const filePath = path.join(WEB_APP_PATH, 'components/builders/module/index.ts');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('components/builders/module/index.ts')).toBe(true);
     });
   });
 
   describe('Mock Data Files', () => {
     it('should have module builder mock data', () => {
-      const filePath = path.join(WEB_APP_PATH, 'lib/mock-data/module-builder.ts');
-      expect(fs.existsSync(filePath)).toBe(true);
+      expect(fileExists('lib/mock-data/module-builder.ts')).toBe(true);
     });
   });
 });
@@ -75,20 +64,15 @@ describe('Story 0-2-11: Module Builder - File Structure', () => {
 // =============================================================================
 
 describe('Story 0-2-11: AC1 - Three-Panel Layout', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('Module Builder Page', () => {
-    let pageContent: string;
+    let pageContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/builders/module/[id]/page.tsx');
-      if (fs.existsSync(filePath)) {
-        pageContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      pageContent = safeReadFile('app/(app)/builders/module/[id]/page.tsx');
     });
 
     it('should render module builder page', () => {
-      expect(pageContent).toBeDefined();
+      expect(pageContent.length).toBeGreaterThan(0);
     });
 
     it('should include left panel (knowledge base)', () => {
@@ -110,16 +94,11 @@ describe('Story 0-2-11: AC1 - Three-Panel Layout', () => {
 // =============================================================================
 
 describe('Story 0-2-11: AC2 - Panel Layout', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('KnowledgeBasePanel Component', () => {
-    let componentContent: string;
+    let componentContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'components/builders/module/KnowledgeBasePanel.tsx');
-      if (fs.existsSync(filePath)) {
-        componentContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      componentContent = safeReadFile('components/builders/module/KnowledgeBasePanel.tsx');
     });
 
     it('should export KnowledgeBasePanel component', () => {
@@ -145,16 +124,11 @@ describe('Story 0-2-11: AC2 - Panel Layout', () => {
 // =============================================================================
 
 describe('Story 0-2-11: AC3 - Sample Workflow Nodes', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('WorkflowNodes Component', () => {
-    let componentContent: string;
+    let componentContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'components/builders/module/WorkflowNodes.tsx');
-      if (fs.existsSync(filePath)) {
-        componentContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      componentContent = safeReadFile('components/builders/module/WorkflowNodes.tsx');
     });
 
     it('should export WorkflowNodes component', () => {
@@ -179,13 +153,10 @@ describe('Story 0-2-11: AC3 - Sample Workflow Nodes', () => {
   });
 
   describe('Mock Data - Workflow Nodes', () => {
-    let mockDataContent: string;
+    let mockDataContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'lib/mock-data/module-builder.ts');
-      if (fs.existsSync(filePath)) {
-        mockDataContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      mockDataContent = safeReadFile('lib/mock-data/module-builder.ts');
     });
 
     it('should export workflow nodes data', () => {
@@ -203,16 +174,11 @@ describe('Story 0-2-11: AC3 - Sample Workflow Nodes', () => {
 // =============================================================================
 
 describe('Story 0-2-11: AC4 - Canvas Controls', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('Module Builder Page - Canvas Controls', () => {
-    let pageContent: string;
+    let pageContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'app/(app)/builders/module/[id]/page.tsx');
-      if (fs.existsSync(filePath)) {
-        pageContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      pageContent = safeReadFile('app/(app)/builders/module/[id]/page.tsx');
     });
 
     it('should have zoom controls', () => {
@@ -230,16 +196,11 @@ describe('Story 0-2-11: AC4 - Canvas Controls', () => {
 // =============================================================================
 
 describe('Story 0-2-11: AC5 - Top Navigation Bar', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   describe('ModuleBuilderHeader Component', () => {
-    let componentContent: string;
+    let componentContent = '';
 
     beforeEach(() => {
-      const filePath = path.join(WEB_APP_PATH, 'components/builders/module/ModuleBuilderHeader.tsx');
-      if (fs.existsSync(filePath)) {
-        componentContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      componentContent = safeReadFile('components/builders/module/ModuleBuilderHeader.tsx');
     });
 
     it('should export ModuleBuilderHeader component', () => {
@@ -269,22 +230,14 @@ describe('Story 0-2-11: AC5 - Top Navigation Bar', () => {
 // =============================================================================
 
 describe('Story 0-2-11: AC6 - Design Consistency', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   it('should use Hyyve design tokens in module builder', () => {
-    const filePath = path.join(WEB_APP_PATH, 'app/(app)/builders/module/[id]/page.tsx');
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      expect(content).toMatch(/bg-|text-|border-|rounded-/);
-    }
+    const content = safeReadFile('app/(app)/builders/module/[id]/page.tsx');
+    expect(content).toMatch(/bg-|text-|border-|rounded-/);
   });
 
   it('should use Material Symbols or lucide icons', () => {
-    const filePath = path.join(WEB_APP_PATH, 'components/builders/module/ModuleBuilderHeader.tsx');
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      expect(content).toMatch(/material-symbols|lucide|icon/i);
-    }
+    const content = safeReadFile('components/builders/module/ModuleBuilderHeader.tsx');
+    expect(content).toMatch(/material-symbols|lucide|icon/i);
   });
 });
 
@@ -293,14 +246,9 @@ describe('Story 0-2-11: AC6 - Design Consistency', () => {
 // =============================================================================
 
 describe('Story 0-2-11: Loading State', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   it('should have skeleton components in loading state', () => {
-    const filePath = path.join(WEB_APP_PATH, 'app/(app)/builders/module/[id]/loading.tsx');
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      expect(content).toMatch(/Skeleton|loading|skeleton/i);
-    }
+    const content = safeReadFile('app/(app)/builders/module/[id]/loading.tsx');
+    expect(content).toMatch(/Skeleton|loading|skeleton/i);
   });
 });
 
@@ -309,15 +257,11 @@ describe('Story 0-2-11: Loading State', () => {
 // =============================================================================
 
 describe('Story 0-2-11: Component Exports', () => {
-  const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-
   it('should export all module builder components from index', () => {
-    const filePath = path.join(WEB_APP_PATH, 'components/builders/module/index.ts');
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      expect(content).toMatch(/export.*ModuleBuilderHeader/);
-      expect(content).toMatch(/export.*KnowledgeBasePanel/);
-      expect(content).toMatch(/export.*WorkflowNodes/);
-    }
+    const content = safeReadFile('components/builders/module/index.ts');
+    expect(content).toMatch(/export.*ModuleBuilderHeader/);
+    expect(content).toMatch(/export.*KnowledgeBasePanel/);
+    // WorkflowNodes is exported in a multi-line export block
+    expect(content).toContain('WorkflowNodes');
   });
 });
