@@ -103,6 +103,7 @@ const config: Config = {
         'canvas-dark': HYYVE_COLORS.canvasDark,
         'border-dark': HYYVE_COLORS.borderDark,
         'text-secondary': HYYVE_COLORS.textSecondary,
+
       },
 
       // =================================================================

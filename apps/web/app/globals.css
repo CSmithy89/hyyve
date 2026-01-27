@@ -225,6 +225,11 @@
 
 /* Hyyve Custom Styles - Extracted from Stitch designs */
 
+/* Custom red background utility for destructive actions */
+.bg-red {
+  background-color: #dc2626; /* red-600 */
+}
+
 /* Custom scrollbar for dark theme */
 ::-webkit-scrollbar {
   width: 8px;

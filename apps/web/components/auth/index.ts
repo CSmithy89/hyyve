@@ -4,6 +4,7 @@
  * Story: 1-1-1 User Registration with Email/Password
  * Story: 1-1-2 User Registration with Social Providers
  * Story: 1-1-3 Organization & Onboarding Setup
+ * Story: 1-1-7 MFA Setup - Method Selection
  *
  * This barrel file exports authentication-related components.
  * Components are implemented to support Clerk integration with
@@ -22,6 +23,10 @@ export type { LoginFormProps } from './login-form';
 export type { ForgotPasswordFormProps } from './forgot-password-form';
 export type { ResetPasswordFormProps } from './reset-password-form';
 export type { RegistrationFormProps } from './registration-form';
+export type { MfaMethodSelectionProps } from './mfa-method-selection';
+export type { MfaMethodCardProps, MfaMethod } from './mfa-method-card';
+export type { MfaInfoBoxProps } from './mfa-info-box';
+export type { SkipMfaWarningModalProps } from './skip-mfa-warning-modal';
 
 // Export components
 export { PasswordStrengthIndicator } from './password-strength-indicator';
@@ -35,3 +40,7 @@ export { LoginForm } from './login-form';
 export { ForgotPasswordForm } from './forgot-password-form';
 export { ResetPasswordForm } from './reset-password-form';
 export { RegistrationForm } from './registration-form';
+export { MfaMethodSelection } from './mfa-method-selection';
+export { MfaMethodCard } from './mfa-method-card';
+export { MfaInfoBox } from './mfa-info-box';
+export { SkipMfaWarningModal } from './skip-mfa-warning-modal';
