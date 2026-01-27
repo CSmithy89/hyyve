@@ -65,3 +65,42 @@ test.describe('Authentication', () => {
     });
   });
 });
+
+test.describe('Email/Password Login (Story 1-1-4)', () => {
+  test('renders login page at /auth/login', async ({ page }) => {
+    await page.goto('/auth/login');
+
+    await expect(page).toHaveURL(/\/auth\/login/);
+    await expect(page.getByRole('heading', { name: /welcome back/i })).toBeVisible();
+    await expect(page.getByLabel(/email address/i)).toBeVisible();
+    await expect(page.getByLabel(/password/i)).toBeVisible();
+  });
+
+  test('shows validation error for invalid email', async ({ page }) => {
+    await page.goto('/auth/login');
+
+    await page.getByLabel(/email address/i).fill('invalid-email');
+    await page.getByRole('button', { name: /sign in/i }).click();
+
+    await expect(page.getByRole('alert')).toBeVisible();
+  });
+
+  test('forgot password link points to reset flow', async ({ page }) => {
+    await page.goto('/auth/login');
+
+    await expect(page.getByRole('link', { name: /forgot password/i })).toHaveAttribute(
+      'href',
+      '/auth/forgot-password'
+    );
+  });
+
+  test('successful login redirects to dashboard', async ({ page }) => {
+    await page.goto('/auth/login');
+
+    await page.getByLabel(/email address/i).fill('jane@example.com');
+    await page.getByLabel(/password/i).fill('ValidPass123!');
+    await page.getByRole('button', { name: /sign in/i }).click();
+
+    await expect(page).toHaveURL(/\/dashboard/);
+  });
+});
