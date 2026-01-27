@@ -4,26 +4,27 @@
 
 **ALWAYS reference these documents before implementing features:**
 
-| Document              | Path                                                                              | When to Use                                    |
-| --------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------- |
-| **Project Context**   | `_bmad-output/project-context.md`                                                 | Tech stack, coding patterns, 91 critical rules |
-| **PRD**               | `_bmad-output/planning-artifacts/prd.md`                                          | Verifying feature requirements (248 FRs)       |
-| **Architecture**      | `_bmad-output/planning-artifacts/architecture.md`                                 | System design decisions (8 ADRs)               |
-| **Epics & Stories**   | `_bmad-output/planning-artifacts/epics.md`                                        | Implementation tasks (59 epics, 308 stories)   |
-| **UX Design**         | `_bmad-output/planning-artifacts/ux-design-specification.md`                      | UI component specs, 146 wireframes             |
-| **Sprint Status**     | `_bmad-output/implementation-artifacts/sprint-status.yaml`                        | Current sprint tracking                        |
-| **API Endpoints**     | `_bmad-output/planning-artifacts/api-endpoints.md`                                | All endpoints with FR mappings, payloads       |
-| **OpenAPI Spec**      | `_bmad-output/planning-artifacts/openapi.yaml`                                    | Formal API spec for SDK/type generation        |
-| **Protocol Events**   | `_bmad-output/planning-artifacts/protocol-events.yaml`                            | AG-UI, A2A, A2UI, DCRL event definitions       |
-| **Protocol Stack**    | `_bmad-output/planning-artifacts/protocol-stack-specification.md`                 | Protocol integration details, validation       |
-| **AG-UI Guide**       | `_bmad-output/planning-artifacts/ag-ui-integration-guide.md`                      | AGENT_CONTENT_ZONE, A2UI schema, streaming     |
-| **AgentOS Spec**      | `_bmad-output/planning-artifacts/agentos-integration-spec.md`                     | 50+ AgentOS endpoints, memory, sessions        |
-| **Cost Service**      | `_bmad-output/planning-artifacts/unified-cost-service-architecture-2026-01-23.md` | Token tracking, billing, cost estimation       |
-| **Cross-Reference**   | `_bmad-output/planning-artifacts/cross-reference-matrix.md`                       | FR↔Screen↔API↔Protocol traceability            |
-| **Routing Spec**      | `_bmad-output/planning-artifacts/routing-specification.md`                        | URL paths, route guards, navigation flows      |
-| **Wireframe Map**     | `_bmad-output/planning-artifacts/wireframe-implementation-map.md`                 | 146 wireframes→routes→stories mapping          |
-| **Stitch Wireframes** | `_bmad-output/planning-artifacts/Stitch Hyyve/`                                   | HTML/CSS reference wireframes (source files)   |
-| **Arch Synthesis**    | `_bmad-output/planning-artifacts/architecture-synthesis-2026-01-23.md`            | Research summaries with code snippets          |
+| Document              | Path                                                                              | When to Use                                      |
+| --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------ |
+| **Project Context**   | `_bmad-output/project-context.md`                                                 | Tech stack, coding patterns, 91 critical rules   |
+| **PRD**               | `_bmad-output/planning-artifacts/prd.md`                                          | Verifying feature requirements (248 FRs)         |
+| **Architecture**      | `_bmad-output/planning-artifacts/architecture.md`                                 | System design decisions (8 ADRs)                 |
+| **Epics & Stories**   | `_bmad-output/planning-artifacts/epics.md`                                        | Implementation tasks (59 epics, 308 stories)     |
+| **UX Design**         | `_bmad-output/planning-artifacts/ux-design-specification.md`                      | UI component specs, 146 wireframes               |
+| **Sprint Status**     | `_bmad-output/implementation-artifacts/sprint-status.yaml`                        | Current sprint tracking                          |
+| **API Endpoints**     | `_bmad-output/planning-artifacts/api-endpoints.md`                                | All endpoints with FR mappings, payloads         |
+| **OpenAPI Spec**      | `_bmad-output/planning-artifacts/openapi.yaml`                                    | Formal API spec for SDK/type generation          |
+| **Protocol Events**   | `_bmad-output/planning-artifacts/protocol-events.yaml`                            | AG-UI, A2A, A2UI, DCRL event definitions         |
+| **Protocol Stack**    | `_bmad-output/planning-artifacts/protocol-stack-specification.md`                 | Protocol integration details, validation         |
+| **AG-UI Guide**       | `_bmad-output/planning-artifacts/ag-ui-integration-guide.md`                      | AGENT_CONTENT_ZONE, A2UI schema, streaming       |
+| **AgentOS Spec**      | `_bmad-output/planning-artifacts/agentos-integration-spec.md`                     | 50+ AgentOS endpoints, memory, sessions          |
+| **Cost Service**      | `_bmad-output/planning-artifacts/unified-cost-service-architecture-2026-01-23.md` | Token tracking, billing, cost estimation         |
+| **Cross-Reference**   | `_bmad-output/planning-artifacts/cross-reference-matrix.md`                       | FR↔Screen↔API↔Protocol traceability              |
+| **Routing Spec**      | `_bmad-output/planning-artifacts/routing-specification.md`                        | URL paths, route guards, navigation flows        |
+| **Wireframe Map**     | `_bmad-output/planning-artifacts/wireframe-implementation-map.md`                 | 146 wireframes→routes→stories mapping            |
+| **Story→Wireframe**   | `_bmad-output/planning-artifacts/story-wireframe-reference.md`                    | **CRITICAL:** Story→wireframe lookup (use this!) |
+| **Stitch Wireframes** | `_bmad-output/planning-artifacts/Stitch Hyyve/`                                   | HTML/CSS reference wireframes (source files)     |
+| **Arch Synthesis**    | `_bmad-output/planning-artifacts/architecture-synthesis-2026-01-23.md`            | Research summaries with code snippets            |
 
 ---
 
@@ -235,12 +236,13 @@ await a2aClient.send({
 
 ### UI Implementation Workflow (MANDATORY for all screens)
 
-1. **Find the wireframe** - Look up screen in `wireframe-implementation-map.md`
-2. **Open the HTML source** - Read the exact wireframe from `Stitch Hyyve/[category]/code.html`
-3. **Extract design tokens** - Use colors, spacing, typography from the wireframe's Tailwind config
-4. **Match pixel-perfect** - Implement UI to match the wireframe exactly (layout, components, styling)
-5. **Verify route mapping** - Ensure component is at correct route per `routing-specification.md`
-6. **Mark completion** - Update story status in `sprint-status.yaml`
+1. **Find your story's wireframes** - Look up story number in `story-wireframe-reference.md` (THIS IS THE PRIMARY LOOKUP)
+2. **Cross-check wireframe map** - Verify in `wireframe-implementation-map.md` for route/screen ID
+3. **Open the HTML source** - Read the exact wireframe from `Stitch Hyyve/{folder}/code.html`
+4. **Extract design tokens** - Use colors, spacing, typography from the wireframe's Tailwind config
+5. **Match pixel-perfect** - Implement UI to match the wireframe exactly (layout, components, styling)
+6. **Verify route mapping** - Ensure component is at correct route per `routing-specification.md`
+7. **Mark completion** - Update story status in `sprint-status.yaml`
 
 **Visual Fidelity Checklist (from wireframe-implementation-map.md):**
 
