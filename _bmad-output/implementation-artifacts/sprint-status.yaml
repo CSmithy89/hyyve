@@ -107,7 +107,7 @@ development_status:
   0-2-9-implement-dashboard-and-project-browser: done
   0-2-10-implement-settings-pages: done
   0-2-11-implement-module-builder-ui-shell: done
-  0-2-12-implement-chatbot-builder-ui-shell: backlog
+  0-2-12-implement-chatbot-builder-ui-shell: done
   0-2-13-implement-knowledge-base-ui: backlog
   0-2-14-implement-observability-dashboard-ui: backlog
   0-2-15-create-storybook-visual-regression-baseline: backlog
