@@ -111,7 +111,7 @@ development_status:
   0-2-13-implement-knowledge-base-ui: done
   0-2-14-implement-observability-dashboard-ui: done
   0-2-15-create-storybook-visual-regression-baseline: done
-  0-2-16-implement-light-mode-theme-variables: backlog
+  0-2-16-implement-light-mode-theme-variables: done
   0-2-17-create-theme-toggle-component: backlog
   epic-0-2-retrospective: optional
 

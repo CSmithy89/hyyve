@@ -14,40 +14,92 @@
   --radius-sm: calc(0.5rem - 4px);
 }
 
-/* shadcn/ui CSS Variables - Neutral base color */
+/* Hyyve Light Mode - UX Spec Section 18.1 Color System
+ * Background: #FFFFFF -> oklch(1 0 0)
+ * Surface: #F9FAFB -> oklch(0.98 0 0)
+ * Border: #E5E7EB -> oklch(0.92 0.01 250)
+ * Text Primary: #111827 -> oklch(0.18 0.02 260)
+ * Text Secondary: #6B7280 -> oklch(0.53 0.02 250)
+ * Text Muted: #9CA3AF -> oklch(0.68 0.02 250)
+ * Primary: #4F46E5 -> oklch(0.49 0.22 275)
+ * Primary Dark: #3730A3 -> oklch(0.38 0.18 275)
+ * Primary Light: #C7D2FE -> oklch(0.86 0.08 275)
+ * Secondary (Coral): #F97316 -> oklch(0.67 0.2 45)
+ * Success: #10B981 -> oklch(0.68 0.17 165)
+ * Warning: #F59E0B -> oklch(0.75 0.18 70)
+ * Error: #EF4444 -> oklch(0.63 0.22 25)
+ * Info: #0EA5E9 -> oklch(0.67 0.15 230)
+ */
 :root {
   --radius: 0.25rem; /* 4px - matches wireframe DEFAULT border radius */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Backgrounds - #FFFFFF, #F9FAFB */
+  --background: oklch(1 0 0); /* #FFFFFF - pure white */
+  --foreground: oklch(0.18 0.02 260); /* #111827 - text primary */
+
+  /* Surface colors */
+  --card: oklch(0.98 0 0); /* #F9FAFB - surface */
+  --card-foreground: oklch(0.18 0.02 260); /* #111827 - text primary */
+  --popover: oklch(1 0 0); /* #FFFFFF */
+  --popover-foreground: oklch(0.18 0.02 260); /* #111827 */
+
+  /* Primary - Hyyve Indigo #4F46E5 */
+  --primary: oklch(0.49 0.22 275); /* #4F46E5 - Hyyve primary indigo */
+  --primary-foreground: oklch(1 0 0); /* White text on primary */
+
+  /* Secondary - slightly muted from primary */
+  --secondary: oklch(0.96 0.01 250); /* Light gray background */
+  --secondary-foreground: oklch(0.18 0.02 260); /* Dark text */
+
+  /* Muted - for subtle backgrounds and text */
+  --muted: oklch(0.96 0.01 250);
+  --muted-foreground: oklch(0.53 0.02 250); /* #6B7280 - text secondary */
+
+  /* Accent - Primary light #C7D2FE */
+  --accent: oklch(0.86 0.08 275); /* #C7D2FE - primary light */
+  --accent-foreground: oklch(0.38 0.18 275); /* #3730A3 - primary dark */
+
+  /* Semantic colors */
+  --destructive: oklch(0.63 0.22 25); /* #EF4444 - error red */
+
+  /* Borders and inputs */
+  --border: oklch(0.92 0.01 250); /* #E5E7EB */
+  --input: oklch(0.92 0.01 250); /* #E5E7EB */
+  --ring: oklch(0.49 0.22 275); /* Match primary for focus rings */
+
+  /* Chart colors - using brand palette */
+  --chart-1: oklch(0.49 0.22 275); /* Primary indigo */
+  --chart-2: oklch(0.67 0.2 45); /* Coral secondary */
+  --chart-3: oklch(0.68 0.17 165); /* Success green */
+  --chart-4: oklch(0.75 0.18 70); /* Warning amber */
+  --chart-5: oklch(0.67 0.15 230); /* Info blue */
+
+  /* Sidebar - light mode */
+  --sidebar: oklch(0.98 0 0); /* #F9FAFB - surface */
+  --sidebar-foreground: oklch(0.18 0.02 260); /* #111827 */
+  --sidebar-primary: oklch(0.49 0.22 275); /* Primary indigo */
+  --sidebar-primary-foreground: oklch(1 0 0); /* White */
+  --sidebar-accent: oklch(0.86 0.08 275); /* Primary light */
+  --sidebar-accent-foreground: oklch(0.38 0.18 275); /* Primary dark */
+  --sidebar-border: oklch(0.92 0.01 250); /* #E5E7EB */
+  --sidebar-ring: oklch(0.49 0.22 275); /* Primary */
+
+  /* Hyyve-specific light mode variables */
+  --hyyve-primary: #4f46e5;
+  --hyyve-primary-dark: #3730a3;
+  --hyyve-primary-light: #c7d2fe;
+  --hyyve-secondary: #f97316;
+  --hyyve-secondary-light: #fed7aa;
+  --hyyve-background: #ffffff;
+  --hyyve-surface: #f9fafb;
+  --hyyve-border: #e5e7eb;
+  --hyyve-text-primary: #111827;
+  --hyyve-text-secondary: #6b7280;
+  --hyyve-text-muted: #9ca3af;
+  --hyyve-success: #10b981;
+  --hyyve-warning: #f59e0b;
+  --hyyve-error: #ef4444;
+  --hyyve-info: #0ea5e9;
 }
 
 .dark {
