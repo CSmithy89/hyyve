@@ -4,12 +4,14 @@ import * as React from 'react';
 import { Plus, Minus, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { BuilderHeader, BreadcrumbItem } from '@/components/nav';
 
 /**
  * BuilderLayout Props Interface
  *
  * Story: 0-2-3 Create Layout Shells
  * AC2: BuilderLayout - Three-panel layout for Module Builder, Chatbot Builder, etc.
+ * Updated in Story 0-2-4 to integrate BuilderHeader navigation component
  */
 export interface BuilderLayoutProps {
   /** Canvas content (center panel) */
@@ -18,10 +20,22 @@ export interface BuilderLayoutProps {
   leftPanel?: React.ReactNode;
   /** Right panel content (agent chat assistant) */
   rightPanel?: React.ReactNode;
-  /** Header actions (right side of header) */
+  /** Header actions (right side of header) - deprecated, use onRun/onSave/onExport */
   headerActions?: React.ReactNode;
-  /** Breadcrumbs content (left side of header) */
-  breadcrumbs?: React.ReactNode;
+  /** Breadcrumbs items for navigation path */
+  breadcrumbs?: BreadcrumbItem[];
+  /** Callback when Run button is clicked */
+  onRun?: () => Promise<void> | void;
+  /** Callback when Save button is clicked */
+  onSave?: () => Promise<void> | void;
+  /** Callback when Export button is clicked */
+  onExport?: () => Promise<void> | void;
+  /** Callback when Settings button is clicked */
+  onSettings?: () => void;
+  /** Whether a run operation is in progress */
+  isRunning?: boolean;
+  /** Whether a save operation is in progress */
+  isSaving?: boolean;
 }
 
 /**
@@ -44,8 +58,15 @@ export function BuilderLayout({
   children,
   leftPanel,
   rightPanel,
-  headerActions,
+  // headerActions is deprecated - kept for backwards compatibility
+  headerActions: _headerActions,
   breadcrumbs,
+  onRun,
+  onSave,
+  onExport,
+  onSettings,
+  isRunning,
+  isSaving,
 }: BuilderLayoutProps) {
   const [isFullscreen, setIsFullscreen] = React.useState(false);
   const [leftPanelCollapsed, setLeftPanelCollapsed] = React.useState(false);
@@ -62,39 +83,25 @@ export function BuilderLayout({
     }
   };
 
+  // Default breadcrumbs if not provided
+  const defaultBreadcrumbs: BreadcrumbItem[] = [
+    { label: 'Hyyve', href: '/dashboard' },
+    { label: 'Project', href: '/projects' },
+    { label: 'Workflow' },
+  ];
+
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background">
-      {/* Top Navigation Bar */}
-      <header
-        className={cn(
-          'h-16 flex-none flex items-center justify-between border-b border-border bg-background px-6 z-20'
-        )}
-        role="banner"
-      >
-        <div className="flex items-center gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="size-8 text-primary">
-              <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </div>
-            <h2 className="text-foreground text-xl font-bold tracking-tight">Hyyve</h2>
-          </div>
-
-          {/* Separator */}
-          <div className="h-6 w-px bg-border" />
-
-          {/* Breadcrumbs */}
-          {breadcrumbs || <DefaultBreadcrumbs />}
-        </div>
-
-        {/* Header Actions */}
-        <div className="flex items-center gap-3">{headerActions}</div>
-      </header>
+      {/* Top Navigation Bar - Uses BuilderHeader component */}
+      <BuilderHeader
+        breadcrumbs={breadcrumbs || defaultBreadcrumbs}
+        onRun={onRun}
+        onSave={onSave}
+        onExport={onExport}
+        onSettings={onSettings}
+        isRunning={isRunning}
+        isSaving={isSaving}
+      />
 
       {/* Main Workspace - Three Panel Layout */}
       <div className="flex flex-1 overflow-hidden relative">
@@ -216,23 +223,6 @@ function ZoomControls({
         <div className="absolute bottom-4 left-5 w-4 h-2 bg-muted-foreground/30 rounded-sm" />
         <div className="absolute inset-0 border-2 border-primary/30 pointer-events-none" />
       </div>
-    </div>
-  );
-}
-
-/**
- * Default breadcrumbs placeholder
- */
-function DefaultBreadcrumbs() {
-  return (
-    <div className="flex items-center gap-2 text-sm">
-      <span className="text-muted-foreground">Hyyve</span>
-      <span className="text-muted-foreground">/</span>
-      <span className="text-muted-foreground">Project</span>
-      <span className="text-muted-foreground">/</span>
-      <span className="text-foreground font-medium bg-secondary px-2 py-0.5 rounded text-xs">
-        Workflow
-      </span>
     </div>
   );
 }
