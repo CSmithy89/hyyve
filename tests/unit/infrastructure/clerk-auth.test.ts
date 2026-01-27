@@ -182,8 +182,9 @@ describe('Story 0.1.6: Configure Clerk Authentication', () => {
   });
 
   describe('AC6: Sign-In/Sign-Up Pages', () => {
+    // Auth pages are in (auth) route group for shared layout
     it('should have sign-in page directory', () => {
-      const signInPath = path.join(WEB_APP_PATH, 'app', 'sign-in');
+      const signInPath = path.join(WEB_APP_PATH, 'app', '(auth)', 'sign-in');
       expect(fs.existsSync(signInPath)).toBe(true);
     });
 
@@ -191,6 +192,7 @@ describe('Story 0.1.6: Configure Clerk Authentication', () => {
       const signInPagePath = path.join(
         WEB_APP_PATH,
         'app',
+        '(auth)',
         'sign-in',
         '[[...sign-in]]',
         'page.tsx'
@@ -199,7 +201,7 @@ describe('Story 0.1.6: Configure Clerk Authentication', () => {
     });
 
     it('should have sign-up page directory', () => {
-      const signUpPath = path.join(WEB_APP_PATH, 'app', 'sign-up');
+      const signUpPath = path.join(WEB_APP_PATH, 'app', '(auth)', 'sign-up');
       expect(fs.existsSync(signUpPath)).toBe(true);
     });
 
@@ -207,6 +209,7 @@ describe('Story 0.1.6: Configure Clerk Authentication', () => {
       const signUpPagePath = path.join(
         WEB_APP_PATH,
         'app',
+        '(auth)',
         'sign-up',
         '[[...sign-up]]',
         'page.tsx'
@@ -221,6 +224,7 @@ describe('Story 0.1.6: Configure Clerk Authentication', () => {
         const signInPagePath = path.join(
           WEB_APP_PATH,
           'app',
+          '(auth)',
           'sign-in',
           '[[...sign-in]]',
           'page.tsx'
@@ -244,6 +248,7 @@ describe('Story 0.1.6: Configure Clerk Authentication', () => {
         const signUpPagePath = path.join(
           WEB_APP_PATH,
           'app',
+          '(auth)',
           'sign-up',
           '[[...sign-up]]',
           'page.tsx'

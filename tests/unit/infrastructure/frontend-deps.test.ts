@@ -257,11 +257,13 @@ describe('Story 0.1.3: Install Core Frontend Dependencies', () => {
       });
 
       it('should import clsx', () => {
-        expect(utilsContent).toContain("from 'clsx'");
+        // Support both quote styles (single or double quotes)
+        expect(utilsContent).toMatch(/from\s+['"]clsx['"]/);
       });
 
       it('should import twMerge from tailwind-merge', () => {
-        expect(utilsContent).toContain("from 'tailwind-merge'");
+        // Support both quote styles (single or double quotes)
+        expect(utilsContent).toMatch(/from\s+['"]tailwind-merge['"]/);
         expect(utilsContent).toContain('twMerge');
       });
 

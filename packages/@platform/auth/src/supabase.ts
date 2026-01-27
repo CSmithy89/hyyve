@@ -42,6 +42,14 @@ export async function createClerkSupabaseClient() {
   // This requires a JWT template named 'supabase' in Clerk Dashboard
   const supabaseAccessToken = await getToken({ template: 'supabase' });
 
+  // getToken() returns null when user is not authenticated
+  if (!supabaseAccessToken) {
+    throw new Error(
+      'User is not authenticated. Cannot create authenticated Supabase client. ' +
+        'Ensure the user is signed in before calling this function.'
+    );
+  }
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
