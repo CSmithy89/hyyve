@@ -1,0 +1,125 @@
+{
+  "name": "tool-call-scenario",
+  "description": "Demonstrates tool call events including start, args, end, and result",
+  "events": [
+    {
+      "type": "RUN_STARTED",
+      "runId": "run_tool_001",
+      "agentId": "bond",
+      "timestamp": "2026-01-27T12:00:00Z"
+    },
+    {
+      "type": "TEXT_MESSAGE_START",
+      "messageId": "msg_tool_001",
+      "role": "assistant"
+    },
+    {
+      "type": "TEXT_MESSAGE_CONTENT",
+      "messageId": "msg_tool_001",
+      "delta": "Let me search for that information..."
+    },
+    {
+      "type": "TEXT_MESSAGE_END",
+      "messageId": "msg_tool_001"
+    },
+    {
+      "type": "TOOL_CALL_START",
+      "toolCallId": "tc_001",
+      "toolName": "web_search",
+      "messageId": "msg_tool_001"
+    },
+    {
+      "type": "TOOL_CALL_ARGS",
+      "toolCallId": "tc_001",
+      "args": {
+        "query": "latest AI workflow automation trends",
+        "maxResults": 5
+      }
+    },
+    {
+      "type": "ACTIVITY_SNAPSHOT",
+      "activities": [
+        {
+          "id": "activity_search",
+          "type": "tool_execution",
+          "status": "running",
+          "progress": 50
+        }
+      ]
+    },
+    {
+      "type": "ACTIVITY_DELTA",
+      "activityId": "activity_search",
+      "status": "running",
+      "progress": 100
+    },
+    {
+      "type": "TOOL_CALL_END",
+      "toolCallId": "tc_001"
+    },
+    {
+      "type": "TOOL_CALL_RESULT",
+      "toolCallId": "tc_001",
+      "result": {
+        "items": [
+          {
+            "title": "AI Workflow Automation in 2026",
+            "url": "https://example.com/ai-workflows",
+            "snippet": "Latest trends in AI-powered automation..."
+          },
+          {
+            "title": "Building Agent Systems",
+            "url": "https://example.com/agent-systems",
+            "snippet": "How to build effective agent architectures..."
+          }
+        ],
+        "totalResults": 2
+      }
+    },
+    {
+      "type": "TEXT_MESSAGE_START",
+      "messageId": "msg_tool_002",
+      "role": "assistant"
+    },
+    {
+      "type": "TEXT_MESSAGE_CONTENT",
+      "messageId": "msg_tool_002",
+      "delta": "I found some relevant results! "
+    },
+    {
+      "type": "TEXT_MESSAGE_CONTENT",
+      "messageId": "msg_tool_002",
+      "delta": "Here are the top trends in AI workflow automation..."
+    },
+    {
+      "type": "TEXT_MESSAGE_END",
+      "messageId": "msg_tool_002"
+    },
+    {
+      "type": "STATE_DELTA",
+      "delta": [
+        {
+          "op": "add",
+          "path": "/lastToolCall",
+          "value": "web_search"
+        },
+        {
+          "op": "replace",
+          "path": "/confidence",
+          "value": 0.92
+        }
+      ]
+    },
+    {
+      "type": "RUN_FINISHED",
+      "runId": "run_tool_001",
+      "timestamp": "2026-01-27T12:00:10Z",
+      "durationMs": 10000
+    }
+  ],
+  "config": {
+    "streamDelay": 100,
+    "chunkDelay": 50,
+    "loop": false
+  }
+}
