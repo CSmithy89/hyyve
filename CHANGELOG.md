@@ -143,6 +143,45 @@ _Reviewed and approved by Senior Developer (2 review cycles, 7 blocking issues r
 _Story completed: 2026-01-27_
 _Reviewed and approved by Senior Developer_
 
+### [Story 1-1-3] Organization & Onboarding Setup
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **Onboarding Routes** (`apps/web/app/auth/register/org/page.tsx`, `apps/web/app/auth/register/personalize/page.tsx`)
+  - Step 2 organization setup page with Hyyve onboarding stepper
+  - Step 3 personalization page with completed progress bars and builder selection
+  - Dedicated `/auth` layout for dark onboarding background
+
+- **Onboarding Components**
+  - `OnboardingStepper` (`apps/web/components/auth/onboarding-stepper.tsx`)
+  - `OrganizationSetupForm` (`apps/web/components/auth/organization-setup-form.tsx`)
+  - `BuilderSelectionForm` (`apps/web/components/auth/builder-selection-form.tsx`)
+
+- **Onboarding Utilities**
+  - Constants for organization types, team sizes, builder options (`apps/web/lib/constants/onboarding.ts`)
+  - Validation helpers for onboarding fields (`apps/web/lib/validations/onboarding.ts`)
+  - Server action stubs for organization creation and preference updates (`apps/web/actions/onboarding.ts`)
+
+- **Test Coverage**
+  - Unit tests for onboarding UI and validation (`apps/web/components/auth/__tests__/organization-onboarding.test.tsx`)
+  - E2E onboarding flow coverage (`tests/e2e/auth/organization-onboarding.spec.ts`)
+
+#### Changed
+
+- **Auth Component Exports** (`apps/web/components/auth/index.ts`)
+  - Added onboarding exports to the auth barrel file
+
+#### Tests
+
+- `pnpm test:unit -- apps/web/components/auth/__tests__/organization-onboarding.test.tsx`
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer_
+
 ### [Story 0-2-1] Extract Design System from Wireframes
 
 **Epic 0.2:** Frontend Foundation & Design System
