@@ -11,6 +11,5 @@ export {
   LLMNode,
   BranchNode,
   IntegrationNode,
-  workflowNodeTypes,
+  WorkflowNodes,
 } from './WorkflowNodes';
-export { default as WorkflowNodes } from './WorkflowNodes';

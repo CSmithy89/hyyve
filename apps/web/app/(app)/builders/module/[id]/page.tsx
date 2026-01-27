@@ -15,14 +15,25 @@
 
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import type { MouseEvent as ReactMouseEvent } from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
 import { KnowledgeBasePanel } from '@/components/builders/module';
-import { workflowNodeTypes } from '@/components/builders/module/WorkflowNodes';
+import { WorkflowNodes } from '@/components/builders/module/WorkflowNodes';
 import { FlowCanvas } from '@/components/canvas/FlowCanvas';
 import { AgentChat } from '@/components/chat/AgentChat';
+import type { Message } from '@/components/chat/types';
 import type { Node, Edge } from '@xyflow/react';
 import { WORKFLOW_NODES, WORKFLOW_EDGES } from '@/lib/mock-data/module-builder';
+
+const LEFT_PANEL_MIN = 240;
+const LEFT_PANEL_MAX = 420;
+const RIGHT_PANEL_MIN = 280;
+const RIGHT_PANEL_MAX = 460;
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
 
 export default function ModuleBuilderPage() {
   // Convert mock data to React Flow format
@@ -61,28 +72,64 @@ export default function ModuleBuilderPage() {
     []
   );
 
+  const [leftPanelWidth, setLeftPanelWidth] = useState(288);
+  const [rightPanelWidth, setRightPanelWidth] = useState(320);
+
+  const startResize =
+    (side: 'left' | 'right') => (event: ReactMouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const startX = event.clientX;
+    const startLeft = leftPanelWidth;
+    const startRight = rightPanelWidth;
+
+    const handleMove = (moveEvent: MouseEvent) => {
+      const deltaX = moveEvent.clientX - startX;
+      if (side === 'left') {
+        setLeftPanelWidth(
+          clamp(startLeft + deltaX, LEFT_PANEL_MIN, LEFT_PANEL_MAX)
+        );
+      } else {
+        setRightPanelWidth(
+          clamp(startRight - deltaX, RIGHT_PANEL_MIN, RIGHT_PANEL_MAX)
+        );
+      }
+    };
+
+    const handleUp = () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('mouseup', handleUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleUp);
+  };
+
   // Mock messages for Agent Bond
-  const mockMessages = [
+  const mockMessages: Message[] = [
     {
       id: 'msg-1',
-      role: 'agent' as const,
+      role: 'agent',
       content: "I've analyzed the Product_Manual.pdf you just uploaded.",
       timestamp: new Date(),
     },
     {
       id: 'msg-2',
-      role: 'agent' as const,
+      role: 'agent',
       content:
         'Should I automatically connect it as a context source to the LLM Processing node?',
       timestamp: new Date(),
       quickActions: [
-        { id: 'action-connect', label: 'Yes, connect it', variant: 'primary' as const },
-        { id: 'action-summary', label: 'No, show summary', variant: 'secondary' as const },
+        { id: 'action-connect', label: 'Yes, connect it', variant: 'primary' },
+        { id: 'action-summary', label: 'No, show summary', variant: 'secondary' },
       ],
     },
     {
       id: 'msg-3',
-      role: 'user' as const,
+      role: 'user',
       content: 'Yes, go ahead. Also increase the temperature to 0.8.',
       timestamp: new Date(),
     },
@@ -91,7 +138,19 @@ export default function ModuleBuilderPage() {
   return (
     <div className="flex flex-1 overflow-hidden relative">
       {/* Left Panel: Knowledge Base */}
-      <KnowledgeBasePanel />
+      <div
+        className="flex-none relative"
+        style={{ width: leftPanelWidth }}
+      >
+        <KnowledgeBasePanel className="w-full" />
+        <div
+          role="separator"
+          aria-label="Resize knowledge base panel"
+          aria-orientation="vertical"
+          className="absolute right-0 top-0 z-20 h-full w-1.5 cursor-col-resize bg-transparent hover:bg-primary/30 transition-colors"
+          onMouseDown={startResize('left')}
+        />
+      </div>
 
       {/* Center Panel: Flow Canvas */}
       <main className="flex-1 relative bg-canvas-dark overflow-hidden">
@@ -99,7 +158,7 @@ export default function ModuleBuilderPage() {
           <FlowCanvas
             initialNodes={initialNodes}
             initialEdges={initialEdges}
-            nodeTypes={workflowNodeTypes}
+            nodeTypes={WorkflowNodes}
             showMiniMap={true}
             showControls={true}
           />
@@ -107,12 +166,25 @@ export default function ModuleBuilderPage() {
       </main>
 
       {/* Right Panel: Agent Bond Chat */}
-      <AgentChat
-        agentId="bond"
-        messages={mockMessages}
-        isTyping={true}
-        status="online"
-      />
+      <div
+        className="flex-none relative"
+        style={{ width: rightPanelWidth }}
+      >
+        <AgentChat
+          className="w-full"
+          agentId="bond"
+          messages={mockMessages}
+          isTyping={true}
+          status="online"
+        />
+        <div
+          role="separator"
+          aria-label="Resize agent chat panel"
+          aria-orientation="vertical"
+          className="absolute left-0 top-0 z-20 h-full w-1.5 cursor-col-resize bg-transparent hover:bg-primary/30 transition-colors"
+          onMouseDown={startResize('right')}
+        />
+      </div>
     </div>
   );
 }

@@ -11,7 +11,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Play, Save, Share2, Settings } from 'lucide-react';
+import { Play, Redo2, Save, Share2, Settings, Undo2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { HyyveLogo } from '@/components/nav/HyyveLogo';
@@ -76,6 +76,26 @@ export function ModuleBuilderHeader({
 
       {/* Right: Actions */}
       <div className="flex items-center gap-3">
+        {/* Undo / Redo */}
+        <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full bg-[#272546] hover:bg-[#34315c] text-white"
+            aria-label="Undo"
+          >
+            <Undo2 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full bg-[#272546] hover:bg-[#34315c] text-white"
+            aria-label="Redo"
+          >
+            <Redo2 className="h-4 w-4" />
+          </Button>
+        </div>
+
         {/* Run Button */}
         <Button
           className="gap-2 bg-primary hover:bg-primary-dark shadow-[0_0_15px_rgba(80,72,229,0.3)]"

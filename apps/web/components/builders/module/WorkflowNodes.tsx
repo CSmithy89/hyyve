@@ -275,14 +275,11 @@ export const IntegrationNode = memo(function IntegrationNode({
 // NODE TYPES MAP
 // =============================================================================
 
-export const workflowNodeTypes = {
+export const WorkflowNodes = {
   trigger: TriggerNode,
   llm: LLMNode,
   branch: BranchNode,
   integration: IntegrationNode,
 };
 
-// Named export for WorkflowNodes (alias for workflowNodeTypes)
-export const WorkflowNodes = workflowNodeTypes;
-
-export default workflowNodeTypes;
+export default WorkflowNodes;

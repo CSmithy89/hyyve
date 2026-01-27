@@ -75,7 +75,7 @@ Wireframe: `hyyve_module_builder/code.html`
 - [x] Create ModuleBuilderHeader component
 - [x] Create KnowledgeBasePanel component
 - [x] Create WorkflowNodes component (sample nodes)
-- [x] Create module builder layout (fixed-width panels, resizable deferred)
+- [x] Create module builder layout (resizable panels)
 - [x] Create module builder page
 - [x] Add loading state
 - [x] Add unit tests (34 tests passing)
@@ -100,6 +100,7 @@ Wireframe: `hyyve_module_builder/code.html`
 
 - 2026-01-27: Story file created
 - 2026-01-27: Implemented all ACs, 34 tests passing
+- 2026-01-27: Added resizable panels, Undo/Redo header actions, cleaned type assertions and exports
 
 ## Status
 
