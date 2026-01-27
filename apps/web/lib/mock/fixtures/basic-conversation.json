@@ -1,0 +1,60 @@
+{
+  "name": "basic-conversation",
+  "description": "A simple agent greeting and response scenario for testing text streaming",
+  "events": [
+    {
+      "type": "RUN_STARTED",
+      "runId": "run_demo_001",
+      "agentId": "bond",
+      "timestamp": "2026-01-27T12:00:00Z"
+    },
+    {
+      "type": "TEXT_MESSAGE_START",
+      "messageId": "msg_001",
+      "role": "assistant"
+    },
+    {
+      "type": "TEXT_MESSAGE_CONTENT",
+      "messageId": "msg_001",
+      "delta": "Hello! "
+    },
+    {
+      "type": "TEXT_MESSAGE_CONTENT",
+      "messageId": "msg_001",
+      "delta": "I'm Bond, "
+    },
+    {
+      "type": "TEXT_MESSAGE_CONTENT",
+      "messageId": "msg_001",
+      "delta": "your AI workflow assistant. "
+    },
+    {
+      "type": "TEXT_MESSAGE_CONTENT",
+      "messageId": "msg_001",
+      "delta": "How can I help you today?"
+    },
+    {
+      "type": "TEXT_MESSAGE_END",
+      "messageId": "msg_001"
+    },
+    {
+      "type": "STATE_SNAPSHOT",
+      "state": {
+        "agent": "bond",
+        "mood": "helpful",
+        "confidence": 0.95
+      }
+    },
+    {
+      "type": "RUN_FINISHED",
+      "runId": "run_demo_001",
+      "timestamp": "2026-01-27T12:00:05Z",
+      "durationMs": 5000
+    }
+  ],
+  "config": {
+    "streamDelay": 50,
+    "chunkDelay": 30,
+    "loop": false
+  }
+}
