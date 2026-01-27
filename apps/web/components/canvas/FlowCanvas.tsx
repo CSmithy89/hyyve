@@ -101,22 +101,34 @@ export function FlowCanvas({
   const setEdges = useCanvasStore((state) => state.setEdges);
   const addEdge = useCanvasStore((state) => state.addEdge);
 
-  // Initialize with provided nodes/edges
+  // Track if initial load has happened to prevent overwriting user changes
+  const initializedRef = React.useRef(false);
+
+  // Initialize with provided nodes/edges (only once on mount)
   React.useEffect(() => {
+    if (initializedRef.current) return;
+
     if (initialNodes && initialNodes.length > 0) {
       setNodes(initialNodes);
     }
     if (initialEdges && initialEdges.length > 0) {
       setEdges(initialEdges);
     }
+
+    initializedRef.current = true;
   }, [initialNodes, initialEdges, setNodes, setEdges]);
 
   // Handle new connections
   const handleConnect: OnConnect = React.useCallback(
     (connection) => {
       if (connection.source && connection.target) {
+        // Include handles in ID to support multiple edges between same nodes
+        const handleSuffix = connection.sourceHandle || connection.targetHandle
+          ? `-${connection.sourceHandle || 'out'}-${connection.targetHandle || 'in'}`
+          : `-${Date.now()}`;
+
         addEdge({
-          id: `edge-${connection.source}-${connection.target}`,
+          id: `edge-${connection.source}-${connection.target}${handleSuffix}`,
           source: connection.source,
           target: connection.target,
           sourceHandle: connection.sourceHandle ?? undefined,

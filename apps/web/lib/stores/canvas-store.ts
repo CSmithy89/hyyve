@@ -94,6 +94,9 @@ export const useCanvasStore = create<CanvasState>((set, get) => ({
   },
 
   // Handle node changes from ReactFlow
+  // Note: These handlers don't save to history by design to avoid flooding
+  // history with drag events. Use explicit actions (addNode, removeNode, etc.)
+  // for history-tracked changes.
   onNodesChange: (changes) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -101,6 +104,7 @@ export const useCanvasStore = create<CanvasState>((set, get) => ({
   },
 
   // Handle edge changes from ReactFlow
+  // Note: Same as onNodesChange - use addEdge/removeEdge for history tracking
   onEdgesChange: (changes) => {
     set({
       edges: applyEdgeChanges(changes, get().edges),

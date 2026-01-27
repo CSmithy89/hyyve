@@ -82,11 +82,11 @@ export function CustomEdge({
   const color = data?.color ?? EDGE_COLORS[edgeType] ?? EDGE_COLORS.default;
   const isAnimated = data?.animated ?? true;
 
-  // Animation styles
+  // Animation styles (uses edge-dash keyframes from globals.css)
   const animationStyle: React.CSSProperties = isAnimated
     ? {
         strokeDasharray: '5, 5',
-        animation: 'dash 0.5s linear infinite',
+        animation: 'edge-dash 0.5s linear infinite',
       }
     : {};
 
@@ -135,17 +135,6 @@ export function CustomEdge({
           </div>
         </EdgeLabelRenderer>
       )}
-
-      {/* CSS for dash animation */}
-      <style>
-        {`
-          @keyframes dash {
-            to {
-              stroke-dashoffset: -10;
-            }
-          }
-        `}
-      </style>
     </>
   );
 }

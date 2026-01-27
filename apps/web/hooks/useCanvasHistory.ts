@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Canvas History Hook - Undo/Redo for Flow Canvas
  *
