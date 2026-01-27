@@ -42,6 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Barrel Exports** (`apps/web/components/auth/index.ts`)
   - Consolidated exports for all auth components
 
+#### Changed
+
+- **Custom Registration Page** (`apps/web/app/auth/register/page.tsx`)
+  - Added `/auth/register` route with wireframe-aligned styling and stepper
+  - Uses Clerk `useSignUp` with email verification code flow
+
 #### Tests
 
 - **52 Unit Tests** (`apps/web/components/auth/__tests__/registration.test.tsx`)

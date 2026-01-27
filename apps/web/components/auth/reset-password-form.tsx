@@ -12,10 +12,7 @@ import { useSignIn } from '@clerk/nextjs';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import {
-  calculatePasswordStrength,
-  validatePassword,
-} from '@/lib/validations/auth';
+import { validatePassword } from '@/lib/validations/auth';
 import { PasswordRequirements } from './password-requirements';
 import { PasswordStrengthIndicator } from './password-strength-indicator';
 
@@ -35,7 +32,6 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [generalError, setGeneralError] = React.useState<string | null>(null);
   const [errors, setErrors] = React.useState<{ password?: string; confirmPassword?: string }>({});
 
-  const passwordStrength = calculatePasswordStrength(password);
   const passwordValidation = validatePassword(password);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -216,7 +212,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         </div>
 
         <div className="space-y-3 rounded-lg border border-slate-200 dark:border-[#334155] bg-slate-50/70 dark:bg-[#0f172a] p-4">
-          <PasswordStrengthIndicator strength={passwordStrength} />
+          <PasswordStrengthIndicator password={password} />
           <PasswordRequirements password={password} />
         </div>
 
