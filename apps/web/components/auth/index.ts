@@ -19,6 +19,8 @@ export type { OnboardingStepperProps } from './onboarding-stepper';
 export type { OrganizationSetupFormProps } from './organization-setup-form';
 export type { BuilderSelectionFormProps } from './builder-selection-form';
 export type { LoginFormProps } from './login-form';
+export type { ForgotPasswordFormProps } from './forgot-password-form';
+export type { ResetPasswordFormProps } from './reset-password-form';
 
 // Export components
 export { PasswordStrengthIndicator } from './password-strength-indicator';
@@ -29,3 +31,5 @@ export { OnboardingStepper } from './onboarding-stepper';
 export { OrganizationSetupForm } from './organization-setup-form';
 export { BuilderSelectionForm } from './builder-selection-form';
 export { LoginForm } from './login-form';
+export { ForgotPasswordForm } from './forgot-password-form';
+export { ResetPasswordForm } from './reset-password-form';

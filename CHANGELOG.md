@@ -216,6 +216,37 @@ _Reviewed and approved by Senior Developer_
 _Story completed: 2026-01-27_
 _Reviewed and approved by Senior Developer (E2E suite blocked by webServer startup)_
 
+### [Story 1-1-5] Password Reset Flow
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **Forgot/Reset Password Pages** (`apps/web/app/auth/forgot-password/page.tsx`, `apps/web/app/auth/reset-password/[token]/page.tsx`)
+  - Auth-styled pages for requesting reset links and setting a new password
+
+- **Reset Flow Components** (`apps/web/components/auth/forgot-password-form.tsx`, `apps/web/components/auth/reset-password-form.tsx`)
+  - Email request form with validation, success, and error states
+  - Reset form with password complexity feedback and confirmation
+
+- **Reset Server Actions** (`apps/web/actions/auth.ts`)
+  - Request reset link and token-based reset stubs with Zod validation
+
+#### Changed
+
+- **Auth Component Exports** (`apps/web/components/auth/index.ts`)
+  - Added forgot/reset form exports
+
+#### Tests
+
+- `pnpm test:unit -- apps/web/components/auth/__tests__/password-reset.test.tsx`
+- `pnpm test:e2e -- tests/e2e/auth/password-reset.spec.ts` (failed: webServer dev start error)
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (E2E suite blocked by webServer startup)_
+
 ### [Story 0-2-1] Extract Design System from Wireframes
 
 **Epic 0.2:** Frontend Foundation & Design System
