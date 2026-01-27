@@ -67,10 +67,12 @@ let clientInstance: TemporalClient | null = null;
  */
 export class TemporalClient {
   private client: Client;
+  private connection: Connection;
   private config: TemporalConfig;
 
-  private constructor(client: Client, config: TemporalConfig) {
+  private constructor(client: Client, connection: Connection, config: TemporalConfig) {
     this.client = client;
+    this.connection = connection;
     this.config = config;
   }
 
@@ -93,7 +95,7 @@ export class TemporalClient {
       namespace: resolvedConfig.namespace,
     });
 
-    return new TemporalClient(client, resolvedConfig);
+    return new TemporalClient(client, connection, resolvedConfig);
   }
 
   /**
@@ -160,11 +162,18 @@ export class TemporalClient {
   }
 
   /**
-   * Close the client connection
+   * Close the client connection.
+   * This properly closes the underlying gRPC connection to avoid leaks.
    */
   async close(): Promise<void> {
-    // Connection cleanup if needed
-    clientInstance = null;
+    try {
+      await this.connection.close();
+    } catch (error) {
+      // Log but don't throw - connection may already be closed
+      console.warn('Error closing Temporal connection:', error);
+    } finally {
+      clientInstance = null;
+    }
   }
 }
 

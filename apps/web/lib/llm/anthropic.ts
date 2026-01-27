@@ -3,8 +3,12 @@
  *
  * Provides Claude client with retry handling, streaming support,
  * tool use, and cost tracking integration with Langfuse.
+ *
+ * NOTE: This module is server-only and will throw a build error
+ * if imported in a client component.
  */
 
+import 'server-only';
 import Anthropic from '@anthropic-ai/sdk';
 import type { Message, MessageParam, Tool } from '@anthropic-ai/sdk/resources';
 import {

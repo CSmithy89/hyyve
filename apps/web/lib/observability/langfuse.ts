@@ -104,18 +104,55 @@ export function calculateCost(
 // ============================================================================
 
 let langfuseClient: Langfuse | null = null;
+let noOpMode = false;
 
 /**
- * Get the Langfuse client singleton
- * Uses lazy initialization for serverless compatibility
+ * No-op Langfuse client for environments without credentials.
+ * Provides stub methods that do nothing, allowing code to run without Langfuse.
+ */
+const noOpLangfuse = {
+  trace: () => ({
+    generation: () => ({
+      update: () => {},
+      end: () => {},
+    }),
+    span: () => ({
+      update: () => {},
+      end: () => {},
+    }),
+    update: () => {},
+  }),
+  shutdownAsync: async () => {},
+  flushAsync: async () => {},
+} as unknown as Langfuse;
+
+/**
+ * Get the Langfuse client singleton.
+ * Uses lazy initialization for serverless compatibility.
+ *
+ * If credentials are not configured, returns a no-op client that
+ * allows the application to run without Langfuse observability.
  */
 export function getLangfuseClient(): Langfuse {
   if (!langfuseClient) {
     const publicKey = process.env.LANGFUSE_PUBLIC_KEY;
     const secretKey = process.env.LANGFUSE_SECRET_KEY;
-    const baseUrl = process.env.LANGFUSE_HOST;
+    // Support both LANGFUSE_BASE_URL (SDK standard) and LANGFUSE_HOST (legacy)
+    const baseUrl = process.env.LANGFUSE_BASE_URL || process.env.LANGFUSE_HOST;
 
     if (!publicKey || !secretKey) {
+      // In dev/test environments without credentials, use no-op mode
+      // This allows the app to run without Langfuse being configured
+      if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+        console.warn(
+          'Langfuse credentials not configured. Running in no-op mode. ' +
+            'Set LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY for observability.'
+        );
+        noOpMode = true;
+        langfuseClient = noOpLangfuse;
+        return langfuseClient;
+      }
+
       throw new Error(
         'Langfuse credentials not configured. Set LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY environment variables.'
       );
@@ -139,10 +176,11 @@ export function getLangfuseClient(): Langfuse {
  * Call this during graceful shutdown to flush pending events
  */
 export async function shutdownLangfuse(): Promise<void> {
-  if (langfuseClient) {
+  if (langfuseClient && !noOpMode) {
     await langfuseClient.shutdownAsync();
-    langfuseClient = null;
   }
+  langfuseClient = null;
+  noOpMode = false;
 }
 
 // ============================================================================
@@ -429,14 +467,21 @@ export function createWorkflowTrace(
  * Useful before serverless function termination
  */
 export async function flushLangfuse(): Promise<void> {
-  if (langfuseClient) {
+  if (langfuseClient && !noOpMode) {
     await langfuseClient.flushAsync();
   }
 }
 
 /**
- * Check if Langfuse is configured
+ * Check if Langfuse is configured (has credentials)
  */
 export function isLangfuseConfigured(): boolean {
   return !!(process.env.LANGFUSE_PUBLIC_KEY && process.env.LANGFUSE_SECRET_KEY);
+}
+
+/**
+ * Check if Langfuse is running in no-op mode
+ */
+export function isLangfuseNoOp(): boolean {
+  return noOpMode;
 }

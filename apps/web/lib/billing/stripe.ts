@@ -4,11 +4,17 @@
  * This module provides the Stripe client for billing operations.
  * It should only be used server-side (never expose secret key to browser).
  *
+ * Uses lazy instantiation to avoid issues with missing env vars at import time.
+ *
+ * NOTE: This module is server-only and will throw a build error
+ * if imported in a client component.
+ *
  * @example
  * ```typescript
- * import { stripe } from '@/lib/billing/stripe';
+ * import { getStripeClient } from '@/lib/billing/stripe';
  *
  * // Create a checkout session
+ * const stripe = getStripeClient();
  * const session = await stripe.checkout.sessions.create({
  *   mode: 'subscription',
  *   payment_method_types: ['card'],
@@ -19,33 +25,57 @@
  * ```
  */
 
+import 'server-only';
 import Stripe from 'stripe';
 
 // ============================================================================
-// Environment Validation
-// ============================================================================
-
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
-
-// Note: We don't throw at module load time to allow builds without env vars
-// The check happens at runtime when the stripe client is actually used
-
-// ============================================================================
-// Stripe Client
+// Stripe Client (Lazy Instantiation)
 // ============================================================================
 
 /**
- * Stripe client singleton for server-side operations
+ * Stripe client singleton for server-side operations.
+ * Uses lazy instantiation to avoid issues with missing env vars at import time.
  *
  * Note: This client should ONLY be used server-side.
  * Never import this in client components.
  */
-export const stripe = new Stripe(STRIPE_SECRET_KEY ?? 'sk_test_placeholder', {
-  apiVersion: '2025-12-15.clover',
-  typescript: true,
-  appInfo: {
-    name: 'Hyyve Platform',
-    version: '0.0.1',
+let stripeInstance: Stripe | null = null;
+
+/**
+ * Get the Stripe client singleton.
+ * Throws if STRIPE_SECRET_KEY is not configured.
+ */
+export function getStripeClient(): Stripe {
+  if (!stripeInstance) {
+    const secretKey = process.env.STRIPE_SECRET_KEY;
+
+    if (!secretKey) {
+      throw new Error(
+        'STRIPE_SECRET_KEY is not configured. ' +
+          'Please set it in your environment variables.'
+      );
+    }
+
+    stripeInstance = new Stripe(secretKey, {
+      apiVersion: '2025-12-15.clover',
+      typescript: true,
+      appInfo: {
+        name: 'Hyyve Platform',
+        version: '0.0.1',
+      },
+    });
+  }
+
+  return stripeInstance;
+}
+
+/**
+ * Legacy export for backwards compatibility.
+ * @deprecated Use getStripeClient() instead for lazy initialization.
+ */
+export const stripe = new Proxy({} as Stripe, {
+  get(_target, prop) {
+    return Reflect.get(getStripeClient(), prop);
   },
 });
 
@@ -61,7 +91,7 @@ export async function createCustomer(params: {
   name?: string;
   metadata?: Record<string, string>;
 }): Promise<Stripe.Customer> {
-  return stripe.customers.create({
+  return getStripeClient().customers.create({
     email: params.email,
     name: params.name,
     metadata: params.metadata,
@@ -77,7 +107,7 @@ export async function getOrCreateCustomer(params: {
   metadata?: Record<string, string>;
 }): Promise<Stripe.Customer> {
   // Search for existing customer
-  const existingCustomers = await stripe.customers.list({
+  const existingCustomers = await getStripeClient().customers.list({
     email: params.email,
     limit: 1,
   });
@@ -100,7 +130,7 @@ export async function createCheckoutSession(params: {
   cancelUrl: string;
   metadata?: Record<string, string>;
 }): Promise<Stripe.Checkout.Session> {
-  return stripe.checkout.sessions.create({
+  return getStripeClient().checkout.sessions.create({
     customer: params.customerId,
     mode: 'subscription',
     payment_method_types: ['card'],
@@ -123,7 +153,7 @@ export async function createPortalSession(params: {
   customerId: string;
   returnUrl: string;
 }): Promise<Stripe.BillingPortal.Session> {
-  return stripe.billingPortal.sessions.create({
+  return getStripeClient().billingPortal.sessions.create({
     customer: params.customerId,
     return_url: params.returnUrl,
   });
@@ -135,7 +165,7 @@ export async function createPortalSession(params: {
 export async function getSubscription(
   subscriptionId: string
 ): Promise<Stripe.Subscription> {
-  return stripe.subscriptions.retrieve(subscriptionId);
+  return getStripeClient().subscriptions.retrieve(subscriptionId);
 }
 
 /**
@@ -144,7 +174,7 @@ export async function getSubscription(
 export async function cancelSubscription(
   subscriptionId: string
 ): Promise<Stripe.Subscription> {
-  return stripe.subscriptions.update(subscriptionId, {
+  return getStripeClient().subscriptions.update(subscriptionId, {
     cancel_at_period_end: true,
   });
 }
@@ -155,7 +185,7 @@ export async function cancelSubscription(
 export async function resumeSubscription(
   subscriptionId: string
 ): Promise<Stripe.Subscription> {
-  return stripe.subscriptions.update(subscriptionId, {
+  return getStripeClient().subscriptions.update(subscriptionId, {
     cancel_at_period_end: false,
   });
 }
@@ -172,7 +202,7 @@ export function constructWebhookEvent(
   signature: string,
   webhookSecret: string
 ): Stripe.Event {
-  return stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+  return getStripeClient().webhooks.constructEvent(payload, signature, webhookSecret);
 }
 
 /**
