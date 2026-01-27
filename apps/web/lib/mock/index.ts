@@ -16,7 +16,14 @@
 // PROVIDER EXPORTS
 // =============================================================================
 
-export { MockAGUIProvider, useMockAGUI, useMock, type MockAGUIProviderProps, type MockAGUIContextValue } from './ag-ui-provider';
+export {
+  MockAGUIProvider,
+  useMockAGUI,
+  useOptionalMockAGUI,
+  useMock,
+  type MockAGUIProviderProps,
+  type MockAGUIContextValue,
+} from './ag-ui-provider';
 
 // =============================================================================
 // TYPE EXPORTS

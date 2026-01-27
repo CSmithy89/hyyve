@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { TypingIndicatorProps } from './types';
 import { getAgentAvatarStyle } from './types';
@@ -27,7 +26,9 @@ export function TypingIndicator({ agentId, className }: TypingIndicatorProps) {
         className="size-8 rounded-full flex items-center justify-center flex-none mt-1"
         style={getAgentAvatarStyle(agentId)}
       >
-        <Bot className="size-4 text-white" aria-hidden="true" />
+        <span className="material-symbols-outlined text-[18px] text-white" aria-hidden="true">
+          smart_toy
+        </span>
       </div>
 
       {/* Typing Dots */}

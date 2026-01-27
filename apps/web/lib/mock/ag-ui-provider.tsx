@@ -21,6 +21,7 @@ import type {
   MockScenario,
   AgentMessage,
   ToolCallState,
+  Activity,
 } from './ag-ui-types';
 
 // =============================================================================
@@ -43,6 +44,8 @@ interface MockAGUIContextState {
   messages: AgentMessage[];
   /** Active tool calls */
   toolCalls: ToolCallState[];
+  /** Active activities */
+  activities: Activity[];
   /** Current agent state */
   agentState: Record<string, unknown>;
   /** Last error */
@@ -63,6 +66,8 @@ interface MockAGUIContextActions {
   emitEvent: (event: AGUIEvent) => void;
   /** Clear all state */
   reset: () => void;
+  /** Add a user message manually */
+  addUserMessage: (content: string) => void;
 }
 
 type MockAGUIContextValue = MockAGUIContextState & MockAGUIContextActions;
@@ -119,6 +124,7 @@ export function MockAGUIProvider({
   const [currentRunId, setCurrentRunId] = React.useState<string | null>(null);
   const [messages, setMessages] = React.useState<AgentMessage[]>([]);
   const [toolCalls, setToolCalls] = React.useState<ToolCallState[]>([]);
+  const [activities, setActivities] = React.useState<Activity[]>([]);
   const [agentState, setAgentState] = React.useState<Record<string, unknown>>({});
   const [error, setError] = React.useState<Error | null>(null);
 
@@ -218,7 +224,11 @@ export function MockAGUIProvider({
         break;
 
       case 'TOOL_CALL_END':
-        // Mark as pending result
+        setToolCalls((prev) =>
+          prev.map((tc) =>
+            tc.id === event.toolCallId ? { ...tc, status: 'pending' } : tc
+          )
+        );
         break;
 
       case 'TOOL_CALL_RESULT':
@@ -260,11 +270,21 @@ export function MockAGUIProvider({
         break;
 
       case 'ACTIVITY_SNAPSHOT':
-        // Could track activities in state if needed
+        setActivities(event.activities);
         break;
 
       case 'ACTIVITY_DELTA':
-        // Could update activity progress if needed
+        setActivities((prev) =>
+          prev.map((activity) =>
+            activity.id === event.activityId
+              ? {
+                  ...activity,
+                  status: event.status ?? activity.status,
+                  progress: event.progress ?? activity.progress,
+                }
+              : activity
+          )
+        );
         break;
 
       default:
@@ -331,9 +351,22 @@ export function MockAGUIProvider({
     setCurrentRunId(null);
     setMessages([]);
     setToolCalls([]);
+    setActivities([]);
     setAgentState({});
     setError(null);
     currentMessageRef.current = null;
+  }, []);
+
+  const addUserMessage = React.useCallback((content: string) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `user_${Date.now()}`,
+        role: 'user',
+        content,
+        timestamp: new Date(),
+      },
+    ]);
   }, []);
 
   // Context value
@@ -345,6 +378,7 @@ export function MockAGUIProvider({
       currentRunId,
       messages,
       toolCalls,
+      activities,
       agentState,
       error,
       loadScenario,
@@ -352,6 +386,7 @@ export function MockAGUIProvider({
       stopScenario,
       emitEvent,
       reset,
+      addUserMessage,
     }),
     [
       scenarios,
@@ -360,6 +395,7 @@ export function MockAGUIProvider({
       currentRunId,
       messages,
       toolCalls,
+      activities,
       agentState,
       error,
       loadScenario,
@@ -367,6 +403,7 @@ export function MockAGUIProvider({
       stopScenario,
       emitEvent,
       reset,
+      addUserMessage,
     ]
   );
 
@@ -390,6 +427,13 @@ export function useMockAGUI(): MockAGUIContextValue {
     throw new Error('useMockAGUI must be used within MockAGUIProvider');
   }
   return context;
+}
+
+/**
+ * Optional hook to access mock AG-UI context
+ */
+export function useOptionalMockAGUI(): MockAGUIContextValue | null {
+  return React.useContext(MockAGUIContext);
 }
 
 // =============================================================================

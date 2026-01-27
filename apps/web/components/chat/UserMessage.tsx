@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { UserMessageProps } from './types';
 
@@ -63,7 +62,9 @@ export function UserMessage({
           />
         ) : (
           <div className="rounded-full bg-black w-full h-full flex items-center justify-center">
-            <User className="size-4 text-white" aria-hidden="true" />
+            <span className="material-symbols-outlined text-[18px] text-white" aria-hidden="true">
+              person
+            </span>
           </div>
         )}
       </div>

@@ -11,7 +11,6 @@
 'use client';
 
 import Link from 'next/link';
-import { MoreHorizontal } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -92,6 +91,9 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           <Link href={`/projects/${project.id}`} className="flex-1">
             <h3 className="font-bold text-foreground">{project.name}</h3>
             <p className="mt-1 text-xs text-muted-foreground">
+              {project.owner} • v{project.version}
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
               Last edited {project.lastModified}
             </p>
           </Link>
@@ -104,7 +106,9 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
                 size="icon"
                 className="h-8 w-8 text-muted-foreground hover:bg-muted hover:text-foreground"
               >
-                <MoreHorizontal className="h-4 w-4" />
+                <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
+                  more_horiz
+                </span>
                 <span className="sr-only">Project actions</span>
               </Button>
             </DropdownMenuTrigger>

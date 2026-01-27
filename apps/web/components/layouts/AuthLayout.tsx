@@ -49,7 +49,7 @@ export function AuthLayout({ children, footer }: AuthLayoutProps) {
         <div
           className={cn(
             'flex flex-col w-full bg-card rounded-xl shadow-2xl',
-            'border border-border overflow-hidden p-8 sm:p-10 relative z-10'
+            'border border-border dark:bg-hyyve-card-dark dark:border-hyyve-border-dark overflow-hidden p-8 sm:p-10 relative z-10'
           )}
         >
           {/* Logo & Header */}
@@ -105,7 +105,7 @@ function BackgroundEffects() {
       <div
         className={cn(
           'absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px]',
-          'bg-violet-600/10 rounded-full blur-[100px] pointer-events-none'
+          'bg-primary/10 rounded-full blur-[100px] pointer-events-none'
         )}
         aria-hidden="true"
       />
@@ -124,7 +124,7 @@ function HyyveLogo() {
       <div
         className={cn(
           'h-14 w-14 rounded-xl flex items-center justify-center',
-          'bg-gradient-to-br from-primary to-indigo-600',
+          'bg-gradient-to-br from-primary to-hyyve-primary-dark',
           'shadow-lg shadow-primary/25'
         )}
       >

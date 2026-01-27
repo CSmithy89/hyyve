@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { Play, Save, Share2, Settings, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Breadcrumbs, BreadcrumbItem } from './Breadcrumbs';
@@ -105,9 +104,16 @@ export function BuilderHeader({
           aria-label={isRunning ? 'Running...' : 'Run workflow'}
         >
           {isRunning ? (
-            <Loader2 className="size-5 mr-2 animate-spin" aria-hidden="true" />
+            <span
+              className="material-symbols-outlined text-[20px] mr-2 animate-spin"
+              aria-hidden="true"
+            >
+              progress_activity
+            </span>
           ) : (
-            <Play className="size-5 mr-2" aria-hidden="true" />
+            <span className="material-symbols-outlined text-[20px] mr-2" aria-hidden="true">
+              play_arrow
+            </span>
           )}
           <span>{isRunning ? 'Running...' : 'Run'}</span>
         </Button>
@@ -121,9 +127,16 @@ export function BuilderHeader({
           aria-label={isSaving ? 'Saving...' : 'Save workflow'}
         >
           {isSaving ? (
-            <Loader2 className="size-[18px] mr-2 animate-spin" aria-hidden="true" />
+            <span
+              className="material-symbols-outlined text-[18px] mr-2 animate-spin"
+              aria-hidden="true"
+            >
+              progress_activity
+            </span>
           ) : (
-            <Save className="size-[18px] mr-2" aria-hidden="true" />
+            <span className="material-symbols-outlined text-[18px] mr-2" aria-hidden="true">
+              save
+            </span>
           )}
           <span>{isSaving ? 'Saving...' : 'Save'}</span>
         </Button>
@@ -135,7 +148,9 @@ export function BuilderHeader({
           onClick={onExport}
           aria-label="Export workflow"
         >
-          <Share2 className="size-[18px] mr-2" aria-hidden="true" />
+          <span className="material-symbols-outlined text-[18px] mr-2" aria-hidden="true">
+            share
+          </span>
           <span>Export</span>
         </Button>
 
@@ -150,7 +165,9 @@ export function BuilderHeader({
           onClick={onSettings}
           aria-label="Settings"
         >
-          <Settings className="size-5" aria-hidden="true" />
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+            settings
+          </span>
         </Button>
 
         {/* User Avatar - Header variant with gradient border */}

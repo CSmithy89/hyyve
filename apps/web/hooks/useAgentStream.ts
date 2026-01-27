@@ -18,6 +18,7 @@
 
 import * as React from 'react';
 import type { AgentMessage, AGUIEvent, MockScenario } from '@/lib/mock/ag-ui-types';
+import { useMock, useOptionalMockAGUI } from '@/lib/mock/ag-ui-provider';
 
 // =============================================================================
 // HOOK OPTIONS
@@ -80,6 +81,9 @@ export function useAgentStream({
   onRunFinish,
   onError,
 }: UseAgentStreamOptions): UseAgentStreamReturn {
+  const mockAGUI = useOptionalMockAGUI();
+  const shouldUseMock = Boolean(useMock && mockAGUI);
+
   const [messages, setMessages] = React.useState<AgentMessage[]>([]);
   const [isStreaming, setIsStreaming] = React.useState(false);
   const [error, setError] = React.useState<Error | null>(null);
@@ -161,6 +165,19 @@ export function useAgentStream({
   // Start a run
   const startRun = React.useCallback(
     async (input?: string) => {
+      if (shouldUseMock && mockAGUI) {
+        if (input) {
+          mockAGUI.addUserMessage(input);
+        }
+        if (scenario) {
+          mockAGUI.loadScenario(scenario);
+          mockAGUI.startScenario(scenario.name);
+        } else {
+          mockAGUI.startScenario();
+        }
+        return;
+      }
+
       if (isStreaming) return;
 
       // Add user message if provided
@@ -232,25 +249,47 @@ export function useAgentStream({
         });
       }
     },
-    [agentId, isStreaming, scenario, streamDelay, processEvent, onError, runId]
+    [
+      agentId,
+      isStreaming,
+      scenario,
+      streamDelay,
+      processEvent,
+      onError,
+      runId,
+      shouldUseMock,
+      mockAGUI,
+    ]
   );
 
   // Stop the current run
   const stopRun = React.useCallback(() => {
+    if (shouldUseMock && mockAGUI) {
+      mockAGUI.stopScenario();
+      return;
+    }
     abortRef.current?.abort();
     setIsStreaming(false);
-  }, []);
+  }, [shouldUseMock, mockAGUI]);
 
   // Clear all messages
   const clearMessages = React.useCallback(() => {
+    if (shouldUseMock && mockAGUI) {
+      mockAGUI.reset();
+      return;
+    }
     setMessages([]);
     setError(null);
     setRunId(null);
     currentMessageRef.current = null;
-  }, []);
+  }, [shouldUseMock, mockAGUI]);
 
   // Add a user message
   const addUserMessage = React.useCallback((content: string) => {
+    if (shouldUseMock && mockAGUI) {
+      mockAGUI.addUserMessage(content);
+      return;
+    }
     const userMessage: AgentMessage = {
       id: `user_${Date.now()}`,
       role: 'user',
@@ -258,7 +297,7 @@ export function useAgentStream({
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, userMessage]);
-  }, []);
+  }, [shouldUseMock, mockAGUI]);
 
   // Cleanup on unmount
   React.useEffect(() => {
@@ -268,10 +307,10 @@ export function useAgentStream({
   }, []);
 
   return {
-    messages,
-    isStreaming,
-    error,
-    runId,
+    messages: shouldUseMock && mockAGUI ? mockAGUI.messages : messages,
+    isStreaming: shouldUseMock && mockAGUI ? mockAGUI.isRunning : isStreaming,
+    error: shouldUseMock && mockAGUI ? mockAGUI.error : error,
+    runId: shouldUseMock && mockAGUI ? mockAGUI.currentRunId : runId,
     startRun,
     stopRun,
     clearMessages,

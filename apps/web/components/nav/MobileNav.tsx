@@ -46,6 +46,30 @@ export function MobileNav({
   activePath,
   items = DEFAULT_NAV_ITEMS,
 }: MobileNavProps) {
+  const touchStartX = React.useRef<number | null>(null);
+  const touchStartY = React.useRef<number | null>(null);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+    touchStartX.current = touch.clientX;
+    touchStartY.current = touch.clientY;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+    const deltaX = touch.clientX - touchStartX.current;
+    const deltaY = touch.clientY - touchStartY.current;
+    touchStartX.current = null;
+    touchStartY.current = null;
+
+    if (deltaX < -60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+      onOpenChange(false);
+    }
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
@@ -54,6 +78,8 @@ export function MobileNav({
           'w-64 bg-background-dark p-4 border-card-border',
           'flex flex-col justify-between'
         )}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {/* Accessibility labels */}
         <SheetTitle className="sr-only">Navigation Menu</SheetTitle>

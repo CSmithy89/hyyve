@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { MoreVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { AgentChatProps, Message } from './types';
 import { AGENT_NAMES, getAgentColor } from './types';
@@ -105,7 +104,9 @@ export function AgentChat({
           className="text-text-secondary hover:text-white transition-colors"
           aria-label="More options"
         >
-          <MoreVertical className="size-5" aria-hidden="true" />
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+            more_vert
+          </span>
         </button>
       </div>
 
@@ -134,7 +135,8 @@ export function AgentChat({
           const showDateDivider =
             index === 0 ||
             (previousMessage && isDifferentDay(message.timestamp, previousMessage.timestamp));
-          const isConsecutive = isConsecutiveMessage(message, previousMessage);
+          const isConsecutive =
+            isConsecutiveMessage(message, previousMessage) && !showDateDivider;
 
           return (
             <React.Fragment key={message.id}>

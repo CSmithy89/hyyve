@@ -111,8 +111,14 @@ const config: Config = {
       // Fallback: Noto Sans, system-ui, sans-serif
       // =================================================================
       fontFamily: {
-        display: HYYVE_TYPOGRAPHY.fontFamily.display, // ['Inter', 'Noto Sans', 'system-ui', 'sans-serif']
-        sans: HYYVE_TYPOGRAPHY.fontFamily.sans, // ['Inter', 'Noto Sans', 'system-ui', 'sans-serif']
+        display: [
+          "var(--font-inter)",
+          ...HYYVE_TYPOGRAPHY.fontFamily.display.filter((font) => font !== "Inter"),
+        ], // ['var(--font-inter)', 'Noto Sans', 'system-ui', 'sans-serif']
+        sans: [
+          "var(--font-inter)",
+          ...HYYVE_TYPOGRAPHY.fontFamily.sans.filter((font) => font !== "Inter"),
+        ], // ['var(--font-inter)', 'Noto Sans', 'system-ui', 'sans-serif']
         mono: HYYVE_TYPOGRAPHY.fontFamily.mono, // ['Menlo', 'Monaco', 'Consolas', ...]
       },
 

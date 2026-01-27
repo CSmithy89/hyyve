@@ -3,7 +3,6 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Home, FolderOpen, Settings, BookOpen, LucideIcon } from 'lucide-react';
 
 /**
  * NavLinkProps Interface
@@ -32,19 +31,9 @@ export interface NavItem {
   label: string;
   /** Target URL path */
   href: string;
-  /** Lucide icon name */
+  /** Material Symbol name */
   icon: string;
 }
-
-/**
- * Map of icon names to Lucide components
- */
-const iconMap: Record<string, LucideIcon> = {
-  home: Home,
-  folder_open: FolderOpen,
-  settings: Settings,
-  menu_book: BookOpen,
-};
 
 /**
  * NavLink Component
@@ -65,9 +54,7 @@ export function NavLink({
   isActive = false,
   className,
 }: NavLinkProps) {
-  // Resolve icon from string or use provided ReactNode
-  const IconComponent =
-    typeof icon === 'string' ? iconMap[icon] : null;
+  const iconName = typeof icon === 'string' ? icon : null;
 
   return (
     <Link
@@ -83,14 +70,16 @@ export function NavLink({
       aria-current={isActive ? 'page' : undefined}
     >
       {/* Icon */}
-      {IconComponent ? (
-        <IconComponent
+      {iconName ? (
+        <span
           className={cn(
-            'size-5',
+            'material-symbols-outlined text-[20px]',
             isActive ? 'text-white' : 'text-text-secondary group-hover:text-white'
           )}
           aria-hidden="true"
-        />
+        >
+          {iconName}
+        </span>
       ) : icon ? (
         <span
           className={cn(

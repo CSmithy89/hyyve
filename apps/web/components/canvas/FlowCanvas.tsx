@@ -36,6 +36,7 @@ import '@xyflow/react/dist/style.css';
 
 import { cn } from '@/lib/utils';
 import { useCanvasStore } from '@/lib/stores/canvas-store';
+import { useCanvasHistory } from '@/hooks/useCanvasHistory';
 import { CanvasControls } from './CanvasControls';
 import { CustomEdge } from './CustomEdge';
 
@@ -88,6 +89,8 @@ export function FlowCanvas({
   className,
   children,
 }: FlowCanvasProps) {
+  useCanvasHistory();
+
   // Get state from Zustand store
   const nodes = useCanvasStore((state) => state.nodes);
   const edges = useCanvasStore((state) => state.edges);

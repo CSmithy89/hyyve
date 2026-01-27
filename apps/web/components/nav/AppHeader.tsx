@@ -1,9 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { Menu, Search, Bell, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/theme';
 
 /**
  * AppHeaderProps Interface
@@ -57,7 +57,9 @@ export function AppHeader({
           onClick={onMenuClick}
           aria-label="Open navigation menu"
         >
-          <Menu className="size-5" aria-hidden="true" />
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+            menu
+          </span>
         </Button>
         <h2 className="text-lg font-bold">Hyyve</h2>
       </div>
@@ -65,10 +67,12 @@ export function AppHeader({
       {/* Center - Desktop Search */}
       <div className="hidden md:flex flex-1 max-w-xl">
         <div className="relative w-full">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary size-5"
+          <span
+            className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-[20px]"
             aria-hidden="true"
-          />
+          >
+            search
+          </span>
           <input
             type="text"
             className={cn(
@@ -88,6 +92,9 @@ export function AppHeader({
         {/* Custom right content */}
         {rightContent}
 
+        {/* Theme Toggle */}
+        <ThemeToggle />
+
         {/* Notification Button */}
         <Button
           variant="ghost"
@@ -95,7 +102,9 @@ export function AppHeader({
           className="relative size-9 rounded-lg bg-card-border text-white hover:bg-card-border/80"
           aria-label="Notifications"
         >
-          <Bell className="size-5" aria-hidden="true" />
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+            notifications
+          </span>
           {/* Notification Badge */}
           <span className="absolute right-2 top-2 size-2 rounded-full bg-primary ring-2 ring-background-dark animate-pulse" />
         </Button>
@@ -107,7 +116,9 @@ export function AppHeader({
           className="size-9 rounded-lg bg-primary text-white hover:bg-primary/90"
           aria-label="Quick add"
         >
-          <Plus className="size-5" aria-hidden="true" />
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+            add
+          </span>
         </Button>
       </div>
     </header>

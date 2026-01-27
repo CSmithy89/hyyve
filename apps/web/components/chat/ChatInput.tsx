@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { PlusCircle, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { ChatInputProps } from './types';
 
@@ -75,7 +74,9 @@ export function ChatInput({
           disabled
           title="File attachments coming soon"
         >
-          <PlusCircle className="size-5" aria-hidden="true" />
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+            add_circle
+          </span>
         </button>
 
         {/* Text Input */}
@@ -99,7 +100,9 @@ export function ChatInput({
           disabled={disabled || !value.trim()}
           aria-label="Send message"
         >
-          <Send className="size-5" aria-hidden="true" />
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+            send
+          </span>
         </button>
       </div>
 

@@ -3,7 +3,6 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { useUser, useClerk } from '@clerk/nextjs';
-import { ChevronDown, User, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -100,7 +99,9 @@ export function UserMenu({ variant = 'sidebar', className }: UserMenuProps) {
             asChild
           >
             <Link href="/profile" className="flex items-center gap-2">
-              <User className="size-4" />
+              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
+                person
+              </span>
               <span>Profile</span>
             </Link>
           </DropdownMenuItem>
@@ -109,7 +110,9 @@ export function UserMenu({ variant = 'sidebar', className }: UserMenuProps) {
             asChild
           >
             <Link href="/settings" className="flex items-center gap-2">
-              <Settings className="size-4" />
+              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
+                settings
+              </span>
               <span>Settings</span>
             </Link>
           </DropdownMenuItem>
@@ -118,7 +121,9 @@ export function UserMenu({ variant = 'sidebar', className }: UserMenuProps) {
             className="cursor-pointer focus:bg-card-border focus:text-white text-red-400"
             onClick={handleSignOut}
           >
-            <LogOut className="size-4 mr-2" />
+            <span className="material-symbols-outlined text-[18px] mr-2" aria-hidden="true">
+              logout
+            </span>
             <span>Sign Out</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -161,7 +166,12 @@ export function UserMenu({ variant = 'sidebar', className }: UserMenuProps) {
           </div>
 
           {/* Expand Icon */}
-          <ChevronDown className="size-4 text-text-secondary flex-shrink-0" aria-hidden="true" />
+          <span
+            className="material-symbols-outlined text-[18px] text-text-secondary flex-shrink-0"
+            aria-hidden="true"
+          >
+            expand_more
+          </span>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -174,7 +184,9 @@ export function UserMenu({ variant = 'sidebar', className }: UserMenuProps) {
           asChild
         >
           <Link href="/profile" className="flex items-center gap-2">
-            <User className="size-4" />
+            <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
+              person
+            </span>
             <span>Profile</span>
           </Link>
         </DropdownMenuItem>
@@ -183,7 +195,9 @@ export function UserMenu({ variant = 'sidebar', className }: UserMenuProps) {
           asChild
         >
           <Link href="/settings" className="flex items-center gap-2">
-            <Settings className="size-4" />
+            <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
+              settings
+            </span>
             <span>Settings</span>
           </Link>
         </DropdownMenuItem>
@@ -192,7 +206,9 @@ export function UserMenu({ variant = 'sidebar', className }: UserMenuProps) {
           className="cursor-pointer focus:bg-card-border focus:text-white text-red-400"
           onClick={handleSignOut}
         >
-          <LogOut className="size-4 mr-2" />
+          <span className="material-symbols-outlined text-[18px] mr-2" aria-hidden="true">
+            logout
+          </span>
           <span>Sign Out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

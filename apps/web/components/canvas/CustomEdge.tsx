@@ -66,6 +66,7 @@ export function CustomEdge({
   style,
   markerEnd,
   selected,
+  animated,
 }: EdgeProps<Edge<CustomEdgeData>>) {
   // Get bezier path
   const [edgePath, labelX, labelY] = getBezierPath({
@@ -79,8 +80,12 @@ export function CustomEdge({
 
   // Determine color
   const edgeType = data?.edgeType ?? 'default';
-  const color = data?.color ?? EDGE_COLORS[edgeType] ?? EDGE_COLORS.default;
-  const isAnimated = data?.animated ?? true;
+  const strokeColor =
+    (style?.stroke as string | undefined) ??
+    data?.color ??
+    EDGE_COLORS[edgeType] ??
+    EDGE_COLORS.default;
+  const isAnimated = data?.animated ?? animated ?? false;
 
   // Animation styles (uses edge-dash keyframes from globals.css)
   const animationStyle: React.CSSProperties = isAnimated
@@ -97,7 +102,7 @@ export function CustomEdge({
         id={`${id}-shadow`}
         d={edgePath}
         fill="none"
-        stroke={color}
+        stroke={strokeColor}
         strokeWidth={6}
         strokeOpacity={0.15}
         className="pointer-events-none"
@@ -108,12 +113,12 @@ export function CustomEdge({
         id={id}
         d={edgePath}
         fill="none"
-        stroke={color}
+        stroke={strokeColor}
         strokeWidth={selected ? 3 : 2}
         style={{
           ...style,
           ...animationStyle,
-          filter: `drop-shadow(0 0 3px ${color}40)`,
+          filter: `drop-shadow(0 0 3px ${strokeColor}40)`,
         }}
         className="transition-all duration-200"
         markerEnd={markerEnd}
@@ -127,8 +132,8 @@ export function CustomEdge({
             style={{
               transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
               backgroundColor: '#1c1a2e',
-              color: color,
-              border: `1px solid ${color}40`,
+              color: strokeColor,
+              border: `1px solid ${strokeColor}40`,
             }}
           >
             {data.label}

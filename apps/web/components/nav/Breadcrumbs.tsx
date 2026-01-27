@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
@@ -55,10 +54,12 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
           <React.Fragment key={index}>
             {/* Separator (except for first item) */}
             {index > 0 && (
-              <ChevronRight
-                className="size-4 text-text-secondary flex-shrink-0"
+              <span
+                className="material-symbols-outlined text-[18px] text-text-secondary flex-shrink-0"
                 aria-hidden="true"
-              />
+              >
+                chevron_right
+              </span>
             )}
 
             {/* Breadcrumb Item */}

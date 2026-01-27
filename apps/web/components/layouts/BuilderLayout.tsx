@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Plus, Minus, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BuilderHeader, BreadcrumbItem } from '@/components/nav';
 
 /**
@@ -89,6 +90,8 @@ export function BuilderLayout({
     { label: 'Project', href: '/projects' },
     { label: 'Workflow' },
   ];
+  const leftPanelContent = leftPanel || <DefaultLeftPanel />;
+  const rightPanelContent = rightPanel || <DefaultRightPanel />;
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background">
@@ -105,56 +108,108 @@ export function BuilderLayout({
 
       {/* Main Workspace - Three Panel Layout */}
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Left Panel: Knowledge Base - Hidden on small screens (lg:) */}
-        {!leftPanelCollapsed && (
-          <aside
-            className={cn(
-              'w-72 flex-none bg-background border-r border-border flex flex-col z-10',
-              'hidden lg:flex'
-            )}
-            role="complementary"
-            aria-label="Knowledge base panel"
-          >
-            {leftPanel || <DefaultLeftPanel />}
-          </aside>
-        )}
+        {/* Mobile: Tabbed panels */}
+        <div className="flex flex-1 lg:hidden">
+          <Tabs defaultValue="canvas" className="flex flex-1 flex-col">
+            <div className="border-b border-border bg-background px-4 py-3">
+              <TabsList className="w-full">
+                <TabsTrigger value="left" className="flex-1">
+                  Panels
+                </TabsTrigger>
+                <TabsTrigger value="canvas" className="flex-1">
+                  Canvas
+                </TabsTrigger>
+                <TabsTrigger value="right" className="flex-1">
+                  Chat
+                </TabsTrigger>
+              </TabsList>
+            </div>
+            <TabsContent value="left" className="mt-0 flex-1 overflow-auto">
+              <div className="h-full bg-background">{leftPanelContent}</div>
+            </TabsContent>
+            <TabsContent value="canvas" className="mt-0 flex-1 overflow-hidden">
+              <CanvasPanel
+                isFullscreen={isFullscreen}
+                onToggleFullscreen={toggleFullscreen}
+              >
+                {children}
+              </CanvasPanel>
+            </TabsContent>
+            <TabsContent value="right" className="mt-0 flex-1 overflow-auto">
+              <div className="h-full bg-background">{rightPanelContent}</div>
+            </TabsContent>
+          </Tabs>
+        </div>
 
-        {/* Center Panel: Infinite Canvas */}
-        <main
-          className={cn(
-            'flex-1 relative overflow-hidden cursor-grab active:cursor-grabbing',
-            'bg-canvas-dark'
+        {/* Desktop: Three-panel layout */}
+        <div className="hidden lg:flex flex-1 overflow-hidden relative">
+          {/* Left Panel: Knowledge Base */}
+          {!leftPanelCollapsed && (
+            <aside
+              className={cn(
+                'w-72 flex-none bg-background border-r border-border flex flex-col z-10'
+              )}
+              role="complementary"
+              aria-label="Knowledge base panel"
+            >
+              {leftPanelContent}
+            </aside>
           )}
-          role="main"
-        >
-          {/* Background Grid - Dot Grid Pattern */}
-          <div className="absolute inset-0 bg-dot-grid opacity-30 pointer-events-none" />
 
-          {/* Canvas Content */}
-          <div className="absolute inset-0 z-10">{children}</div>
-
-          {/* Floating Zoom Controls - Bottom Left */}
-          <ZoomControls
-            onToggleFullscreen={toggleFullscreen}
+          <CanvasPanel
             isFullscreen={isFullscreen}
-          />
-        </main>
-
-        {/* Right Panel: Agent Chat - Hidden on small screens (lg:) */}
-        {!rightPanelCollapsed && (
-          <aside
-            className={cn(
-              'w-80 flex-none bg-background border-l border-border flex flex-col z-10',
-              'hidden lg:flex'
-            )}
-            role="complementary"
-            aria-label="Agent chat panel"
+            onToggleFullscreen={toggleFullscreen}
           >
-            {rightPanel || <DefaultRightPanel />}
-          </aside>
-        )}
+            {children}
+          </CanvasPanel>
+
+          {/* Right Panel: Agent Chat */}
+          {!rightPanelCollapsed && (
+            <aside
+              className={cn(
+                'w-80 flex-none bg-background border-l border-border flex flex-col z-10'
+              )}
+              role="complementary"
+              aria-label="Agent chat panel"
+            >
+              {rightPanelContent}
+            </aside>
+          )}
+        </div>
       </div>
     </div>
+  );
+}
+
+function CanvasPanel({
+  children,
+  isFullscreen,
+  onToggleFullscreen,
+}: {
+  children: React.ReactNode;
+  isFullscreen: boolean;
+  onToggleFullscreen: () => void;
+}) {
+  return (
+    <main
+      className={cn(
+        'flex-1 relative overflow-hidden cursor-grab active:cursor-grabbing',
+        'bg-canvas-dark'
+      )}
+      role="main"
+    >
+      {/* Background Grid - Dot Grid Pattern */}
+      <div className="absolute inset-0 bg-dot-grid opacity-30 pointer-events-none" />
+
+      {/* Canvas Content */}
+      <div className="absolute inset-0 z-10">{children}</div>
+
+      {/* Floating Zoom Controls - Bottom Left */}
+      <ZoomControls
+        onToggleFullscreen={onToggleFullscreen}
+        isFullscreen={isFullscreen}
+      />
+    </main>
   );
 }
 

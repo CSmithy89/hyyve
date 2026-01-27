@@ -23,6 +23,8 @@ export interface QuickAction {
 export interface Project {
   id: string;
   name: string;
+  owner: string;
+  version: string;
   description?: string;
   thumbnail?: string;
   status: 'active' | 'training' | 'paused' | 'draft';
@@ -100,6 +102,8 @@ export const RECENT_PROJECTS: Project[] = [
   {
     id: 'proj-1',
     name: 'Customer Support Bot',
+    owner: 'Hyyve Labs',
+    version: '1.2',
     description: 'AI-powered customer service chatbot',
     thumbnail: 'https://picsum.photos/seed/proj1/400/200',
     status: 'active',
@@ -109,6 +113,8 @@ export const RECENT_PROJECTS: Project[] = [
   {
     id: 'proj-2',
     name: 'Sales Lead Qualifier',
+    owner: 'Revenue Ops',
+    version: '0.9',
     description: 'Automated lead scoring and qualification',
     thumbnail: 'https://picsum.photos/seed/proj2/400/200',
     status: 'training',
@@ -118,6 +124,8 @@ export const RECENT_PROJECTS: Project[] = [
   {
     id: 'proj-3',
     name: 'Sentiment Analysis',
+    owner: 'Research Team',
+    version: '2.1',
     description: 'Social media sentiment tracking',
     thumbnail: 'https://picsum.photos/seed/proj3/400/200',
     status: 'draft',
@@ -135,6 +143,8 @@ export const ALL_PROJECTS: Project[] = [
   {
     id: 'proj-4',
     name: 'FAQ Bot',
+    owner: 'Customer Experience',
+    version: '1.4',
     description: 'Knowledge base Q&A system',
     thumbnail: 'https://picsum.photos/seed/proj4/400/200',
     status: 'active',
@@ -144,6 +154,8 @@ export const ALL_PROJECTS: Project[] = [
   {
     id: 'proj-5',
     name: 'Voice Assistant',
+    owner: 'Support Ops',
+    version: '0.8',
     description: 'Voice-enabled customer support',
     thumbnail: 'https://picsum.photos/seed/proj5/400/200',
     status: 'paused',
@@ -153,6 +165,8 @@ export const ALL_PROJECTS: Project[] = [
   {
     id: 'proj-6',
     name: 'Data Pipeline',
+    owner: 'Platform Team',
+    version: '3.0',
     description: 'ETL workflow automation',
     thumbnail: 'https://picsum.photos/seed/proj6/400/200',
     status: 'active',
@@ -229,6 +243,18 @@ export interface ProjectFolder {
   isOpen?: boolean;
   projects?: { id: string; name: string; type: Project['type'] }[];
 }
+
+export interface Workspace {
+  id: string;
+  name: string;
+  plan: string;
+}
+
+export const WORKSPACES: Workspace[] = [
+  { id: 'ws-1', name: 'Hyyve Labs', plan: 'Pro' },
+  { id: 'ws-2', name: 'Acme Support', plan: 'Team' },
+  { id: 'ws-3', name: 'Internal R&D', plan: 'Enterprise' },
+];
 
 export const PROJECT_FOLDERS: ProjectFolder[] = [
   {

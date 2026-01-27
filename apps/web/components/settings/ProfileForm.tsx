@@ -10,8 +10,8 @@
 
 'use client';
 
-import { useState } from 'react';
-import { Save, Camera } from 'lucide-react';
+import * as React from 'react';
+import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,8 +25,14 @@ import {
 type Theme = 'light' | 'dark' | 'system';
 
 export function ProfileForm() {
-  const [profile, setProfile] = useState<UserProfile>(USER_PROFILE);
-  const [selectedTheme, setSelectedTheme] = useState<Theme>(profile.theme);
+  const { setTheme: setAppTheme } = useTheme();
+  const [profile, setProfile] = React.useState<UserProfile>(USER_PROFILE);
+  const [selectedTheme, setSelectedTheme] = React.useState<Theme>(profile.theme);
+
+  // Sync theme changes to app
+  React.useEffect(() => {
+    setAppTheme(selectedTheme);
+  }, [selectedTheme, setAppTheme]);
 
   return (
     <div className="space-y-8">
@@ -43,7 +49,7 @@ export function ProfileForm() {
         <div className="flex gap-3">
           <Button variant="outline">Cancel</Button>
           <Button className="gap-2">
-            <Save className="h-4 w-4" />
+            <span className="material-symbols-outlined text-[18px]">save</span>
             Save Changes
           </Button>
         </div>
@@ -68,7 +74,7 @@ export function ProfileForm() {
                 style={{ backgroundImage: `url('${profile.avatarUrl}')` }}
               />
               <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
-                <Camera className="h-8 w-8 text-white" />
+                <span className="material-symbols-outlined text-[32px] text-white">photo_camera</span>
               </div>
             </div>
             <button className="text-sm text-primary font-medium hover:text-primary/80">
