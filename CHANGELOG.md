@@ -74,6 +74,75 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _Story completed: 2026-01-27_
 _Reviewed and approved by Senior Developer (2 review cycles, 7 blocking issues resolved)_
 
+### Story 1-1-2: User Registration with Social Providers
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **SocialAuthButtons Component** (`apps/web/components/auth/social-auth-buttons.tsx`)
+  - Google and GitHub OAuth button integration
+  - Support for both sign-up and sign-in modes
+  - Loading states with animated spinners during OAuth redirect
+  - Accessible error alerts with proper ARIA attributes
+  - Full keyboard navigation support
+  - Module-level provider configuration for performance optimization
+
+- **Accessibility Features**
+  - ARIA labels on all buttons (`aria-label="Sign up with Google"`)
+  - Loading state announcements (`aria-busy`, `aria-label` updates)
+  - Error alerts with `role="alert"` and `aria-live="polite"`
+  - Keyboard navigation with proper focus management
+  - High contrast support for visual indicators
+
+#### Tests
+
+- **51 Unit Tests** (`apps/web/components/auth/__tests__/social-auth.test.tsx`)
+  - SocialAuthButtons component rendering: 8 tests (button visibility, modes)
+  - OAuth flow handling: 12 tests (redirect logic, error handling)
+  - Loading state management: 10 tests (spinner display, button disabled state)
+  - Accessibility verification: 14 tests (ARIA attributes, keyboard navigation)
+  - Error alert display: 7 tests (alert rendering, dismiss functionality)
+
+- **26 E2E Test Cases** (`tests/e2e/auth/social-registration.spec.ts`)
+  - Google OAuth sign-up flow
+  - GitHub OAuth sign-in flow
+  - OAuth error handling (denied permission, invalid credentials)
+  - Session persistence after OAuth callback
+  - Multi-browser testing (Chromium, Firefox, WebKit)
+
+#### Technical
+
+- **OAuth Integration:**
+  - Google OAuth 2.0 with `google_oauth_client_id` configuration
+  - GitHub OAuth with `github_oauth_client_id` configuration
+  - Secure redirect URI matching Clerk configuration
+  - PKCE flow for enhanced security
+
+- **Component Architecture:**
+  - Provider configuration at module level to prevent re-renders
+  - Error state management with dismissible alerts
+  - Loading states with accessible feedback
+  - Reusable button component for future social providers
+
+- **Wireframe Compliance:**
+  - Matches `hyyve_social_registration` wireframe design
+  - Button styling uses primary color (#5048e5) with proper hover states
+  - Spacing follows 4px grid system
+  - Dark theme default with light theme support
+
+#### Functional Requirements Mapped
+
+- FR-2.1 - Social OAuth Authentication (Google)
+- FR-2.2 - Social OAuth Authentication (GitHub)
+- FR-2.3 - OAuth Error Handling
+- AC12 - Accessibility Compliance (WCAG 2.1 Level AA)
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer_
+
 ### [Story 0-2-1] Extract Design System from Wireframes
 
 **Epic 0.2:** Frontend Foundation & Design System
