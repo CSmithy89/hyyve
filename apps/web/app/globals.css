@@ -205,6 +205,13 @@
   }
 }
 
+/* Edge animation for flow canvas edges */
+@keyframes edge-dash {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
 /* Typing indicator animation */
 @keyframes bounce-delayed {
   0%, 80%, 100% {
