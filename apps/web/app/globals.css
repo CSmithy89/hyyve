@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -14,74 +15,143 @@
   --radius-sm: calc(0.5rem - 4px);
 }
 
-/* shadcn/ui CSS Variables - Neutral base color */
+/* Hyyve Light Mode - UX Spec Section 18.1 Color System
+ * Background: #FFFFFF -> oklch(1 0 0)
+ * Surface: #F9FAFB -> oklch(0.98 0 0)
+ * Border: #E5E7EB -> oklch(0.92 0.01 250)
+ * Text Primary: #111827 -> oklch(0.18 0.02 260)
+ * Text Secondary: #6B7280 -> oklch(0.53 0.02 250)
+ * Text Muted: #9CA3AF -> oklch(0.68 0.02 250)
+ * Primary: #4F46E5 -> oklch(0.49 0.22 275)
+ * Primary Dark: #3730A3 -> oklch(0.38 0.18 275)
+ * Primary Light: #C7D2FE -> oklch(0.86 0.08 275)
+ * Secondary (Coral): #F97316 -> oklch(0.67 0.2 45)
+ * Success: #10B981 -> oklch(0.68 0.17 165)
+ * Warning: #F59E0B -> oklch(0.75 0.18 70)
+ * Error: #EF4444 -> oklch(0.63 0.22 25)
+ * Info: #0EA5E9 -> oklch(0.67 0.15 230)
+ */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.25rem; /* 4px - matches wireframe DEFAULT border radius */
+
+  /* Backgrounds - #FFFFFF, #F9FAFB */
+  --background: oklch(1 0 0); /* #FFFFFF - pure white */
+  --foreground: oklch(0.18 0.02 260); /* #111827 - text primary */
+
+  /* Surface colors */
+  --card: oklch(0.98 0 0); /* #F9FAFB - surface */
+  --card-foreground: oklch(0.18 0.02 260); /* #111827 - text primary */
+  --popover: oklch(1 0 0); /* #FFFFFF */
+  --popover-foreground: oklch(0.18 0.02 260); /* #111827 */
+
+  /* Primary - Hyyve Indigo #4F46E5 */
+  --primary: oklch(0.49 0.22 275); /* #4F46E5 - Hyyve primary indigo */
+  --primary-foreground: oklch(1 0 0); /* White text on primary */
+
+  /* Secondary - slightly muted from primary */
+  --secondary: oklch(0.96 0.01 250); /* Light gray background */
+  --secondary-foreground: oklch(0.18 0.02 260); /* Dark text */
+
+  /* Muted - for subtle backgrounds and text */
+  --muted: oklch(0.96 0.01 250);
+  --muted-foreground: oklch(0.53 0.02 250); /* #6B7280 - text secondary */
+
+  /* Accent - Primary light #C7D2FE */
+  --accent: oklch(0.86 0.08 275); /* #C7D2FE - primary light */
+  --accent-foreground: oklch(0.38 0.18 275); /* #3730A3 - primary dark */
+
+  /* Semantic colors */
+  --destructive: oklch(0.63 0.22 25); /* #EF4444 - error red */
+
+  /* Borders and inputs */
+  --border: oklch(0.92 0.01 250); /* #E5E7EB */
+  --input: oklch(0.92 0.01 250); /* #E5E7EB */
+  --ring: oklch(0.49 0.22 275); /* Match primary for focus rings */
+
+  /* Chart colors - using brand palette */
+  --chart-1: oklch(0.49 0.22 275); /* Primary indigo */
+  --chart-2: oklch(0.67 0.2 45); /* Coral secondary */
+  --chart-3: oklch(0.68 0.17 165); /* Success green */
+  --chart-4: oklch(0.75 0.18 70); /* Warning amber */
+  --chart-5: oklch(0.67 0.15 230); /* Info blue */
+
+  /* Sidebar - light mode */
+  --sidebar: oklch(0.98 0 0); /* #F9FAFB - surface */
+  --sidebar-foreground: oklch(0.18 0.02 260); /* #111827 */
+  --sidebar-primary: oklch(0.49 0.22 275); /* Primary indigo */
+  --sidebar-primary-foreground: oklch(1 0 0); /* White */
+  --sidebar-accent: oklch(0.86 0.08 275); /* Primary light */
+  --sidebar-accent-foreground: oklch(0.38 0.18 275); /* Primary dark */
+  --sidebar-border: oklch(0.92 0.01 250); /* #E5E7EB */
+  --sidebar-ring: oklch(0.49 0.22 275); /* Primary */
+
+  /* Hyyve-specific light mode variables */
+  --hyyve-primary: var(--primary);
+  --hyyve-primary-dark: oklch(0.38 0.18 275);
+  --hyyve-primary-light: oklch(0.86 0.08 275);
+  --hyyve-secondary: oklch(0.67 0.2 45);
+  --hyyve-secondary-light: oklch(0.9 0.08 50);
+  --hyyve-background: var(--background);
+  --hyyve-surface: var(--card);
+  --hyyve-border: var(--border);
+  --hyyve-text-primary: var(--foreground);
+  --hyyve-text-secondary: var(--muted-foreground);
+  --hyyve-text-muted: oklch(0.68 0.02 250);
+  --hyyve-success: oklch(0.68 0.17 165);
+  --hyyve-warning: oklch(0.75 0.18 70);
+  --hyyve-error: oklch(0.63 0.22 25);
+  --hyyve-info: oklch(0.67 0.15 230);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  /* Hyyve brand colors - converted from hex to oklch
+   * #131221 (background-dark) -> oklch(0.15 0.025 280)
+   * #5048e5 (primary) -> oklch(0.52 0.21 275)
+   * #1c1a2e (panel-dark) -> oklch(0.19 0.03 280)
+   * #272546 (border-dark) -> oklch(0.24 0.05 275)
+   * #9795c6 (text-secondary) -> oklch(0.68 0.06 280)
+   * #3e38b3 (primary-dark) -> oklch(0.42 0.18 275)
+   */
+  --background: oklch(0.15 0.025 280); /* #131221 - Hyyve background-dark */
+  --foreground: oklch(0.985 0 0); /* White text */
+  --card: oklch(0.19 0.03 280); /* #1c1a2e - Hyyve panel-dark */
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.19 0.03 280); /* #1c1a2e - Hyyve panel-dark */
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: oklch(0.52 0.21 275); /* #5048e5 - Hyyve primary purple */
+  --primary-foreground: oklch(0.985 0 0); /* White text on primary */
+  --secondary: oklch(0.24 0.04 280); /* Slightly lighter than background */
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --muted: oklch(0.24 0.04 280);
+  --muted-foreground: oklch(0.68 0.06 280); /* #9795c6 - Hyyve text-secondary */
+  --accent: oklch(0.42 0.18 275); /* #3e38b3 - Hyyve primary-dark */
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
+  --destructive: oklch(0.704 0.191 22.216); /* Keep standard red */
+  --border: oklch(0.24 0.05 275); /* #272546 - Hyyve border-dark */
+  --input: oklch(0.19 0.03 280); /* #1c1a2e - Hyyve panel-dark */
+  --ring: oklch(0.52 0.21 275); /* Match primary for focus rings */
+  --chart-1: oklch(0.52 0.21 275); /* Hyyve primary */
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.19 0.03 280); /* #1c1a2e - Hyyve panel-dark */
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.52 0.21 275); /* #5048e5 - Hyyve primary */
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: oklch(0.24 0.04 280);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: oklch(0.24 0.05 275); /* #272546 - Hyyve border-dark */
+  --sidebar-ring: oklch(0.52 0.21 275); /* Match primary */
+
+  /* Hyyve-specific CSS variables for direct hex access */
+  --hyyve-primary: #5048e5;
+  --hyyve-primary-dark: #3e38b3;
+  --hyyve-background-dark: #131221;
+  --hyyve-panel-dark: #1c1a2e;
+  --hyyve-border-dark: #272546;
+  --hyyve-text-secondary: #9795c6;
+  --hyyve-canvas-dark: #0f1115;
 }
 
 @theme inline {
@@ -131,7 +201,26 @@
   }
   body {
     @apply bg-background text-foreground;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      border-color 150ms ease;
   }
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-flex;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
 }
 
 /* Hyyve Custom Styles - Extracted from Stitch designs */
@@ -143,38 +232,55 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: var(--hyyve-background-dark, #131221);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
+  background: var(--hyyve-border-dark, #272546);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary));
+  background: var(--hyyve-primary, #5048e5);
 }
 
-/* Dot Grid Pattern for Canvas */
+/* Dot Grid Pattern for Canvas - matches wireframe exactly */
 .bg-dot-grid {
-  background-image: radial-gradient(hsl(var(--muted-foreground) / 0.3) 1px, transparent 1px);
+  background-image: radial-gradient(#374151 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-/* Workflow connection lines */
+/* Grid Pattern for Auth Layout - matches wireframe exactly */
+.bg-grid-pattern {
+  background-image: linear-gradient(
+      rgba(128, 128, 128, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(128, 128, 128, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Workflow connection lines - matches wireframe exactly */
 .connection-line {
   fill: none;
-  stroke: hsl(var(--primary));
+  stroke: var(--hyyve-primary, #5048e5);
   stroke-width: 2px;
   stroke-dasharray: 1000;
   stroke-dashoffset: 0;
   animation: dash 5s linear infinite;
-  filter: drop-shadow(0 0 3px hsl(var(--primary) / 0.4));
+  filter: drop-shadow(0 0 3px rgba(80, 72, 229, 0.4));
 }
 
 @keyframes dash {
   to {
     stroke-dashoffset: -1000;
+  }
+}
+
+/* Edge animation for flow canvas edges */
+@keyframes edge-dash {
+  to {
+    stroke-dashoffset: -10;
   }
 }
 

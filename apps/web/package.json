@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@ag-ui/client": "0.0.43",
@@ -64,7 +66,13 @@
   },
   "devDependencies": {
     "@clerk/nextjs": "^6.36.10",
+    "@clerk/types": "^4.101.13",
     "@hyyve/tsconfig": "workspace:*",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-links": "^8.6.12",
+    "@storybook/addon-themes": "^8.6.12",
+    "@storybook/nextjs": "^8.6.12",
+    "@storybook/react": "^8.6.12",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "22.15.2",
     "@types/react": "19.2.3",
@@ -73,6 +81,7 @@
     "eslint": "^9.39.2",
     "eslint-config-next": "^15.5.8",
     "postcss": "8.5.4",
+    "storybook": "^8.6.12",
     "tailwindcss": "4.1.8",
     "typescript": "5.8.3"
   }

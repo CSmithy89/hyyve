@@ -7,6 +7,220 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 0-2-1] Extract Design System from Wireframes
+
+**Epic 0.2:** Frontend Foundation & Design System
+
+#### Added
+
+- **Design Tokens Module** (`apps/web/lib/design-tokens.ts`)
+  - `HYYVE_COLORS` - 14 brand colors extracted from 146 Stitch wireframes:
+    - Primary: `#5048e5` (Hyyve purple)
+    - Primary Dark: `#3e38b3` (hover state)
+    - Background Dark: `#131221` (main dark background)
+    - Panel Dark: `#1c1a2e` (sidebars, cards)
+    - Canvas Dark: `#0f1115` (builder canvas background)
+    - Border Dark: `#272546`
+    - Text Secondary: `#9795c6`
+    - And 7 additional brand colors
+  - `HYYVE_TYPOGRAPHY` - Inter font family with 6 weight options (300-900)
+  - `HYYVE_BORDER_RADIUS` - 6 radius values (xs: 2px through full: 9999px)
+  - `HYYVE_SHADOWS` - primaryGlow, card, and elevated shadow definitions
+  - `HYYVE_SPACING` - 4px grid system with layout dimensions (header: 64px, sidebar: 288px, chat panel: 320px)
+  - TypeScript type exports for type-safe theme access:
+    - `ThemeMode`, `HyyveColorKey`, `HyyveTypographyKey`
+    - `HyyveBorderRadiusKey`, `HyyveShadowKey`, `HyyveSpacingScaleKey`
+
+- **Design System Unit Tests** (`apps/web/__tests__/design-system/design-tokens.test.ts`)
+  - 78 unit tests covering all 10 acceptance criteria (AC1-AC10)
+  - Tests for colors, typography, spacing, shadows, CSS properties
+  - Tests for scrollbar styles, canvas utilities, dot-grid pattern, connection-line animations
+
+#### Changed
+
+- **Tailwind Configuration** (`apps/web/tailwind.config.ts`)
+  - Extended with Hyyve-specific color tokens in both `hyyve-*` namespace and flat aliases
+  - Custom font family configuration with Inter, Noto Sans, and monospace
+  - Custom shadow configurations for primary glow and card shadows
+  - Border radius extensions matching wireframe specifications
+  - Dark mode configured with `class` strategy
+
+- **Global Styles** (`apps/web/app/globals.css`)
+  - Updated CSS custom properties to use Hyyve brand colors in oklch format
+  - `.dark` block properly maps to Hyyve colors:
+    - `--background: oklch(0.15 0.025 280)` (#131221)
+    - `--primary: oklch(0.52 0.21 275)` (#5048e5)
+    - `--card: oklch(0.19 0.03 280)` (#1c1a2e)
+    - `--border: oklch(0.21 0.04 280)` (#272546)
+  - Custom scrollbar styles (8px width/height, themed track and thumb)
+  - Canvas utilities: `.dot-grid`, `.connection-line`, `.typing-indicator`
+  - Dot grid pattern using exact wireframe color (#374151)
+
+#### Technical
+
+- **Design Token Sources:**
+  - `hyyve_module_builder/code.html` (lines 16-79) - Primary Tailwind config
+  - `hyyve_home_dashboard/code.html` - Dashboard-specific colors
+  - `hyyve_login_page/code.html` - Auth page variations
+
+- **Color Conversion:**
+  - All hex colors converted to oklch color space for modern CSS support
+  - Inline comments document hex-to-oklch mappings for maintainability
+
+- **CSS Variable Fallbacks:**
+  - Scrollbar and connection-line use fallback values (e.g., `var(--hyyve-primary, #5048e5)`)
+  - Ensures correct rendering even if CSS variables fail to load
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (2 review cycles, 9 issues resolved)_
+
+### [Story 0-2-2] Create shadcn Component Overrides
+
+**Epic 0.2:** Frontend Foundation & Design System
+
+#### Added
+
+- **Theme Utilities File** (`apps/web/components/ui/theme.ts`)
+  - Reusable Tailwind class utilities for Hyyve styling
+  - `primaryGlow` shadow effect for branded buttons
+  - Documented usage patterns for component composition
+
+- **Badge Semantic Variants**
+  - `success` variant using emerald (#10b981)
+  - `warning` variant using amber (#f59e0b)
+  - `info` variant using blue
+
+- **Card Elevated Variant**
+  - Added `elevated` variant with shadow effect
+  - Uses cva (class-variance-authority) for variant management
+
+- **Avatar Primary Variant**
+  - Added `primary` variant for fallback background
+  - Uses cva for variant support on AvatarFallback
+
+#### Changed
+
+- **Button Component** (`apps/web/components/ui/button.tsx`)
+  - Added primary glow shadow effect (`shadow-[0_0_15px_rgba(80,72,229,0.3)]`)
+  - Hover state uses `hover:bg-accent` (primary-dark #3e38b3)
+
+- **Card Component** (`apps/web/components/ui/card.tsx`)
+  - Added cva variant management with `default` and `elevated` variants
+  - Added explicit `border-border` styling for resilience
+
+- **Input Component** (`apps/web/components/ui/input.tsx`)
+  - Changed to dark background styling using `bg-input` CSS variable
+  - Focus state shows primary border color
+
+- **Tooltip Component** (`apps/web/components/ui/tooltip.tsx`)
+  - Fixed to use panel-dark background (`bg-popover`) instead of primary
+  - Updated text color to `text-popover-foreground`
+
+- **DropdownMenu Component** (`apps/web/components/ui/dropdown-menu.tsx`)
+  - Separator now uses `bg-border` color (border-dark)
+
+- **Tabs Component** (`apps/web/components/ui/tabs.tsx`)
+  - Active tab shows primary color indicator
+  - Added inset shadow for primary underline effect (`shadow-[inset_0_-2px_0_hsl(var(--primary))]`)
+
+- **Dialog Component** (`apps/web/components/ui/dialog.tsx`)
+  - Verified modal uses panel-dark background via `bg-popover`
+  - Overlay has proper backdrop opacity
+
+- **Sheet Component** (`apps/web/components/ui/sheet.tsx`)
+  - Verified slide-out panel uses panel-dark background
+  - Proper border on sliding edge
+
+#### Tests
+
+- **Component Override Tests** (`apps/web/__tests__/design-system/component-overrides.test.ts`)
+  - 78 unit tests verifying component override implementation
+  - Tests for AC1-AC12 acceptance criteria
+  - Coverage for Button, Card, Input, Dialog, Sheet, Badge, Tabs, Tooltip, DropdownMenu, Avatar
+  - Verification of theme.ts utilities
+
+#### Technical
+
+- **CSS Variable Usage:**
+  - All components consume CSS custom properties from `globals.css`
+  - Dark mode support via `.dark` class strategy
+  - No hardcoded light-mode colors in component files
+
+- **Design Token Integration:**
+  - Components use `bg-card`, `border-border`, `text-primary` variables
+  - Primary glow uses wireframe-extracted color `rgba(80,72,229,0.3)`
+
+- **Wireframe Compliance:**
+  - Styling matches patterns from `hyyve_module_builder/code.html`
+  - Panel-dark (#1c1a2e), border-dark (#272546), primary (#5048e5)
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (2 review cycles, 5 issues resolved)_
+
+### [Story 0-2-3] Create Layout Shells (App, Builder, Auth)
+
+**Epic 0.2:** Frontend Foundation & Design System
+
+#### Added
+
+- `apps/web/components/layouts/AppShell.tsx` - Main authenticated layout (h-16 header, w-64 sidebar)
+- `apps/web/components/layouts/BuilderLayout.tsx` - Three-panel builder layout (w-72/flex-1/w-80)
+- `apps/web/components/layouts/AuthLayout.tsx` - Centered auth card layout (max-w-[440px])
+- `apps/web/components/layouts/index.ts` - Barrel exports with TypeScript interfaces
+- Route group layouts: (auth), (app), (app)/builders
+- Skip-to-main accessibility link
+- Responsive mobile navigation with Sheet component
+- Canvas zoom controls with full ARIA toolbar accessibility
+
+#### Changed
+
+- `apps/web/app/globals.css` - Added bg-grid-pattern for auth backgrounds
+
+#### Tests
+
+- 93 unit tests for layout shell verification
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (2 review cycles, 3 MAJOR issues resolved)_
+
+### [Story 0-2-4] Create Navigation Components
+
+**Epic 0.2:** Frontend Foundation & Design System
+
+#### Added
+
+- `apps/web/components/nav/AppHeader.tsx` - Dashboard header with search, notifications
+- `apps/web/components/nav/AppSidebar.tsx` - Main sidebar navigation (w-64)
+- `apps/web/components/nav/BuilderHeader.tsx` - Builder-specific header with actions
+- `apps/web/components/nav/Breadcrumbs.tsx` - Dynamic breadcrumb navigation
+- `apps/web/components/nav/UserMenu.tsx` - User dropdown with Clerk integration
+- `apps/web/components/nav/MobileNav.tsx` - Sheet-based mobile navigation
+- `apps/web/components/nav/NavLink.tsx` - Reusable navigation link
+- `apps/web/components/nav/HyyveLogo.tsx` - Logo component
+- `apps/web/components/nav/constants.ts` - Shared navigation constants
+- Notification badge with pulse animation
+- Run button with primary glow shadow effect
+
+#### Changed
+
+- `apps/web/components/layouts/AppShell.tsx` - Integrated navigation components
+- `apps/web/components/layouts/BuilderLayout.tsx` - Integrated BuilderHeader
+
+#### Tests
+
+- 126 unit tests for navigation component verification
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (2 review cycles, 5 HIGH issues resolved)_
+
 ### [Story 0.1.1] Scaffold Turborepo Monorepo with Next.js 15
 
 **Epic 0.1:** Project Foundation & Infrastructure Setup

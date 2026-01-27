@@ -36,11 +36,14 @@
 # UI IMPLEMENTATION WORKFLOW (MANDATORY):
 # =======================================
 # For ALL screen/UI work, developers MUST use:
-# 1. Wireframe Map: _bmad-output/planning-artifacts/wireframe-implementation-map.md
-#    - Maps 146 wireframes → routes → stories → visual checklist
-# 2. HTML Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
+# 1. Story→Wireframe Lookup: _bmad-output/planning-artifacts/story-wireframe-reference.md
+#    - PRIMARY LOOKUP: Find your story number → get exact wireframe folder, screen ID, route
+#    - Covers all 308 stories with their wireframe mappings
+# 2. Wireframe Map: _bmad-output/planning-artifacts/wireframe-implementation-map.md
+#    - Cross-reference for route→story and screen ID details
+# 3. HTML Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
 #    - Contains exact Tailwind CSS, design tokens, and layout structures
-# 3. Routing Spec: _bmad-output/planning-artifacts/routing-specification.md
+# 4. Routing Spec: _bmad-output/planning-artifacts/routing-specification.md
 #    - URL paths, route guards, navigation flows
 
 generated: 2026-01-26
@@ -88,25 +91,28 @@ development_status:
   # Can be developed independently using mock data and AG-UI event mocks.
   #
   # WIREFRAME REFERENCE (MANDATORY):
-  # - Mapping: _bmad-output/planning-artifacts/wireframe-implementation-map.md
+  # - Story Lookup: _bmad-output/planning-artifacts/story-wireframe-reference.md (PRIMARY)
+  # - Route Map: _bmad-output/planning-artifacts/wireframe-implementation-map.md
   # - Sources: _bmad-output/planning-artifacts/Stitch Hyyve/{folder}/code.html
-  # - All 146 wireframes mapped to routes, stories, and visual fidelity checklist
-  epic-0-2: backlog
-  0-2-1-extract-design-system-from-wireframes: backlog
-  0-2-2-create-shadcn-component-overrides: backlog
-  0-2-3-create-layout-shells-app-builder-auth: backlog
-  0-2-4-create-navigation-components: backlog
-  0-2-5-create-agent-chat-component: backlog
-  0-2-6-create-flow-canvas-base-xyflow: backlog
-  0-2-7-create-ag-ui-mock-provider: backlog
-  0-2-8-implement-auth-pages-clerk-ui: backlog
-  0-2-9-implement-dashboard-and-project-browser: backlog
-  0-2-10-implement-settings-pages: backlog
-  0-2-11-implement-module-builder-ui-shell: backlog
-  0-2-12-implement-chatbot-builder-ui-shell: backlog
-  0-2-13-implement-knowledge-base-ui: backlog
-  0-2-14-implement-observability-dashboard-ui: backlog
-  0-2-15-create-storybook-visual-regression-baseline: backlog
+  # - All 308 stories mapped to 146 wireframes with screen IDs and routes
+  epic-0-2: done
+  0-2-1-extract-design-system-from-wireframes: done
+  0-2-2-create-shadcn-component-overrides: done
+  0-2-3-create-layout-shells-app-builder-auth: done
+  0-2-4-create-navigation-components: done
+  0-2-5-create-agent-chat-component: done
+  0-2-6-create-flow-canvas-base-xyflow: done
+  0-2-7-create-ag-ui-mock-provider: done
+  0-2-8-implement-auth-pages-clerk-ui: done
+  0-2-9-implement-dashboard-and-project-browser: done
+  0-2-10-implement-settings-pages: done
+  0-2-11-implement-module-builder-ui-shell: done
+  0-2-12-implement-chatbot-builder-ui-shell: done
+  0-2-13-implement-knowledge-base-ui: done
+  0-2-14-implement-observability-dashboard-ui: done
+  0-2-15-create-storybook-visual-regression-baseline: done
+  0-2-16-implement-light-mode-theme-variables: done
+  0-2-17-create-theme-toggle-component: done
   epic-0-2-retrospective: optional
 
   # ===========================================

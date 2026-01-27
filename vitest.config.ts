@@ -29,10 +29,12 @@ export default defineConfig({
     // Global test setup
     setupFiles: ['./tests/support/vitest-setup.ts'],
 
-    // Alias resolution
+    // Alias resolution for monorepo structure
     alias: {
       '@': path.resolve(__dirname, './src'),
       '@/tests': path.resolve(__dirname, './tests'),
+      // Web app aliases for design system tests
+      '@hyyve/web': path.resolve(__dirname, './apps/web'),
     },
   },
 });
