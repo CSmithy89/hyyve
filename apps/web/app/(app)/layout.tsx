@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { AppShell } from '@/components/layouts';
 
+// Force dynamic rendering - AppShell uses UserMenu which requires Clerk context
+export const dynamic = 'force-dynamic';
+
 /**
  * App Route Group Layout
  *
