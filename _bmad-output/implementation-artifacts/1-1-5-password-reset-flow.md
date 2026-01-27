@@ -104,7 +104,8 @@ apps/web/components/auth/__tests__/password-reset.test.tsx (new - unit tests)
 
 - Added forgot-password and reset-password pages using the existing auth page styling.
 - Built forgot/reset form components with validation, loading states, and accessibility affordances.
-- Added server action stubs for password reset requests and token-based resets.
+- Integrated Clerk custom reset flow via `useSignIn` with email-code verification.
+- Updated reset request to return a generic success message to reduce account enumeration risk.
 - Expanded auth barrel exports and added unit + e2e tests for the reset flow.
 
 ## Tests
@@ -117,6 +118,6 @@ apps/web/components/auth/__tests__/password-reset.test.tsx (new - unit tests)
 **Outcome:** APPROVED (with notes)
 
 **Notes:**
-- Auth server actions are stubs; Clerk integration must enforce single-use tokens, session invalidation, and rate limiting to fully satisfy AC3–AC8.
-- Reset flow currently surfaces specific error messages; consider always returning a generic success response for reset requests to avoid account enumeration.
+- Clerk custom reset flow now powers email-code verification; session invalidation and rate limiting should be enforced via Clerk configuration to fully satisfy AC3–AC8.
+- Reset request returns a generic success response to reduce account enumeration risk.
 - E2E suite could not run due to webServer startup failure; rerun once the temporal-worker dev task is fixed.

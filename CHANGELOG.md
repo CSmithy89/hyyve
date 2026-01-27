@@ -205,6 +205,8 @@ _Reviewed and approved by Senior Developer_
 
 - **Auth Component Exports** (`apps/web/components/auth/index.ts`)
   - Added login form export
+- **Login Flow (Clerk)** (`apps/web/components/auth/login-form.tsx`)
+  - Uses Clerk `useSignIn` with email/password strategy and email-code second factor when required
 
 #### Tests
 
@@ -236,6 +238,9 @@ _Reviewed and approved by Senior Developer (E2E suite blocked by webServer start
 
 - **Auth Component Exports** (`apps/web/components/auth/index.ts`)
   - Added forgot/reset form exports
+- **Reset Flow (Clerk)** (`apps/web/components/auth/forgot-password-form.tsx`, `apps/web/components/auth/reset-password-form.tsx`)
+  - Uses Clerk custom reset flow with email-code verification
+  - Reset request returns a generic success response to reduce account enumeration risk
 
 #### Tests
 

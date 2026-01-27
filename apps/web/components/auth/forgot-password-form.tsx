@@ -7,11 +7,11 @@
 'use client';
 
 import * as React from 'react';
+import { useSignIn } from '@clerk/nextjs';
 import { Loader2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { validateEmail } from '@/lib/validations/auth';
-import { requestPasswordReset } from '@/actions/auth';
 
 export interface ForgotPasswordFormProps {
   /** Optional callback after successful request */
@@ -19,6 +19,7 @@ export interface ForgotPasswordFormProps {
 }
 
 export function ForgotPasswordForm({ onSuccess }: ForgotPasswordFormProps) {
+  const { signIn, isLoaded } = useSignIn();
   const [email, setEmail] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [errors, setErrors] = React.useState<{ email?: string }>({});
@@ -40,21 +41,25 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordFormProps) {
       return;
     }
 
+    if (!isLoaded || !signIn) {
+      setGeneralError('Authentication is still loading. Please try again.');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const result = await requestPasswordReset({ email });
-      if (result.success) {
-        setIsSuccess(true);
-        if (onSuccess) {
-          onSuccess();
-        }
-      } else {
-        setGeneralError(result.error || 'Failed to send reset link');
-      }
+      await signIn.create({
+        strategy: 'reset_password_email_code',
+        identifier: email,
+      });
     } catch {
-      setGeneralError('Failed to send reset link');
+      // Intentionally swallow errors to avoid account enumeration.
     } finally {
       setIsSubmitting(false);
+      setIsSuccess(true);
+      if (onSuccess) {
+        onSuccess();
+      }
     }
   };
 
@@ -87,7 +92,7 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordFormProps) {
         <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-600 dark:text-emerald-300">
           <p className="font-medium">Check your email</p>
           <p className="mt-1 text-xs text-emerald-600/80 dark:text-emerald-300/80">
-            We sent a password reset link. It will be valid for 1 hour.
+            If an account exists for this email, we sent a reset link. It will be valid for 1 hour.
           </p>
           <a
             href="/auth/login"

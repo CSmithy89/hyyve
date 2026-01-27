@@ -8,6 +8,7 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
+import { useSignIn } from '@clerk/nextjs';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -17,7 +18,6 @@ import {
 } from '@/lib/validations/auth';
 import { PasswordRequirements } from './password-requirements';
 import { PasswordStrengthIndicator } from './password-strength-indicator';
-import { resetPasswordWithToken } from '@/actions/auth';
 
 export interface ResetPasswordFormProps {
   token: string;
@@ -25,8 +25,10 @@ export interface ResetPasswordFormProps {
 
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const router = useRouter();
+  const { signIn, setActive, isLoaded } = useSignIn();
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [code, setCode] = React.useState(token ?? '');
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirm, setShowConfirm] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -40,8 +42,13 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     event.preventDefault();
     setGeneralError(null);
 
-    if (!token) {
-      setGeneralError('Invalid or missing reset token');
+    if (!isLoaded || !signIn) {
+      setGeneralError('Authentication is still loading. Please try again.');
+      return;
+    }
+
+    if (!code.trim()) {
+      setGeneralError('Invalid or missing reset code');
       return;
     }
 
@@ -63,11 +70,17 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
     setIsSubmitting(true);
     try {
-      const result = await resetPasswordWithToken({ token, password });
-      if (result.success) {
+      const resetAttempt = await signIn.attemptFirstFactor({
+        strategy: 'reset_password_email_code',
+        code,
+        password,
+      });
+
+      if (resetAttempt.status === 'complete') {
+        await setActive({ session: resetAttempt.createdSessionId });
         router.push('/auth/login');
       } else {
-        setGeneralError(result.error || 'Failed to reset password');
+        setGeneralError('Failed to reset password');
       }
     } catch {
       setGeneralError('Failed to reset password');
@@ -102,6 +115,26 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="reset-code">
+            Verification code
+          </label>
+          <input
+            id="reset-code"
+            name="code"
+            type="text"
+            inputMode="numeric"
+            placeholder="Enter code"
+            value={code}
+            onChange={(event) => setCode(event.target.value)}
+            disabled={isSubmitting}
+            className={cn(
+              'block w-full rounded-lg border-slate-300 dark:border-[#334155] bg-slate-50 dark:bg-[#0f172a] py-2.5 px-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary shadow-sm transition-colors',
+              isSubmitting && 'opacity-60 cursor-not-allowed'
+            )}
+          />
+        </div>
+
         <div className="space-y-1.5">
           <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="reset-password">
             New password

@@ -24,17 +24,24 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-const mockRequestReset = vi.fn();
-const mockResetPassword = vi.fn();
-vi.mock('../../../actions/auth', () => ({
-  requestPasswordReset: (data: unknown) => mockRequestReset(data),
-  resetPasswordWithToken: (data: unknown) => mockResetPassword(data),
+const mockCreate = vi.fn();
+const mockAttemptFirstFactor = vi.fn();
+const mockSetActive = vi.fn();
+vi.mock('@clerk/nextjs', () => ({
+  useSignIn: () => ({
+    isLoaded: true,
+    signIn: {
+      create: mockCreate,
+      attemptFirstFactor: mockAttemptFirstFactor,
+    },
+    setActive: mockSetActive,
+  }),
 }));
 
 describe('ForgotPasswordForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockRequestReset.mockResolvedValue({ success: true });
+    mockCreate.mockResolvedValue({ status: 'needs_first_factor' });
   });
 
   it('renders heading and instructions', () => {
@@ -68,7 +75,10 @@ describe('ForgotPasswordForm', () => {
     await user.click(screen.getByRole('button', { name: /send reset link/i }));
 
     await waitFor(() => {
-      expect(mockRequestReset).toHaveBeenCalledWith({ email: 'jane@example.com' });
+      expect(mockCreate).toHaveBeenCalledWith({
+        strategy: 'reset_password_email_code',
+        identifier: 'jane@example.com',
+      });
     });
   });
 
@@ -84,8 +94,8 @@ describe('ForgotPasswordForm', () => {
     });
   });
 
-  it('shows error when request fails', async () => {
-    mockRequestReset.mockResolvedValueOnce({ success: false, error: 'User not found' });
+  it('shows generic success message when request fails', async () => {
+    mockCreate.mockRejectedValueOnce(new Error('User not found'));
     const user = userEvent.setup();
     render(<ForgotPasswordForm />);
 
@@ -93,7 +103,7 @@ describe('ForgotPasswordForm', () => {
     await user.click(screen.getByRole('button', { name: /send reset link/i }));
 
     await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent(/user not found/i);
+      expect(screen.getByText(/if an account exists/i)).toBeInTheDocument();
     });
   });
 });
@@ -101,12 +111,14 @@ describe('ForgotPasswordForm', () => {
 describe('ResetPasswordForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockResetPassword.mockResolvedValue({ success: true });
+    mockAttemptFirstFactor.mockResolvedValue({ status: 'complete', createdSessionId: 'sess_123' });
+    mockSetActive.mockResolvedValue(undefined);
   });
 
   it('renders password fields', () => {
     render(<ResetPasswordForm token="reset-token" />);
 
+    expect(screen.getByLabelText(/verification code/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/new password/i, { selector: 'input' })).toBeInTheDocument();
     expect(screen.getByLabelText(/confirm password/i, { selector: 'input' })).toBeInTheDocument();
   });
@@ -115,6 +127,9 @@ describe('ResetPasswordForm', () => {
     const user = userEvent.setup();
     render(<ResetPasswordForm token="reset-token" />);
 
+    const codeInput = screen.getByLabelText(/verification code/i);
+    await user.clear(codeInput);
+    await user.type(codeInput, '123456');
     await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'ValidPass123!');
     await user.type(screen.getByLabelText(/confirm password/i, { selector: 'input' }), 'Mismatch123!');
     await user.click(screen.getByRole('button', { name: /reset password/i }));
@@ -126,13 +141,17 @@ describe('ResetPasswordForm', () => {
     const user = userEvent.setup();
     render(<ResetPasswordForm token="reset-token" />);
 
+    const codeInput = screen.getByLabelText(/verification code/i);
+    await user.clear(codeInput);
+    await user.type(codeInput, '123456');
     await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'ValidPass123!');
     await user.type(screen.getByLabelText(/confirm password/i, { selector: 'input' }), 'ValidPass123!');
     await user.click(screen.getByRole('button', { name: /reset password/i }));
 
     await waitFor(() => {
-      expect(mockResetPassword).toHaveBeenCalledWith({
-        token: 'reset-token',
+      expect(mockAttemptFirstFactor).toHaveBeenCalledWith({
+        strategy: 'reset_password_email_code',
+        code: '123456',
         password: 'ValidPass123!',
       });
     });
@@ -142,11 +161,15 @@ describe('ResetPasswordForm', () => {
     const user = userEvent.setup();
     render(<ResetPasswordForm token="reset-token" />);
 
+    const codeInput = screen.getByLabelText(/verification code/i);
+    await user.clear(codeInput);
+    await user.type(codeInput, '123456');
     await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'ValidPass123!');
     await user.type(screen.getByLabelText(/confirm password/i, { selector: 'input' }), 'ValidPass123!');
     await user.click(screen.getByRole('button', { name: /reset password/i }));
 
     await waitFor(() => {
+      expect(mockSetActive).toHaveBeenCalled();
       expect(mockPush).toHaveBeenCalledWith('/auth/login');
     });
   });
