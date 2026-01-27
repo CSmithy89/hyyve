@@ -189,6 +189,38 @@ _Reviewed and approved by Senior Developer (2 review cycles, 5 issues resolved)_
 _Story completed: 2026-01-27_
 _Reviewed and approved by Senior Developer (2 review cycles, 3 MAJOR issues resolved)_
 
+### [Story 0-2-4] Create Navigation Components
+
+**Epic 0.2:** Frontend Foundation & Design System
+
+#### Added
+
+- `apps/web/components/nav/AppHeader.tsx` - Dashboard header with search, notifications
+- `apps/web/components/nav/AppSidebar.tsx` - Main sidebar navigation (w-64)
+- `apps/web/components/nav/BuilderHeader.tsx` - Builder-specific header with actions
+- `apps/web/components/nav/Breadcrumbs.tsx` - Dynamic breadcrumb navigation
+- `apps/web/components/nav/UserMenu.tsx` - User dropdown with Clerk integration
+- `apps/web/components/nav/MobileNav.tsx` - Sheet-based mobile navigation
+- `apps/web/components/nav/NavLink.tsx` - Reusable navigation link
+- `apps/web/components/nav/HyyveLogo.tsx` - Logo component
+- `apps/web/components/nav/constants.ts` - Shared navigation constants
+- Notification badge with pulse animation
+- Run button with primary glow shadow effect
+
+#### Changed
+
+- `apps/web/components/layouts/AppShell.tsx` - Integrated navigation components
+- `apps/web/components/layouts/BuilderLayout.tsx` - Integrated BuilderHeader
+
+#### Tests
+
+- 126 unit tests for navigation component verification
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (2 review cycles, 5 HIGH issues resolved)_
+
 ### [Story 0.1.1] Scaffold Turborepo Monorepo with Next.js 15
 
 **Epic 0.1:** Project Foundation & Infrastructure Setup

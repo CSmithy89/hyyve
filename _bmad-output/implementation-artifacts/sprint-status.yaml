@@ -99,7 +99,7 @@ development_status:
   0-2-1-extract-design-system-from-wireframes: done
   0-2-2-create-shadcn-component-overrides: done
   0-2-3-create-layout-shells-app-builder-auth: done
-  0-2-4-create-navigation-components: backlog
+  0-2-4-create-navigation-components: review
   0-2-5-create-agent-chat-component: backlog
   0-2-6-create-flow-canvas-base-xyflow: backlog
   0-2-7-create-ag-ui-mock-provider: backlog
