@@ -208,11 +208,14 @@ describe('Story 0.1.2: TypeScript Strict Mode Configuration', () => {
         expect(Array.isArray(paths!['@/*'])).toBe(true);
       });
 
-      it('should have @platform/* path alias for cross-package imports', () => {
+      it('should have @platform/* path aliases for cross-package imports', () => {
         const paths = webTsconfig.compilerOptions?.paths;
         expect(paths).toBeDefined();
-        expect(paths!['@platform/*']).toBeDefined();
-        expect(Array.isArray(paths!['@platform/*'])).toBe(true);
+        // Check for specific @platform aliases (ui, shared, types, etc.)
+        const platformAliases = Object.keys(paths!).filter((key) =>
+          key.startsWith('@platform/')
+        );
+        expect(platformAliases.length).toBeGreaterThan(0);
       });
 
       it('@/* alias should point to local directory', () => {
@@ -220,9 +223,15 @@ describe('Story 0.1.2: TypeScript Strict Mode Configuration', () => {
         expect(paths!['@/*'][0]).toMatch(/^\.\//);
       });
 
-      it('@platform/* alias should point to packages/@platform', () => {
+      it('@platform/* aliases should point to packages/@platform', () => {
         const paths = webTsconfig.compilerOptions?.paths;
-        expect(paths!['@platform/*'][0]).toContain('@platform');
+        // Check that at least one @platform alias points to the packages directory
+        const platformAliases = Object.entries(paths!).filter(([key]) =>
+          key.startsWith('@platform/')
+        );
+        expect(platformAliases.length).toBeGreaterThan(0);
+        const [, values] = platformAliases[0]!;
+        expect(values[0]).toContain('@platform');
       });
     });
   });

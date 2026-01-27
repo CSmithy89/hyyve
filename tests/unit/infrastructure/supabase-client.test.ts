@@ -197,7 +197,10 @@ describe('Story 0.1.5: Configure Supabase Database Client', () => {
         });
 
         it('should export middleware function', () => {
-          expect(webMiddlewareContent).toMatch(/export\s+(async\s+)?function\s+middleware/);
+          // Support both named export and default export patterns
+          // Named: export function middleware() or export async function middleware()
+          // Default: export default clerkMiddleware(...)
+          expect(webMiddlewareContent).toMatch(/export\s+(default|((async\s+)?function\s+middleware))/);
         });
       });
     });

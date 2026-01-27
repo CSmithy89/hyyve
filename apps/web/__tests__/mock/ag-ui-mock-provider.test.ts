@@ -536,11 +536,13 @@ describe('AC10: Production Swap Capability', () => {
   });
 
   it('should export MockAGUIProvider from index', () => {
-    expect(indexContent).toMatch(/export.*MockAGUIProvider/);
+    // Support multi-line export blocks like: export { MockAGUIProvider, ... }
+    expect(indexContent).toMatch(/export\s*\{[\s\S]*MockAGUIProvider[\s\S]*\}/);
   });
 
   it('should export useAgentStream from index', () => {
-    expect(indexContent).toMatch(/export.*useAgentStream/);
+    // Support both re-export and direct export patterns
+    expect(indexContent).toMatch(/export\s*\{[\s\S]*useAgentStream[\s\S]*\}/);
   });
 });
 
@@ -594,15 +596,18 @@ describe('Module Exports', () => {
   });
 
   it('should export MockAGUIProvider', () => {
-    expect(indexContent).toMatch(/export.*MockAGUIProvider/);
+    // Support multi-line export blocks like: export { MockAGUIProvider, ... }
+    expect(indexContent).toMatch(/export\s*\{[\s\S]*MockAGUIProvider[\s\S]*\}/);
   });
 
   it('should export useMockAGUI hook', () => {
-    expect(indexContent).toMatch(/export.*useMockAGUI/);
+    // Support multi-line export blocks
+    expect(indexContent).toMatch(/export\s*\{[\s\S]*useMockAGUI[\s\S]*\}/);
   });
 
   it('should export type definitions', () => {
-    expect(indexContent).toMatch(/export.*type.*AGUIEvent/);
+    // Support multi-line type exports
+    expect(indexContent).toMatch(/export\s+type\s*\{[\s\S]*AGUIEvent/);
   });
 
   it('should export fixture loader utility', () => {

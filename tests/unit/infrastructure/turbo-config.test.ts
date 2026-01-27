@@ -411,11 +411,15 @@ describe('Story 0.1.1: TypeScript Path Aliases', () => {
       expect(paths['@/*'][0]).toContain('./');
     });
 
-    it('should have @platform/* path alias for package imports', () => {
+    it('should have @platform/* path aliases for package imports', () => {
       const compilerOptions = webTsconfig.compilerOptions as Record<string, unknown>;
       const paths = compilerOptions.paths as Record<string, string[]>;
 
-      expect(paths['@platform/*']).toBeDefined();
+      // Check for specific @platform aliases (ui, shared, types, etc.)
+      const platformAliases = Object.keys(paths).filter((key) =>
+        key.startsWith('@platform/')
+      );
+      expect(platformAliases.length).toBeGreaterThan(0);
     });
 
     it('should extend shared tsconfig', () => {
