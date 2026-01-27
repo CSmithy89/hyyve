@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "@clerk/nextjs": "^6.36.10",
+    "@clerk/types": "^4.101.13",
     "@hyyve/tsconfig": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "22.15.2",

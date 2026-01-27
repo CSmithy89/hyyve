@@ -262,6 +262,9 @@ importers:
       '@clerk/nextjs':
         specifier: ^6.36.10
         version: 6.36.10(next@15.5.8(@opentelemetry/api@1.9.0)(@playwright/test@1.51.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@clerk/types':
+        specifier: ^4.101.13
+        version: 4.101.13(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@hyyve/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
