@@ -17,9 +17,8 @@
 
 import { useMemo } from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
-import { IntentsPanel, conversationNodeTypes } from '@/components/builders/chatbot';
+import { IntentsPanel, WendyPanel, conversationNodeTypes } from '@/components/builders/chatbot';
 import { FlowCanvas } from '@/components/canvas/FlowCanvas';
-import { AgentChat } from '@/components/chat/AgentChat';
 import type { Node, Edge } from '@xyflow/react';
 import {
   CONVERSATION_NODES,
@@ -53,12 +52,12 @@ export default function ChatbotBuilderPage() {
         targetHandle: edge.targetHandle,
         type: 'custom',
         animated: edge.animated,
-        style:
-          edge.style === 'dashed'
-            ? { strokeDasharray: '5,5', stroke: '#5048e5' }
-            : edge.style === 'solid'
-              ? { stroke: '#272546' }
-              : undefined,
+        data: {
+          edgeType: 'default',
+          animated: edge.style === 'dashed',
+          // Use secondary color for solid edges
+          color: edge.style === 'solid' ? '#272546' : undefined,
+        },
       })),
     []
   );
@@ -128,13 +127,8 @@ export default function ChatbotBuilderPage() {
         </button>
       </main>
 
-      {/* Right Panel: Agent Wendy Chat */}
-      <AgentChat
-        agentId="wendy"
-        messages={mockMessages}
-        isTyping={false}
-        status="online"
-      />
+      {/* Right Panel: Agent Wendy Chat with Suggestions */}
+      <WendyPanel messages={mockMessages} isTyping={false} />
     </div>
   );
 }

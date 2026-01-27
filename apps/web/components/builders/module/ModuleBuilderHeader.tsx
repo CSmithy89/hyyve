@@ -11,7 +11,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Play, Redo2, Save, Share2, Settings, Undo2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { HyyveLogo } from '@/components/nav/HyyveLogo';
@@ -84,7 +83,7 @@ export function ModuleBuilderHeader({
             className="rounded-full bg-[#272546] hover:bg-[#34315c] text-white"
             aria-label="Undo"
           >
-            <Undo2 className="h-4 w-4" />
+            <span className="material-symbols-outlined text-[18px]">undo</span>
           </Button>
           <Button
             variant="ghost"
@@ -92,7 +91,7 @@ export function ModuleBuilderHeader({
             className="rounded-full bg-[#272546] hover:bg-[#34315c] text-white"
             aria-label="Redo"
           >
-            <Redo2 className="h-4 w-4" />
+            <span className="material-symbols-outlined text-[18px]">redo</span>
           </Button>
         </div>
 
@@ -101,7 +100,7 @@ export function ModuleBuilderHeader({
           className="gap-2 bg-primary hover:bg-primary-dark shadow-[0_0_15px_rgba(80,72,229,0.3)]"
           size="sm"
         >
-          <Play className="h-4 w-4" />
+          <span className="material-symbols-outlined text-[18px]">play_arrow</span>
           <span>Run</span>
         </Button>
 
@@ -111,7 +110,7 @@ export function ModuleBuilderHeader({
           className="gap-2 bg-[#272546] hover:bg-[#34315c] text-white border-0"
           size="sm"
         >
-          <Save className="h-4 w-4" />
+          <span className="material-symbols-outlined text-[18px]">save</span>
           <span>Save</span>
         </Button>
 
@@ -121,7 +120,7 @@ export function ModuleBuilderHeader({
           className="gap-2 bg-[#272546] hover:bg-[#34315c] text-white border-0"
           size="sm"
         >
-          <Share2 className="h-4 w-4" />
+          <span className="material-symbols-outlined text-[18px]">share</span>
           <span>Export</span>
         </Button>
 
@@ -134,16 +133,18 @@ export function ModuleBuilderHeader({
           size="icon"
           className="rounded-full bg-[#272546] hover:bg-[#34315c] text-white"
         >
-          <Settings className="h-5 w-5" />
+          <span className="material-symbols-outlined text-[20px]">settings</span>
         </Button>
 
-        {/* User Avatar */}
-        <Avatar className="size-9 ring-2 ring-gradient-to-br from-pink-500 to-orange-400">
-          <AvatarImage src="/avatars/user.png" alt="User" />
-          <AvatarFallback className="bg-gradient-to-br from-pink-500 to-orange-400 text-white text-sm">
-            U
-          </AvatarFallback>
-        </Avatar>
+        {/* User Avatar with gradient border */}
+        <div className="rounded-full bg-gradient-to-br from-pink-500 to-orange-400 p-0.5">
+          <Avatar className="size-8">
+            <AvatarImage src="/avatars/user.png" alt="User" />
+            <AvatarFallback className="bg-[#1c1a2e] text-white text-sm">
+              U
+            </AvatarFallback>
+          </Avatar>
+        </div>
       </div>
     </header>
   );

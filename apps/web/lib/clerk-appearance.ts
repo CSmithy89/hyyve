@@ -18,24 +18,30 @@ import type { Appearance } from '@clerk/types';
 /**
  * Hyyve design tokens for Clerk styling
  * Exported for use by other Clerk-related components
+ *
+ * Uses Hyyve dark palette:
+ * - background-dark: #131221
+ * - panel-dark: #1c1a2e
+ * - card-border: #272546
  */
 export const hyyveTokens = {
   // Brand colors
   primary: '#5048e5',
-  primaryHover: '#4338ca', // indigo-600
+  primaryHover: '#3e38b3', // primary-dark
   primaryLight: 'rgba(80, 72, 229, 0.2)',
 
-  // Background colors (dark theme)
-  backgroundDark: '#0f172a', // slate-900
-  cardDark: '#1e293b', // slate-800
-  inputDark: '#0f172a',
+  // Background colors (Hyyve dark theme)
+  backgroundDark: '#131221', // background-dark
+  cardDark: '#1c1a2e', // panel-dark
+  inputDark: '#131221', // background-dark
+  cardBorder: '#272546', // card-border
 
   // Border colors
-  borderDark: '#334155', // slate-700
+  borderDark: '#272546', // card-border
 
   // Text colors
-  textLight: '#f8fafc', // slate-50
-  textMuted: '#94a3b8', // slate-400
+  textLight: '#ffffff',
+  textMuted: '#9ca3af', // text-secondary gray-400
 
   // Border radius
   borderRadius: '0.75rem', // rounded-xl
@@ -49,8 +55,8 @@ export const hyyveTokens = {
  * to ensure consistent styling across authentication pages.
  */
 export const clerkAppearance: Appearance = {
-  // Base theme
-  baseTheme: undefined, // We customize everything ourselves
+  // Base theme - custom dark styling via variables and elements
+  // Note: We define all dark colors explicitly below
 
   // CSS Variables for theming
   variables: {

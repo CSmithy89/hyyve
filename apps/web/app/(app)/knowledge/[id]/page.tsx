@@ -8,14 +8,18 @@
 
 'use client';
 
-import { use } from 'react';
+import { use, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Settings, Database } from 'lucide-react';
-import { DocumentList, PipelineFlow } from '@/components/knowledge';
+import {
+  DocumentList,
+  DocumentDetailsPanel,
+  PipelineFlow,
+} from '@/components/knowledge';
 import {
   KNOWLEDGE_BASES,
   DOCUMENTS,
   PIPELINE_STEPS,
+  type Document,
 } from '@/lib/mock-data/knowledge-base';
 
 interface KnowledgeBaseDetailPageProps {
@@ -27,6 +31,9 @@ export default function KnowledgeBaseDetailPage({
 }: KnowledgeBaseDetailPageProps) {
   const { id } = use(params);
   const kb = KNOWLEDGE_BASES.find((k) => k.id === id) ?? KNOWLEDGE_BASES[0];
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(
+    null
+  );
 
   // This should never happen with mock data, but satisfies TypeScript
   if (!kb) {
@@ -38,7 +45,9 @@ export default function KnowledgeBaseDetailPage({
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="flex h-full overflow-hidden">
+      {/* Main Content */}
+      <div className="flex-1 p-6 space-y-6 overflow-y-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -46,11 +55,15 @@ export default function KnowledgeBaseDetailPage({
             href="/knowledge"
             className="p-2 hover:bg-white/5 rounded-lg transition-colors"
           >
-            <ArrowLeft className="h-5 w-5 text-text-secondary" />
+            <span className="material-symbols-outlined text-[20px] text-text-secondary">
+              arrow_back
+            </span>
           </Link>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-lg text-primary">
-              <Database className="h-6 w-6" />
+              <span className="material-symbols-outlined text-[24px]">
+                database
+              </span>
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">{kb.name}</h1>
@@ -61,7 +74,7 @@ export default function KnowledgeBaseDetailPage({
           </div>
         </div>
         <button className="flex items-center gap-2 px-4 py-2 bg-surface-dark border border-border-dark text-white rounded-lg hover:bg-white/5 transition-colors">
-          <Settings className="h-4 w-4" />
+          <span className="material-symbols-outlined text-[18px]">settings</span>
           <span>Settings</span>
         </button>
       </div>
@@ -99,11 +112,22 @@ export default function KnowledgeBaseDetailPage({
         <PipelineFlow steps={PIPELINE_STEPS} />
       </div>
 
-      {/* Documents Section */}
-      <div>
-        <h2 className="text-lg font-semibold text-white mb-4">Documents</h2>
-        <DocumentList documents={DOCUMENTS} />
+        {/* Documents Section */}
+        <div>
+          <h2 className="text-lg font-semibold text-white mb-4">Documents</h2>
+          <DocumentList
+            documents={DOCUMENTS}
+            selectedId={selectedDocument?.id}
+            onSelect={setSelectedDocument}
+          />
+        </div>
       </div>
+
+      {/* Document Details Panel */}
+      <DocumentDetailsPanel
+        document={selectedDocument}
+        onClose={() => setSelectedDocument(null)}
+      />
     </div>
   );
 }

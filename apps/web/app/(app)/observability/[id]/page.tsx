@@ -9,7 +9,6 @@
 
 import { use } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, RefreshCw, Edit, Bolt, Database, Brain, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { EXECUTIONS, TRACE_STEPS } from '@/lib/mock-data/observability';
 
@@ -17,11 +16,30 @@ interface ExecutionDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-const STEP_ICONS = {
-  trigger: <Bolt className="h-5 w-5" />,
-  retrieve: <Database className="h-5 w-5" />,
-  llm: <Brain className="h-5 w-5" />,
-  output: <Send className="h-5 w-5" />,
+const STEP_ICONS: Record<string, string> = {
+  trigger: 'bolt',
+  retrieve: 'database',
+  llm: 'psychology',
+  output: 'send',
+};
+
+// Mock trace logs
+const TRACE_LOGS = [
+  { id: 'log-1', timestamp: '00:00:00.000', level: 'info', message: 'Execution started', step: 'trigger' },
+  { id: 'log-2', timestamp: '00:00:00.045', level: 'info', message: 'User query received: "What are our Q4 projections?"', step: 'trigger' },
+  { id: 'log-3', timestamp: '00:00:00.123', level: 'info', message: 'Initiating vector search...', step: 'retrieve' },
+  { id: 'log-4', timestamp: '00:00:00.456', level: 'info', message: 'Found 12 relevant chunks (similarity > 0.85)', step: 'retrieve' },
+  { id: 'log-5', timestamp: '00:00:01.234', level: 'info', message: 'Sending prompt to GPT-4-Turbo (2,847 tokens)', step: 'llm' },
+  { id: 'log-6', timestamp: '00:00:03.567', level: 'info', message: 'Response received (487 tokens)', step: 'llm' },
+  { id: 'log-7', timestamp: '00:00:03.890', level: 'info', message: 'Formatting output for client', step: 'output' },
+  { id: 'log-8', timestamp: '00:00:04.012', level: 'success', message: 'Execution completed successfully', step: 'output' },
+];
+
+const LOG_LEVEL_COLORS = {
+  info: 'text-text-secondary',
+  success: 'text-emerald-400',
+  warning: 'text-amber-400',
+  error: 'text-red-400',
 };
 
 const STATUS_COLORS = {
@@ -54,7 +72,9 @@ export default function ExecutionDetailPage({ params }: ExecutionDetailPageProps
             href="/observability"
             className="p-2 hover:bg-white/5 rounded-lg transition-colors"
           >
-            <ArrowLeft className="h-5 w-5 text-text-secondary" />
+            <span className="material-symbols-outlined text-[20px] text-text-secondary">
+              arrow_back
+            </span>
           </Link>
           <div className="flex items-center text-sm text-text-secondary">
             <span className="hover:text-primary cursor-pointer transition-colors">
@@ -89,11 +109,11 @@ export default function ExecutionDetailPage({ params }: ExecutionDetailPageProps
         </div>
         <div className="flex items-center gap-3">
           <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-surface-dark border border-border-dark rounded-lg hover:bg-white/5 transition-colors">
-            <Edit className="h-4 w-4" />
+            <span className="material-symbols-outlined text-[18px]">edit</span>
             Edit Workflow
           </button>
           <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20">
-            <RefreshCw className="h-4 w-4" />
+            <span className="material-symbols-outlined text-[18px]">refresh</span>
             Re-run Execution
           </button>
         </div>
@@ -115,7 +135,7 @@ export default function ExecutionDetailPage({ params }: ExecutionDetailPageProps
           {/* Trace Steps */}
           <div className="relative z-10 flex flex-col gap-8 max-w-md mx-auto mt-12">
             {TRACE_STEPS.map((step, index) => {
-              const icon = STEP_ICONS[step.type];
+              const iconName = STEP_ICONS[step.type] ?? 'help';
               const statusColor = STATUS_COLORS[step.status];
 
               return (
@@ -135,7 +155,9 @@ export default function ExecutionDetailPage({ params }: ExecutionDetailPageProps
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div className={cn('p-2 rounded-lg bg-white/5', statusColor)}>
-                          {icon}
+                          <span className="material-symbols-outlined text-[20px]">
+                            {iconName}
+                          </span>
                         </div>
                         <div>
                           <p className="text-xs font-semibold uppercase text-text-secondary">
@@ -201,6 +223,41 @@ export default function ExecutionDetailPage({ params }: ExecutionDetailPageProps
                 </p>
               </div>
             )}
+          </div>
+
+          {/* Trace Logs Panel */}
+          <div className="mt-6">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold text-white">Trace Logs</h3>
+              <button className="text-xs text-primary hover:underline">
+                Export
+              </button>
+            </div>
+            <div className="bg-black/40 rounded-lg border border-border-dark overflow-hidden">
+              <div className="max-h-64 overflow-y-auto">
+                {TRACE_LOGS.map((log) => (
+                  <div
+                    key={log.id}
+                    className="flex items-start gap-3 px-3 py-2 border-b border-border-dark/50 last:border-b-0 hover:bg-white/5 transition-colors"
+                  >
+                    <span className="text-xs text-text-secondary font-mono shrink-0 pt-0.5">
+                      {log.timestamp}
+                    </span>
+                    <span
+                      className={cn(
+                        'text-xs font-mono uppercase w-12 shrink-0 pt-0.5',
+                        LOG_LEVEL_COLORS[log.level as keyof typeof LOG_LEVEL_COLORS]
+                      )}
+                    >
+                      {log.level}
+                    </span>
+                    <span className="text-xs text-white font-mono break-all">
+                      {log.message}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </aside>
       </main>

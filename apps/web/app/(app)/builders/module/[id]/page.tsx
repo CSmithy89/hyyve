@@ -62,12 +62,15 @@ export default function ModuleBuilderPage() {
         targetHandle: edge.targetHandle,
         type: 'custom',
         animated: edge.animated,
-        style:
-          edge.type === 'success'
-            ? { stroke: '#10b981' }
-            : edge.type === 'failure'
-              ? { stroke: '#ef4444', strokeDasharray: '4' }
-              : undefined,
+        data: {
+          edgeType:
+            edge.type === 'success'
+              ? 'success'
+              : edge.type === 'failure'
+                ? 'error'
+                : 'default',
+          animated: edge.type === 'failure', // Dashed animation for failure edges
+        },
       })),
     []
   );

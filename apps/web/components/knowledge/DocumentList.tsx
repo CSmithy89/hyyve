@@ -7,22 +7,23 @@
 
 'use client';
 
-import { FileText, FileType, File, Table, Upload } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Document } from '@/lib/mock-data/knowledge-base';
 
 export interface DocumentListProps {
   documents: Document[];
+  selectedId?: string | null;
+  onSelect?: (document: Document) => void;
   className?: string;
 }
 
-const FILE_ICONS: Record<Document['type'], React.ReactNode> = {
-  pdf: <FileText className="h-4 w-4 text-red-400" />,
-  docx: <FileType className="h-4 w-4 text-blue-400" />,
-  txt: <File className="h-4 w-4 text-text-secondary" />,
-  md: <FileText className="h-4 w-4 text-purple-400" />,
-  html: <FileText className="h-4 w-4 text-orange-400" />,
-  csv: <Table className="h-4 w-4 text-green-400" />,
+const FILE_ICONS: Record<Document['type'], { icon: string; color: string }> = {
+  pdf: { icon: 'picture_as_pdf', color: 'text-red-400' },
+  docx: { icon: 'description', color: 'text-blue-400' },
+  txt: { icon: 'article', color: 'text-text-secondary' },
+  md: { icon: 'code', color: 'text-purple-400' },
+  html: { icon: 'code', color: 'text-orange-400' },
+  csv: { icon: 'table_chart', color: 'text-green-400' },
 };
 
 const STATUS_CONFIG = {
@@ -44,14 +45,19 @@ const STATUS_CONFIG = {
   },
 };
 
-export function DocumentList({ documents, className }: DocumentListProps) {
+export function DocumentList({
+  documents,
+  selectedId,
+  onSelect,
+  className,
+}: DocumentListProps) {
   return (
     <div className={cn('space-y-4', className)}>
       {/* Upload Dropzone */}
       <div className="border-2 border-dashed border-border-dark rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer group">
         <div className="flex flex-col items-center gap-3">
           <div className="p-3 bg-primary/10 rounded-full text-primary group-hover:bg-primary/20 transition-colors">
-            <Upload className="h-6 w-6" />
+            <span className="material-symbols-outlined text-[24px]">upload</span>
           </div>
           <div>
             <p className="text-sm font-medium text-white">
@@ -89,14 +95,29 @@ export function DocumentList({ documents, className }: DocumentListProps) {
           <tbody>
             {documents.map((doc) => {
               const statusConfig = STATUS_CONFIG[doc.status];
+              const fileIcon = FILE_ICONS[doc.type];
+              const isSelected = selectedId === doc.id;
               return (
                 <tr
                   key={doc.id}
-                  className="border-b border-border-dark last:border-b-0 hover:bg-white/5 transition-colors cursor-pointer"
+                  onClick={() => onSelect?.(doc)}
+                  className={cn(
+                    'border-b border-border-dark last:border-b-0 transition-colors cursor-pointer',
+                    isSelected
+                      ? 'bg-primary/10 hover:bg-primary/15'
+                      : 'hover:bg-white/5'
+                  )}
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      {FILE_ICONS[doc.type]}
+                      <span
+                        className={cn(
+                          'material-symbols-outlined text-[18px]',
+                          fileIcon.color
+                        )}
+                      >
+                        {fileIcon.icon}
+                      </span>
                       <span className="text-sm text-white">{doc.name}</span>
                     </div>
                   </td>

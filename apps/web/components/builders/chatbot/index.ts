@@ -6,6 +6,7 @@
 
 export { ChatbotBuilderHeader } from './ChatbotBuilderHeader';
 export { IntentsPanel } from './IntentsPanel';
+export { WendyPanel, type WendySuggestion, type WendyPanelProps } from './WendyPanel';
 export {
   StartNode,
   DecisionNode,

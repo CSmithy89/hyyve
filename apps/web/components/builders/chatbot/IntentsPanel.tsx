@@ -11,7 +11,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, PlusCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import {
@@ -74,14 +73,14 @@ export function IntentsPanel({ className, onIntentSelect }: IntentsPanelProps) {
       <div className="flex items-center justify-between px-4 py-4 border-b border-border-dark/50">
         <h2 className="font-bold text-white">Intents & Training</h2>
         <button className="text-text-secondary hover:text-white transition-colors">
-          <PlusCircle className="h-5 w-5" />
+          <span className="material-symbols-outlined text-[20px]">add_circle</span>
         </button>
       </div>
 
       {/* Search */}
       <div className="px-4 py-3">
         <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary h-5 w-5" />
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-[20px]">search</span>
           <Input
             type="text"
             placeholder="Search intents (#)"
