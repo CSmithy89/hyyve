@@ -1,7 +1,7 @@
 # Story 0-2-4: Create Navigation Components
 
 **Epic:** 0.2 - Frontend Foundation & Design System
-**Status:** ready-for-dev
+**Status:** done
 **Priority:** High
 **Estimated Effort:** 10-14 hours
 
@@ -655,3 +655,42 @@ describe('Story 0-2-4: Navigation Components', () => {
 **Blocks:** Stories 0.2.8, 0.2.9, 0.2.10, 0.2.11, 0.2.12
 **Creates:** `components/nav/AppHeader.tsx`, `components/nav/AppSidebar.tsx`, `components/nav/BuilderHeader.tsx`, `components/nav/Breadcrumbs.tsx`, `components/nav/UserMenu.tsx`, `components/nav/MobileNav.tsx`, `components/nav/NavLink.tsx`, `components/nav/HyyveLogo.tsx`, `components/nav/index.ts`, tests
 **Wireframe Sources:** `hyyve_home_dashboard/code.html` (lines 53-122), `hyyve_module_builder/code.html` (lines 83-129)
+
+---
+
+### Follow-up Review (Retry 1)
+
+**Date:** 2026-01-27
+**Reviewer:** Claude Code
+**Outcome:** APPROVED
+
+#### Issues Verified as Fixed
+
+| Issue # | Severity | Description | Status |
+|---------|----------|-------------|--------|
+| 2 | HIGH | UserMenu - Link import and usage for Profile/Settings | FIXED - Line 4: `import Link from 'next/link'`; Lines 102, 111, 176, 185: Using `<Link href="/profile">` and `<Link href="/settings">` with `asChild` pattern |
+| 3 | HIGH | AppSidebar - ARIA role inappropriate | FIXED - Line 51-52: Changed to `role="region"` with `aria-label="Main navigation sidebar"` |
+| 4 | HIGH | AppHeader - notification badge missing animate-pulse | FIXED - Line 100: Badge has `animate-pulse` class |
+| 6 | HIGH | UserMenu - signOut missing redirectUrl | FIXED - Lines 62-64: `signOut({ redirectUrl: '/' })` |
+| 13 | HIGH | DEFAULT_NAV_ITEMS not in shared constants | FIXED - `constants.ts` exists with exported `DEFAULT_NAV_ITEMS`; `AppSidebar.tsx` imports it on line 9 |
+
+#### Test Results
+
+```
+npx vitest run apps/web/__tests__/navigation/navigation-components.test.ts
+
+Test Files  1 passed (1)
+Tests       126 passed (126)
+Duration    1.15s
+```
+
+All 126 navigation component tests pass.
+
+#### Decision
+
+**APPROVED** - All 5 HIGH severity issues from the initial review have been properly addressed. The implementation now:
+- Uses Next.js Link for client-side navigation in UserMenu
+- Has appropriate ARIA role (`region`) for the sidebar
+- Includes pulse animation on the notification badge
+- Properly redirects to home on sign out
+- Centralizes navigation items in a shared constants file
