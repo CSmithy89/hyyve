@@ -13,13 +13,13 @@ So that **I can access the platform without remembering a password**.
 
 ## Acceptance Criteria
 
-- [ ] AC1: Social provider buttons (Google, GitHub) are displayed on the login page at `/auth/login`
-- [ ] AC2: When I click "Sign in with Google", I am redirected to Google OAuth flow
-- [ ] AC3: When I click "Sign in with GitHub", I am redirected to GitHub OAuth flow
-- [ ] AC4: Upon successful OAuth completion, my session is created like email/password login
-- [ ] AC5: If the social account is not linked, I see an error message
-- [ ] AC6: OAuth state parameter is used to prevent CSRF attacks
-- [ ] AC7: Appropriate loading states are shown during OAuth redirect flow
+- [x] AC1: Social provider buttons (Google, GitHub) are displayed on the login page at `/auth/login`
+- [x] AC2: When I click "Sign in with Google", I am redirected to Google OAuth flow
+- [x] AC3: When I click "Sign in with GitHub", I am redirected to GitHub OAuth flow
+- [x] AC4: Upon successful OAuth completion, my session is created like email/password login
+- [x] AC5: If the social account is not linked, I see an error message
+- [x] AC6: OAuth state parameter is used to prevent CSRF attacks
+- [x] AC7: Appropriate loading states are shown during OAuth redirect flow
 - [ ] AC8: Page is responsive and accessible (keyboard navigation, screen readers)
 
 ## Technical Requirements
@@ -81,10 +81,10 @@ apps/web/components/auth/__tests__/registration-form.test.tsx
 ## Definition of Done
 
 - [ ] All acceptance criteria verified
-- [ ] Unit tests passing
-- [ ] E2E tests passing or documented blocker
-- [ ] Code reviewed and approved
-- [ ] UI matches wireframe design
+- [x] Unit tests passing
+- [x] E2E tests passing or documented blocker
+- [x] Code reviewed and approved
+- [x] UI matches wireframe design
 - [ ] Accessibility checks passing
 
 ---
