@@ -28,6 +28,8 @@ vi.mock('next/navigation', () => ({
 const mockCreate = vi.fn();
 const mockPrepareSecondFactor = vi.fn();
 const mockAttemptSecondFactor = vi.fn();
+const mockAuthenticateWithRedirect = vi.fn();
+const mockSignUpRedirect = vi.fn();
 const mockSetActive = vi.fn();
 vi.mock('@clerk/nextjs', () => ({
   useSignIn: () => ({
@@ -36,8 +38,15 @@ vi.mock('@clerk/nextjs', () => ({
       create: mockCreate,
       prepareSecondFactor: mockPrepareSecondFactor,
       attemptSecondFactor: mockAttemptSecondFactor,
+      authenticateWithRedirect: mockAuthenticateWithRedirect,
     },
     setActive: mockSetActive,
+  }),
+  useSignUp: () => ({
+    isLoaded: true,
+    signUp: {
+      authenticateWithRedirect: mockSignUpRedirect,
+    },
   }),
 }));
 
@@ -71,6 +80,28 @@ describe('LoginForm', () => {
     expect(screen.getByRole('link', { name: /forgot password/i })).toBeInTheDocument();
   });
 
+  it('renders social sign-in buttons', () => {
+    render(<LoginForm />);
+
+    expect(screen.getByRole('button', { name: /sign in with google/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /sign in with github/i })).toBeInTheDocument();
+  });
+
+  it('starts OAuth redirect when clicking Google sign-in', async () => {
+    const user = userEvent.setup();
+    render(<LoginForm />);
+
+    await user.click(screen.getByRole('button', { name: /sign in with google/i }));
+
+    await waitFor(() => {
+      expect(mockAuthenticateWithRedirect).toHaveBeenCalledWith({
+        strategy: 'oauth_google',
+        redirectUrl: '/sso-callback',
+        redirectUrlComplete: '/dashboard',
+      });
+    });
+  });
+
   it('toggles password visibility', async () => {
     const user = userEvent.setup();
     render(<LoginForm />);
@@ -86,7 +117,7 @@ describe('LoginForm', () => {
     const user = userEvent.setup();
     render(<LoginForm />);
 
-    await user.click(screen.getByRole('button', { name: /sign in/i }));
+    await user.click(screen.getByRole('button', { name: /^sign in$/i }));
 
     expect(screen.getAllByRole('alert').length).toBeGreaterThan(0);
   });
@@ -99,7 +130,7 @@ describe('LoginForm', () => {
     await user.type(screen.getByLabelText(/password/i, { selector: 'input' }), 'ValidPass123!');
     await user.click(screen.getByLabelText(/remember me/i));
 
-    await user.click(screen.getByRole('button', { name: /sign in/i }));
+    await user.click(screen.getByRole('button', { name: /^sign in$/i }));
 
     await waitFor(() => {
       expect(mockCreate).toHaveBeenCalledWith({
@@ -116,7 +147,7 @@ describe('LoginForm', () => {
 
     await user.type(screen.getByLabelText(/email address/i), 'jane@example.com');
     await user.type(screen.getByLabelText(/password/i, { selector: 'input' }), 'ValidPass123!');
-    await user.click(screen.getByRole('button', { name: /sign in/i }));
+    await user.click(screen.getByRole('button', { name: /^sign in$/i }));
 
     await waitFor(() => {
       expect(mockSetActive).toHaveBeenCalled();
@@ -131,7 +162,7 @@ describe('LoginForm', () => {
 
     await user.type(screen.getByLabelText(/email address/i), 'jane@example.com');
     await user.type(screen.getByLabelText(/password/i, { selector: 'input' }), 'WrongPass!');
-    await user.click(screen.getByRole('button', { name: /sign in/i }));
+    await user.click(screen.getByRole('button', { name: /^sign in$/i }));
 
     await waitFor(() => {
       expect(screen.getByRole('alert')).toHaveTextContent(/failed to sign in/i);

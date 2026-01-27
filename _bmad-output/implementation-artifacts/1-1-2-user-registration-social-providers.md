@@ -425,3 +425,9 @@ const PROVIDER_CONFIG: Record<OAuthProvider, { icon: typeof GoogleIcon; label: s
 
 **Review Completed:** 2026-01-27T21:15:00Z
 **Reviewer:** Claude (Follow-up Code Review)
+
+## Implementation Update (2026-01-27)
+
+- Added `SocialAuthButtons` to the custom `/auth/register` page for AC1.
+- Added `SocialAuthButtons` to `/auth/login` to satisfy AC9 (shared buttons).
+- Updated unit tests to verify social buttons render in both custom auth forms.

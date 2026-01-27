@@ -25,6 +25,8 @@ vi.mock('next/navigation', () => ({
 const mockCreate = vi.fn();
 const mockPrepare = vi.fn();
 const mockAttemptVerify = vi.fn();
+const mockSignUpRedirect = vi.fn();
+const mockSignInRedirect = vi.fn();
 const mockSetActive = vi.fn();
 vi.mock('@clerk/nextjs', () => ({
   useSignUp: () => ({
@@ -33,8 +35,15 @@ vi.mock('@clerk/nextjs', () => ({
       create: mockCreate,
       prepareEmailAddressVerification: mockPrepare,
       attemptEmailAddressVerification: mockAttemptVerify,
+      authenticateWithRedirect: mockSignUpRedirect,
     },
     setActive: mockSetActive,
+  }),
+  useSignIn: () => ({
+    isLoaded: true,
+    signIn: {
+      authenticateWithRedirect: mockSignInRedirect,
+    },
   }),
 }));
 
@@ -54,6 +63,13 @@ describe('RegistrationForm', () => {
     expect(screen.getByLabelText(/work email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i, { selector: 'input' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /sign in/i })).toBeInTheDocument();
+  });
+
+  it('renders social sign-up buttons', () => {
+    render(<RegistrationForm />);
+
+    expect(screen.getByRole('button', { name: /sign up with google/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /sign up with github/i })).toBeInTheDocument();
   });
 
   it('shows validation errors when submitting empty form', async () => {
