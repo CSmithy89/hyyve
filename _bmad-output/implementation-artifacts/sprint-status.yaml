@@ -105,7 +105,7 @@ development_status:
   0-2-7-create-ag-ui-mock-provider: done
   0-2-8-implement-auth-pages-clerk-ui: done
   0-2-9-implement-dashboard-and-project-browser: done
-  0-2-10-implement-settings-pages: backlog
+  0-2-10-implement-settings-pages: done
   0-2-11-implement-module-builder-ui-shell: backlog
   0-2-12-implement-chatbot-builder-ui-shell: backlog
   0-2-13-implement-knowledge-base-ui: backlog
