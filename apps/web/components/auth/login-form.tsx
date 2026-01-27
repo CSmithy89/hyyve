@@ -14,6 +14,7 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { validateEmail } from '@/lib/validations/auth';
+import { SocialAuthButtons } from './social-auth-buttons';
 
 export interface LoginFormProps {
   /** Optional callback after successful login */
@@ -32,10 +33,26 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   const [secondFactorCode, setSecondFactorCode] = React.useState('');
   const [errors, setErrors] = React.useState<{ email?: string; password?: string }>({});
   const [generalError, setGeneralError] = React.useState<string | null>(null);
+  const [socialError, setSocialError] = React.useState<string | null>(null);
+
+  const handleSocialStart = React.useCallback(() => {
+    setGeneralError(null);
+    setSocialError(null);
+  }, []);
+
+  const handleSocialError = React.useCallback((error: Error) => {
+    const message = error.message?.toLowerCase() || '';
+    if (message.includes('not linked')) {
+      setSocialError('This social account is not linked. Try email/password or sign up first.');
+      return;
+    }
+    setSocialError('Social sign-in failed. Please try again or use email/password.');
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setGeneralError(null);
+    setSocialError(null);
 
     if (!isLoaded || !signIn) {
       setGeneralError('Authentication is still loading. Please try again.');
@@ -156,6 +173,23 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           {generalError}
         </div>
       )}
+
+      <div className="mb-6">
+        <SocialAuthButtons
+          mode="signIn"
+          showActionText
+          fullWidth
+          onOAuthStart={handleSocialStart}
+          onError={handleSocialError}
+          error={socialError || undefined}
+        />
+      </div>
+
+      <div className="flex items-center gap-3 text-xs text-slate-400 uppercase tracking-[0.2em] mb-6">
+        <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+        <span>Or continue with email</span>
+        <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+      </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         {requiresSecondFactor && (

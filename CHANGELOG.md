@@ -258,6 +258,34 @@ _Reviewed and approved by Senior Developer (E2E suite blocked by webServer start
 _Story completed: 2026-01-27_
 _Reviewed and approved by Senior Developer (E2E suite blocked by webServer startup)_
 
+### [Story 1-1-6] User Login with Social Providers
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **Social Login Buttons** (`apps/web/components/auth/login-form.tsx`)
+  - Google/GitHub OAuth sign-in buttons using Clerk `authenticateWithRedirect`
+  - Inline OAuth error messaging and loading state feedback
+- **Registration Social Buttons** (`apps/web/components/auth/registration-form.tsx`)
+  - Social sign-up buttons added to `/auth/register` for parity with Story 1.1.2
+
+#### Changed
+
+- **Login Form Tests** (`apps/web/components/auth/__tests__/login.test.tsx`)
+  - Added coverage for social sign-in rendering and OAuth redirect triggers
+- **Registration Form Tests** (`apps/web/components/auth/__tests__/registration-form.test.tsx`)
+  - Added assertions for social sign-up buttons
+
+#### Tests
+
+- `pnpm test:unit -- apps/web/components/auth/__tests__/login.test.tsx apps/web/components/auth/__tests__/registration-form.test.tsx`
+
+---
+
+_Story completed: 2026-01-27_
+_Reviewed and approved by Senior Developer (E2E suite blocked by webServer startup)_
+
 ### [Story 0-2-1] Extract Design System from Wireframes
 
 **Epic 0.2:** Frontend Foundation & Design System

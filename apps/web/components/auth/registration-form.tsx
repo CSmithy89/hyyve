@@ -16,6 +16,7 @@ import { validateEmail, validatePassword } from '@/lib/validations/auth';
 import { PasswordRequirements } from './password-requirements';
 import { PasswordStrengthIndicator } from './password-strength-indicator';
 import { RegistrationStepper } from './registration-stepper';
+import { SocialAuthButtons } from './social-auth-buttons';
 
 export interface RegistrationFormProps {
   /** Optional callback after successful sign-up */
@@ -39,6 +40,21 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
     {}
   );
   const [generalError, setGeneralError] = React.useState<string | null>(null);
+  const [socialError, setSocialError] = React.useState<string | null>(null);
+
+  const handleSocialStart = React.useCallback(() => {
+    setGeneralError(null);
+    setSocialError(null);
+  }, []);
+
+  const handleSocialError = React.useCallback((error: Error) => {
+    const message = error.message?.toLowerCase() || '';
+    if (message.includes('not linked')) {
+      setSocialError('This social account is not linked. Try email/password or sign up first.');
+      return;
+    }
+    setSocialError('Social sign-up failed. Please try again or use email/password.');
+  }, []);
 
   const passwordValidation = validatePassword(password);
 
@@ -54,6 +70,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
     setGeneralError(null);
+    setSocialError(null);
 
     if (!isLoaded || !signUp) {
       setGeneralError('Authentication is still loading. Please try again.');
@@ -112,6 +129,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   const handleVerification = async (event: React.FormEvent) => {
     event.preventDefault();
     setGeneralError(null);
+    setSocialError(null);
 
     if (!isLoaded || !signUp) {
       setGeneralError('Authentication is still loading. Please try again.');
@@ -170,6 +188,27 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
           <RegistrationStepper currentStep={0} steps={registrationSteps} />
         </div>
       </div>
+
+      {!isVerifying && (
+        <div className="mb-6">
+          <SocialAuthButtons
+            mode="signUp"
+            showActionText
+            fullWidth
+            onOAuthStart={handleSocialStart}
+            onError={handleSocialError}
+            error={socialError || undefined}
+          />
+        </div>
+      )}
+
+      {!isVerifying && (
+        <div className="flex items-center gap-3 text-xs text-[#6f6b9b] uppercase tracking-[0.2em] mb-6">
+          <span className="h-px flex-1 bg-[#2b284f]" />
+          <span>Or continue with email</span>
+          <span className="h-px flex-1 bg-[#2b284f]" />
+        </div>
+      )}
 
       {generalError && (
         <div
