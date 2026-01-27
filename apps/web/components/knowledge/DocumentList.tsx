@@ -94,7 +94,10 @@ export function DocumentList({
           </thead>
           <tbody>
             {documents.map((doc) => {
-              const statusConfig = STATUS_CONFIG[doc.status];
+              // Type-safe lookup with fallback
+              const statusConfig =
+                STATUS_CONFIG[doc.status as keyof typeof STATUS_CONFIG] ??
+                STATUS_CONFIG.pending;
               const fileIcon = FILE_ICONS[doc.type];
               const isSelected = selectedId === doc.id;
               return (

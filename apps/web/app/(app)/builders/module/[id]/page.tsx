@@ -15,7 +15,7 @@
 
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
 import { KnowledgeBasePanel } from '@/components/builders/module';
@@ -78,6 +78,16 @@ export default function ModuleBuilderPage() {
   const [leftPanelWidth, setLeftPanelWidth] = useState(288);
   const [rightPanelWidth, setRightPanelWidth] = useState(320);
 
+  // Track drag cleanup to prevent listener leaks on unmount
+  const dragCleanupRef = useRef<(() => void) | null>(null);
+
+  // Clean up drag listeners on unmount
+  useEffect(() => {
+    return () => {
+      dragCleanupRef.current?.();
+    };
+  }, []);
+
   const startResize =
     (side: 'left' | 'right') => (event: ReactMouseEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -98,12 +108,18 @@ export default function ModuleBuilderPage() {
       }
     };
 
-    const handleUp = () => {
+    const cleanup = () => {
       window.removeEventListener('mousemove', handleMove);
       window.removeEventListener('mouseup', handleUp);
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
+      dragCleanupRef.current = null;
     };
+
+    const handleUp = () => cleanup();
+
+    // Store cleanup for unmount protection
+    dragCleanupRef.current = cleanup;
 
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';

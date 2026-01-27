@@ -39,7 +39,10 @@ export function KnowledgeBaseCard({
   knowledgeBase,
   className,
 }: KnowledgeBaseCardProps) {
-  const statusConfig = STATUS_CONFIG[knowledgeBase.status];
+  // Type-safe lookup with fallback for unexpected status values
+  const statusConfig =
+    STATUS_CONFIG[knowledgeBase.status as keyof typeof STATUS_CONFIG] ??
+    STATUS_CONFIG.active;
 
   return (
     <Link

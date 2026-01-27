@@ -31,6 +31,7 @@ import {
   type OnConnect,
   type OnNodesChange,
   type OnEdgesChange,
+  type ReactFlowInstance,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
@@ -106,6 +107,8 @@ export function FlowCanvas({
 
   // Track if initial load has happened to prevent overwriting user changes
   const initializedRef = React.useRef(false);
+  // Store ReactFlow instance for programmatic control
+  const reactFlowInstance = React.useRef<ReactFlowInstance | null>(null);
 
   // Initialize with provided nodes/edges (only once on mount)
   React.useEffect(() => {
@@ -119,16 +122,41 @@ export function FlowCanvas({
     }
 
     initializedRef.current = true;
+
+    // Fit view after nodes are loaded (delay to allow render)
+    if (reactFlowInstance.current) {
+      setTimeout(() => {
+        reactFlowInstance.current?.fitView({ padding: 0.2 });
+      }, 50);
+    }
   }, [initialNodes, initialEdges, setNodes, setEdges]);
+
+  // Handle ReactFlow initialization
+  const handleInit = React.useCallback((instance: ReactFlowInstance) => {
+    reactFlowInstance.current = instance;
+    // If nodes were already loaded before init, fit view now
+    if (initializedRef.current && nodes.length > 0) {
+      setTimeout(() => {
+        instance.fitView({ padding: 0.2 });
+      }, 50);
+    }
+  }, [nodes.length]);
 
   // Handle new connections
   const handleConnect: OnConnect = React.useCallback(
     (connection) => {
       if (connection.source && connection.target) {
         // Include handles in ID to support multiple edges between same nodes
-        const handleSuffix = connection.sourceHandle || connection.targetHandle
-          ? `-${connection.sourceHandle || 'out'}-${connection.targetHandle || 'in'}`
-          : `-${Date.now()}`;
+        // Use explicit null/undefined checks since empty string is a valid handle ID
+        const hasHandles =
+          connection.sourceHandle !== null &&
+          connection.sourceHandle !== undefined ||
+          connection.targetHandle !== null &&
+          connection.targetHandle !== undefined;
+
+        const handleSuffix = hasHandles
+          ? `-${connection.sourceHandle ?? 'out'}-${connection.targetHandle ?? 'in'}`
+          : `-${crypto.randomUUID().slice(0, 8)}`;
 
         addEdge({
           id: `edge-${connection.source}-${connection.target}${handleSuffix}`,
@@ -173,6 +201,7 @@ export function FlowCanvas({
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={handleConnect}
+        onInit={handleInit}
         nodeTypes={nodeTypes}
         edgeTypes={mergedEdgeTypes}
         // Interaction settings
@@ -184,9 +213,6 @@ export function FlowCanvas({
         // Min/max zoom
         minZoom={0.1}
         maxZoom={2}
-        // Fit view on mount
-        fitView
-        fitViewOptions={{ padding: 0.2 }}
         // Style
         className="react-flow-canvas"
       >

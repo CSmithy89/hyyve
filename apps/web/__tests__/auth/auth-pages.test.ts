@@ -56,10 +56,10 @@ describe('Story 0-2-8: Implement Auth Pages (Clerk UI)', () => {
       expect(content).toMatch(/sign-?up|signUpUrl/i);
     });
 
-    it('should be a valid React component', () => {
+    it('should be a valid React component with default export', () => {
       const content = readFile(signInPagePath);
-      // exports default function or component
-      expect(content).toMatch(/export\s+(default\s+)?function|export\s+default/);
+      // Next.js pages MUST have a default export
+      expect(content).toMatch(/export\s+default/);
     });
   });
 
@@ -90,10 +90,10 @@ describe('Story 0-2-8: Implement Auth Pages (Clerk UI)', () => {
       expect(content).toMatch(/sign-?in|signInUrl/i);
     });
 
-    it('should be a valid React component', () => {
+    it('should be a valid React component with default export', () => {
       const content = readFile(signUpPagePath);
-      // exports default function or component
-      expect(content).toMatch(/export\s+(default\s+)?function|export\s+default/);
+      // Next.js pages MUST have a default export
+      expect(content).toMatch(/export\s+default/);
     });
   });
 
