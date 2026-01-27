@@ -36,7 +36,6 @@ import {
   validateTeamSize,
   validateBuilderSelection,
 } from '../../../lib/validations/onboarding';
-import { ORGANIZATION_TYPES, TEAM_SIZE_OPTIONS, BUILDER_OPTIONS } from '../../../lib/constants/onboarding';
 
 // Mock Clerk hooks
 const mockUser = {
@@ -939,7 +938,6 @@ describe('BuilderSelectionForm', () => {
 
   describe('Navigation', () => {
     it('"Go Back" link navigates to organization setup page', async () => {
-      const user = userEvent.setup();
       render(<BuilderSelectionForm />);
 
       const goBackLink = screen.getByRole('link', { name: /go back/i });

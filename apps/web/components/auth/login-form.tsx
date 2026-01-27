@@ -9,11 +9,11 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
+import { useSignIn } from '@clerk/nextjs';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { validateEmail } from '@/lib/validations/auth';
-import { signInWithEmailPassword } from '@/actions/auth';
 
 export interface LoginFormProps {
   /** Optional callback after successful login */
@@ -22,17 +22,56 @@ export interface LoginFormProps {
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const router = useRouter();
+  const { signIn, setActive, isLoaded } = useSignIn();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [rememberMe, setRememberMe] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [requiresSecondFactor, setRequiresSecondFactor] = React.useState(false);
+  const [secondFactorCode, setSecondFactorCode] = React.useState('');
   const [errors, setErrors] = React.useState<{ email?: string; password?: string }>({});
   const [generalError, setGeneralError] = React.useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setGeneralError(null);
+
+    if (!isLoaded || !signIn) {
+      setGeneralError('Authentication is still loading. Please try again.');
+      return;
+    }
+
+    if (requiresSecondFactor) {
+      if (!secondFactorCode.trim()) {
+        setGeneralError('Please enter the verification code.');
+        return;
+      }
+
+      setIsSubmitting(true);
+      try {
+        const secondFactorAttempt = await signIn.attemptSecondFactor({
+          strategy: 'email_code',
+          code: secondFactorCode,
+        });
+
+        if (secondFactorAttempt.status === 'complete') {
+          await setActive({ session: secondFactorAttempt.createdSessionId });
+          if (onSuccess) {
+            onSuccess();
+          } else {
+            router.push('/dashboard');
+          }
+        } else {
+          setGeneralError('Verification failed. Please try again.');
+        }
+      } catch {
+        setGeneralError('Verification failed. Please try again.');
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
+    }
 
     const emailResult = validateEmail(email);
     const passwordError = password ? undefined : 'Password is required';
@@ -49,16 +88,43 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
     setIsSubmitting(true);
     try {
-      const result = await signInWithEmailPassword({ email, password, rememberMe });
-      if (result.success) {
+      const signInAttempt = await signIn.create({
+        strategy: 'password',
+        identifier: email,
+        password,
+        // Remember me is handled by Clerk session settings.
+        // This checkbox is currently a UI affordance only.
+      });
+
+      if (signInAttempt.status === 'complete') {
+        await setActive({ session: signInAttempt.createdSessionId });
         if (onSuccess) {
           onSuccess();
         } else {
           router.push('/dashboard');
         }
-      } else {
-        setGeneralError(result.error || 'Failed to sign in');
+        return;
       }
+
+      if (signInAttempt.status === 'needs_second_factor') {
+        const emailFactor = signInAttempt.supportedSecondFactors?.find(
+          (factor) => factor.strategy === 'email_code'
+        );
+
+        if (emailFactor?.emailAddressId) {
+          await signIn.prepareSecondFactor({
+            strategy: 'email_code',
+            emailAddressId: emailFactor.emailAddressId,
+          });
+          setRequiresSecondFactor(true);
+          setGeneralError(null);
+        } else {
+          setGeneralError('Additional verification is required.');
+        }
+        return;
+      }
+
+      setGeneralError('Failed to sign in');
     } catch {
       setGeneralError('Failed to sign in');
     } finally {
@@ -92,6 +158,27 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        {requiresSecondFactor && (
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="login-code">
+              Verification code
+            </label>
+            <input
+              id="login-code"
+              name="code"
+              type="text"
+              inputMode="numeric"
+              placeholder="Enter code"
+              value={secondFactorCode}
+              onChange={(event) => setSecondFactorCode(event.target.value)}
+              disabled={isSubmitting}
+              className={cn(
+                'block w-full rounded-lg border-slate-300 dark:border-[#334155] bg-slate-50 dark:bg-[#0f172a] py-2.5 px-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary focus:ring-primary shadow-sm transition-colors',
+                isSubmitting && 'opacity-60 cursor-not-allowed'
+              )}
+            />
+          </div>
+        )}
         <div className="space-y-1.5">
           <label className="text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="login-email">
             Email Address

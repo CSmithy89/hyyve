@@ -25,15 +25,27 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-const mockSignIn = vi.fn();
-vi.mock('../../../actions/auth', () => ({
-  signInWithEmailPassword: (data: unknown) => mockSignIn(data),
+const mockCreate = vi.fn();
+const mockPrepareSecondFactor = vi.fn();
+const mockAttemptSecondFactor = vi.fn();
+const mockSetActive = vi.fn();
+vi.mock('@clerk/nextjs', () => ({
+  useSignIn: () => ({
+    isLoaded: true,
+    signIn: {
+      create: mockCreate,
+      prepareSecondFactor: mockPrepareSecondFactor,
+      attemptSecondFactor: mockAttemptSecondFactor,
+    },
+    setActive: mockSetActive,
+  }),
 }));
 
 describe('LoginForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockSignIn.mockResolvedValue({ success: true });
+    mockCreate.mockResolvedValue({ status: 'complete', createdSessionId: 'sess_123' });
+    mockSetActive.mockResolvedValue(undefined);
   });
 
   it('renders heading and subtitle', () => {
@@ -90,10 +102,10 @@ describe('LoginForm', () => {
     await user.click(screen.getByRole('button', { name: /sign in/i }));
 
     await waitFor(() => {
-      expect(mockSignIn).toHaveBeenCalledWith({
-        email: 'jane@example.com',
+      expect(mockCreate).toHaveBeenCalledWith({
+        strategy: 'password',
+        identifier: 'jane@example.com',
         password: 'ValidPass123!',
-        rememberMe: true,
       });
     });
   });
@@ -107,12 +119,13 @@ describe('LoginForm', () => {
     await user.click(screen.getByRole('button', { name: /sign in/i }));
 
     await waitFor(() => {
+      expect(mockSetActive).toHaveBeenCalled();
       expect(mockPush).toHaveBeenCalledWith('/dashboard');
     });
   });
 
   it('displays error message when login fails', async () => {
-    mockSignIn.mockResolvedValueOnce({ success: false, error: 'Invalid credentials' });
+    mockCreate.mockRejectedValueOnce(new Error('Invalid credentials'));
     const user = userEvent.setup();
     render(<LoginForm />);
 
@@ -121,7 +134,7 @@ describe('LoginForm', () => {
     await user.click(screen.getByRole('button', { name: /sign in/i }));
 
     await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent(/invalid credentials/i);
+      expect(screen.getByRole('alert')).toHaveTextContent(/failed to sign in/i);
     });
   });
 });

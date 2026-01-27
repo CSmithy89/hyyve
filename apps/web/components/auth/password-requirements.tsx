@@ -71,7 +71,11 @@ export function PasswordRequirements({ password }: PasswordRequirementsProps) {
   const { requirements } = validatePassword(password);
 
   return (
-    <ul className="flex flex-col gap-1.5 mt-1" aria-live="polite">
+    <ul
+      data-testid="password-requirements"
+      className="flex flex-col gap-1.5 mt-1"
+      aria-live="polite"
+    >
       <RequirementItem
         testId="requirement-min-length"
         isMet={requirements.minLength}

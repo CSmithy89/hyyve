@@ -6,13 +6,13 @@
  *
  * TDD RED PHASE: These tests are written to FAIL initially.
  * They verify acceptance criteria from story 1-1-1:
- * - AC1: Registration page renders at /sign-up with Hyyve branding
+ * - AC1: Registration page renders at /auth/register with Hyyve branding
  * - AC2: User can enter full name, work email, and password
  * - AC3: Password strength indicator displays real-time feedback
  * - AC4: Password requirements list shows validation state
  * - AC5: Email format is validated
  * - AC9: Error messages display correctly
- * - AC10: Sign in link navigates to /sign-in
+ * - AC10: Sign in link navigates to /auth/login
  * - AC11: Footer links are accessible
  * - AC12: Page is responsive and accessible
  */
@@ -46,15 +46,15 @@ class RegistrationPage {
   }
 
   get stepAccount() {
-    return this.page.getByText('Account');
+    return this.stepper.getByText('Account');
   }
 
   get stepOrganization() {
-    return this.page.getByText('Organization');
+    return this.stepper.getByText('Organization');
   }
 
   get stepReview() {
-    return this.page.getByText('Review');
+    return this.stepper.getByText('Review');
   }
 
   // Form fields (wireframe lines 84-134)
@@ -137,7 +137,7 @@ class RegistrationPage {
 
   // Navigation
   async goto() {
-    await this.page.goto('/sign-up');
+    await this.page.goto('/auth/register');
     await this.page.waitForLoadState('networkidle');
   }
 
@@ -155,12 +155,12 @@ class RegistrationPage {
 
 test.describe('User Registration - Story 1-1-1', () => {
   test.describe('AC1: Page Rendering and Branding', () => {
-    test('displays registration page at /sign-up with Hyyve branding', async ({ page }) => {
+    test('displays registration page at /auth/register with Hyyve branding', async ({ page }) => {
       const registration = new RegistrationPage(page);
       await registration.goto();
 
       // Verify URL
-      await expect(page).toHaveURL(/\/sign-up/);
+      await expect(page).toHaveURL(/\/auth\/register/);
 
       // Verify Hyyve branding elements (wireframe lines 42-45)
       await expect(registration.logo).toBeVisible();
@@ -453,13 +453,13 @@ test.describe('User Registration - Story 1-1-1', () => {
       await expect(registration.signInLink).toBeVisible();
     });
 
-    test('sign in link navigates to /sign-in', async ({ page }) => {
+    test('sign in link navigates to /auth/login', async ({ page }) => {
       const registration = new RegistrationPage(page);
       await registration.goto();
 
       await registration.signInLink.click();
 
-      await expect(page).toHaveURL(/\/sign-in/);
+      await expect(page).toHaveURL(/\/auth\/login/);
     });
   });
 
@@ -628,7 +628,7 @@ test.describe('User Registration - Story 1-1-1', () => {
 
       // Should proceed to next step or email verification
       // (Clerk will handle the actual registration)
-      await expect(page).not.toHaveURL(/\/sign-up$/);
+      await expect(page).not.toHaveURL(/\/auth\/register$/);
     });
   });
 });

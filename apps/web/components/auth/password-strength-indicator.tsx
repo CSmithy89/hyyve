@@ -74,6 +74,7 @@ export function PasswordStrengthIndicator({
     <div className="flex flex-col gap-1">
       {/* Strength Meter - 4 segments */}
       <div
+        data-testid="password-strength-meter"
         role="progressbar"
         aria-valuenow={activeSegments}
         aria-valuemin={0}
@@ -88,6 +89,7 @@ export function PasswordStrengthIndicator({
               key={index}
               data-testid={`strength-segment-${index}`}
               data-active={isActive.toString()}
+              data-segment="true"
               className={cn('h-1.5 flex-1 rounded-full', isActive ? color : inactiveColor)}
             />
           );

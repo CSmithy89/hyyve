@@ -120,6 +120,7 @@ export function RegistrationStepper({
                   'absolute -bottom-6 text-xs font-medium whitespace-nowrap',
                   isPending ? 'text-[#9795c6]' : 'text-white'
                 )}
+                data-active={isActive ? 'true' : 'false'}
               >
                 {label}
               </span>

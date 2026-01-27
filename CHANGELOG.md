@@ -42,6 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Barrel Exports** (`apps/web/components/auth/index.ts`)
   - Consolidated exports for all auth components
 
+#### Changed
+
+- **Custom Registration Page** (`apps/web/app/auth/register/page.tsx`)
+  - Added `/auth/register` route with wireframe-aligned styling and stepper
+  - Uses Clerk `useSignUp` with email verification code flow
+
 #### Tests
 
 - **52 Unit Tests** (`apps/web/components/auth/__tests__/registration.test.tsx`)
@@ -205,6 +211,8 @@ _Reviewed and approved by Senior Developer_
 
 - **Auth Component Exports** (`apps/web/components/auth/index.ts`)
   - Added login form export
+- **Login Flow (Clerk)** (`apps/web/components/auth/login-form.tsx`)
+  - Uses Clerk `useSignIn` with email/password strategy and email-code second factor when required
 
 #### Tests
 
@@ -236,6 +244,9 @@ _Reviewed and approved by Senior Developer (E2E suite blocked by webServer start
 
 - **Auth Component Exports** (`apps/web/components/auth/index.ts`)
   - Added forgot/reset form exports
+- **Reset Flow (Clerk)** (`apps/web/components/auth/forgot-password-form.tsx`, `apps/web/components/auth/reset-password-form.tsx`)
+  - Uses Clerk custom reset flow with email-code verification
+  - Reset request returns a generic success response to reduce account enumeration risk
 
 #### Tests
 

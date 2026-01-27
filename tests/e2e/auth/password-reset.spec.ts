@@ -28,6 +28,7 @@ test.describe('Password Reset (Story 1-1-5)', () => {
 
     await expect(page).toHaveURL(/\/auth\/reset-password\/test-token/);
     await expect(page.getByRole('heading', { name: /reset your password/i })).toBeVisible();
+    await expect(page.getByLabel(/verification code/i)).toBeVisible();
     await expect(page.getByLabel(/new password/i)).toBeVisible();
     await expect(page.getByLabel(/confirm password/i)).toBeVisible();
   });

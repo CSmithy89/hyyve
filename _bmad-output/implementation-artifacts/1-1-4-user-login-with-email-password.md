@@ -127,7 +127,8 @@ apps/web/components/auth/__tests__/login.test.tsx (new - unit tests)
 
 - Added `/auth/login` page with the wireframe-aligned background, layout, and card styling.
 - Built a login form component with email/password validation, password visibility toggle, remember-me, forgot-password link, and social sign-in buttons.
-- Introduced a server action stub with Zod validation and a Clerk sign-in placeholder.
+- Integrated Clerk sign-in via `useSignIn` with email/password strategy and optional email-code second factor.
+- Retained server action stubs for legacy use while routing UI through Clerk.
 - Exported the login form through the auth component barrel.
 
 ## Tests
