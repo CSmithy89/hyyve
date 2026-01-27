@@ -6,6 +6,7 @@
  */
 
 import { afterEach, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
 
 // Extend expect with custom matchers from @testing-library/jest-dom
 import '@testing-library/jest-dom/vitest';
@@ -19,7 +20,8 @@ process.env.NODE_ENV = 'test';
 //   vi.spyOn(console, 'warn').mockImplementation(() => {});
 // });
 
-// Clean up mocks after each test
+// Clean up mocks and DOM after each test
 afterEach(() => {
+  cleanup();
   vi.clearAllMocks();
 });
