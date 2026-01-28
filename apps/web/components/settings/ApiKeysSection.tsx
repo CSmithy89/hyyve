@@ -61,6 +61,13 @@ export function ApiKeysSection() {
   const [keyName, setKeyName] = useState('');
   const [environment, setEnvironment] =
     useState<ApiKey['environment']>('development');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [environmentFilter, setEnvironmentFilter] = useState<
+    ApiKey['environment'] | 'all'
+  >('all');
+  const [statusFilter, setStatusFilter] = useState<
+    ApiKey['status'] | 'all'
+  >('all');
   const [selectedScopes, setSelectedScopes] = useState<string[]>([
     'chatbot:invoke',
   ]);
@@ -234,6 +241,19 @@ export function ApiKeysSection() {
   const getEnvironmentLabel = (env: ApiKey['environment']) =>
     ENVIRONMENTS.find((option) => option.value === env)?.label ?? env;
 
+  const filteredKeys = keys.filter((key) => {
+    const normalizedSearch = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      normalizedSearch.length === 0 ||
+      key.name.toLowerCase().includes(normalizedSearch);
+    const matchesEnvironment =
+      environmentFilter === 'all' || key.environment === environmentFilter;
+    const matchesStatus =
+      statusFilter === 'all' || key.status === statusFilter;
+
+    return matchesSearch && matchesEnvironment && matchesStatus;
+  });
+
   return (
     <div className="space-y-10">
       {/* Page Heading */}
@@ -310,100 +330,162 @@ export function ApiKeysSection() {
       <div className="flex flex-col gap-6">
         <h3 className="text-foreground text-lg font-bold">Active Keys</h3>
 
-        {keys.map((key) => (
-          <div
-            key={key.id}
-            className="group bg-card border border-border rounded-xl p-6 shadow-sm hover:border-primary/50 transition-all relative overflow-hidden"
-          >
-            {/* Environment indicator */}
-            <div
-              className={cn(
-                'absolute top-0 left-0 w-1 h-full',
-                getEnvironmentColor(key.environment)
-              )}
+        <div className="flex flex-col lg:flex-row gap-3 items-start lg:items-center justify-between">
+          <div className="flex-1 w-full">
+            <Input
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Search keys..."
+              aria-label="Search keys"
+              className="max-w-lg"
             />
-
-            <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
-              {/* Key Info */}
-              <div className="flex flex-col gap-1 min-w-[200px]">
-                <div className="flex items-center gap-3">
-                  <span className="font-bold text-foreground text-lg">
-                    {key.name}
-                  </span>
-                  <span
-                    className={cn(
-                      'text-xs font-bold px-2 py-0.5 rounded-full border',
-                      key.status === 'active'
-                        ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
-                        : 'bg-muted text-muted-foreground border-border'
-                    )}
-                  >
-                    {key.status.charAt(0).toUpperCase() + key.status.slice(1)}
-                  </span>
-                  <span
-                    data-testid="api-key-environment"
-                    className="text-xs font-semibold px-2 py-0.5 rounded-full border border-border bg-muted text-muted-foreground"
-                  >
-                    {getEnvironmentLabel(key.environment)}
-                  </span>
-                </div>
-                <span className="text-xs text-muted-foreground flex items-center gap-1">
-                  Created on {key.createdAt}
-                </span>
-              </div>
-
-              {/* Masked Key */}
-              <div className="flex-1 w-full md:w-auto">
-                <div className="flex items-center gap-2 bg-muted border border-border rounded-lg p-2 max-w-md w-full">
-                  <span className="font-mono text-muted-foreground text-sm truncate select-all px-2 flex-1">
-                    {key.maskedKey}
-                  </span>
-                  <button
-                    onClick={() => handleCopyKey(key.id, key.maskedKey)}
-                    className={cn(
-                      'transition-colors p-1',
-                      copiedKey === key.id
-                        ? 'text-emerald-500'
-                        : 'text-muted-foreground hover:text-primary'
-                    )}
-                    title={copiedKey === key.id ? 'Copied!' : 'Copy Key'}
-                  >
-                    {copiedKey === key.id ? (
-                      <Check className="h-4 w-4" />
-                    ) : (
-                      <Copy className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-                <div className="mt-2 text-xs text-muted-foreground flex items-center gap-1">
-                  <History className="h-3 w-3" />
-                  Last used: {key.lastUsed}
-                </div>
-                <div className="mt-2 text-xs text-muted-foreground">
-                  Rate limits: {key.rateLimitPerMinute} req/min ·{' '}
-                  {key.rateLimitPerDay.toLocaleString()} req/day
-                </div>
-              </div>
-
-              {/* Permissions & Actions */}
-                <div className="flex items-center gap-4 self-end md:self-center">
-                <div className="flex gap-2 flex-wrap">
-                  {key.scopes.map((scope) => (
-                    <span
-                      key={scope}
-                      className="bg-muted text-muted-foreground text-xs px-2 py-1 rounded border border-border"
-                    >
-                      {getScopeLabel(scope)}
-                    </span>
-                  ))}
-                </div>
-                <button className="text-muted-foreground hover:text-destructive transition-colors p-2 rounded-full hover:bg-muted">
-                  <MoreVertical className="h-4 w-4" />
-                </button>
-              </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+            <div className="relative w-full sm:w-[220px]">
+              <select
+                value={environmentFilter}
+                onChange={(event) =>
+                  setEnvironmentFilter(
+                    event.target.value as ApiKey['environment'] | 'all'
+                  )
+                }
+                className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground appearance-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all cursor-pointer"
+                aria-label="Filter by environment"
+              >
+                <option value="all">Filter by environment</option>
+                {ENVIRONMENTS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                expand_more
+              </span>
+            </div>
+            <div className="relative w-full sm:w-[200px]">
+              <select
+                value={statusFilter}
+                onChange={(event) =>
+                  setStatusFilter(
+                    event.target.value as ApiKey['status'] | 'all'
+                  )
+                }
+                className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground appearance-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all cursor-pointer"
+                aria-label="Filter by status"
+              >
+                <option value="all">Filter by status</option>
+                <option value="active">Active</option>
+                <option value="expired">Expired</option>
+                <option value="revoked">Revoked</option>
+              </select>
+              <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                expand_more
+              </span>
             </div>
           </div>
-        ))}
+        </div>
+
+        {filteredKeys.length === 0 ? (
+          <div className="text-sm text-muted-foreground">
+            No keys match your filters.
+          </div>
+        ) : (
+          filteredKeys.map((key) => (
+            <div
+              key={key.id}
+              className="group bg-card border border-border rounded-xl p-6 shadow-sm hover:border-primary/50 transition-all relative overflow-hidden"
+            >
+              {/* Environment indicator */}
+              <div
+                className={cn(
+                  'absolute top-0 left-0 w-1 h-full',
+                  getEnvironmentColor(key.environment)
+                )}
+              />
+
+              <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+                {/* Key Info */}
+                <div className="flex flex-col gap-1 min-w-[200px]">
+                  <div className="flex items-center gap-3">
+                    <span className="font-bold text-foreground text-lg">
+                      {key.name}
+                    </span>
+                    <span
+                      className={cn(
+                        'text-xs font-bold px-2 py-0.5 rounded-full border',
+                        key.status === 'active'
+                          ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+                          : 'bg-muted text-muted-foreground border-border'
+                      )}
+                    >
+                      {key.status.charAt(0).toUpperCase() + key.status.slice(1)}
+                    </span>
+                    <span
+                      data-testid="api-key-environment"
+                      className="text-xs font-semibold px-2 py-0.5 rounded-full border border-border bg-muted text-muted-foreground"
+                    >
+                      {getEnvironmentLabel(key.environment)}
+                    </span>
+                  </div>
+                  <span className="text-xs text-muted-foreground flex items-center gap-1">
+                    Created on {key.createdAt}
+                  </span>
+                </div>
+
+                {/* Masked Key */}
+                <div className="flex-1 w-full md:w-auto">
+                  <div className="flex items-center gap-2 bg-muted border border-border rounded-lg p-2 max-w-md w-full">
+                    <span className="font-mono text-muted-foreground text-sm truncate select-all px-2 flex-1">
+                      {key.maskedKey}
+                    </span>
+                    <button
+                      onClick={() => handleCopyKey(key.id, key.maskedKey)}
+                      className={cn(
+                        'transition-colors p-1',
+                        copiedKey === key.id
+                          ? 'text-emerald-500'
+                          : 'text-muted-foreground hover:text-primary'
+                      )}
+                      title={copiedKey === key.id ? 'Copied!' : 'Copy Key'}
+                    >
+                      {copiedKey === key.id ? (
+                        <Check className="h-4 w-4" />
+                      ) : (
+                        <Copy className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  <div className="mt-2 text-xs text-muted-foreground flex items-center gap-1">
+                    <History className="h-3 w-3" />
+                    Last used: {key.lastUsed}
+                  </div>
+                  <div className="mt-2 text-xs text-muted-foreground">
+                    Rate limits: {key.rateLimitPerMinute} req/min ·{' '}
+                    {key.rateLimitPerDay.toLocaleString()} req/day
+                  </div>
+                </div>
+
+                {/* Permissions & Actions */}
+                <div className="flex items-center gap-4 self-end md:self-center">
+                  <div className="flex gap-2 flex-wrap">
+                    {key.scopes.map((scope) => (
+                      <span
+                        key={scope}
+                        className="bg-muted text-muted-foreground text-xs px-2 py-1 rounded border border-border"
+                      >
+                        {getScopeLabel(scope)}
+                      </span>
+                    ))}
+                  </div>
+                  <button className="text-muted-foreground hover:text-destructive transition-colors p-2 rounded-full hover:bg-muted">
+                    <MoreVertical className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {/* Create New Key Form */}
