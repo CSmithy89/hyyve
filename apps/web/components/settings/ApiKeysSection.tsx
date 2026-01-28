@@ -51,6 +51,19 @@ const ENVIRONMENTS = [
   { label: 'Production', value: 'production', description: 'Live data access' },
 ];
 
+const USAGE_SNAPSHOT = {
+  requestsToday: 128,
+  requestsThisMonth: 4820,
+  errorRate: '0.8%',
+  averageResponseTime: '210ms',
+  topEndpoints: [
+    { path: '/api/v1/ingest', count: 2140 },
+    { path: '/api/v1/query', count: 1430 },
+    { path: '/api/v1/metrics', count: 980 },
+  ],
+  trend: [12, 24, 18, 32, 28, 40, 35],
+};
+
 export function ApiKeysSection() {
   const [keys, setKeys] = useState<ApiKey[]>(API_KEYS);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -651,6 +664,82 @@ export function ApiKeysSection() {
                   <button className="text-muted-foreground hover:text-destructive transition-colors p-2 rounded-full hover:bg-muted">
                     <MoreVertical className="h-4 w-4" />
                   </button>
+                </div>
+              </div>
+
+              <div className="mt-4 border-t border-border pt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="rounded-lg border border-border bg-muted/40 p-3">
+                    <p className="text-xs font-semibold text-muted-foreground">
+                      Requests today
+                    </p>
+                    <p className="text-lg font-bold text-foreground">
+                      {USAGE_SNAPSHOT.requestsToday.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-border bg-muted/40 p-3">
+                    <p className="text-xs font-semibold text-muted-foreground">
+                      Requests this month
+                    </p>
+                    <p className="text-lg font-bold text-foreground">
+                      {USAGE_SNAPSHOT.requestsThisMonth.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-border bg-muted/40 p-3">
+                    <p className="text-xs font-semibold text-muted-foreground">
+                      Error rate
+                    </p>
+                    <p className="text-lg font-bold text-foreground">
+                      {USAGE_SNAPSHOT.errorRate}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-border bg-muted/40 p-3">
+                    <p className="text-xs font-semibold text-muted-foreground">
+                      Average response time
+                    </p>
+                    <p className="text-lg font-bold text-foreground">
+                      {USAGE_SNAPSHOT.averageResponseTime}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="rounded-lg border border-border bg-muted/30 p-3">
+                    <p className="text-xs font-semibold text-muted-foreground mb-3">
+                      Usage trend
+                    </p>
+                    <div className="flex items-end gap-2 h-16">
+                      {USAGE_SNAPSHOT.trend.map((value, index) => {
+                        const max = Math.max(...USAGE_SNAPSHOT.trend);
+                        const height = Math.max(6, (value / max) * 100);
+                        return (
+                          <div
+                            key={`${key.id}-trend-${index}`}
+                            className="flex-1 rounded-full bg-primary/40"
+                            style={{ height: `${height}%` }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="rounded-lg border border-border bg-muted/30 p-3">
+                    <p className="text-xs font-semibold text-muted-foreground mb-3">
+                      Top endpoints
+                    </p>
+                    <div className="space-y-2 text-xs text-muted-foreground">
+                      {USAGE_SNAPSHOT.topEndpoints.map((endpoint) => (
+                        <div
+                          key={`${key.id}-${endpoint.path}`}
+                          className="flex items-center justify-between gap-2"
+                        >
+                          <span className="font-mono text-foreground">
+                            {endpoint.path}
+                          </span>
+                          <span>{endpoint.count.toLocaleString()}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

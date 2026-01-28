@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-9] API Key Usage Analytics
+
+#### Added
+
+- Usage analytics snapshot in API key cards (requests, trends, endpoints, error rate, response time)
+- api_key_usage table migration and usage logging helper
+
+#### Tests
+
+- Unit tests for analytics UI and usage table (`apps/web/__tests__/api-keys/api-key-usage-analytics.spec.ts`)
+
 ### [Story 1-2-8] API Key Revocation
 
 #### Added

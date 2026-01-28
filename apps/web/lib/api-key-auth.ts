@@ -115,3 +115,32 @@ export function isOriginAllowed(
     (origin) => normalizeOrigin(origin) === normalizedOrigin
   );
 }
+
+export async function logApiKeyUsage(input: {
+  apiKeyId: string;
+  organizationId: string;
+  endpoint: string;
+  method: string;
+  statusCode: number;
+  responseTimeMs: number;
+  ipAddress: string | null;
+  userAgent: string | null;
+}) {
+  const supabase = await createAdminClient();
+
+  const { error } = await supabase.from('api_key_usage' as any).insert({
+    api_key_id: input.apiKeyId,
+    organization_id: input.organizationId,
+    endpoint: input.endpoint,
+    method: input.method,
+    status_code: input.statusCode,
+    response_time_ms: input.responseTimeMs,
+    ip_address: input.ipAddress,
+    user_agent: input.userAgent,
+  } as any);
+
+  if (error) {
+    // Best-effort logging; avoid failing the main request.
+    return;
+  }
+}
