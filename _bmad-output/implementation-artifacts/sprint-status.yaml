@@ -142,7 +142,7 @@ development_status:
   epic-1-2: in-progress
   1-2-1-api-key-creation-with-scopes: done
   1-2-2-api-key-environment-configuration: done
-  1-2-3-api-key-rate-limiting: review
+  1-2-3-api-key-rate-limiting: done
   1-2-4-enterprise-ip-allowlisting: backlog
   1-2-5-cors-origin-restrictions: backlog
   1-2-6-api-key-listing-management: backlog
