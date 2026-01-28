@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-2] API Key Environment Configuration
+
+#### Added
+
+- Environment badge displayed on API key cards in settings UI
+
+#### Tests
+
+- Unit test for environment badge presence (`apps/web/__tests__/api-keys/api-key-environment.spec.ts`)
+
 ### [Story 1-2-1] API Key Creation with Scopes
 
 #### Added

@@ -180,6 +180,9 @@ export function ApiKeysSection() {
   const getScopeLabel = (scope: string) =>
     SCOPE_OPTIONS.find((option) => option.value === scope)?.label ?? scope;
 
+  const getEnvironmentLabel = (env: ApiKey['environment']) =>
+    ENVIRONMENTS.find((option) => option.value === env)?.label ?? env;
+
   return (
     <div className="space-y-10">
       {/* Page Heading */}
@@ -285,6 +288,12 @@ export function ApiKeysSection() {
                     )}
                   >
                     {key.status.charAt(0).toUpperCase() + key.status.slice(1)}
+                  </span>
+                  <span
+                    data-testid="api-key-environment"
+                    className="text-xs font-semibold px-2 py-0.5 rounded-full border border-border bg-muted text-muted-foreground"
+                  >
+                    {getEnvironmentLabel(key.environment)}
                   </span>
                 </div>
                 <span className="text-xs text-muted-foreground flex items-center gap-1">
