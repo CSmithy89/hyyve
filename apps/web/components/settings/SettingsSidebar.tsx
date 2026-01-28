@@ -11,7 +11,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { User, Shield, Key, Building2, CreditCard, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -32,7 +32,7 @@ const SETTINGS_LINKS = [
     id: 'api-keys',
     label: 'API Keys',
     icon: Key,
-    href: '/settings/api-keys',
+    href: '/settings?tab=api-keys',
   },
   {
     id: 'workspace',
@@ -49,11 +49,8 @@ const SETTINGS_LINKS = [
 ];
 
 export function SettingsSidebar() {
-  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentTab = pathname?.endsWith('/api-keys')
-    ? 'api-keys'
-    : searchParams.get('tab') || 'profile';
+  const currentTab = searchParams.get('tab') || 'profile';
 
   return (
     <aside className="hidden md:flex w-64 flex-col border-r border-border bg-background">

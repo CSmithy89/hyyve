@@ -45,8 +45,8 @@ export interface ApiKey {
   status: 'active' | 'revoked' | 'expired';
   createdAt: string;
   lastUsed: string;
-  scopes: string[];
-  environment: 'production' | 'development' | 'staging';
+  permissions: string[];
+  environment: 'production' | 'development' | 'test';
 }
 
 export interface Session {
@@ -157,7 +157,7 @@ export const API_KEYS: ApiKey[] = [
     status: 'active',
     createdAt: 'Oct 24, 2023',
     lastUsed: '2 mins ago',
-    scopes: ['module:read', 'module:write', 'analytics:read'],
+    permissions: ['Models: Read/Write', 'Inference: Full'],
     environment: 'production',
   },
   {
@@ -167,7 +167,7 @@ export const API_KEYS: ApiKey[] = [
     status: 'active',
     createdAt: 'Nov 02, 2023',
     lastUsed: '4 days ago',
-    scopes: ['chatbot:invoke', 'voice:read'],
+    permissions: ['Analytics: Read'],
     environment: 'development',
   },
 ];
