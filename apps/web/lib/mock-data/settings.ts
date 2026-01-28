@@ -49,6 +49,7 @@ export interface ApiKey {
   environment: 'production' | 'development' | 'staging';
   rateLimitPerMinute: number;
   rateLimitPerDay: number;
+  allowedIps: string[];
 }
 
 export interface Session {
@@ -163,6 +164,7 @@ export const API_KEYS: ApiKey[] = [
     environment: 'production',
     rateLimitPerMinute: 1000,
     rateLimitPerDay: 25000,
+    allowedIps: ['203.0.113.10'],
   },
   {
     id: 'key_2',
@@ -175,6 +177,7 @@ export const API_KEYS: ApiKey[] = [
     environment: 'development',
     rateLimitPerMinute: 60,
     rateLimitPerDay: 10000,
+    allowedIps: [],
   },
 ];
 

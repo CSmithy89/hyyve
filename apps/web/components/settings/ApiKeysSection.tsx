@@ -20,6 +20,7 @@ import {
   Check,
   Loader2,
   KeyRound,
+  X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -69,6 +70,8 @@ export function ApiKeysSection() {
   const [expirationDays, setExpirationDays] = useState(30);
   const [rateLimitPerMinute, setRateLimitPerMinute] = useState(60);
   const [rateLimitPerDay, setRateLimitPerDay] = useState(10000);
+  const [allowedIps, setAllowedIps] = useState<string[]>([]);
+  const [newIp, setNewIp] = useState('');
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
@@ -80,6 +83,19 @@ export function ApiKeysSection() {
 
   const handleCopyFullKey = async (fullKey: string) => {
     await navigator.clipboard.writeText(fullKey);
+  };
+
+  const handleAddIp = () => {
+    const trimmed = newIp.trim();
+    if (!trimmed || allowedIps.includes(trimmed)) {
+      return;
+    }
+    setAllowedIps((current) => [...current, trimmed]);
+    setNewIp('');
+  };
+
+  const handleRemoveIp = (ip: string) => {
+    setAllowedIps((current) => current.filter((item) => item !== ip));
   };
 
   const toggleScope = (scope: string) => {
@@ -121,6 +137,7 @@ export function ApiKeysSection() {
           scopes: selectedScopes,
           rateLimitPerMinute,
           rateLimitPerDay,
+          allowedIps,
           expiresInDays: expirationMode === 'days' ? expirationDays : null,
         }),
       });
@@ -140,6 +157,7 @@ export function ApiKeysSection() {
         created_at: string;
         rate_limit_per_minute: number;
         rate_limit_per_day: number;
+        allowed_ips: string[];
       };
 
       setCreatedKey({ fullKey: result.fullKey, name: apiKey.name });
@@ -155,6 +173,7 @@ export function ApiKeysSection() {
           environment: apiKey.environment,
           rateLimitPerMinute: apiKey.rate_limit_per_minute,
           rateLimitPerDay: apiKey.rate_limit_per_day,
+          allowedIps: apiKey.allowed_ips ?? [],
         },
         ...current,
       ]);
@@ -165,6 +184,7 @@ export function ApiKeysSection() {
       setExpirationDays(30);
       setRateLimitPerMinute(60);
       setRateLimitPerDay(10000);
+      setAllowedIps([]);
     } catch (error) {
       setCreateError(
         error instanceof Error ? error.message : 'Failed to create API key.'
@@ -516,6 +536,46 @@ export function ApiKeysSection() {
                 Defaults to 10,000 requests per day.
               </p>
             </div>
+          </div>
+
+          {/* IP Restrictions */}
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between gap-2">
+              <Label className="text-sm font-semibold">IP Restrictions</Label>
+              <span className="text-xs text-muted-foreground">
+                IPv4/IPv6 supported
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <Input
+                value={newIp}
+                onChange={(event) => setNewIp(event.target.value)}
+                placeholder="203.0.113.10 or 2001:db8::1"
+                className="flex-1 font-mono"
+              />
+              <Button variant="secondary" onClick={handleAddIp}>
+                Add
+              </Button>
+            </div>
+            {allowedIps.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {allowedIps.map((ip) => (
+                  <div
+                    key={ip}
+                    className="bg-primary/10 border border-primary/20 text-primary text-xs font-mono px-2 py-1 rounded flex items-center gap-1"
+                  >
+                    {ip}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveIp(ip)}
+                      className="hover:text-destructive"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Permissions */}

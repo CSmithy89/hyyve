@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
-import { enforceApiKeyRateLimit, validateApiKey } from '@/lib/api-key-auth';
+import {
+  enforceApiKeyRateLimit,
+  isIpAllowed,
+  validateApiKey,
+} from '@/lib/api-key-auth';
 
 /**
  * API Key Test Endpoint
@@ -19,6 +23,17 @@ export async function GET(request: Request) {
   const record = await validateApiKey(apiKey);
   if (!record) {
     return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
+  }
+
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  const realIp = request.headers.get('x-real-ip');
+  const clientIp = forwardedFor?.split(',')[0]?.trim() ?? realIp ?? null;
+
+  if (!isIpAllowed(record, clientIp)) {
+    return NextResponse.json(
+      { error: 'IP not allowed' },
+      { status: 403 }
+    );
   }
 
   const rateLimit = await enforceApiKeyRateLimit(record);
