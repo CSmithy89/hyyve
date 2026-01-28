@@ -7,6 +7,111 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-1-9] MFA Backup Codes Generation
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **Backup Codes Page** (`apps/web/app/(auth)/auth/mfa-setup/backup/page.tsx`)
+  - Route `/auth/mfa-setup/backup` for backup codes display (Screen 1.1.7)
+  - Server-side auth protection with Clerk integration
+  - Generates 10 backup codes (8 characters each, alphanumeric)
+  - Client component with navigation protection (beforeunload warning)
+
+- **MFA Setup Success Page** (`apps/web/app/(auth)/auth/mfa-setup/success/page.tsx`)
+  - Route `/auth/mfa-setup/success` for MFA setup completion
+  - Confirms MFA is enabled with success message
+  - Links to dashboard and security settings
+
+- **Backup Codes Components**
+  - `BackupCodesDisplay` (`apps/web/components/auth/backup-codes-display.tsx`)
+    - Main container displaying 10 codes in a 2-column grid
+    - Copy all codes to clipboard with "Copied!" feedback
+    - Download codes as `hyyve-backup-codes.txt` with security header
+    - Print codes option with print-friendly styles
+    - Security warning (amber/yellow styling) about storing codes safely
+    - Confirmation checkbox "I have saved my backup codes"
+    - Continue button disabled until checkbox is checked
+    - Loading skeleton state for async code generation
+
+  - `BackupCodeCard` (`apps/web/components/auth/backup-code-card.tsx`)
+    - Individual code display with sequential number (1-10)
+    - Monospace font for code readability
+    - Consistent styling with dark theme support
+
+- **Loading State** (`apps/web/app/(auth)/auth/mfa-setup/backup/loading.tsx`)
+  - Suspense boundary with skeleton loading UI matching page layout
+
+#### Tests
+
+- **Unit Tests** (`apps/web/components/auth/__tests__/backup-codes.test.tsx`)
+  - Coverage for BackupCodesDisplay and BackupCodeCard components
+  - Tests for 10 codes display with 8-character format
+  - Copy to clipboard functionality with feedback reset
+  - Download file creation with correct filename and content
+  - Print functionality (window.print call)
+  - Security warning display and accessibility
+  - Confirmation checkbox interaction
+  - Continue button disabled/enabled state
+  - Loading skeleton display
+  - Accessibility (list semantics, ARIA labels, keyboard navigation)
+
+- **E2E Tests** (`tests/e2e/auth/backup-codes.spec.ts`)
+  - AC1: Display 10 backup codes with heading and warning
+  - AC2: Code format (8 characters, alphanumeric, monospace)
+  - AC3: Copy button with clipboard API and "Copied!" feedback
+  - AC4: Download as text file with security instructions
+  - AC5: Print button availability
+  - AC6: Security warning with amber styling
+  - AC7: Confirmation checkbox and button state
+  - AC8: Navigation to success page after confirmation
+  - AC10: Responsive design (mobile single column, desktop two columns)
+  - AC11: Accessibility (list, ARIA, keyboard navigation)
+  - AC12: Loading states
+
+#### Technical
+
+- **Backup Codes Generation:**
+  - 10 codes generated on page load
+  - Each code: 8 characters, uppercase alphanumeric (A-Z, 0-9)
+  - Codes displayed in numbered list (1-10)
+  - Mock generation until Clerk backup codes API is integrated
+
+- **File Download Implementation:**
+  - Creates Blob with text/plain content type
+  - Filename: `hyyve-backup-codes.txt`
+  - Header includes date, security instructions, and all 10 numbered codes
+  - Uses URL.createObjectURL for download trigger
+
+- **Navigation Protection:**
+  - beforeunload event listener warns user before leaving
+  - Protection removed after confirmation checkbox is checked
+  - Prevents accidental loss of unsaved backup codes
+
+- **Accessibility Compliance (AC11):**
+  - Backup codes in `<ul role="list">` with `<li role="listitem">`
+  - All buttons have `aria-label` attributes
+  - Security warning has `role="alert"` for screen readers
+  - Checkbox properly labeled with `<label for="...">`
+  - Proper heading hierarchy (h1 for main title)
+  - Focus ring styling on all interactive elements
+
+- **Responsive Design (AC10):**
+  - Mobile (< 640px): Single column code grid, full-width stacked buttons
+  - Desktop (>= 640px): Two-column code grid, inline action buttons
+  - Print styles hide header, buttons, and checkbox
+
+#### Story File
+
+- Created `_bmad-output/implementation-artifacts/1-1-9-mfa-backup-codes-generation.md`
+  - Full acceptance criteria (AC1-AC12)
+  - Technical requirements and implementation approach
+  - Test scenarios and integration notes
+  - Wireframe references and design tokens
+
+---
+
 ### [Story 1-1-8] MFA Setup - TOTP Authenticator
 
 **Epic 1.1:** User Authentication & Identity
