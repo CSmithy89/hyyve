@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-7] API Key Rotation
+
+#### Added
+
+- API key rotation endpoint with grace period handling and optional immediate revoke
+- Rotation controls in API key listing UI
+
+#### Tests
+
+- Unit tests for rotation UI and API (`apps/web/__tests__/api-keys/api-key-rotation.spec.ts`)
+
 ### [Story 1-2-6] API Key Listing & Management
 
 #### Added
