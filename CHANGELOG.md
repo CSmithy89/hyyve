@@ -7,6 +7,94 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-1-14] SCIM User Provisioning
+
+**Epic 1.1:** User Authentication & Identity (COMPLETED)
+
+This is the final story in Epic 1.1, completing the User Authentication & Identity epic.
+
+#### Added
+
+- **SCIM Settings Page** (`apps/web/app/(app)/settings/security/sso/scim/page.tsx`)
+  - Route `/settings/security/sso/scim` for SCIM configuration
+  - Enable/disable SCIM provisioning toggle
+  - SCIM endpoint URL display with copy-to-clipboard
+  - Bearer token display with show/hide toggle
+  - Token regeneration with confirmation dialog
+  - Provisioned users list with sync status
+  - Info box with SCIM documentation links
+
+- **SCIM Components**
+  - `ScimConfigPanel` (`apps/web/components/auth/scim-config-panel.tsx`)
+    - SCIM status toggle with enabled message
+    - SCIM endpoint URL display with copy functionality
+    - Bearer token display with visibility toggle
+    - Token regeneration with confirmation warning
+    - Copy-to-clipboard with visual feedback
+  - `ScimUsersList` (`apps/web/components/auth/scim-users-list.tsx`)
+    - List of SCIM-provisioned users
+    - User name, email, and avatar display
+    - Status badges (active/suspended/pending) with color coding
+    - Last synced timestamp with relative time
+    - Manual resync button per user
+    - Empty state for no provisioned users
+
+- **Route Files**
+  - `loading.tsx` for SCIM page loading skeleton
+
+#### Tests
+
+- **Unit Tests** (`apps/web/components/auth/__tests__/scim-provisioning.test.tsx`)
+  - ScimConfigPanel component rendering
+  - SCIM endpoint display and copy
+  - Bearer token display and visibility toggle
+  - Token regeneration with confirmation
+  - SCIM toggle functionality
+  - ScimUsersList component rendering
+  - User row display (name, email, status, sync time)
+  - Resync functionality
+  - Accessibility compliance
+
+- **E2E Tests** (`tests/e2e/auth/scim-provisioning.spec.ts`)
+  - AC1: Access SCIM settings from SSO
+  - AC2: SCIM endpoint display with copy
+  - AC3: Bearer token generation with visibility toggle
+  - AC4: Token regeneration with confirmation
+  - AC5: Enable/disable SCIM toggle
+  - AC6: Provisioned users list view
+  - AC7: Accessibility requirements
+  - AC8: Responsive design
+
+#### Technical
+
+- **SCIM 2.0 Protocol:**
+  - Endpoint: `https://api.hyyve.com/scim/v2`
+  - Authentication: Bearer token
+  - Standard CRUD operations for users/groups
+
+- **Clerk/WorkOS Integration:**
+  - WorkOS provides SCIM directory sync
+  - SCIM endpoint and token configured via WorkOS
+  - Hyyve displays values for IdP configuration
+  - Real provisioning via WorkOS webhooks
+
+- **Design Tokens (from wireframe):**
+  - Primary: #5048e5
+  - Background Dark: #131221
+  - Surface Dark: #1e1c36
+  - Border Dark: #383663
+  - Text Secondary: #9795c6
+
+#### Epic 1.1 Completion
+
+With this story, Epic 1.1 (User Authentication & Identity) is now complete with all 14 stories:
+
+- 1-1-1 through 1-1-6: Basic authentication (registration, login, password reset)
+- 1-1-7 through 1-1-11: Multi-factor authentication (method selection, TOTP, backup codes, SMS, login)
+- 1-1-12 through 1-1-14: Enterprise SSO (SAML, OIDC, SCIM)
+
+---
+
 ### [Story 1-1-13] Enterprise SSO OIDC Configuration
 
 **Epic 1.1:** User Authentication & Identity
