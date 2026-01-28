@@ -139,7 +139,7 @@ development_status:
   epic-1-1-retrospective: done
 
   # Epic E1.2: API Key Management
-  epic-1-2: in-progress
+  epic-1-2: done
   1-2-1-api-key-creation-with-scopes: done
   1-2-2-api-key-environment-configuration: done
   1-2-3-api-key-rate-limiting: done
@@ -149,7 +149,7 @@ development_status:
   1-2-7-api-key-rotation: done
   1-2-8-api-key-revocation: done
   1-2-9-api-key-usage-analytics: done
-  1-2-10-api-key-expiration-management: review
+  1-2-10-api-key-expiration-management: done
   epic-1-2-retrospective: optional
 
   # Epic E1.3: Workspace & Project Management
