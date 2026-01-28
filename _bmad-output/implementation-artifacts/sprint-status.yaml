@@ -149,7 +149,7 @@ development_status:
   1-2-7-api-key-rotation: done
   1-2-8-api-key-revocation: done
   1-2-9-api-key-usage-analytics: done
-  1-2-10-api-key-expiration-management: backlog
+  1-2-10-api-key-expiration-management: review
   epic-1-2-retrospective: optional
 
   # Epic E1.3: Workspace & Project Management

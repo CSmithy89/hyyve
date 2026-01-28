@@ -51,6 +51,7 @@ export interface ApiKey {
   rateLimitPerDay: number;
   allowedOrigins: string[];
   allowedIps: string[];
+  expiresAt: string | null;
 }
 
 export interface Session {
@@ -167,6 +168,7 @@ export const API_KEYS: ApiKey[] = [
     rateLimitPerDay: 25000,
     allowedOrigins: ['https://client.com'],
     allowedIps: ['203.0.113.10'],
+    expiresAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
     id: 'key_2',
@@ -181,6 +183,7 @@ export const API_KEYS: ApiKey[] = [
     rateLimitPerDay: 10000,
     allowedOrigins: [],
     allowedIps: [],
+    expiresAt: null,
   },
 ];
 
