@@ -133,7 +133,7 @@ development_status:
   1-1-10-mfa-sms-verification: done
   1-1-11-mfa-login-verification: done
   1-1-12-enterprise-sso-saml-configuration: done
-  1-1-13-enterprise-sso-oidc-configuration: backlog
+  1-1-13-enterprise-sso-oidc-configuration: done
   1-1-14-scim-user-provisioning: backlog
   epic-1-1-retrospective: optional
 
