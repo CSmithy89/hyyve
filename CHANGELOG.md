@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-8] API Key Revocation
+
+#### Added
+
+- Revoke API key endpoint that records `revoked_at`
+- Revoke action in API key listing with confirmation prompt
+
+#### Tests
+
+- Unit tests for revocation UI and API (`apps/web/__tests__/api-keys/api-key-revocation.spec.ts`)
+
 ### [Story 1-2-7] API Key Rotation
 
 #### Added

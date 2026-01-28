@@ -147,7 +147,7 @@ development_status:
   1-2-5-cors-origin-restrictions: done
   1-2-6-api-key-listing-management: done
   1-2-7-api-key-rotation: done
-  1-2-8-api-key-revocation: backlog
+  1-2-8-api-key-revocation: review
   1-2-9-api-key-usage-analytics: backlog
   1-2-10-api-key-expiration-management: backlog
   epic-1-2-retrospective: optional
