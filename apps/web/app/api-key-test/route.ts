@@ -1,0 +1,39 @@
+import { NextResponse } from 'next/server';
+import { enforceApiKeyRateLimit, validateApiKey } from '@/lib/api-key-auth';
+
+/**
+ * API Key Test Endpoint
+ *
+ * Story: 1.2.3 API Key Rate Limiting
+ * Uses API key auth and rate limit headers to validate enforcement.
+ */
+export async function GET(request: Request) {
+  const headerValue =
+    request.headers.get('x-api-key') || request.headers.get('authorization');
+  const apiKey = headerValue?.replace(/^Bearer\s+/i, '').trim();
+
+  if (!apiKey) {
+    return NextResponse.json({ error: 'Missing API key' }, { status: 401 });
+  }
+
+  const record = await validateApiKey(apiKey);
+  if (!record) {
+    return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
+  }
+
+  const rateLimit = await enforceApiKeyRateLimit(record);
+
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429, headers: rateLimit.headers }
+    );
+  }
+
+  return NextResponse.json(
+    { ok: true },
+    {
+      headers: rateLimit.headers,
+    }
+  );
+}
