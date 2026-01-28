@@ -140,7 +140,7 @@ development_status:
 
   # Epic E1.2: API Key Management
   epic-1-2: in-progress
-  1-2-1-api-key-creation-with-scopes: review
+  1-2-1-api-key-creation-with-scopes: done
   1-2-2-api-key-environment-configuration: backlog
   1-2-3-api-key-rate-limiting: backlog
   1-2-4-enterprise-ip-allowlisting: backlog
