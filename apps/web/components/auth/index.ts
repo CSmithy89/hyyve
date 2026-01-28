@@ -10,6 +10,7 @@
  * Story: 1-1-10 MFA SMS Verification
  * Story: 1-1-11 MFA Login Verification
  * Story: 1-1-12 Enterprise SSO SAML Configuration
+ * Story: 1-1-13 Enterprise SSO OIDC Configuration
  *
  * This barrel file exports authentication-related components.
  * Components are implemented to support Clerk integration with
@@ -49,6 +50,7 @@ export type { SamlMetadataDisplayProps } from './saml-metadata-display';
 export type { SsoConnectionCardProps } from './sso-connection-card';
 export type { IdpProviderCardProps, IdpProvider } from './idp-provider-card';
 export type { AttributeMappingRowProps } from './attribute-mapping-row';
+export type { OidcConfigFormProps, OidcConfig } from './oidc-config-form';
 
 // Export components
 export { PasswordStrengthIndicator } from './password-strength-indicator';
@@ -83,3 +85,4 @@ export { SamlMetadataDisplay } from './saml-metadata-display';
 export { SsoConnectionCard } from './sso-connection-card';
 export { IdpProviderCard } from './idp-provider-card';
 export { AttributeMappingRow } from './attribute-mapping-row';
+export { OidcConfigForm } from './oidc-config-form';

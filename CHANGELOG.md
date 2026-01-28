@@ -7,6 +7,81 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-1-13] Enterprise SSO OIDC Configuration
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **OIDC Configuration Page** (`apps/web/app/(app)/settings/security/sso/oidc/page.tsx`)
+  - Route `/settings/security/sso/oidc` for OIDC setup
+  - Discovery URL with auto-discover functionality
+  - Client ID and Client Secret inputs
+  - Scopes configuration (openid, profile, email, groups, offline_access)
+  - Token endpoint auth method selector
+  - Redirect URI display with copy functionality
+  - Test connection and save functionality
+
+- **OIDC Components**
+  - `OidcConfigForm` (`apps/web/components/auth/oidc-config-form.tsx`)
+    - Complete OIDC configuration form with validation
+    - Discovery URL with Discover button for auto-configuration
+    - Client secret visibility toggle
+    - Standard OIDC scopes with checkboxes
+    - Custom scopes input
+    - Redirect URI and Callback URL display
+    - Copy-to-clipboard for URIs
+    - Test connection with loading states
+    - Save configuration with success/error feedback
+
+- **Route Files**
+  - `loading.tsx` for OIDC page loading skeleton
+
+#### Tests
+
+- **Unit Tests** (`apps/web/components/auth/__tests__/sso-oidc.test.tsx`)
+  - OidcConfigForm component rendering
+  - Form input handling and validation
+  - Scopes configuration
+  - Auto-discovery feature
+  - Redirect URI display
+  - Test connection functionality
+  - Save configuration functionality
+  - Accessibility compliance
+
+- **E2E Tests** (`tests/e2e/auth/sso-oidc.spec.ts`)
+  - AC1: Access OIDC settings from SSO
+  - AC2: OIDC configuration form
+  - AC3: Auto-discovery feature
+  - AC4: Scopes configuration
+  - AC5: Redirect URI display
+  - AC6: Connection testing
+  - AC7: Save configuration
+  - AC8: Accessibility requirements
+  - AC9: Responsive design
+
+#### Technical
+
+- **Clerk Enterprise SSO:**
+  - Uses Clerk's built-in WorkOS integration
+  - Redirect URIs displayed for IdP configuration
+  - Mock test/save handlers (real implementation via Clerk Dashboard)
+
+- **OIDC vs SAML:**
+  - Uses OAuth 2.0 / OpenID Connect protocols
+  - Discovery URL for auto-configuration
+  - Scopes instead of attribute mappings
+  - JWT tokens instead of XML assertions
+
+- **Design Tokens (from wireframe):**
+  - Primary: #5048e5
+  - Background Dark: #121121
+  - Surface Dark: #1b1a31
+  - Border Dark: #272546
+  - Text Secondary: #9795c6
+
+---
+
 ### [Story 1-1-12] Enterprise SSO SAML Configuration
 
 **Epic 1.1:** User Authentication & Identity
