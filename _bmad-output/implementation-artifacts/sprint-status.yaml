@@ -136,7 +136,7 @@ development_status:
   1-1-12-enterprise-sso-saml-configuration: done
   1-1-13-enterprise-sso-oidc-configuration: done
   1-1-14-scim-user-provisioning: done
-  epic-1-1-retrospective: optional
+  epic-1-1-retrospective: done
 
   # Epic E1.2: API Key Management
   epic-1-2: backlog
