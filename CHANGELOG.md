@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-4] Enterprise IP Allowlisting
+
+#### Added
+
+- IP restrictions input for API key creation (IPv4/IPv6)
+- API key allowlist enforcement returning 403 for non-allowed IPs
+
+#### Tests
+
+- Unit tests for IP allowlist UI and enforcement (`apps/web/__tests__/api-keys/api-key-ip-allowlist.spec.ts`)
+
 ### [Story 1-2-3] API Key Rate Limiting
 
 #### Added

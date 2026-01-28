@@ -10,6 +10,7 @@ export interface ApiKeyRecord {
   scopes: string[];
   rate_limit_per_minute: number;
   rate_limit_per_day: number;
+  allowed_ips: string[];
   expires_at: string | null;
   revoked_at: string | null;
 }
@@ -21,7 +22,7 @@ export async function validateApiKey(fullKey: string) {
   const { data, error } = await supabase
     .from('api_keys')
     .select(
-      'id, organization_id, scopes, rate_limit_per_minute, rate_limit_per_day, expires_at, revoked_at'
+      'id, organization_id, scopes, rate_limit_per_minute, rate_limit_per_day, allowed_ips, expires_at, revoked_at'
     )
     .eq('key_hash', keyHash)
     .maybeSingle();
@@ -73,4 +74,18 @@ export async function enforceApiKeyRateLimit(apiKey: ApiKeyRecord) {
       'X-RateLimit-Reset': `${resetInSeconds}`,
     },
   };
+}
+
+export function isIpAllowed(apiKey: ApiKeyRecord, ipAddress: string | null) {
+  const allowlist = apiKey.allowed_ips ?? [];
+
+  if (allowlist.length === 0) {
+    return true;
+  }
+
+  if (!ipAddress) {
+    return false;
+  }
+
+  return allowlist.includes(ipAddress);
 }
