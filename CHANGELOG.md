@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-1] API Key Creation with Scopes
+
+#### Added
+
+- API keys table migration with RLS for admin/owner access (`supabase/migrations/00002_api_keys.sql`)
+- `/api-keys` route handler for listing and creating scoped keys (`apps/web/app/api-keys/route.ts`)
+- Server-only key generator with SHA-256 hashing and environment prefixes (`apps/web/lib/api-keys.ts`)
+- API key validation schemas for environment/scopes/expiration (`apps/web/lib/validations/api-keys.ts`)
+- Dedicated API Keys settings route (`apps/web/app/(app)/settings/api-keys/page.tsx`)
+- One-time key reveal banner with copy action in API Keys UI (`apps/web/components/settings/ApiKeysSection.tsx`)
+
+#### Changed
+
+- API Keys UI now includes environment selection, scoped permissions, and expiration controls
+- Settings sidebar link for API Keys now points to `/settings/api-keys`
+- Supabase DB types updated to include `api_keys` table (`packages/@platform/db/src/types.ts`)
+- Mock API key data updated to scope-based model (`apps/web/lib/mock-data/settings.ts`)
+
+#### Tests
+
+- Unit tests for API key creation requirements (`apps/web/__tests__/api-keys/api-key-creation.spec.ts`)
+
 ### [Story 1-1-14] SCIM User Provisioning
 
 **Epic 1.1:** User Authentication & Identity (COMPLETED)

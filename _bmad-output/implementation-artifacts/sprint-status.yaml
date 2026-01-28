@@ -136,11 +136,11 @@ development_status:
   1-1-12-enterprise-sso-saml-configuration: done
   1-1-13-enterprise-sso-oidc-configuration: done
   1-1-14-scim-user-provisioning: done
-  epic-1-1-retrospective: optional
+  epic-1-1-retrospective: done
 
   # Epic E1.2: API Key Management
-  epic-1-2: backlog
-  1-2-1-api-key-creation-with-scopes: backlog
+  epic-1-2: in-progress
+  1-2-1-api-key-creation-with-scopes: review
   1-2-2-api-key-environment-configuration: backlog
   1-2-3-api-key-rate-limiting: backlog
   1-2-4-enterprise-ip-allowlisting: backlog
