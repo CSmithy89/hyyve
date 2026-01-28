@@ -197,6 +197,7 @@ export function ApiKeysSection() {
         scopes: string[];
         environment: ApiKey['environment'];
         created_at: string;
+        expires_at: string | null;
         rate_limit_per_minute: number;
         rate_limit_per_day: number;
         allowed_origins: string[];
@@ -218,6 +219,7 @@ export function ApiKeysSection() {
           rateLimitPerDay: apiKey.rate_limit_per_day,
           allowedOrigins: apiKey.allowed_origins ?? [],
           allowedIps: apiKey.allowed_ips ?? [],
+          expiresAt: apiKey.expires_at ?? null,
         },
         ...current,
       ]);
@@ -268,6 +270,7 @@ export function ApiKeysSection() {
         scopes: string[];
         environment: ApiKey['environment'];
         created_at: string;
+        expires_at: string | null;
         rate_limit_per_minute: number;
         rate_limit_per_day: number;
         allowed_origins: string[];
@@ -288,6 +291,7 @@ export function ApiKeysSection() {
         rateLimitPerDay: apiKey.rate_limit_per_day,
         allowedOrigins: apiKey.allowed_origins ?? [],
         allowedIps: apiKey.allowed_ips ?? [],
+        expiresAt: apiKey.expires_at ?? null,
       };
 
       setKeys((current) => [
@@ -363,15 +367,47 @@ export function ApiKeysSection() {
   const getEnvironmentLabel = (env: ApiKey['environment']) =>
     ENVIRONMENTS.find((option) => option.value === env)?.label ?? env;
 
+  const getComputedStatus = (key: ApiKey) => {
+    if (key.status === 'revoked') {
+      return 'revoked';
+    }
+
+    if (key.expiresAt && new Date(key.expiresAt) <= new Date()) {
+      return 'expired';
+    }
+
+    return 'active';
+  };
+
+  const getExpiresInDays = (key: ApiKey) => {
+    if (!key.expiresAt) {
+      return null;
+    }
+    const diffMs = new Date(key.expiresAt).getTime() - Date.now();
+    return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  };
+
+  const expiringSoonKeys = keys
+    .map((key) => ({
+      key,
+      daysLeft: getExpiresInDays(key),
+      status: getComputedStatus(key),
+    }))
+    .filter(
+      ({ daysLeft, status }) =>
+        status === 'active' && daysLeft !== null && daysLeft <= 7 && daysLeft >= 0
+    );
+
   const filteredKeys = keys.filter((key) => {
     const normalizedSearch = searchQuery.trim().toLowerCase();
+    const computedStatus = getComputedStatus(key);
     const matchesSearch =
       normalizedSearch.length === 0 ||
       key.name.toLowerCase().includes(normalizedSearch);
     const matchesEnvironment =
       environmentFilter === 'all' || key.environment === environmentFilter;
     const matchesStatus =
-      statusFilter === 'all' || key.status === statusFilter;
+      statusFilter === 'all' || computedStatus === statusFilter;
 
     return matchesSearch && matchesEnvironment && matchesStatus;
   });
@@ -544,17 +580,35 @@ export function ApiKeysSection() {
         {revokeError && (
           <div className="text-sm text-destructive">{revokeError}</div>
         )}
+        {expiringSoonKeys.length > 0 && (
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+            <p className="text-sm font-semibold text-amber-300">
+              Expiration alert
+            </p>
+            <div className="mt-2 space-y-1 text-xs text-amber-200/90">
+              {expiringSoonKeys.map(({ key, daysLeft }) => (
+                <div key={`expiring-${key.id}`}>
+                  {key.name} expires in {daysLeft} days
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {filteredKeys.length === 0 ? (
           <div className="text-sm text-muted-foreground">
             No keys match your filters.
           </div>
         ) : (
-          filteredKeys.map((key) => (
-            <div
-              key={key.id}
-              className="group bg-card border border-border rounded-xl p-6 shadow-sm hover:border-primary/50 transition-all relative overflow-hidden"
-            >
+          filteredKeys.map((key) => {
+            const status = getComputedStatus(key);
+            const expiresInDays = getExpiresInDays(key);
+
+            return (
+              <div
+                key={key.id}
+                className="group bg-card border border-border rounded-xl p-6 shadow-sm hover:border-primary/50 transition-all relative overflow-hidden"
+              >
               {/* Environment indicator */}
               <div
                 className={cn(
@@ -573,12 +627,14 @@ export function ApiKeysSection() {
                     <span
                       className={cn(
                         'text-xs font-bold px-2 py-0.5 rounded-full border',
-                        key.status === 'active'
+                        status === 'active'
                           ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+                          : status === 'expired'
+                          ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                           : 'bg-muted text-muted-foreground border-border'
                       )}
                     >
-                      {key.status.charAt(0).toUpperCase() + key.status.slice(1)}
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
                     </span>
                     <span
                       data-testid="api-key-environment"
@@ -590,6 +646,25 @@ export function ApiKeysSection() {
                   <span className="text-xs text-muted-foreground flex items-center gap-1">
                     Created on {key.createdAt}
                   </span>
+                  <span
+                    className={cn(
+                      'text-xs flex items-center gap-1',
+                      status === 'expired'
+                        ? 'text-rose-400'
+                        : 'text-muted-foreground'
+                    )}
+                  >
+                    {key.expiresAt
+                      ? status === 'expired'
+                        ? `Expired on ${formatDate(key.expiresAt)}`
+                        : `Expires on ${formatDate(key.expiresAt)}`
+                      : 'Never expires'}
+                  </span>
+                  {expiresInDays !== null && status === 'active' && expiresInDays <= 7 && (
+                    <span className="text-xs text-amber-300">
+                      Expires in {expiresInDays} days
+                    </span>
+                  )}
                 </div>
 
                 {/* Masked Key */}
@@ -643,7 +718,7 @@ export function ApiKeysSection() {
                     size="sm"
                     onClick={() => handleRevokeKey(key)}
                     disabled={
-                      revokingKeyId === key.id || key.status === 'revoked'
+                      revokingKeyId === key.id || status === 'revoked'
                     }
                   >
                     {revokingKeyId === key.id && (
@@ -743,7 +818,8 @@ export function ApiKeysSection() {
                 </div>
               </div>
             </div>
-          ))
+          );
+          })
         )}
       </div>
 

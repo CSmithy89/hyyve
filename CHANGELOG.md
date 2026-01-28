@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-10] API Key Expiration Management
+
+#### Added
+
+- Expiration status handling and alerts for expiring keys
+- Listing flags for expired keys
+
+#### Tests
+
+- Unit tests for expiration alerts and status (`apps/web/__tests__/api-keys/api-key-expiration-management.spec.ts`)
+
 ### [Story 1-2-9] API Key Usage Analytics
 
 #### Added
