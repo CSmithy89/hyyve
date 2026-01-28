@@ -180,6 +180,45 @@ export interface ApiKeyUpdate {
   revoked_at?: string | null;
 }
 
+export interface ApiKeyUsage {
+  id: string;
+  api_key_id: string;
+  organization_id: string;
+  endpoint: string;
+  method: string;
+  status_code: number;
+  response_time_ms: number | null;
+  ip_address: string | null;
+  user_agent: string | null;
+  created_at: string;
+}
+
+export interface ApiKeyUsageInsert {
+  id?: string;
+  api_key_id: string;
+  organization_id: string;
+  endpoint: string;
+  method: string;
+  status_code: number;
+  response_time_ms?: number | null;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  created_at?: string;
+}
+
+export interface ApiKeyUsageUpdate {
+  id?: string;
+  api_key_id?: string;
+  organization_id?: string;
+  endpoint?: string;
+  method?: string;
+  status_code?: number;
+  response_time_ms?: number | null;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  created_at?: string;
+}
+
 // ============================================================================
 // DATABASE TYPE (Supabase format)
 // ============================================================================
@@ -252,6 +291,27 @@ export type Database = {
             columns: ['project_id'];
             isOneToOne: false;
             referencedRelation: 'projects';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      api_key_usage: {
+        Row: ApiKeyUsage;
+        Insert: ApiKeyUsageInsert;
+        Update: ApiKeyUsageUpdate;
+        Relationships: [
+          {
+            foreignKeyName: 'api_key_usage_api_key_id_fkey';
+            columns: ['api_key_id'];
+            isOneToOne: false;
+            referencedRelation: 'api_keys';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'api_key_usage_organization_id_fkey';
+            columns: ['organization_id'];
+            isOneToOne: false;
+            referencedRelation: 'organizations';
             referencedColumns: ['id'];
           },
         ];
