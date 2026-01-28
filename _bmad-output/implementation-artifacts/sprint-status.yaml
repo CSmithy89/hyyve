@@ -128,7 +128,7 @@ development_status:
   1-1-5-password-reset-flow: done
   1-1-6-user-login-with-social-providers: done
   1-1-7-mfa-setup-method-selection: done
-  1-1-8-mfa-setup-totp-authenticator: in-progress
+  1-1-8-mfa-setup-totp-authenticator: done
   1-1-9-mfa-backup-codes-generation: backlog
   1-1-10-mfa-sms-verification: backlog
   1-1-11-mfa-login-verification: backlog
