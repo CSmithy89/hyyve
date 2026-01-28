@@ -10,6 +10,7 @@ export interface ApiKeyRecord {
   scopes: string[];
   rate_limit_per_minute: number;
   rate_limit_per_day: number;
+  allowed_origins: string[];
   allowed_ips: string[];
   expires_at: string | null;
   revoked_at: string | null;
@@ -22,7 +23,7 @@ export async function validateApiKey(fullKey: string) {
   const { data, error } = await supabase
     .from('api_keys')
     .select(
-      'id, organization_id, scopes, rate_limit_per_minute, rate_limit_per_day, allowed_ips, expires_at, revoked_at'
+      'id, organization_id, scopes, rate_limit_per_minute, rate_limit_per_day, allowed_origins, allowed_ips, expires_at, revoked_at'
     )
     .eq('key_hash', keyHash)
     .maybeSingle();
@@ -88,4 +89,29 @@ export function isIpAllowed(apiKey: ApiKeyRecord, ipAddress: string | null) {
   }
 
   return allowlist.includes(ipAddress);
+}
+
+function normalizeOrigin(origin: string) {
+  return origin.trim().replace(/\/$/, '').toLowerCase();
+}
+
+export function isOriginAllowed(
+  apiKey: ApiKeyRecord,
+  originHeader: string | null
+) {
+  const allowlist = apiKey.allowed_origins ?? [];
+
+  if (allowlist.length === 0) {
+    return true;
+  }
+
+  if (!originHeader) {
+    return false;
+  }
+
+  const normalizedOrigin = normalizeOrigin(originHeader);
+
+  return allowlist.some(
+    (origin) => normalizeOrigin(origin) === normalizedOrigin
+  );
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import {
   enforceApiKeyRateLimit,
   isIpAllowed,
+  isOriginAllowed,
   validateApiKey,
 } from '@/lib/api-key-auth';
 
@@ -32,6 +33,14 @@ export async function GET(request: Request) {
   if (!isIpAllowed(record, clientIp)) {
     return NextResponse.json(
       { error: 'IP not allowed' },
+      { status: 403 }
+    );
+  }
+
+  const origin = request.headers.get('origin');
+  if (!isOriginAllowed(record, origin)) {
+    return NextResponse.json(
+      { error: 'Origin not allowed' },
       { status: 403 }
     );
   }

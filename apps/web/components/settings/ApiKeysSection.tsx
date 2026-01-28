@@ -70,6 +70,8 @@ export function ApiKeysSection() {
   const [expirationDays, setExpirationDays] = useState(30);
   const [rateLimitPerMinute, setRateLimitPerMinute] = useState(60);
   const [rateLimitPerDay, setRateLimitPerDay] = useState(10000);
+  const [allowedOrigins, setAllowedOrigins] = useState<string[]>([]);
+  const [newOrigin, setNewOrigin] = useState('');
   const [allowedIps, setAllowedIps] = useState<string[]>([]);
   const [newIp, setNewIp] = useState('');
   const [isCreating, setIsCreating] = useState(false);
@@ -83,6 +85,19 @@ export function ApiKeysSection() {
 
   const handleCopyFullKey = async (fullKey: string) => {
     await navigator.clipboard.writeText(fullKey);
+  };
+
+  const handleAddOrigin = () => {
+    const trimmed = newOrigin.trim();
+    if (!trimmed || allowedOrigins.includes(trimmed)) {
+      return;
+    }
+    setAllowedOrigins((current) => [...current, trimmed]);
+    setNewOrigin('');
+  };
+
+  const handleRemoveOrigin = (origin: string) => {
+    setAllowedOrigins((current) => current.filter((item) => item !== origin));
   };
 
   const handleAddIp = () => {
@@ -137,6 +152,7 @@ export function ApiKeysSection() {
           scopes: selectedScopes,
           rateLimitPerMinute,
           rateLimitPerDay,
+          allowedOrigins,
           allowedIps,
           expiresInDays: expirationMode === 'days' ? expirationDays : null,
         }),
@@ -157,6 +173,7 @@ export function ApiKeysSection() {
         created_at: string;
         rate_limit_per_minute: number;
         rate_limit_per_day: number;
+        allowed_origins: string[];
         allowed_ips: string[];
       };
 
@@ -173,6 +190,7 @@ export function ApiKeysSection() {
           environment: apiKey.environment,
           rateLimitPerMinute: apiKey.rate_limit_per_minute,
           rateLimitPerDay: apiKey.rate_limit_per_day,
+          allowedOrigins: apiKey.allowed_origins ?? [],
           allowedIps: apiKey.allowed_ips ?? [],
         },
         ...current,
@@ -184,6 +202,9 @@ export function ApiKeysSection() {
       setExpirationDays(30);
       setRateLimitPerMinute(60);
       setRateLimitPerDay(10000);
+      setNewOrigin('');
+      setAllowedOrigins([]);
+      setNewIp('');
       setAllowedIps([]);
     } catch (error) {
       setCreateError(
@@ -536,6 +557,46 @@ export function ApiKeysSection() {
                 Defaults to 10,000 requests per day.
               </p>
             </div>
+          </div>
+
+          {/* Origin Restrictions */}
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between gap-2">
+              <Label className="text-sm font-semibold">Allowed Origins</Label>
+              <span className="text-xs text-muted-foreground">
+                CORS origin restrictions
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <Input
+                value={newOrigin}
+                onChange={(event) => setNewOrigin(event.target.value)}
+                placeholder="https://client.com"
+                className="flex-1 font-mono"
+              />
+              <Button variant="secondary" onClick={handleAddOrigin}>
+                Add
+              </Button>
+            </div>
+            {allowedOrigins.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {allowedOrigins.map((origin) => (
+                  <div
+                    key={origin}
+                    className="bg-primary/10 border border-primary/20 text-primary text-xs font-mono px-2 py-1 rounded flex items-center gap-1"
+                  >
+                    {origin}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveOrigin(origin)}
+                      className="hover:text-destructive"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* IP Restrictions */}

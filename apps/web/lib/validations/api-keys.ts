@@ -27,6 +27,7 @@ export const ApiKeyCreateSchema = z.object({
   rateLimitPerMinute: z.number().int().min(1).max(100000).optional(),
   rateLimitPerDay: z.number().int().min(1).max(10000000).optional(),
   allowedIps: z.array(z.string().min(3)).optional(),
+  allowedOrigins: z.array(z.string().min(4)).optional(),
   expiresInDays: z.number().int().min(1).max(3650).nullable().optional(),
 });
 
