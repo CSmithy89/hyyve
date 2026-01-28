@@ -7,6 +7,86 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-1-10] MFA SMS Verification
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **SMS MFA Setup Page** (`apps/web/app/(auth)/auth/mfa-setup/sms/page.tsx`)
+  - Route `/auth/mfa-setup/sms` for SMS-based MFA configuration
+  - Server-side auth protection with Clerk integration
+  - Two-step flow: phone entry -> code verification
+
+- **SMS MFA Components**
+  - `SmsMfaSetupForm` (`apps/web/components/auth/sms-mfa-setup-form.tsx`)
+    - Main form component with step-based UI
+    - Phone number input with country code selector
+    - 6-digit SMS code verification using OtpInput component
+    - Resend code with 60-second cooldown timer
+    - Skip setup with security warning modal
+    - Error handling for invalid codes and SMS delivery failures
+    - Loading states during API calls
+    - Full accessibility with ARIA labels
+
+  - `PhoneInput` (`apps/web/components/auth/phone-input.tsx`)
+    - Phone number input with country code dropdown
+    - 15 common country codes (US, UK, Canada, etc.)
+    - Numeric-only input filtering
+    - Phone number formatting (US format)
+    - Search functionality in country dropdown
+    - Error state styling
+
+- **Route Files**
+  - `loading.tsx` - Suspense boundary with skeleton loading UI
+  - `error.tsx` - Error boundary with retry option
+
+#### Tests
+
+- **Unit Tests** (`apps/web/components/auth/__tests__/sms-mfa-setup.test.tsx`)
+  - SmsMfaSetupForm component tests
+  - PhoneInput component tests
+  - Phone number validation
+  - Country code selection
+  - SMS code sending and verification
+  - Resend cooldown functionality
+  - Error handling
+  - Skip confirmation flow
+  - Accessibility compliance
+
+- **E2E Tests** (`tests/e2e/auth/sms-mfa-setup.spec.ts`)
+  - AC1: Navigate from method selection
+  - AC2: Display phone number input
+  - AC3: Country code selector
+  - AC4: Phone number validation
+  - AC5: Send verification code
+  - AC6: Display SMS code input
+  - AC7: Resend code with cooldown
+  - AC8: Verify SMS code
+  - AC11: Skip/cancel setup
+  - AC12: Information boxes
+  - AC14: Responsive design
+  - AC15: Accessibility requirements
+
+#### Technical
+
+- **Clerk Phone Verification API:**
+  - `user.createPhoneNumber()` - Add phone number
+  - `phoneNumber.prepareVerification()` - Send SMS code
+  - `phoneNumber.attemptVerification()` - Verify code
+
+- **State Management:**
+  - Two-step flow state (phone-entry, code-verification)
+  - Resend cooldown timer (60 seconds)
+  - Phone number ID for verification reference
+
+- **Design Tokens:**
+  - Matches existing MFA setup pages styling
+  - Dark theme with Hyyve brand colors
+  - Responsive design for mobile/tablet/desktop
+
+---
+
 ### [Story 1-1-9] MFA Backup Codes Generation
 
 **Epic 1.1:** User Authentication & Identity
