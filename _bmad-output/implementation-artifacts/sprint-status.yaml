@@ -139,17 +139,17 @@ development_status:
   epic-1-1-retrospective: done
 
   # Epic E1.2: API Key Management
-  epic-1-2: done
-  1-2-1-api-key-creation-with-scopes: done
-  1-2-2-api-key-environment-configuration: done
-  1-2-3-api-key-rate-limiting: done
-  1-2-4-enterprise-ip-allowlisting: done
-  1-2-5-cors-origin-restrictions: done
-  1-2-6-api-key-listing-management: done
-  1-2-7-api-key-rotation: done
-  1-2-8-api-key-revocation: done
-  1-2-9-api-key-usage-analytics: done
-  1-2-10-api-key-expiration-management: done
+  epic-1-2: backlog
+  1-2-1-api-key-creation-with-scopes: backlog
+  1-2-2-api-key-environment-configuration: backlog
+  1-2-3-api-key-rate-limiting: backlog
+  1-2-4-enterprise-ip-allowlisting: backlog
+  1-2-5-cors-origin-restrictions: backlog
+  1-2-6-api-key-listing-management: backlog
+  1-2-7-api-key-rotation: backlog
+  1-2-8-api-key-revocation: backlog
+  1-2-9-api-key-usage-analytics: backlog
+  1-2-10-api-key-expiration-management: backlog
   epic-1-2-retrospective: optional
 
   # Epic E1.3: Workspace & Project Management

@@ -45,13 +45,8 @@ export interface ApiKey {
   status: 'active' | 'revoked' | 'expired';
   createdAt: string;
   lastUsed: string;
-  scopes: string[];
-  environment: 'production' | 'development' | 'staging';
-  rateLimitPerMinute: number;
-  rateLimitPerDay: number;
-  allowedOrigins: string[];
-  allowedIps: string[];
-  expiresAt: string | null;
+  permissions: string[];
+  environment: 'production' | 'development' | 'test';
 }
 
 export interface Session {
@@ -162,13 +157,8 @@ export const API_KEYS: ApiKey[] = [
     status: 'active',
     createdAt: 'Oct 24, 2023',
     lastUsed: '2 mins ago',
-    scopes: ['module:read', 'module:write', 'analytics:read'],
+    permissions: ['Models: Read/Write', 'Inference: Full'],
     environment: 'production',
-    rateLimitPerMinute: 1000,
-    rateLimitPerDay: 25000,
-    allowedOrigins: ['https://client.com'],
-    allowedIps: ['203.0.113.10'],
-    expiresAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
     id: 'key_2',
@@ -177,13 +167,8 @@ export const API_KEYS: ApiKey[] = [
     status: 'active',
     createdAt: 'Nov 02, 2023',
     lastUsed: '4 days ago',
-    scopes: ['chatbot:invoke', 'voice:read'],
+    permissions: ['Analytics: Read'],
     environment: 'development',
-    rateLimitPerMinute: 60,
-    rateLimitPerDay: 10000,
-    allowedOrigins: [],
-    allowedIps: [],
-    expiresAt: null,
   },
 ];
 

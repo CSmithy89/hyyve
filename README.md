@@ -13,21 +13,6 @@ Hyyve provides four specialized builders for creating AI-powered applications:
 | **Voice Agent Builder** | Design voice-enabled AI agents              | Morgan (Data Analyst)      |
 | **Canvas Builder**      | Visual node-based workflow editor           | Artie (Creative Designer)  |
 
-## Recent Updates
-
-### Epic 1.2: API Key Management ✅ Complete
-
-- End-to-end API key lifecycle: creation with scopes, environment selection, and rate limits.
-- Security controls: IP allowlisting, CORS origin restrictions, expiration settings, and pre-expiration alerts.
-- Operational tooling: key listing filters, rotation, revocation, and usage analytics snapshots.
-- Details in `CHANGELOG.md`.
-
-## Features
-
-- API key management with scopes, environment controls, rotation/revocation, and expiration alerts.
-- Usage analytics snapshots for API keys (requests, error rate, response time, top endpoints).
-- Security enforcement options: IP allowlisting, origin restrictions, and rate limits.
-
 ## Tech Stack
 
 ### Frontend
