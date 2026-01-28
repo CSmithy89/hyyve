@@ -68,6 +68,10 @@ export function ApiKeysSection() {
   const [statusFilter, setStatusFilter] = useState<
     ApiKey['status'] | 'all'
   >('all');
+  const [rotationGraceHours, setRotationGraceHours] = useState(1);
+  const [revokeOldOnRotate, setRevokeOldOnRotate] = useState(false);
+  const [rotatingKeyId, setRotatingKeyId] = useState<string | null>(null);
+  const [rotationError, setRotationError] = useState<string | null>(null);
   const [selectedScopes, setSelectedScopes] = useState<string[]>([
     'chatbot:invoke',
   ]);
@@ -219,6 +223,72 @@ export function ApiKeysSection() {
       );
     } finally {
       setIsCreating(false);
+    }
+  };
+
+  const handleRotateKey = async (key: ApiKey) => {
+    setRotatingKeyId(key.id);
+    setRotationError(null);
+
+    try {
+      const response = await fetch(`/api-keys/${key.id}/rotate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          graceHours: rotationGraceHours,
+          revokeOld: revokeOldOnRotate,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.json();
+        throw new Error(errorBody?.error || 'Failed to rotate API key.');
+      }
+
+      const result = await response.json();
+      const apiKey = result.apiKey as {
+        id: string;
+        name: string;
+        key_prefix: string;
+        scopes: string[];
+        environment: ApiKey['environment'];
+        created_at: string;
+        rate_limit_per_minute: number;
+        rate_limit_per_day: number;
+        allowed_origins: string[];
+        allowed_ips: string[];
+      };
+
+      setCreatedKey({ fullKey: result.fullKey, name: apiKey.name });
+      const rotatedKey: ApiKey = {
+        id: apiKey.id,
+        name: apiKey.name,
+        maskedKey: maskKey(result.fullKey),
+        status: 'active',
+        createdAt: formatDate(apiKey.created_at),
+        lastUsed: 'Just now',
+        scopes: apiKey.scopes,
+        environment: apiKey.environment,
+        rateLimitPerMinute: apiKey.rate_limit_per_minute,
+        rateLimitPerDay: apiKey.rate_limit_per_day,
+        allowedOrigins: apiKey.allowed_origins ?? [],
+        allowedIps: apiKey.allowed_ips ?? [],
+      };
+
+      setKeys((current) => [
+        rotatedKey,
+        ...current.map((item) =>
+          item.id === key.id && revokeOldOnRotate
+            ? { ...item, status: 'revoked' as ApiKey['status'] }
+            : item
+        ),
+      ]);
+    } catch (error) {
+      setRotationError(
+        error instanceof Error ? error.message : 'Failed to rotate API key.'
+      );
+    } finally {
+      setRotatingKeyId(null);
     }
   };
 
@@ -386,6 +456,40 @@ export function ApiKeysSection() {
           </div>
         </div>
 
+        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center rounded-xl border border-border bg-muted/30 p-4">
+          <div className="flex flex-col gap-2">
+            <Label className="text-sm font-semibold">Rotation grace period</Label>
+            <select
+              value={rotationGraceHours}
+              onChange={(event) =>
+                setRotationGraceHours(Number(event.target.value))
+              }
+              className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground appearance-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all cursor-pointer"
+              aria-label="Rotation grace period"
+            >
+              <option value={1}>1 hour</option>
+              <option value={2}>2 hours</option>
+              <option value={4}>4 hours</option>
+              <option value={8}>8 hours</option>
+              <option value={12}>12 hours</option>
+              <option value={24}>24 hours</option>
+            </select>
+          </div>
+          <label className="flex items-center gap-2 text-sm text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={revokeOldOnRotate}
+              onChange={(event) => setRevokeOldOnRotate(event.target.checked)}
+              className="h-4 w-4 rounded border-border text-primary focus:ring-primary/20"
+            />
+            Revoke old key immediately after rotation
+          </label>
+        </div>
+
+        {rotationError && (
+          <div className="text-sm text-destructive">{rotationError}</div>
+        )}
+
         {filteredKeys.length === 0 ? (
           <div className="text-sm text-muted-foreground">
             No keys match your filters.
@@ -468,6 +572,17 @@ export function ApiKeysSection() {
 
                 {/* Permissions & Actions */}
                 <div className="flex items-center gap-4 self-end md:self-center">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => handleRotateKey(key)}
+                    disabled={rotatingKeyId === key.id}
+                  >
+                    {rotatingKeyId === key.id && (
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                    )}
+                    Rotate Key
+                  </Button>
                   <div className="flex gap-2 flex-wrap">
                     {key.scopes.map((scope) => (
                       <span
