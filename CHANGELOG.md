@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-3] API Key Rate Limiting
+
+#### Added
+
+- Rate limit inputs (per minute/day) and display on API key cards
+- API key rate limit enforcement helper using Redis
+- API key test endpoint returning 429 with X-RateLimit headers
+
+#### Changed
+
+- API key creation now stores per-minute and per-day limits
+
+#### Tests
+
+- Unit tests for rate limit UI and header logic (`apps/web/__tests__/api-keys/api-key-rate-limits.spec.ts`)
+
 ### [Story 1-2-2] API Key Environment Configuration
 
 #### Added

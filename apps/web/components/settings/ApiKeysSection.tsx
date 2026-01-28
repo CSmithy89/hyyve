@@ -67,6 +67,8 @@ export function ApiKeysSection() {
     'never'
   );
   const [expirationDays, setExpirationDays] = useState(30);
+  const [rateLimitPerMinute, setRateLimitPerMinute] = useState(60);
+  const [rateLimitPerDay, setRateLimitPerDay] = useState(10000);
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
@@ -117,6 +119,8 @@ export function ApiKeysSection() {
           name: keyName.trim(),
           environment,
           scopes: selectedScopes,
+          rateLimitPerMinute,
+          rateLimitPerDay,
           expiresInDays: expirationMode === 'days' ? expirationDays : null,
         }),
       });
@@ -134,6 +138,8 @@ export function ApiKeysSection() {
         scopes: string[];
         environment: ApiKey['environment'];
         created_at: string;
+        rate_limit_per_minute: number;
+        rate_limit_per_day: number;
       };
 
       setCreatedKey({ fullKey: result.fullKey, name: apiKey.name });
@@ -147,6 +153,8 @@ export function ApiKeysSection() {
           lastUsed: 'Just now',
           scopes: apiKey.scopes,
           environment: apiKey.environment,
+          rateLimitPerMinute: apiKey.rate_limit_per_minute,
+          rateLimitPerDay: apiKey.rate_limit_per_day,
         },
         ...current,
       ]);
@@ -155,6 +163,8 @@ export function ApiKeysSection() {
       setSelectedScopes(['chatbot:invoke']);
       setExpirationMode('never');
       setExpirationDays(30);
+      setRateLimitPerMinute(60);
+      setRateLimitPerDay(10000);
     } catch (error) {
       setCreateError(
         error instanceof Error ? error.message : 'Failed to create API key.'
@@ -328,6 +338,10 @@ export function ApiKeysSection() {
                   <History className="h-3 w-3" />
                   Last used: {key.lastUsed}
                 </div>
+                <div className="mt-2 text-xs text-muted-foreground">
+                  Rate limits: {key.rateLimitPerMinute} req/min ·{' '}
+                  {key.rateLimitPerDay.toLocaleString()} req/day
+                </div>
               </div>
 
               {/* Permissions & Actions */}
@@ -467,6 +481,40 @@ export function ApiKeysSection() {
                   />
                 )}
               </div>
+            </div>
+          </div>
+
+          {/* Rate Limits */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-col gap-2">
+              <Label className="text-sm font-semibold">Requests per minute</Label>
+              <Input
+                type="number"
+                min={1}
+                value={rateLimitPerMinute}
+                onChange={(event) =>
+                  setRateLimitPerMinute(Number(event.target.value))
+                }
+                className="max-w-[220px]"
+              />
+              <p className="text-xs text-muted-foreground">
+                Defaults to 60 requests per minute.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label className="text-sm font-semibold">Requests per day</Label>
+              <Input
+                type="number"
+                min={1}
+                value={rateLimitPerDay}
+                onChange={(event) =>
+                  setRateLimitPerDay(Number(event.target.value))
+                }
+                className="max-w-[220px]"
+              />
+              <p className="text-xs text-muted-foreground">
+                Defaults to 10,000 requests per day.
+              </p>
             </div>
           </div>
 

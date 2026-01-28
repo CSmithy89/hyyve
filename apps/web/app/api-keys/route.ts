@@ -38,7 +38,7 @@ export async function GET() {
   const { data, error } = await supabase
     .from('api_keys')
     .select(
-      'id, name, key_prefix, scopes, environment, expires_at, created_at, last_used_at, revoked_at'
+      'id, name, key_prefix, scopes, environment, expires_at, created_at, last_used_at, revoked_at, rate_limit_per_minute, rate_limit_per_day'
     )
     .eq('organization_id', organizationId)
     .order('created_at', { ascending: false });
@@ -70,7 +70,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const { name, environment, scopes, expiresInDays } = parsed.data;
+  const {
+    name,
+    environment,
+    scopes,
+    rateLimitPerMinute,
+    rateLimitPerDay,
+    expiresInDays,
+  } = parsed.data;
   const { fullKey, keyHash, keyPrefix } = generateApiKey(environment);
   const expiresAt = expiresInDays
     ? new Date(Date.now() + expiresInDays * 24 * 60 * 60 * 1000).toISOString()
@@ -87,9 +94,11 @@ export async function POST(request: Request) {
       scopes,
       environment,
       expires_at: expiresAt,
+      rate_limit_per_minute: rateLimitPerMinute ?? 60,
+      rate_limit_per_day: rateLimitPerDay ?? 10000,
     })
     .select(
-      'id, name, key_prefix, scopes, environment, expires_at, created_at'
+      'id, name, key_prefix, scopes, environment, expires_at, created_at, rate_limit_per_minute, rate_limit_per_day'
     )
     .single();
 

@@ -47,6 +47,8 @@ export interface ApiKey {
   lastUsed: string;
   scopes: string[];
   environment: 'production' | 'development' | 'staging';
+  rateLimitPerMinute: number;
+  rateLimitPerDay: number;
 }
 
 export interface Session {
@@ -159,6 +161,8 @@ export const API_KEYS: ApiKey[] = [
     lastUsed: '2 mins ago',
     scopes: ['module:read', 'module:write', 'analytics:read'],
     environment: 'production',
+    rateLimitPerMinute: 1000,
+    rateLimitPerDay: 25000,
   },
   {
     id: 'key_2',
@@ -169,6 +173,8 @@ export const API_KEYS: ApiKey[] = [
     lastUsed: '4 days ago',
     scopes: ['chatbot:invoke', 'voice:read'],
     environment: 'development',
+    rateLimitPerMinute: 60,
+    rateLimitPerDay: 10000,
   },
 ];
 
