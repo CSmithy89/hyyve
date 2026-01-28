@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-6] API Key Listing & Management
+
+#### Added
+
+- API key list filters for search, environment, and status
+
+#### Changed
+
+- API key list now supports client-side filtering and empty state messaging
+
+#### Tests
+
+- Unit tests for listing fields and filters (`apps/web/__tests__/api-keys/api-key-listing-management.spec.ts`)
+
 ### [Story 1-2-5] CORS Origin Restrictions
 
 #### Added

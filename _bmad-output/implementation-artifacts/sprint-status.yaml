@@ -145,7 +145,7 @@ development_status:
   1-2-3-api-key-rate-limiting: done
   1-2-4-enterprise-ip-allowlisting: done
   1-2-5-cors-origin-restrictions: done
-  1-2-6-api-key-listing-management: backlog
+  1-2-6-api-key-listing-management: review
   1-2-7-api-key-rotation: backlog
   1-2-8-api-key-revocation: backlog
   1-2-9-api-key-usage-analytics: backlog
