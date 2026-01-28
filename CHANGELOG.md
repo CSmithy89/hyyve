@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-2-5] CORS Origin Restrictions
+
+#### Added
+
+- Allowed origins input for API key creation and storage
+- Origin allowlist enforcement returning 403 for non-matching Origin headers
+
+#### Tests
+
+- Unit tests for origin allowlist UI and enforcement (`apps/web/__tests__/api-keys/api-key-origin-allowlist.spec.ts`)
+
 ### [Story 1-2-4] Enterprise IP Allowlisting
 
 #### Added
