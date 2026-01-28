@@ -31,7 +31,8 @@ export default defineConfig({
 
     // Alias resolution for monorepo structure
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      // Web app alias for tests in apps/web
+      '@': path.resolve(__dirname, './apps/web'),
       '@/tests': path.resolve(__dirname, './tests'),
       // Web app aliases for design system tests
       '@hyyve/web': path.resolve(__dirname, './apps/web'),

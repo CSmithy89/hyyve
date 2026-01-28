@@ -23,7 +23,7 @@ export interface HyyveFixtures {
  */
 export const test = base.extend<HyyveFixtures>({
   // Test user credentials
-  testUser: async (_fixtures, use) => {
+  testUser: async (_, use) => {
     await use({
       email: process.env.TEST_USER_EMAIL ?? 'test@hyyve.dev',
       password: process.env.TEST_USER_PASSWORD ?? 'testpassword123',
