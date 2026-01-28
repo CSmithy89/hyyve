@@ -72,6 +72,8 @@ export function ApiKeysSection() {
   const [revokeOldOnRotate, setRevokeOldOnRotate] = useState(false);
   const [rotatingKeyId, setRotatingKeyId] = useState<string | null>(null);
   const [rotationError, setRotationError] = useState<string | null>(null);
+  const [revokingKeyId, setRevokingKeyId] = useState<string | null>(null);
+  const [revokeError, setRevokeError] = useState<string | null>(null);
   const [selectedScopes, setSelectedScopes] = useState<string[]>([
     'chatbot:invoke',
   ]);
@@ -292,6 +294,43 @@ export function ApiKeysSection() {
     }
   };
 
+  const handleRevokeKey = async (key: ApiKey) => {
+    const confirmed = window.confirm(
+      `Revoke ${key.name}? This action cannot be undone.`
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    setRevokingKeyId(key.id);
+    setRevokeError(null);
+
+    try {
+      const response = await fetch(`/api-keys/${key.id}/revoke`, {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.json();
+        throw new Error(errorBody?.error || 'Failed to revoke API key.');
+      }
+
+      setKeys((current) =>
+        current.map((item) =>
+          item.id === key.id
+            ? { ...item, status: 'revoked' as ApiKey['status'] }
+            : item
+        )
+      );
+    } catch (error) {
+      setRevokeError(
+        error instanceof Error ? error.message : 'Failed to revoke API key.'
+      );
+    } finally {
+      setRevokingKeyId(null);
+    }
+  };
+
   const getEnvironmentColor = (env: ApiKey['environment']) => {
     switch (env) {
       case 'production':
@@ -489,6 +528,9 @@ export function ApiKeysSection() {
         {rotationError && (
           <div className="text-sm text-destructive">{rotationError}</div>
         )}
+        {revokeError && (
+          <div className="text-sm text-destructive">{revokeError}</div>
+        )}
 
         {filteredKeys.length === 0 ? (
           <div className="text-sm text-muted-foreground">
@@ -582,6 +624,19 @@ export function ApiKeysSection() {
                       <Loader2 className="h-3 w-3 animate-spin" />
                     )}
                     Rotate Key
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleRevokeKey(key)}
+                    disabled={
+                      revokingKeyId === key.id || key.status === 'revoked'
+                    }
+                  >
+                    {revokingKeyId === key.id && (
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                    )}
+                    Revoke Key
                   </Button>
                   <div className="flex gap-2 flex-wrap">
                     {key.scopes.map((scope) => (
