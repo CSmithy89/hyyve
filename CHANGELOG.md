@@ -7,6 +7,81 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-1-11] MFA Login Verification
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **MFA Challenge Page** (`apps/web/app/(auth)/auth/mfa-challenge/page.tsx`)
+  - Route `/auth/mfa-challenge` for MFA verification during login
+  - Suspense boundary with skeleton loading UI
+  - Redirects to dashboard after successful verification
+
+- **MFA Login Components**
+  - `MfaLoginForm` (`apps/web/components/auth/mfa-login-form.tsx`)
+    - Multi-method MFA verification (TOTP, SMS, backup codes)
+    - Tab-based method selection with visual feedback
+    - 6-digit OTP input with auto-advance and paste support
+    - 8-character backup code input with uppercase conversion
+    - Loading states during verification
+    - Error handling with input clear and refocus
+    - Recovery options modal (Lost access?)
+    - Full accessibility with ARIA labels
+
+- **Route Files**
+  - `loading.tsx` - Suspense boundary with skeleton loading UI
+
+#### Tests
+
+- **Unit Tests** (`apps/web/components/auth/__tests__/mfa-login.test.tsx`)
+  - MfaLoginForm component rendering
+  - Method selection (TOTP, SMS, backup codes)
+  - OTP code input handling (auto-advance, backspace, paste)
+  - Backup code input handling
+  - Verification flow with Clerk integration
+  - Loading and error states
+  - Recovery options modal
+  - Accessibility compliance
+
+- **E2E Tests** (`tests/e2e/auth/mfa-login.spec.ts`)
+  - AC1: MFA challenge detection and redirect
+  - AC2: TOTP code verification
+  - AC3: SMS code request and verification
+  - AC4: Backup code verification
+  - AC5: Rate limiting after failed attempts
+  - AC6: Recovery options (Lost access?)
+  - AC7: Successful verification redirect
+  - AC8: Method selection/switching
+  - AC9: Error handling and retry
+  - AC10: Loading states
+  - AC11: Accessibility requirements
+  - AC12: Responsive design
+
+#### Technical
+
+- **Clerk MFA Integration:**
+  - `signIn.attemptSecondFactor({ strategy: 'totp', code })` - TOTP verification
+  - `signIn.prepareSecondFactor({ strategy: 'phone_code' })` - Send SMS
+  - `signIn.attemptSecondFactor({ strategy: 'phone_code', code })` - SMS verification
+  - `signIn.attemptSecondFactor({ strategy: 'backup_code', code })` - Backup code verification
+
+- **State Management:**
+  - Method switching (TOTP/SMS/backup)
+  - OTP code array state
+  - Backup code string state
+  - SMS sent state
+  - Verification loading state
+  - Error state with message
+
+- **Design Tokens:**
+  - Matches login page wireframe styling
+  - Dark theme with Hyyve brand colors
+  - Card layout with shadow effects
+  - Primary color (#5048e5) for interactive elements
+
+---
+
 ### [Story 1-1-10] MFA SMS Verification
 
 **Epic 1.1:** User Authentication & Identity

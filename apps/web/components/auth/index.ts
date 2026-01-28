@@ -8,6 +8,7 @@
  * Story: 1-1-8 MFA Setup - TOTP Authenticator
  * Story: 1-1-9 MFA Backup Codes Generation
  * Story: 1-1-10 MFA SMS Verification
+ * Story: 1-1-11 MFA Login Verification
  *
  * This barrel file exports authentication-related components.
  * Components are implemented to support Clerk integration with
@@ -41,6 +42,7 @@ export type { BackupCodesDisplayProps } from './backup-codes-display';
 export type { BackupCodeCardProps } from './backup-code-card';
 export type { SmsMfaSetupFormProps } from './sms-mfa-setup-form';
 export type { PhoneInputProps } from './phone-input';
+export type { MfaLoginFormProps } from './mfa-login-form';
 
 // Export components
 export { PasswordStrengthIndicator } from './password-strength-indicator';
@@ -69,3 +71,4 @@ export { BackupCodesDisplay } from './backup-codes-display';
 export { BackupCodeCard } from './backup-code-card';
 export { SmsMfaSetupForm } from './sms-mfa-setup-form';
 export { PhoneInput } from './phone-input';
+export { MfaLoginForm } from './mfa-login-form';
