@@ -7,6 +7,91 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [Story 1-1-12] Enterprise SSO SAML Configuration
+
+**Epic 1.1:** User Authentication & Identity
+
+#### Added
+
+- **SSO Settings Page** (`apps/web/app/(app)/settings/security/sso/page.tsx`)
+  - Route `/settings/security/sso` for SSO configuration
+  - Identity provider selection (Okta, Azure AD, Google, SAML 2.0)
+  - SSO status toggle with confirmation dialog
+  - Enterprise feature information box
+
+- **SAML Configuration Page** (`apps/web/app/(app)/settings/security/sso/saml/page.tsx`)
+  - Route `/settings/security/sso/saml` for SAML setup
+  - General configuration form (domain, client ID, secret, discovery URL)
+  - Attribute mapping section
+  - SP metadata display with copy functionality
+  - Test connection and save functionality
+
+- **SSO Components**
+  - `SamlConfigForm` (`apps/web/components/auth/saml-config-form.tsx`)
+    - Complete SAML configuration form with validation
+    - Client secret visibility toggle
+    - Test connection with loading states
+    - Save configuration with success/error feedback
+  - `SamlMetadataDisplay` (`apps/web/components/auth/saml-metadata-display.tsx`)
+    - Display ACS URL and Entity ID
+    - Copy-to-clipboard functionality
+    - Download metadata XML button
+  - `SsoConnectionCard` (`apps/web/components/auth/sso-connection-card.tsx`)
+    - SSO status toggle with confirmation dialog
+    - Status message display
+  - `IdpProviderCard` (`apps/web/components/auth/idp-provider-card.tsx`)
+    - Selectable provider cards
+    - Visual selection feedback
+    - Keyboard accessible
+  - `AttributeMappingRow` (`apps/web/components/auth/attribute-mapping-row.tsx`)
+    - Individual attribute mapping row
+    - Editable IdP attribute values
+
+- **Route Files**
+  - `loading.tsx` files for SSO and SAML pages
+
+#### Tests
+
+- **Unit Tests** (`apps/web/components/auth/__tests__/sso-saml.test.tsx`)
+  - SamlConfigForm component rendering
+  - Form input handling and validation
+  - Test connection functionality
+  - Save configuration functionality
+  - Attribute mapping
+  - SamlMetadataDisplay component
+  - SsoConnectionCard component
+  - IdpProviderCard component
+  - AttributeMappingRow component
+  - Accessibility compliance
+
+- **E2E Tests** (`tests/e2e/auth/sso-saml.spec.ts`)
+  - AC1: Access SSO settings from Security
+  - AC2: Identity Provider selection
+  - AC3: SSO status toggle
+  - AC4: SAML configuration form
+  - AC5: Attribute mapping section
+  - AC6: SP metadata display
+  - AC7: Connection testing
+  - AC8: Save configuration
+  - AC9: Accessibility requirements
+  - AC10: Responsive design
+
+#### Technical
+
+- **Clerk Enterprise SSO:**
+  - Uses Clerk's built-in WorkOS integration
+  - SP metadata displayed for IdP configuration
+  - Mock test/save handlers (real implementation via Clerk Dashboard)
+
+- **Design Tokens (from wireframe):**
+  - Primary: #5048e5
+  - Background Dark: #121121
+  - Surface Dark: #1b1a31
+  - Border Dark: #272546
+  - Text Secondary: #9795c6
+
+---
+
 ### [Story 1-1-11] MFA Login Verification
 
 **Epic 1.1:** User Authentication & Identity

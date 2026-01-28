@@ -9,6 +9,7 @@
  * Story: 1-1-9 MFA Backup Codes Generation
  * Story: 1-1-10 MFA SMS Verification
  * Story: 1-1-11 MFA Login Verification
+ * Story: 1-1-12 Enterprise SSO SAML Configuration
  *
  * This barrel file exports authentication-related components.
  * Components are implemented to support Clerk integration with
@@ -43,6 +44,11 @@ export type { BackupCodeCardProps } from './backup-code-card';
 export type { SmsMfaSetupFormProps } from './sms-mfa-setup-form';
 export type { PhoneInputProps } from './phone-input';
 export type { MfaLoginFormProps } from './mfa-login-form';
+export type { SamlConfigFormProps, SamlConfig } from './saml-config-form';
+export type { SamlMetadataDisplayProps } from './saml-metadata-display';
+export type { SsoConnectionCardProps } from './sso-connection-card';
+export type { IdpProviderCardProps, IdpProvider } from './idp-provider-card';
+export type { AttributeMappingRowProps } from './attribute-mapping-row';
 
 // Export components
 export { PasswordStrengthIndicator } from './password-strength-indicator';
@@ -72,3 +78,8 @@ export { BackupCodeCard } from './backup-code-card';
 export { SmsMfaSetupForm } from './sms-mfa-setup-form';
 export { PhoneInput } from './phone-input';
 export { MfaLoginForm } from './mfa-login-form';
+export { SamlConfigForm } from './saml-config-form';
+export { SamlMetadataDisplay } from './saml-metadata-display';
+export { SsoConnectionCard } from './sso-connection-card';
+export { IdpProviderCard } from './idp-provider-card';
+export { AttributeMappingRow } from './attribute-mapping-row';
