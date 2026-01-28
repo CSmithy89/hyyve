@@ -130,7 +130,7 @@ development_status:
   1-1-7-mfa-setup-method-selection: done
   1-1-8-mfa-setup-totp-authenticator: done
   1-1-9-mfa-backup-codes-generation: done
-  1-1-10-mfa-sms-verification: backlog
+  1-1-10-mfa-sms-verification: done
   1-1-11-mfa-login-verification: backlog
   1-1-12-enterprise-sso-saml-configuration: backlog
   1-1-13-enterprise-sso-oidc-configuration: backlog
