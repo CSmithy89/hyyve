@@ -6,7 +6,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
+const WEB_APP_PATH = path.resolve(__dirname, '..', '..');
 
 describe('Story 1.2.5: CORS Origin Restrictions', () => {
   describe('UI configuration', () => {
@@ -17,9 +17,9 @@ describe('Story 1.2.5: CORS Origin Restrictions', () => {
         WEB_APP_PATH,
         'components/settings/ApiKeysSection.tsx'
       );
-      if (fs.existsSync(filePath)) {
-        apiKeysContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      apiKeysContent = fs.existsSync(filePath)
+        ? fs.readFileSync(filePath, 'utf-8')
+        : '';
     });
 
     it('renders allowed origins input', () => {
@@ -35,8 +35,8 @@ describe('Story 1.2.5: CORS Origin Restrictions', () => {
         ? fs.readFileSync(filePath, 'utf-8')
         : '';
 
-      expect(content).toMatch(/403/);
-      expect(content).toMatch(/origin/i);
+      expect(content).toMatch(/Origin not allowed/i);
+      expect(content).toMatch(/status:\s*403/i);
     });
   });
 });

@@ -22,11 +22,11 @@ So that I can monitor consumption and identify issues.
 
 ## Tasks / Subtasks
 
-- [ ] Add API key usage analytics UI (AC: 1-3)
-- [ ] Create api_key_usage table (AC: 4)
-- [ ] Log API key usage events (AC: 4)
-- [ ] Tests (TDD)
-  - [ ] Unit tests for analytics UI and usage table
+- [x] Add API key usage analytics UI (AC: 1-3)
+- [x] Create api_key_usage table (AC: 4)
+- [x] Log API key usage events (AC: 4)
+- [x] Tests (TDD)
+  - [x] Unit tests for analytics UI and usage table
 
 ## Dev Notes
 
@@ -73,5 +73,3 @@ Findings:
 
 Test Coverage:
 - Unit: `apps/web/__tests__/api-keys/api-key-usage-analytics.spec.ts`
-
-### File List

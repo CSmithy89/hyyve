@@ -10,7 +10,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Plus,
   Copy,
@@ -23,6 +23,14 @@ import {
   X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -87,6 +95,8 @@ export function ApiKeysSection() {
   const [rotationError, setRotationError] = useState<string | null>(null);
   const [revokingKeyId, setRevokingKeyId] = useState<string | null>(null);
   const [revokeError, setRevokeError] = useState<string | null>(null);
+  const [copyError, setCopyError] = useState<string | null>(null);
+  const [pendingRevokeKey, setPendingRevokeKey] = useState<ApiKey | null>(null);
   const [selectedScopes, setSelectedScopes] = useState<string[]>([
     'chatbot:invoke',
   ]);
@@ -103,14 +113,26 @@ export function ApiKeysSection() {
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
-  const handleCopyKey = (keyId: string, maskedKey: string) => {
-    navigator.clipboard.writeText(maskedKey);
-    setCopiedKey(keyId);
-    setTimeout(() => setCopiedKey(null), 2000);
+  const handleCopyKey = async (keyId: string, maskedKey: string) => {
+    try {
+      await navigator.clipboard.writeText(maskedKey);
+      setCopyError(null);
+      setCopiedKey(keyId);
+      setTimeout(() => setCopiedKey(null), 2000);
+    } catch {
+      setCopyError('Unable to copy key. Please try again.');
+      setTimeout(() => setCopyError(null), 3000);
+    }
   };
 
   const handleCopyFullKey = async (fullKey: string) => {
-    await navigator.clipboard.writeText(fullKey);
+    try {
+      await navigator.clipboard.writeText(fullKey);
+      setCopyError(null);
+    } catch {
+      setCopyError('Unable to copy key. Please try again.');
+      setTimeout(() => setCopyError(null), 3000);
+    }
   };
 
   const handleAddOrigin = () => {
@@ -312,13 +334,6 @@ export function ApiKeysSection() {
   };
 
   const handleRevokeKey = async (key: ApiKey) => {
-    const confirmed = window.confirm(
-      `Revoke ${key.name}? This action cannot be undone.`
-    );
-    if (!confirmed) {
-      return;
-    }
-
     setRevokingKeyId(key.id);
     setRevokeError(null);
 
@@ -348,6 +363,15 @@ export function ApiKeysSection() {
     }
   };
 
+  const confirmRevokeKey = async () => {
+    if (!pendingRevokeKey) {
+      return;
+    }
+    const key = pendingRevokeKey;
+    setPendingRevokeKey(null);
+    await handleRevokeKey(key);
+  };
+
   const getEnvironmentColor = (env: ApiKey['environment']) => {
     switch (env) {
       case 'production':
@@ -367,7 +391,7 @@ export function ApiKeysSection() {
   const getEnvironmentLabel = (env: ApiKey['environment']) =>
     ENVIRONMENTS.find((option) => option.value === env)?.label ?? env;
 
-  const getComputedStatus = (key: ApiKey) => {
+  const getComputedStatus = useCallback((key: ApiKey) => {
     if (key.status === 'revoked') {
       return 'revoked';
     }
@@ -377,40 +401,50 @@ export function ApiKeysSection() {
     }
 
     return 'active';
-  };
+  }, []);
 
-  const getExpiresInDays = (key: ApiKey) => {
+  const getExpiresInDays = useCallback((key: ApiKey) => {
     if (!key.expiresAt) {
       return null;
     }
     const diffMs = new Date(key.expiresAt).getTime() - Date.now();
     return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-  };
+  }, []);
 
-  const expiringSoonKeys = keys
-    .map((key) => ({
-      key,
-      daysLeft: getExpiresInDays(key),
-      status: getComputedStatus(key),
-    }))
-    .filter(
-      ({ daysLeft, status }) =>
-        status === 'active' && daysLeft !== null && daysLeft <= 7 && daysLeft >= 0
-    );
+  const expiringSoonKeys = useMemo(
+    () =>
+      keys
+        .map((key) => ({
+          key,
+          daysLeft: getExpiresInDays(key),
+          status: getComputedStatus(key),
+        }))
+        .filter(
+          ({ daysLeft, status }) =>
+            status === 'active' &&
+            daysLeft !== null &&
+            daysLeft <= 7 &&
+            daysLeft >= 0
+        ),
+    [keys, getExpiresInDays, getComputedStatus]
+  );
 
-  const filteredKeys = keys.filter((key) => {
+  const filteredKeys = useMemo(() => {
     const normalizedSearch = searchQuery.trim().toLowerCase();
-    const computedStatus = getComputedStatus(key);
-    const matchesSearch =
-      normalizedSearch.length === 0 ||
-      key.name.toLowerCase().includes(normalizedSearch);
-    const matchesEnvironment =
-      environmentFilter === 'all' || key.environment === environmentFilter;
-    const matchesStatus =
-      statusFilter === 'all' || computedStatus === statusFilter;
 
-    return matchesSearch && matchesEnvironment && matchesStatus;
-  });
+    return keys.filter((key) => {
+      const computedStatus = getComputedStatus(key);
+      const matchesSearch =
+        normalizedSearch.length === 0 ||
+        key.name.toLowerCase().includes(normalizedSearch);
+      const matchesEnvironment =
+        environmentFilter === 'all' || key.environment === environmentFilter;
+      const matchesStatus =
+        statusFilter === 'all' || computedStatus === statusFilter;
+
+      return matchesSearch && matchesEnvironment && matchesStatus;
+    });
+  }, [keys, searchQuery, environmentFilter, statusFilter, getComputedStatus]);
 
   return (
     <div className="space-y-10">
@@ -580,6 +614,49 @@ export function ApiKeysSection() {
         {revokeError && (
           <div className="text-sm text-destructive">{revokeError}</div>
         )}
+        {copyError && (
+          <div className="text-sm text-destructive">{copyError}</div>
+        )}
+        <Dialog
+          open={Boolean(pendingRevokeKey)}
+          onOpenChange={(open) => {
+            if (!open) {
+              setPendingRevokeKey(null);
+            }
+          }}
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Revoke API key</DialogTitle>
+              <DialogDescription>
+                {pendingRevokeKey
+                  ? `Revoke ${pendingRevokeKey.name}? This action cannot be undone.`
+                  : 'Revoke this API key?'}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                variant="secondary"
+                onClick={() => setPendingRevokeKey(null)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={confirmRevokeKey}
+                disabled={
+                  !pendingRevokeKey ||
+                  revokingKeyId === pendingRevokeKey.id
+                }
+              >
+                {revokingKeyId === pendingRevokeKey?.id && (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                )}
+                Revoke Key
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
         {expiringSoonKeys.length > 0 && (
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
             <p className="text-sm font-semibold text-amber-300">
@@ -716,7 +793,7 @@ export function ApiKeysSection() {
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={() => handleRevokeKey(key)}
+                    onClick={() => setPendingRevokeKey(key)}
                     disabled={
                       revokingKeyId === key.id || status === 'revoked'
                     }
@@ -743,6 +820,14 @@ export function ApiKeysSection() {
               </div>
 
               <div className="mt-4 border-t border-border pt-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <p className="text-xs font-semibold text-muted-foreground">
+                    Usage analytics
+                  </p>
+                  <span className="text-xs text-muted-foreground">
+                    Sample data
+                  </span>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="rounded-lg border border-border bg-muted/40 p-3">
                     <p className="text-xs font-semibold text-muted-foreground">

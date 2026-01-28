@@ -28,3 +28,33 @@ CREATE TABLE api_key_usage (
 CREATE INDEX idx_api_key_usage_key_id ON api_key_usage(api_key_id);
 CREATE INDEX idx_api_key_usage_org_id ON api_key_usage(organization_id);
 CREATE INDEX idx_api_key_usage_created_at ON api_key_usage(created_at);
+
+-- ==========================================================================
+-- ROW LEVEL SECURITY
+-- ==========================================================================
+
+ALTER TABLE api_key_usage ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Admins can view api key usage"
+  ON api_key_usage
+  FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM organization_members
+      WHERE organization_members.organization_id = api_key_usage.organization_id
+      AND organization_members.user_id = auth.uid()::text
+      AND organization_members.role IN ('owner', 'admin')
+    )
+  );
+
+CREATE POLICY "Admins can insert api key usage"
+  ON api_key_usage
+  FOR INSERT
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM organization_members
+      WHERE organization_members.organization_id = api_key_usage.organization_id
+      AND organization_members.user_id = auth.uid()::text
+      AND organization_members.role IN ('owner', 'admin')
+    )
+  );

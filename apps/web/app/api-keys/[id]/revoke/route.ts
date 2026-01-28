@@ -1,41 +1,31 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@platform/auth/server';
 import { createClerkSupabaseClient } from '@platform/auth/supabase';
-
-async function getAdminOrganizationId(userId: string) {
-  const supabase = await createClerkSupabaseClient();
-
-  const { data, error } = await supabase
-    .from('organization_members')
-    .select('organization_id, role')
-    .eq('user_id', userId);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  const membership = data.find(
-    (member) => member.role === 'owner' || member.role === 'admin'
-  );
-
-  return membership?.organization_id ?? null;
-}
+import { getAdminOrganizationId } from '@/lib/organizations';
 
 export async function POST(
   _request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } | Promise<{ id: string }> }
 ) {
   const session = await auth();
   if (!session?.userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const organizationId = await getAdminOrganizationId(session.userId);
+  let organizationId: string | null = null;
+  try {
+    organizationId = await getAdminOrganizationId(session);
+  } catch {
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
   if (!organizationId) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const keyId = params.id;
+  const { id: keyId } = await context.params;
   const supabase = await createClerkSupabaseClient();
 
   const { data: existingKey, error } = await supabase
@@ -46,7 +36,10 @@ export async function POST(
     .maybeSingle();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 
   if (!existingKey) {
@@ -54,7 +47,7 @@ export async function POST(
   }
 
   if (existingKey.revoked_at) {
-    return NextResponse.json({ error: 'API key already revoked' }, { status: 400 });
+    return NextResponse.json({ apiKey: existingKey });
   }
 
   const { data, error: updateError } = await supabase
@@ -66,7 +59,10 @@ export async function POST(
     .single();
 
   if (updateError) {
-    return NextResponse.json({ error: updateError.message }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ apiKey: data });

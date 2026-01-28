@@ -6,7 +6,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
+const WEB_APP_PATH = path.resolve(__dirname, '..', '..');
 
 describe('Story 1.2.7: API Key Rotation', () => {
   describe('UI rotation action', () => {
@@ -17,9 +17,9 @@ describe('Story 1.2.7: API Key Rotation', () => {
         WEB_APP_PATH,
         'components/settings/ApiKeysSection.tsx'
       );
-      if (fs.existsSync(filePath)) {
-        apiKeysContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      apiKeysContent = fs.existsSync(filePath)
+        ? fs.readFileSync(filePath, 'utf-8')
+        : '';
     });
 
     it('renders rotate key action and grace period control', () => {

@@ -6,6 +6,13 @@
 -- TABLES
 -- ============================================================================
 
+DO $$
+BEGIN
+  CREATE TYPE api_key_environment AS ENUM ('development', 'staging', 'production');
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;
+
 CREATE TABLE api_keys (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
@@ -28,7 +35,7 @@ CREATE TABLE api_keys (
   allowed_ips TEXT[] NOT NULL DEFAULT '{}',
 
   -- Metadata
-  environment TEXT NOT NULL DEFAULT 'production',
+  environment api_key_environment NOT NULL DEFAULT 'production',
   expires_at TIMESTAMPTZ,
   last_used_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -80,6 +87,14 @@ CREATE POLICY "Admins can update api keys"
   ON api_keys
   FOR UPDATE
   USING (
+    EXISTS (
+      SELECT 1 FROM organization_members
+      WHERE organization_members.organization_id = api_keys.organization_id
+      AND organization_members.user_id = auth.uid()::text
+      AND organization_members.role IN ('owner', 'admin')
+    )
+  )
+  WITH CHECK (
     EXISTS (
       SELECT 1 FROM organization_members
       WHERE organization_members.organization_id = api_keys.organization_id

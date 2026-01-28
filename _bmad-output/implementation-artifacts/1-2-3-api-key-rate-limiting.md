@@ -22,13 +22,13 @@ so that I can prevent abuse and control API usage costs.
 
 ## Tasks / Subtasks
 
-- [ ] Add rate limit fields to API key creation UI (AC: 1-3)
-- [ ] Persist rate limits in API key creation endpoint (AC: 1-3)
-- [ ] Display rate limits on key cards (AC: 4)
-- [ ] Implement API key rate limiter using Redis (AC: 5)
-- [ ] Tests (TDD)
-  - [ ] Unit test rate limit UI fields and display
-  - [ ] Unit test presence of rate-limit headers logic
+- [x] Add rate limit fields to API key creation UI (AC: 1-3)
+- [x] Persist rate limits in API key creation endpoint (AC: 1-3)
+- [x] Display rate limits on key cards (AC: 4)
+- [x] Implement API key rate limiter using Redis (AC: 5)
+- [x] Tests (TDD)
+  - [x] Unit test rate limit UI fields and display
+  - [x] Unit test presence of rate-limit headers logic
 
 ## Dev Notes
 
@@ -85,5 +85,3 @@ Findings:
 
 Test Coverage:
 - Unit: `apps/web/__tests__/api-keys/api-key-rate-limits.spec.ts`
-
-### File List

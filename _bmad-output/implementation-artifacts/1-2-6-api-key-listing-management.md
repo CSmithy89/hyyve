@@ -24,11 +24,11 @@ So that I can maintain security oversight.
 
 ## Tasks / Subtasks
 
-- [ ] Add search and filter controls to API keys listing (AC: 4)
-- [ ] Ensure key list displays required fields (AC: 3)
-- [ ] Apply client-side filtering by name, environment, and status (AC: 4)
-- [ ] Tests (TDD)
-  - [ ] Unit tests for listing fields and filter UI
+- [x] Add search and filter controls to API keys listing (AC: 4)
+- [x] Ensure key list displays required fields (AC: 3)
+- [x] Apply client-side filtering by name, environment, and status (AC: 4)
+- [x] Tests (TDD)
+  - [x] Unit tests for listing fields and filter UI
 
 ## Dev Notes
 
@@ -73,5 +73,3 @@ Findings:
 
 Test Coverage:
 - Unit: `apps/web/__tests__/api-keys/api-key-listing-management.spec.ts`
-
-### File List

@@ -19,12 +19,12 @@ So that I can maintain security without downtime.
 
 ## Tasks / Subtasks
 
-- [ ] Add rotate action to API key listing UI (AC: 1-2)
-- [ ] Implement rotation endpoint to create new key with same settings (AC: 3, 6)
-- [ ] Support grace period for old key validity (AC: 4)
-- [ ] Support immediate revoke of old key after rotation (AC: 5)
-- [ ] Tests (TDD)
-  - [ ] Unit tests for rotate flow and grace period handling
+- [x] Add rotate action to API key listing UI (AC: 1-2)
+- [x] Implement rotation endpoint to create new key with same settings (AC: 3, 6)
+- [x] Support grace period for old key validity (AC: 4)
+- [x] Support immediate revoke of old key after rotation (AC: 5)
+- [x] Tests (TDD)
+  - [x] Unit tests for rotate flow and grace period handling
 
 ## Dev Notes
 
@@ -71,5 +71,3 @@ Findings:
 
 Test Coverage:
 - Unit: `apps/web/__tests__/api-keys/api-key-rotation.spec.ts`
-
-### File List

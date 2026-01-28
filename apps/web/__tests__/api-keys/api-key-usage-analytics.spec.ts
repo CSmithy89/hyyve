@@ -6,8 +6,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const WEB_APP_PATH = path.join(process.cwd(), 'apps/web');
-const MIGRATIONS_PATH = path.join(process.cwd(), 'supabase/migrations');
+const WEB_APP_PATH = path.resolve(__dirname, '..', '..');
+const MIGRATIONS_PATH = path.resolve(__dirname, '../../../..', 'supabase/migrations');
 
 describe('Story 1.2.9: API Key Usage Analytics', () => {
   describe('Analytics UI', () => {
@@ -18,9 +18,9 @@ describe('Story 1.2.9: API Key Usage Analytics', () => {
         WEB_APP_PATH,
         'components/settings/ApiKeysSection.tsx'
       );
-      if (fs.existsSync(filePath)) {
-        apiKeysContent = fs.readFileSync(filePath, 'utf-8');
-      }
+      apiKeysContent = fs.existsSync(filePath)
+        ? fs.readFileSync(filePath, 'utf-8')
+        : '';
     });
 
     it('renders usage metrics and analytics sections', () => {
@@ -49,7 +49,7 @@ describe('Story 1.2.9: API Key Usage Analytics', () => {
         ? fs.readFileSync(migrationPath, 'utf-8')
         : '';
 
-      expect(content).toMatch(/api_key_usage/i);
+      expect(content).toMatch(/create table\\s+api_key_usage/i);
     });
   });
 });

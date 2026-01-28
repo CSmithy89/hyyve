@@ -19,11 +19,11 @@ So that I can prevent unauthorized access.
 
 ## Tasks / Subtasks
 
-- [ ] Add revoke action to API key listing UI (AC: 1-2, 6)
-- [ ] Implement revoke endpoint to set `revoked_at` (AC: 3-4)
-- [ ] Enforce revocation in API key auth flow (AC: 5)
-- [ ] Tests (TDD)
-  - [ ] Unit tests for revoke action and 401 enforcement
+- [x] Add revoke action to API key listing UI (AC: 1-2, 6)
+- [x] Implement revoke endpoint to set `revoked_at` (AC: 3-4)
+- [x] Enforce revocation in API key auth flow (AC: 5)
+- [x] Tests (TDD)
+  - [x] Unit tests for revoke action and 401 enforcement
 
 ## Dev Notes
 
@@ -68,5 +68,3 @@ Findings:
 
 Test Coverage:
 - Unit: `apps/web/__tests__/api-keys/api-key-revocation.spec.ts`
-
-### File List

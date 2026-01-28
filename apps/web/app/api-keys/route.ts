@@ -3,25 +3,7 @@ import { auth } from '@platform/auth/server';
 import { createClerkSupabaseClient } from '@platform/auth/supabase';
 import { ApiKeyCreateSchema } from '@/lib/validations/api-keys';
 import { generateApiKey } from '@/lib/api-keys';
-
-async function getAdminOrganizationId(userId: string) {
-  const supabase = await createClerkSupabaseClient();
-
-  const { data, error } = await supabase
-    .from('organization_members')
-    .select('organization_id, role')
-    .eq('user_id', userId);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  const membership = data.find(
-    (member) => member.role === 'owner' || member.role === 'admin'
-  );
-
-  return membership?.organization_id ?? null;
-}
+import { getAdminOrganizationId } from '@/lib/organizations';
 
 export async function GET() {
   const session = await auth();
@@ -29,7 +11,15 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const organizationId = await getAdminOrganizationId(session.userId);
+  let organizationId: string | null = null;
+  try {
+    organizationId = await getAdminOrganizationId(session);
+  } catch {
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
   if (!organizationId) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -44,7 +34,10 @@ export async function GET() {
     .order('created_at', { ascending: false });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ items: data });
@@ -56,12 +49,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const organizationId = await getAdminOrganizationId(session.userId);
+  let organizationId: string | null = null;
+  try {
+    organizationId = await getAdminOrganizationId(session);
+  } catch {
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
   if (!organizationId) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
-
-  const body = await request.json();
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
   const parsed = ApiKeyCreateSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
@@ -107,7 +112,10 @@ export async function POST(request: Request) {
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ apiKey: data, fullKey });

@@ -1,8 +1,9 @@
 import 'server-only';
 
 import { createHash } from 'crypto';
+import { isIP } from 'net';
+import { checkRateLimitSimple, type TablesInsert } from '@platform/db';
 import { createAdminClient } from '@platform/db/server';
-import { checkRateLimitSimple } from '@platform/db';
 
 export interface ApiKeyRecord {
   id: string;
@@ -62,10 +63,23 @@ export async function enforceApiKeyRateLimit(apiKey: ApiKeyRecord) {
 
   const allowed = minuteResult.allowed && dayResult.allowed;
   const remaining = Math.min(minuteResult.remaining, dayResult.remaining);
-  const resetInSeconds = Math.min(
+  let resetInSeconds = Math.min(
     minuteResult.resetInSeconds,
     dayResult.resetInSeconds
   );
+
+  if (!allowed) {
+    if (!minuteResult.allowed && !dayResult.allowed) {
+      resetInSeconds = Math.max(
+        minuteResult.resetInSeconds,
+        dayResult.resetInSeconds
+      );
+    } else {
+      resetInSeconds = minuteResult.allowed
+        ? dayResult.resetInSeconds
+        : minuteResult.resetInSeconds;
+    }
+  }
 
   return {
     allowed,
@@ -88,7 +102,53 @@ export function isIpAllowed(apiKey: ApiKeyRecord, ipAddress: string | null) {
     return false;
   }
 
-  return allowlist.includes(ipAddress);
+  const normalizedIp = normalizeIp(ipAddress);
+
+  return allowlist.some((entry) => isIpMatch(normalizedIp, entry));
+}
+
+function normalizeIp(ip: string) {
+  return ip.trim().replace(/^::ffff:/i, '');
+}
+
+function isIpv4(ip: string) {
+  return isIP(ip) === 4;
+}
+
+function ipv4ToInt(ip: string) {
+  return ip
+    .split('.')
+    .map((octet) => Number(octet))
+    .reduce((acc, octet) => ((acc << 8) + octet) >>> 0, 0);
+}
+
+function isIpInCidr(ip: string, cidr: string) {
+  const [base, prefixLength] = cidr.split('/');
+  const prefix = Number(prefixLength);
+
+  if (!base || !Number.isInteger(prefix)) {
+    return false;
+  }
+
+  if (!isIpv4(ip) || !isIpv4(base) || prefix < 0 || prefix > 32) {
+    return false;
+  }
+
+  const mask = prefix === 0 ? 0 : (~0 << (32 - prefix)) >>> 0;
+  const ipInt = ipv4ToInt(ip);
+  const baseInt = ipv4ToInt(base);
+
+  return (ipInt & mask) === (baseInt & mask);
+}
+
+function isIpMatch(ipAddress: string, entry: string) {
+  const normalizedEntry = normalizeIp(entry);
+
+  if (normalizedEntry.includes('/')) {
+    return isIpInCidr(ipAddress, normalizedEntry);
+  }
+
+  return ipAddress === normalizedEntry;
 }
 
 function normalizeOrigin(origin: string) {
@@ -128,7 +188,7 @@ export async function logApiKeyUsage(input: {
 }) {
   const supabase = await createAdminClient();
 
-  const { error } = await supabase.from('api_key_usage' as any).insert({
+  const payload: TablesInsert<'api_key_usage'> = {
     api_key_id: input.apiKeyId,
     organization_id: input.organizationId,
     endpoint: input.endpoint,
@@ -137,7 +197,9 @@ export async function logApiKeyUsage(input: {
     response_time_ms: input.responseTimeMs,
     ip_address: input.ipAddress,
     user_agent: input.userAgent,
-  } as any);
+  };
+
+  const { error } = await supabase.from('api_key_usage').insert(payload);
 
   if (error) {
     // Best-effort logging; avoid failing the main request.

@@ -51,9 +51,13 @@ const SETTINGS_LINKS = [
 export function SettingsSidebar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentTab = pathname?.endsWith('/api-keys')
-    ? 'api-keys'
-    : searchParams.get('tab') || 'profile';
+  const tabParam = searchParams.get('tab');
+  const isApiKeysRoute = pathname?.startsWith('/settings/api-keys') ?? false;
+  const validTab =
+    tabParam && SETTINGS_LINKS.some((link) => link.id === tabParam)
+      ? tabParam
+      : 'profile';
+  const currentTab = isApiKeysRoute ? 'api-keys' : validTab;
 
   return (
     <aside className="hidden md:flex w-64 flex-col border-r border-border bg-background">

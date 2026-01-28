@@ -10,9 +10,10 @@ const KEY_PREFIXES: Record<ApiKeyEnvironment, string> = {
 };
 
 export function generateApiKey(environment: ApiKeyEnvironment) {
-  const keyPrefix = KEY_PREFIXES[environment];
+  const environmentPrefix = KEY_PREFIXES[environment];
   const randomPart = randomBytes(24).toString('base64url');
-  const fullKey = `${keyPrefix}${randomPart}`;
+  const fullKey = `${environmentPrefix}${randomPart}`;
+  const keyPrefix = fullKey.slice(0, 12);
   const keyHash = createHash('sha256').update(fullKey).digest('hex');
 
   return {

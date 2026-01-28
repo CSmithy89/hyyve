@@ -3,46 +3,42 @@ import { z } from 'zod';
 import { auth } from '@platform/auth/server';
 import { createClerkSupabaseClient } from '@platform/auth/supabase';
 import { generateApiKey } from '@/lib/api-keys';
+import { getAdminOrganizationId } from '@/lib/organizations';
 
 const RotationSchema = z.object({
   graceHours: z.number().int().min(1).max(24).default(1),
   revokeOld: z.boolean().optional(),
 });
 
-async function getAdminOrganizationId(userId: string) {
-  const supabase = await createClerkSupabaseClient();
-
-  const { data, error } = await supabase
-    .from('organization_members')
-    .select('organization_id, role')
-    .eq('user_id', userId);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  const membership = data.find(
-    (member) => member.role === 'owner' || member.role === 'admin'
-  );
-
-  return membership?.organization_id ?? null;
-}
-
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } | Promise<{ id: string }> }
 ) {
   const session = await auth();
   if (!session?.userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const organizationId = await getAdminOrganizationId(session.userId);
+  let organizationId: string | null = null;
+  try {
+    organizationId = await getAdminOrganizationId(session);
+  } catch {
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
   if (!organizationId) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const parsed = RotationSchema.safeParse(await request.json());
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+  const parsed = RotationSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
       { error: 'Invalid input', details: parsed.error.flatten() },
@@ -50,7 +46,7 @@ export async function POST(
     );
   }
 
-  const keyId = params.id;
+  const { id: keyId } = await context.params;
   const supabase = await createClerkSupabaseClient();
 
   const { data: existingKey, error } = await supabase
@@ -63,7 +59,10 @@ export async function POST(
     .maybeSingle();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 
   if (!existingKey) {
@@ -115,11 +114,13 @@ export async function POST(
     )
     .single();
 
-  if (insertError) {
-    return NextResponse.json({ error: insertError.message }, { status: 500 });
+  if (insertError || !newKey) {
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 
-  let rotationWarning: string | null = null;
   const updatePayload = revokeOld
     ? { revoked_at: now.toISOString() }
     : { expires_at: graceExpiresAt.toISOString() };
@@ -131,12 +132,19 @@ export async function POST(
     .eq('organization_id', organizationId);
 
   if (updateError) {
-    rotationWarning = updateError.message;
+    await supabase
+      .from('api_keys')
+      .delete()
+      .eq('id', newKey.id)
+      .eq('organization_id', organizationId);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({
     apiKey: newKey,
     fullKey,
-    warning: rotationWarning,
   });
 }

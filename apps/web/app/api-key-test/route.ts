@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   enforceApiKeyRateLimit,
   isIpAllowed,
@@ -13,7 +13,7 @@ import {
  * Story: 1.2.3 API Key Rate Limiting
  * Uses API key auth and rate limit headers to validate enforcement.
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const startedAt = Date.now();
   const headerValue =
     request.headers.get('x-api-key') || request.headers.get('authorization');
@@ -28,9 +28,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
   }
 
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  const realIp = request.headers.get('x-real-ip');
-  const clientIp = forwardedFor?.split(',')[0]?.trim() ?? realIp ?? null;
+  const clientIp = request.ip ?? null;
   const endpoint = new URL(request.url).pathname;
   const userAgent = request.headers.get('user-agent');
 
