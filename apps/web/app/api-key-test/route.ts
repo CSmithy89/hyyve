@@ -18,13 +18,16 @@ export async function GET(request: NextRequest) {
   const startedAt = Date.now();
   const headerValue =
     request.headers.get('x-api-key') || request.headers.get('authorization');
-  const apiKey = headerValue?.replace(/^Bearer\s+/i, '').trim();
+  const apiKey =
+    headerValue != null
+      ? headerValue.replace(/^Bearer\s+/i, '').trim()
+      : null;
 
   if (!apiKey) {
     return NextResponse.json({ error: 'Missing API key' }, { status: 401 });
   }
 
-  const apiKeyResult = z.string().trim().min(20).max(200).safeParse(apiKey);
+  const apiKeyResult = z.string().trim().min(1).safeParse(apiKey);
   if (!apiKeyResult.success) {
     return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
   }
@@ -34,7 +37,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
   }
 
-  const clientIp = request.ip ?? null;
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  const realIp = request.headers.get('x-real-ip');
+  const forwardedIp = forwardedFor?.split(',')[0]?.trim() ?? null;
+  const clientIp =
+    request.ip ??
+    (process.env.TRUST_PROXY === 'true' ? forwardedIp ?? realIp ?? null : null);
   const endpoint = new URL(request.url).pathname;
   const userAgent = request.headers.get('user-agent');
 

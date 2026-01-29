@@ -10,8 +10,7 @@
 
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
-import { z } from 'zod';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Plus,
   Copy,
@@ -35,8 +34,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { API_KEYS, type ApiKey } from '@/lib/mock-data/settings';
-import { ApiKeyEnvironmentSchema } from '@/lib/validations/api-keys';
+import { type ApiKey } from '@/lib/mock-data/settings';
+import {
+  ApiKeyCreateResponseSchema,
+  ApiKeyCreateSchema,
+  ApiKeyListResponseSchema,
+  ApiKeyRevokeResponseSchema,
+} from '@/lib/validations/api-keys';
 
 const SCOPE_OPTIONS = [
   {
@@ -74,34 +78,10 @@ const USAGE_SNAPSHOT = {
   trend: [12, 24, 18, 32, 28, 40, 35],
 };
 
-const ApiKeyResponseSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  key_prefix: z.string(),
-  scopes: z.array(z.string()),
-  environment: ApiKeyEnvironmentSchema,
-  created_at: z.string(),
-  expires_at: z.string().nullable().optional(),
-  rate_limit_per_minute: z.number(),
-  rate_limit_per_day: z.number(),
-  allowed_origins: z.array(z.string()).optional(),
-  allowed_ips: z.array(z.string()).optional(),
-});
-
-const ApiKeyCreateResponseSchema = z.object({
-  apiKey: ApiKeyResponseSchema,
-  fullKey: z.string(),
-});
-
-const ApiKeyRevokeResponseSchema = z.object({
-  apiKey: z.object({
-    id: z.string(),
-    revoked_at: z.string().nullable().optional(),
-  }),
-});
-
 export function ApiKeysSection() {
-  const [keys, setKeys] = useState<ApiKey[]>(API_KEYS);
+  const [keys, setKeys] = useState<ApiKey[]>([]);
+  const [isLoadingKeys, setIsLoadingKeys] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [createdKey, setCreatedKey] = useState<{
     fullKey: string;
@@ -141,15 +121,29 @@ export function ApiKeysSection() {
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!copiedKey) {
+      return;
+    }
+    const timeout = setTimeout(() => setCopiedKey(null), 2000);
+    return () => clearTimeout(timeout);
+  }, [copiedKey]);
+
+  useEffect(() => {
+    if (!copyError) {
+      return;
+    }
+    const timeout = setTimeout(() => setCopyError(null), 3000);
+    return () => clearTimeout(timeout);
+  }, [copyError]);
+
   const handleCopyKey = async (keyId: string, maskedKey: string) => {
     try {
       await navigator.clipboard.writeText(maskedKey);
       setCopyError(null);
       setCopiedKey(keyId);
-      setTimeout(() => setCopiedKey(null), 2000);
     } catch {
       setCopyError('Unable to copy key. Please try again.');
-      setTimeout(() => setCopyError(null), 3000);
     }
   };
 
@@ -159,7 +153,6 @@ export function ApiKeysSection() {
       setCopyError(null);
     } catch {
       setCopyError('Unable to copy key. Please try again.');
-      setTimeout(() => setCopyError(null), 3000);
     }
   };
 
@@ -209,6 +202,87 @@ export function ApiKeysSection() {
       year: 'numeric',
     });
 
+  const toMaskedKey = (keyPrefix: string, fullKey?: string) => {
+    if (fullKey) {
+      return maskKey(fullKey);
+    }
+    return `${keyPrefix}••••••••••••••`;
+  };
+
+  const mapApiKeyToUi = (apiKey: {
+    id: string;
+    name: string;
+    key_prefix: string;
+    scopes: string[];
+    environment: ApiKey['environment'];
+    created_at: string;
+    expires_at?: string | null;
+    last_used_at?: string | null;
+    revoked_at?: string | null;
+    rate_limit_per_minute: number;
+    rate_limit_per_day: number;
+    allowed_origins?: string[] | null;
+    allowed_ips?: string[] | null;
+  }, fullKey?: string): ApiKey => ({
+    id: apiKey.id,
+    name: apiKey.name,
+    maskedKey: toMaskedKey(apiKey.key_prefix, fullKey),
+    status: apiKey.revoked_at ? 'revoked' : 'active',
+    createdAt: formatDate(apiKey.created_at),
+    lastUsed: apiKey.last_used_at ? formatDate(apiKey.last_used_at) : 'Never',
+    scopes: apiKey.scopes,
+    environment: apiKey.environment,
+    rateLimitPerMinute: apiKey.rate_limit_per_minute,
+    rateLimitPerDay: apiKey.rate_limit_per_day,
+    allowedOrigins: apiKey.allowed_origins ?? [],
+    allowedIps: apiKey.allowed_ips ?? [],
+    expiresAt: apiKey.expires_at ?? null,
+  });
+
+  useEffect(() => {
+    let isActive = true;
+    const controller = new AbortController();
+
+    const loadKeys = async () => {
+      setIsLoadingKeys(true);
+      setLoadError(null);
+      try {
+        const response = await fetch('/api-keys', {
+          signal: controller.signal,
+        });
+        if (!response.ok) {
+          throw new Error('Failed to load API keys.');
+        }
+        const result = await response.json();
+        const parsed = ApiKeyListResponseSchema.safeParse(result);
+        if (!parsed.success) {
+          throw new Error('Unexpected response from server.');
+        }
+        const mapped = parsed.data.items.map((item) => mapApiKeyToUi(item));
+        if (isActive) {
+          setKeys(mapped);
+        }
+      } catch (error) {
+        if (isActive) {
+          setLoadError(
+            error instanceof Error ? error.message : 'Failed to load API keys.'
+          );
+        }
+      } finally {
+        if (isActive) {
+          setIsLoadingKeys(false);
+        }
+      }
+    };
+
+    loadKeys();
+
+    return () => {
+      isActive = false;
+      controller.abort();
+    };
+  }, []);
+
   const handleCreateKey = async () => {
     if (!keyName.trim() || selectedScopes.length === 0) {
       setCreateError('Please provide a key name and at least one scope.');
@@ -219,19 +293,26 @@ export function ApiKeysSection() {
     setCreateError(null);
 
     try {
+      const payload = {
+        name: keyName.trim(),
+        environment,
+        scopes: selectedScopes,
+        rateLimitPerMinute,
+        rateLimitPerDay,
+        allowedOrigins,
+        allowedIps,
+        expiresInDays: expirationMode === 'days' ? expirationDays : null,
+      };
+      const payloadResult = ApiKeyCreateSchema.safeParse(payload);
+      if (!payloadResult.success) {
+        setCreateError('Invalid API key configuration.');
+        return;
+      }
+
       const response = await fetch('/api-keys', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: keyName.trim(),
-          environment,
-          scopes: selectedScopes,
-          rateLimitPerMinute,
-          rateLimitPerDay,
-          allowedOrigins,
-          allowedIps,
-          expiresInDays: expirationMode === 'days' ? expirationDays : null,
-        }),
+        body: JSON.stringify(payloadResult.data),
       });
 
       if (!response.ok) {
@@ -312,6 +393,16 @@ export function ApiKeysSection() {
       const { apiKey, fullKey } = parsedResponse.data;
 
       setCreatedKey({ fullKey, name: apiKey.name });
+      const now = new Date();
+      const graceUntil = new Date(
+        now.getTime() + rotationGraceHours * 60 * 60 * 1000
+      );
+      const originalExpiresAt = key.expiresAt
+        ? new Date(key.expiresAt)
+        : null;
+      const graceExpiresAt = originalExpiresAt
+        ? new Date(Math.min(originalExpiresAt.getTime(), graceUntil.getTime()))
+        : graceUntil;
       const rotatedKey: ApiKey = {
         id: apiKey.id,
         name: apiKey.name,
@@ -333,7 +424,12 @@ export function ApiKeysSection() {
         ...current.map((item) =>
           item.id === key.id && revokeOldOnRotate
             ? { ...item, status: 'revoked' as ApiKey['status'] }
-            : item
+            : item.id === key.id
+              ? {
+                  ...item,
+                  expiresAt: graceExpiresAt.toISOString(),
+                }
+              : item
         ),
       ]);
     } catch (error) {
@@ -364,11 +460,16 @@ export function ApiKeysSection() {
       if (!parsedResponse.success) {
         throw new Error('Unexpected response from server.');
       }
+      const { apiKey } = parsedResponse.data;
 
       setKeys((current) =>
         current.map((item) =>
           item.id === key.id
-            ? { ...item, status: 'revoked' as ApiKey['status'] }
+            ? {
+                ...item,
+                status: 'revoked' as ApiKey['status'],
+                expiresAt: apiKey.expires_at ?? item.expiresAt,
+              }
             : item
         )
       );
@@ -635,6 +736,12 @@ export function ApiKeysSection() {
         {copyError && (
           <div className="text-sm text-destructive">{copyError}</div>
         )}
+        {loadError && (
+          <div className="text-sm text-destructive">{loadError}</div>
+        )}
+        {isLoadingKeys && (
+          <div className="text-sm text-muted-foreground">Loading API keys...</div>
+        )}
         <Dialog
           open={Boolean(pendingRevokeKey)}
           onOpenChange={(open) => {
@@ -690,7 +797,7 @@ export function ApiKeysSection() {
           </div>
         )}
 
-        {filteredKeys.length === 0 ? (
+        {!isLoadingKeys && filteredKeys.length === 0 ? (
           <div className="text-sm text-muted-foreground">
             No keys match your filters.
           </div>

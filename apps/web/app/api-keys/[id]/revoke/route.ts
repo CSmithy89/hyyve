@@ -39,7 +39,9 @@ export async function POST(
 
   const { data: existingKey, error } = await supabase
     .from('api_keys')
-    .select('id, revoked_at')
+    .select(
+      'id, name, key_prefix, scopes, environment, project_id, expires_at, created_at, last_used_at, revoked_at, rate_limit_per_minute, rate_limit_per_day, allowed_origins, allowed_ips'
+    )
     .eq('id', keyId)
     .eq('organization_id', organizationId)
     .maybeSingle();
@@ -64,7 +66,9 @@ export async function POST(
     .update({ revoked_at: new Date().toISOString() })
     .eq('id', keyId)
     .eq('organization_id', organizationId)
-    .select('id, revoked_at')
+    .select(
+      'id, name, key_prefix, scopes, environment, project_id, expires_at, created_at, last_used_at, revoked_at, rate_limit_per_minute, rate_limit_per_day, allowed_origins, allowed_ips'
+    )
     .single();
 
   if (updateError) {
