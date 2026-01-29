@@ -15,6 +15,7 @@
 export type OrganizationMemberRole = 'owner' | 'admin' | 'member';
 
 export type ProjectType = 'module' | 'chatbot' | 'voice' | 'canvas';
+export type ApiKeyEnvironment = 'development' | 'staging' | 'production';
 
 // ============================================================================
 // TABLE TYPES
@@ -122,6 +123,102 @@ export interface ProjectUpdate {
   updated_at?: string;
 }
 
+export interface ApiKey {
+  id: string;
+  organization_id: string;
+  project_id: string | null;
+  name: string;
+  key_prefix: string;
+  key_hash: string;
+  scopes: string[];
+  rate_limit_per_minute: number;
+  rate_limit_per_day: number;
+  allowed_origins: string[];
+  allowed_ips: string[];
+  environment: ApiKeyEnvironment;
+  expires_at: string | null;
+  last_used_at: string | null;
+  created_at: string;
+  revoked_at: string | null;
+}
+
+export interface ApiKeyInsert {
+  id?: string;
+  organization_id: string;
+  project_id?: string | null;
+  name: string;
+  key_prefix: string;
+  key_hash: string;
+  scopes?: string[];
+  rate_limit_per_minute?: number;
+  rate_limit_per_day?: number;
+  allowed_origins?: string[];
+  allowed_ips?: string[];
+  environment?: ApiKeyEnvironment;
+  expires_at?: string | null;
+  last_used_at?: string | null;
+  created_at?: string;
+  revoked_at?: string | null;
+}
+
+export interface ApiKeyUpdate {
+  id?: string;
+  organization_id?: string;
+  project_id?: string | null;
+  name?: string;
+  key_prefix?: string;
+  key_hash?: string;
+  scopes?: string[];
+  rate_limit_per_minute?: number;
+  rate_limit_per_day?: number;
+  allowed_origins?: string[];
+  allowed_ips?: string[];
+  environment?: ApiKeyEnvironment;
+  expires_at?: string | null;
+  last_used_at?: string | null;
+  created_at?: string;
+  revoked_at?: string | null;
+}
+
+export interface ApiKeyUsage {
+  id: string;
+  api_key_id: string;
+  organization_id: string;
+  endpoint: string;
+  method: string;
+  status_code: number;
+  response_time_ms: number | null;
+  ip_address: string | null;
+  user_agent: string | null;
+  created_at: string;
+}
+
+export interface ApiKeyUsageInsert {
+  id?: string;
+  api_key_id: string;
+  organization_id: string;
+  endpoint: string;
+  method: string;
+  status_code: number;
+  response_time_ms?: number | null;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  created_at?: string;
+}
+
+export interface ApiKeyUsageUpdate {
+  id?: string;
+  api_key_id?: string;
+  organization_id?: string;
+  endpoint?: string;
+  method?: string;
+  status_code?: number;
+  response_time_ms?: number | null;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  created_at?: string;
+}
+
 // ============================================================================
 // DATABASE TYPE (Supabase format)
 // ============================================================================
@@ -173,6 +270,48 @@ export type Database = {
             columns: ['workspace_id'];
             isOneToOne: false;
             referencedRelation: 'workspaces';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      api_keys: {
+        Row: ApiKey;
+        Insert: ApiKeyInsert;
+        Update: ApiKeyUpdate;
+        Relationships: [
+          {
+            foreignKeyName: 'api_keys_organization_id_fkey';
+            columns: ['organization_id'];
+            isOneToOne: false;
+            referencedRelation: 'organizations';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'api_keys_project_id_fkey';
+            columns: ['project_id'];
+            isOneToOne: false;
+            referencedRelation: 'projects';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      api_key_usage: {
+        Row: ApiKeyUsage;
+        Insert: ApiKeyUsageInsert;
+        Update: ApiKeyUsageUpdate;
+        Relationships: [
+          {
+            foreignKeyName: 'api_key_usage_api_key_id_fkey';
+            columns: ['api_key_id'];
+            isOneToOne: false;
+            referencedRelation: 'api_keys';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'api_key_usage_organization_id_fkey';
+            columns: ['organization_id'];
+            isOneToOne: false;
+            referencedRelation: 'organizations';
             referencedColumns: ['id'];
           },
         ];
