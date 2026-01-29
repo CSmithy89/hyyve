@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@platform/auth/server';
 import { createClerkSupabaseClient } from '@platform/auth/supabase';
+import { z } from 'zod';
 import { getAdminOrganizationId } from '@/lib/organizations';
+
+const ParamsSchema = z.object({
+  id: z.string().uuid(),
+});
 
 export async function POST(
   _request: Request,
@@ -25,7 +30,11 @@ export async function POST(
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const { id: keyId } = await context.params;
+  const paramsResult = ParamsSchema.safeParse(await context.params);
+  if (!paramsResult.success) {
+    return NextResponse.json({ error: 'Invalid API key id' }, { status: 400 });
+  }
+  const keyId = paramsResult.data.id;
   const supabase = await createClerkSupabaseClient();
 
   const { data: existingKey, error } = await supabase

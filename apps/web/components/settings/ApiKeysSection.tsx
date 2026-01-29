@@ -11,6 +11,7 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
+import { z } from 'zod';
 import {
   Plus,
   Copy,
@@ -35,6 +36,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { API_KEYS, type ApiKey } from '@/lib/mock-data/settings';
+import { ApiKeyEnvironmentSchema } from '@/lib/validations/api-keys';
 
 const SCOPE_OPTIONS = [
   {
@@ -71,6 +73,32 @@ const USAGE_SNAPSHOT = {
   ],
   trend: [12, 24, 18, 32, 28, 40, 35],
 };
+
+const ApiKeyResponseSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  key_prefix: z.string(),
+  scopes: z.array(z.string()),
+  environment: ApiKeyEnvironmentSchema,
+  created_at: z.string(),
+  expires_at: z.string().nullable().optional(),
+  rate_limit_per_minute: z.number(),
+  rate_limit_per_day: z.number(),
+  allowed_origins: z.array(z.string()).optional(),
+  allowed_ips: z.array(z.string()).optional(),
+});
+
+const ApiKeyCreateResponseSchema = z.object({
+  apiKey: ApiKeyResponseSchema,
+  fullKey: z.string(),
+});
+
+const ApiKeyRevokeResponseSchema = z.object({
+  apiKey: z.object({
+    id: z.string(),
+    revoked_at: z.string().nullable().optional(),
+  }),
+});
 
 export function ApiKeysSection() {
   const [keys, setKeys] = useState<ApiKey[]>(API_KEYS);
@@ -212,26 +240,18 @@ export function ApiKeysSection() {
       }
 
       const result = await response.json();
-      const apiKey = result.apiKey as {
-        id: string;
-        name: string;
-        key_prefix: string;
-        scopes: string[];
-        environment: ApiKey['environment'];
-        created_at: string;
-        expires_at: string | null;
-        rate_limit_per_minute: number;
-        rate_limit_per_day: number;
-        allowed_origins: string[];
-        allowed_ips: string[];
-      };
+      const parsedResponse = ApiKeyCreateResponseSchema.safeParse(result);
+      if (!parsedResponse.success) {
+        throw new Error('Unexpected response from server.');
+      }
+      const { apiKey, fullKey } = parsedResponse.data;
 
-      setCreatedKey({ fullKey: result.fullKey, name: apiKey.name });
+      setCreatedKey({ fullKey, name: apiKey.name });
       setKeys((current) => [
         {
           id: apiKey.id,
           name: apiKey.name,
-          maskedKey: maskKey(result.fullKey),
+          maskedKey: maskKey(fullKey),
           status: 'active',
           createdAt: formatDate(apiKey.created_at),
           lastUsed: 'Just now',
@@ -285,25 +305,17 @@ export function ApiKeysSection() {
       }
 
       const result = await response.json();
-      const apiKey = result.apiKey as {
-        id: string;
-        name: string;
-        key_prefix: string;
-        scopes: string[];
-        environment: ApiKey['environment'];
-        created_at: string;
-        expires_at: string | null;
-        rate_limit_per_minute: number;
-        rate_limit_per_day: number;
-        allowed_origins: string[];
-        allowed_ips: string[];
-      };
+      const parsedResponse = ApiKeyCreateResponseSchema.safeParse(result);
+      if (!parsedResponse.success) {
+        throw new Error('Unexpected response from server.');
+      }
+      const { apiKey, fullKey } = parsedResponse.data;
 
-      setCreatedKey({ fullKey: result.fullKey, name: apiKey.name });
+      setCreatedKey({ fullKey, name: apiKey.name });
       const rotatedKey: ApiKey = {
         id: apiKey.id,
         name: apiKey.name,
-        maskedKey: maskKey(result.fullKey),
+        maskedKey: maskKey(fullKey),
         status: 'active',
         createdAt: formatDate(apiKey.created_at),
         lastUsed: 'Just now',
@@ -345,6 +357,12 @@ export function ApiKeysSection() {
       if (!response.ok) {
         const errorBody = await response.json();
         throw new Error(errorBody?.error || 'Failed to revoke API key.');
+      }
+
+      const result = await response.json();
+      const parsedResponse = ApiKeyRevokeResponseSchema.safeParse(result);
+      if (!parsedResponse.success) {
+        throw new Error('Unexpected response from server.');
       }
 
       setKeys((current) =>

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import {
   enforceApiKeyRateLimit,
   isIpAllowed,
@@ -23,7 +24,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Missing API key' }, { status: 401 });
   }
 
-  const record = await validateApiKey(apiKey);
+  const apiKeyResult = z.string().trim().min(20).max(200).safeParse(apiKey);
+  if (!apiKeyResult.success) {
+    return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
+  }
+
+  const record = await validateApiKey(apiKeyResult.data);
   if (!record) {
     return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
   }

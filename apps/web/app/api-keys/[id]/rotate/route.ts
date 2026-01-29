@@ -9,6 +9,9 @@ const RotationSchema = z.object({
   graceHours: z.number().int().min(1).max(24).default(1),
   revokeOld: z.boolean().optional(),
 });
+const ParamsSchema = z.object({
+  id: z.string().uuid(),
+});
 
 export async function POST(
   request: Request,
@@ -46,13 +49,17 @@ export async function POST(
     );
   }
 
-  const { id: keyId } = await context.params;
+  const paramsResult = ParamsSchema.safeParse(await context.params);
+  if (!paramsResult.success) {
+    return NextResponse.json({ error: 'Invalid API key id' }, { status: 400 });
+  }
+  const keyId = paramsResult.data.id;
   const supabase = await createClerkSupabaseClient();
 
   const { data: existingKey, error } = await supabase
     .from('api_keys')
     .select(
-      'id, name, scopes, environment, expires_at, revoked_at, rate_limit_per_minute, rate_limit_per_day, allowed_origins, allowed_ips'
+      'id, name, scopes, environment, project_id, expires_at, revoked_at, rate_limit_per_minute, rate_limit_per_day, allowed_origins, allowed_ips'
     )
     .eq('id', keyId)
     .eq('organization_id', organizationId)
@@ -103,6 +110,7 @@ export async function POST(
       key_hash: keyHash,
       scopes: existingKey.scopes,
       environment: existingKey.environment,
+      project_id: existingKey.project_id ?? null,
       expires_at: existingKey.expires_at,
       rate_limit_per_minute: existingKey.rate_limit_per_minute,
       rate_limit_per_day: existingKey.rate_limit_per_day,
